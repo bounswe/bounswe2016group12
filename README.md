@@ -19,4 +19,10 @@ Assignments and direct link to wiki are below.
  * [Personas] (https://github.com/bounswe/bounswe2016group12/wiki/Personas)
  * [Domain Analysis] (https://github.com/bounswe/bounswe2016group12/wiki/Domain-Analysis)
 
+##Assignment #3
+ * [Requirements](https://github.com/bounswe/bounswe2016group12/wiki/Requirements)
+ * [RAM](https://github.com/bounswe/bounswe2016group12/wiki/RAM)
+ * [Communication Plan] (https://github.com/bounswe/bounswe2016group12/wiki/Communication-Plan)
+ * **project_plan.pod** in repository
+
 ## Here is the [Wiki]( https://github.com/bounswe/bounswe2016group12/wiki) page.
