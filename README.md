@@ -33,7 +33,7 @@ Assignments and direct link to wiki are below.
  * [Activity Diagrams](https://github.com/bounswe/bounswe2016group12/wiki/Activity-Diagrams)
 
 ##Assignment #5
- * [Requirements](https://github.com/bounswe/bounswe2016group12/wiki/Peer-Reviews)
+ * [Peer Reviews](https://github.com/bounswe/bounswe2016group12/wiki/Peer-Reviews)
  * [Mock-Ups](https://github.com/bounswe/bounswe2016group12/wiki/Mockups)
 
 ## Here is the [Wiki]( https://github.com/bounswe/bounswe2016group12/wiki) page.
