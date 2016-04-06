@@ -25,4 +25,15 @@ Assignments and direct link to wiki are below.
  * [Communication Plan] (https://github.com/bounswe/bounswe2016group12/wiki/Communication-Plan)
  * **project_plan.pod** in repository
 
+##Assignment #4
+ * [Use Cases] (https://github.com/bounswe/bounswe2016group12/wiki/Use-Cases)
+ * [Class Diagram] (https://github.com/bounswe/bounswe2016group12/wiki/ClassDiagram)
+ * [Sequence Diagrams](https://github.com/bounswe/bounswe2016group12/wiki/Sequence-Diagrams)
+ * [Use Case Diagram](https://github.com/bounswe/bounswe2016group12/wiki/Use-Case-Diagram)
+ * [Activity Diagrams](https://github.com/bounswe/bounswe2016group12/wiki/Activity-Diagrams)
+
+##Assignment #5
+ * [Requirements](https://github.com/bounswe/bounswe2016group12/wiki/Peer-Reviews)
+ * [Mock-Ups](https://github.com/bounswe/bounswe2016group12/wiki/Mockups)
+
 ## Here is the [Wiki]( https://github.com/bounswe/bounswe2016group12/wiki) page.
