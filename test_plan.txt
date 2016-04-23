@@ -1,10 +1,40 @@
 -- Test Plan --
 
+-----------------------------------------------------------
+-----------------------------------------------------------
+
 This document is a draft, and shall be made into a test_plan.md eventually
 with its own GitHub Wiki page.
 
-TC #1:
+Style:
+1) Usage of singular "they" shall be prefferred over "he/she".
+2) Use 60 many dashes to separate between subsections.
+3) Use 2 rows of 60 many dashes to separate between sections.
+
+Considerations:
+1) We may group the test cases according to their modules.
+2) We may sort the test cases according to their priorities.
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+
+TC #0: (template)
+- Test Priority:    High/Medium/Low
+- Module Name:      Registration/Login/Search/...
+- Test Title:       Verification of the test case effectiveness
+- Purpose:          To test if this test case works right.
+- Designer:         Utkan Gezer/Ezgi Tekdemir/...
+- Design Date:      23.03.2016
+- Related Req.:     0.1.1.
+
+- Preconditions:
+--- User should have their eyes open.
+--- User should have previously seen this web page.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the test cases page. ==> Test cases page should be on screen.
+--- 2: Close the browser. ==> Browser should be closed.
+
+-----------------------------------------------------------
 
 
-TC #2:
-...
