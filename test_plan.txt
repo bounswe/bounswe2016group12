@@ -21,8 +21,8 @@ Considerations:
 TC #0: (template)
 - Test Priority:    High/Medium/Low
 - Module Name:      Registration/Login/Search/...
-- Test Title:       Verification of the test case effectiveness
-- Purpose:          To test if this test case works right.
+- Test Title:       Successfully signing up with a valid test-case
+- Purpose:          To test if a user can successfully sign up with a valid test-case
 - Designer:         Utkan Gezer/Ezgi Tekdemir/...
 - Design Date:      23.03.2016
 - Related Req.:     0.1.1.
@@ -37,4 +37,19 @@ TC #0: (template)
 
 -----------------------------------------------------------
 
+- Test Priority:    High/Medium/Low
+- Module Name:      Registration/Login/Search/...
+- Test Title:       Verification of the test case effectiveness
+- Purpose:          To test if this test case works right.
+- Designer:         Utkan Gezer/Ezgi Tekdemir/...
+- Design Date:      23.03.2016
+- Related Req.:     0.1.1.
+
+- Preconditions:
+--- User should have their eyes open.
+--- User should have previously seen this web page.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the test cases page. ==> Test cases page should be on screen.
+--- 2: Close the browser. ==> Browser should be closed.
 
