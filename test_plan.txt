@@ -37,19 +37,79 @@ TC #0: (template)
 
 -----------------------------------------------------------
 
+TC #1:
 - Test Priority:    High/Medium/Low
-- Module Name:      Registration/Login/Search/...
-- Test Title:       Verification of the test case effectiveness
-- Purpose:          To test if this test case works right.
-- Designer:         Utkan Gezer/Ezgi Tekdemir/...
+- Module Name:      Authorization
+- Test Title:       Signing up with a valid email and password
+- Purpose:          To test if a user will be able to sign up with a valid email and password.
+- Designer:         Utkan Gezer
 - Design Date:      23.03.2016
-- Related Req.:     0.1.1.
+- Related Req.:     1.1.1.
 
 - Preconditions:
---- User should have their eyes open.
---- User should have previously seen this web page.
+--- -
 
 - Steps to take ==> Postconditions:
---- 1: Navigate to the test cases page. ==> Test cases page should be on screen.
---- 2: Close the browser. ==> Browser should be closed.
+--- 1: Navigate to the sign-up page.
+   ==> Registration form with an email and a password field should appear.
+       Form should be submittable.
+--- 2: Enter a random valid email address. May use the following: https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
+       Enter a random valid password. Specifications are TBD.
+       Submit the form.
+   ==> Form should get accepted.
+       Account should get created and should be ready to get activated.
+
+-----------------------------------------------------------
+
+TC #2:
+- Test Priority:    High/Medium/Low
+- Module Name:      Authorization
+- Test Title:       Logging in with credentials
+- Purpose:          To test if a member will be able to log in.
+- Designer:         Utkan Gezer
+- Design Date:      23.03.2016
+- Related Req.:     1.1.2.
+
+- Preconditions:
+--- There should be active accounts along with their associated emails and passwords.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the log-in page.
+   ==> Log-in form with an email and a password field should appear.
+       Form should be submittable.
+--- 2: Pick an account.
+       Enter its associated email to the email field.
+       Enter its associated password to the password field.
+       Submit the form.
+   ==> Form should get accepted.
+       Application should now have elements indicating that the user is now logged in.
+
+-----------------------------------------------------------
+
+TC #3:
+- Test Priority:    High/Medium/Low
+- Module Name:      Authorization
+- Test Title:       Retrieve forgotten credentials
+- Purpose:          To test if it is possible to retrieve forgotten credentials
+- Designer:         Utkan Gezer
+- Design Date:      23.03.2016
+- Related Req.:     1.1.3.
+
+- Preconditions:
+--- There should be active accounts along with their associated emails and passwords.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the log-in page.
+   ==> Log-in form with an email and a password field should appear.
+       Form should be submittable.
+--- 2: Pick an account.
+       Enter its associated email to the email field.
+       Enter its associated password to the password field.
+       Submit the form.
+   ==> Form should get accepted.
+       Application should now have elements indicating that the user is now logged in.
+
+
+
+
 
