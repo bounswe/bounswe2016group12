@@ -63,7 +63,7 @@ TC #01:
 -----------------------------------------------------------
 
 TC #02:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Authorization
 - Test Title:       Logging in with credentials
 - Purpose:          To test if a member will be able to log in.
@@ -88,7 +88,7 @@ TC #02:
 -----------------------------------------------------------
 
 TC #03:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Authorization
 - Test Title:       Recover account with forgotten password
 - Purpose:          To test if it is possible to recover an account with a forgotten password
@@ -122,7 +122,7 @@ TC #03:
 -----------------------------------------------------------
 
 TC #04:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Authorization
 - Test Title:       Log out
 - Purpose:          To test if it is possible to log out
@@ -140,7 +140,7 @@ TC #04:
 -----------------------------------------------------------
 
 TC #05:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Viewing questions and answers as a guest
 - Purpose:          To test if a guest user can view the questions and answers
@@ -160,7 +160,7 @@ TC #05:
 -----------------------------------------------------------
 
 TC #06:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Viewing URLs as a guest
 - Purpose:          To test if a guest user can view the URL
@@ -179,7 +179,7 @@ TC #06:
 -----------------------------------------------------------
 
 TC #07:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Viewing multimedia as a guest
 - Purpose:          To test if a guest user can view the multimedia content
@@ -192,13 +192,13 @@ TC #07:
 --- There should be some posts A_n which are known to have various types of multimedia content.
 
 - Steps to take ==> Postconditions:
---- 1: For k from 1 to n, navigate to the post A_k known to have some multimedia content.
+--- 1 (loop): For k from 1 to n, navigate to the post A_k known to have some multimedia content.
    ==> The multimedia content within the post should be viewable.
 
 -----------------------------------------------------------
 
 TC #08:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Viewing the trending topics as a guest
 - Purpose:          To test if a guest user can view the trending topics
@@ -216,7 +216,7 @@ TC #08:
 -----------------------------------------------------------
 
 TC #09:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Reporting a post to be inappropriate as a member
 - Purpose:          To test if a member user can report a post to be inappropriate
@@ -239,13 +239,13 @@ TC #09:
 -----------------------------------------------------------
 
 TC #10:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Providing personal information as a member
 - Purpose:          To test if a member user can provide their personal information on their profile page
 - Designer:         Utkan Gezer
 - Design Date:      24.03.2016
-- Related Req.:     1.2.2.2.
+- Related Req.:     1.2.2.2. and 1.2.2.4.
 
 - Preconditions:
 --- User should be logged in.
@@ -263,7 +263,7 @@ TC #10:
 -----------------------------------------------------------
 
 TC #11:
-- Test Priority:    High/Medium/Low
+- Test Priority:    ...
 - Module Name:      Privileges
 - Test Title:       Providing a profile picture as a member
 - Purpose:          To test if a member user can provide a picture for their profile
@@ -284,5 +284,48 @@ TC #11:
    ==> The dialog form should now be submittable.
 --- 4: Submit the dialog form.
    ==> The profile page of the user should appear with the new profile picture.
+
+-----------------------------------------------------------
+
+TC #12:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Member deleting their account
+- Purpose:          To test if a member user can delete their account
+- Designer:         Utkan Gezer
+- Design Date:      24.03.2016
+- Related Req.:     1.2.2.5.
+
+- Preconditions:
+--- User should be logged in.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the account's control panel.
+   ==> The control panel of the user's account should appear.
+       There should be a facility to delete the account.
+--- 2: Use the facility to delete the account.
+   ==> A dialog of confirmation should appear.
+--- 3: Confirm the deletion request.
+   ==> The user should now be logged out and redirected to the homepage.
+
+-----------------------------------------------------------
+
+TC #13:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Recommendations related to a member user's contributions
+- Purpose:          To see if the recommendations provided to a user are related with their contributions
+- Designer:         Utkan Gezer
+- Design Date:      24.03.2016
+- Related Req.:     1.2.2.6.
+
+- Preconditions:
+--- User should be logged in.
+--- The previous contributions of the user should be known.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the recommended titles for the user.
+   ==> The recommended tags and questions for the user should be in view.
+       The recommended tags and questions should be related to the previous contributions of the user.
 
 -----------------------------------------------------------
