@@ -28,7 +28,7 @@ public class MyServlet extends HttpServlet {
         String url = "jdbc:mysql://bounswe12.cjhuwoqwajkm.eu-central-1.rds.amazonaws.com:3306/bounswe12";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection (url,"bounswe12","123456789");
+            conn = DriverManager.getConnection (url,"User","pw");
             Statement stmt = conn.createStatement();
             if(request.getParameter("word")!=""&& request.getParameter("word")!=null){
                 String sqlEntry="INSERT INTO myTable (myTablecol) VALUES(\""+
