@@ -137,3 +137,21 @@ TC #4:
    ==> Application should now have less elements indicating that it is being viewed by a guest.
 
 -----------------------------------------------------------
+
+TC #5:
+- Test Priority:    High/Medium/Low
+- Module Name:      Privileges
+- Test Title:       Viewing questions and answers as a guest
+- Purpose:          To test if a guest user can view the questions and answers
+- Designer:         Utkan Gezer
+- Design Date:      24.03.2016
+- Related Req.:     1.2.1.1.
+
+- Preconditions:
+--- User should NOT be logged in.
+
+- Steps to take ==> Postconditions:
+--- 1: Log out.
+   ==> Application should now have less elements indicating that it is being viewed by a guest.
+
+-----------------------------------------------------------
