@@ -21,7 +21,7 @@
   <a href="/Index/AhmetTekden">Ahmet Ercan Tekden</a> <br>
   <a href="/Index/Fepersembe">Furkan Erdem Perşembe</a> <br>
   <a href="/Index/UtkanGezer">Mehmet Utkan Gezer</a> <br>
-  <a href="/Index/EzgiTekdemir">Ezgi Tekdemir</a> <br>
+  <a href="/EzgiTekdemir">Ezgi Tekdemir</a> <br>
   <a href="/Index/Ktasyaran">Kayahan Taşyaran</a> <br>
   <a href="/Index/IEYilmaz">İsmail Enes Yılmaz</a> <br>
   <a href="/Index/IremZog">İrem Zöğ</a> <br>

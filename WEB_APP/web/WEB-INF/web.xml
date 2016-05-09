@@ -6,12 +6,22 @@
 
     <servlet>
         <servlet-name>MyServlet</servlet-name>
-        <servlet-class>com.ahmet.MyServlet</servlet-class>
+        <servlet-class>main.java.com.ahmet.MyServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
         <url-pattern>/AhmetTekden</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EzgisServlet</servlet-name>
+        <servlet-class>main.java.com.ezgi.EzgisServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EzgisServlet</servlet-name>
+        <url-pattern>/EzgiTekdemir</url-pattern>
     </servlet-mapping>
 
 </web-app>
