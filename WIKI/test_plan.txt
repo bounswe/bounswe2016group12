@@ -44,7 +44,7 @@ TC #01:
 - Test Title:       Signing up with a valid email and password
 - Purpose:          To test if a user will be able to sign up with a valid email and password.
 - Designer:         Utkan Gezer
-- Design Date:      23.03.2016
+- Design Date:      23.04.2016
 - Related Req.:     1.1.1.
 
 - Preconditions:
@@ -68,7 +68,7 @@ TC #02:
 - Test Title:       Logging in with credentials
 - Purpose:          To test if a member will be able to log in.
 - Designer:         Utkan Gezer
-- Design Date:      23.03.2016
+- Design Date:      23.04.2016
 - Related Req.:     1.1.2.
 
 - Preconditions:
@@ -93,7 +93,7 @@ TC #03:
 - Test Title:       Recover account with forgotten password
 - Purpose:          To test if it is possible to recover an account with a forgotten password
 - Designer:         Utkan Gezer
-- Design Date:      23.03.2016
+- Design Date:      23.04.2016
 - Related Req.:     1.1.3.
 
 - Preconditions:
@@ -127,7 +127,7 @@ TC #04:
 - Test Title:       Log out
 - Purpose:          To test if it is possible to log out
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.1.4.
 
 - Preconditions:
@@ -145,7 +145,7 @@ TC #05:
 - Test Title:       Viewing questions and answers as a guest
 - Purpose:          To test if a guest user can view the questions and answers
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.1.1.
 
 - Preconditions:
@@ -165,7 +165,7 @@ TC #06:
 - Test Title:       Viewing URLs as a guest
 - Purpose:          To test if a guest user can view the URL
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.1.2.
 
 - Preconditions:
@@ -184,7 +184,7 @@ TC #07:
 - Test Title:       Viewing multimedia as a guest
 - Purpose:          To test if a guest user can view the multimedia content
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.1.2.
 
 - Preconditions:
@@ -203,7 +203,7 @@ TC #08:
 - Test Title:       Viewing the trending topics as a guest
 - Purpose:          To test if a guest user can view the trending topics
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.1.3.
 
 - Preconditions:
@@ -221,7 +221,7 @@ TC #09:
 - Test Title:       Reporting a post to be inappropriate as a member
 - Purpose:          To test if a member user can report a post to be inappropriate
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.2.1.
 
 - Preconditions:
@@ -244,7 +244,7 @@ TC #10:
 - Test Title:       Providing personal information as a member
 - Purpose:          To test if a member user can provide their personal information on their profile page
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.2.2. and 1.2.2.4.
 
 - Preconditions:
@@ -268,7 +268,7 @@ TC #11:
 - Test Title:       Providing a profile picture as a member
 - Purpose:          To test if a member user can provide a picture for their profile
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.2.3.
 
 - Preconditions:
@@ -293,7 +293,7 @@ TC #12:
 - Test Title:       Member deleting their account
 - Purpose:          To test if a member user can delete their account
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.2.5.
 
 - Preconditions:
@@ -316,7 +316,7 @@ TC #13:
 - Test Title:       Recommendations related to a member user's contributions
 - Purpose:          To see if the recommendations provided to a user are related with their contributions
 - Designer:         Utkan Gezer
-- Design Date:      24.03.2016
+- Design Date:      24.04.2016
 - Related Req.:     1.2.2.6.
 
 - Preconditions:
@@ -329,3 +329,166 @@ TC #13:
        The recommended tags and questions should be related to the previous contributions of the user.
 
 -----------------------------------------------------------
+
+TC #14:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Survey related to a post
+- Purpose:          To test a registered user can add a survey to his/her post.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.7.
+
+- Preconditions:
+--- User should be logged in.
+--- User should have at least one post.
+
+- Steps to take ==> Postconditions:
+--- 1: Navigate to the one of user's posts.
+   ==> Post Screen must show up with own post controls such as "Add a Survey","Edit","Remove" etc.
+--- 2: Click on "Add a Survey" button near post.
+   ==> Survey Pop-Up most show up with 3 empty text fields and a text Field with "+" sign.
+--- 3: Click "Add" button after filling up text fields.
+   ==> Newly added survey with correct options must show-up just below the post.
+
+-----------------------------------------------------------
+
+TC #15:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Login with Social Media
+- Purpose:          To test a user can register via using his/her social media account.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.8.
+
+- Preconditions:
+--- User should NOT be logged in.
+--- User should have at least one social media account that our system knows.
+
+- Steps to take ==> Postconditions:
+--- 1: Click on the related social media button labeled as "Login with (NameOfSocialMedia)".
+   ==> Pop-Up related social media login page.
+--- 2: Enter user credentials or directly login with browser-saved passwords.
+   ==> Redirect to permissions page.
+--- 3: Choose permissions and click allow.
+   ==> Pop-Up disappears and loading bar appears.
+--- 4: User-Perspective Feed Page must show up.
+   ==> Authentication token must be saved and username must be on top-rigt corner.
+
+-----------------------------------------------------------
+
+TC #16:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Sorting posts
+- Purpose:          To test a registered user can add a survey to his/her post.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.9. , 1.2.2.10.
+
+- Preconditions:
+--- User should be on Home Page.
+
+- Steps to take ==> Postconditions:
+--- 1: Click "Sort by" dropdown.
+   ==> A dropdown with two options must show up."Newest","Most Popular"
+--- 2: Select "Newest" or "Most Popular"
+   ==> Loading bar must show up.
+--- 3: Newest or Most Popular topics/posts gets bigger
+   ==> The newest one must be the biggest and others ordered by date or Most popular one must be the biggest and others ordered by popularity.
+
+-----------------------------------------------------------
+
+TC #17:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Upload Media
+- Purpose:          To test a user can upload a media file into a post.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.11.
+
+- Preconditions:
+--- User should be logged in.
+--- User should be on Home Page.
+
+- Steps to take ==> Postconditions:
+--- 1: Click "Add a Post" button.
+   ==> Post Add Page must show up.
+--- 2: Select "Image" or "Video" icon on top of the text editor.
+   ==> File Manager pop-up shows up to seek thorugh compute file system.
+--- 3: Select a image or video file with allowed format and size and click "OK".
+   ==> Upload bar show up below the text editor.
+--- 4: Enter some text and click on "POST" button.
+   ==> Loading bar show up and redirect to the new post's perspective.
+--- 5: An image must show up inside post.
+   ==> The image that uploaded must be the same image that shows up.
+
+-----------------------------------------------------------
+
+TC #18:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Login while reading a post
+- Purpose:          To test a user can see the post he/she is reading after logging in.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.12.
+
+- Preconditions:
+--- User should NOT be logged in.
+--- User should be on a post's page and reading a post.
+
+- Steps to take ==> Postconditions:
+--- 1: Click "Login" button.
+   ==> Login Pop-Up must show up.
+--- 2: Enter credentials or click one of the social media login buttons.
+   ==> Loading bar should appear and user should be succefully logged in.
+--- 3: Page reload with only chaning "Login button" on top-right corner into "username"
+   ==> user controls and user-related things like username on top-right corner must show up, and user must continue where he/she exactly is before clicking login button.
+
+-----------------------------------------------------------
+
+TC #19:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Follow
+- Purpose:          To test a user can follow members,tags,questions and topics.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.13. ,1.2.2.14. ,1.2.2.15. ,1.2.2.16.
+
+- Preconditions:
+--- User should be logged in.
+--- User should be a post's page or a member's page or a tag's page.
+
+- Steps to take ==> Postconditions:
+--- 1: Click "Follow" button.
+   ==> "Follow" must turn into "Following" and changes color.
+--- 2: Feed must updated related to newly followed post/tag/member.
+   ==> Feed must have bubbles related to newly followed post/tag/member.
+
+-----------------------------------------------------------
+
+TC #20:
+- Test Priority:    ...
+- Module Name:      Privileges
+- Test Title:       Add relations
+- Purpose:          To test a user can insert relations between topics.
+- Designer:         Furkan Erdem Perşembe
+- Design Date:      27.04.2016
+- Related Req.:     1.2.2.17.
+
+- Preconditions:
+--- User should be logged in.
+--- User should be on Home Page.
+
+- Steps to take ==> Postconditions:
+--- 1: Long press a bubble and wait until it shakes, then move cursor into a new topic, when cursor hits the new topic, release the mouse.
+   ==> The new line between two topics stabilizes.
+--- 2: Feed must be updated.
+   ==> The relations between two topics and related topics of them should be established.
+
+-----------------------------------------------------------
+
