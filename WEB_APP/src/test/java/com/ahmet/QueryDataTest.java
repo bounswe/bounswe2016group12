@@ -40,6 +40,7 @@ public class QueryDataTest {
     }
     @Test
     public void testRow(){
-        assertEquals("<binding name='item'>\t\t\t\t<uri>http://www.wikidata.org/entity/Q498787</uri>\t\t\t</binding>",tester.rows.get(0)[0]);
+        assertEquals("<binding name='item'>\t\t\t\t<uri>http://www.wikidata.org/entity/Q434529</uri>\t\t\t</binding>",tester.rows.get(0)[0]);
     }
+
 }
