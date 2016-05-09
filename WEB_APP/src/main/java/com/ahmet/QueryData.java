@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +16,6 @@ import java.util.regex.Pattern;
 public class QueryData {
     ArrayList<String> Columns;
     ArrayList<String[]> rows;
-
     /**
      * Creates a Query Objects by processing xml file acquired by connecting to endpoint of sparql link.
      * @param URL Rest Endpoint of query which gives xml file
@@ -23,6 +23,7 @@ public class QueryData {
     public QueryData(String URL){
         Columns=new ArrayList<>();
         rows=new ArrayList<>();
+
         processXML(URL);
 
     }
@@ -52,6 +53,7 @@ public class QueryData {
             String[] k=new String[Columns.size()];
             for(int i=0;i<k.length;i++){
                 k[i]="";
+                //TODO: Remove empty spaces inside row matches.
                 String pattern="<binding name=\'"+Columns.get(i)+"\'>.+?ding>";
                 Matcher m2= Pattern.compile(pattern).matcher(rowMatches.get(j));
                 while (m2.find())
@@ -60,6 +62,59 @@ public class QueryData {
             rows.add(k);
         }
 
+    }
+
+    /**
+     * Calculates points according to my selected data. This is not generic function, it works with my sparql query.
+     *
+     * @param query term entered by user.
+     * @return number of rows corresponding to searched user term.
+     */
+    public int calculatePointsAhmet(String query){
+        ArrayList<Integer> points=new ArrayList<>();
+        String[] queryWords;
+        queryWords = query.toLowerCase().split(" ");
+        for(int i=0;i<rows.size();i++){
+            int rowPoints=0;
+            for(int j=1;j<rows.get(i).length;j++){
+                int labelPoint=0;
+                String shortLabel="";
+                Matcher m=Pattern.compile("<literal.*literal>").matcher(rows.get(i)[j]);
+                while(m.find()){
+                    shortLabel=m.group().substring(23,m.group().length()-10);
+                    System.out.println(shortLabel);
+                }
+                for(int k=0;k<queryWords.length;k++){
+                    //TODO: Find a Better Fix.
+                    if(queryWords[k].equalsIgnoreCase("male")){
+                        if(shortLabel.equalsIgnoreCase("male"))
+                            labelPoint+=100;
+                    }
+                    else {
+                        if (shortLabel.toLowerCase().contains(queryWords[k])) {
+                            labelPoint += 100;
+                        }
+                    }
+                }
+                rowPoints+=labelPoint;
+            }
+            points.add(rowPoints);
+        }
+        //TODO: Add Better Sorting Algorithm
+        for (int i = 0; i < rows.size(); i++) {
+            for (int j = i+1; j < rows.size(); j++) {
+                if (points.get(j)>points.get(i)) {
+                    Collections.swap(points,i,j);
+                    Collections.swap(rows,i,j);
+                }
+            }
+        }
+        int zeroIndex=points.size();
+        for(int i=points.size()-1;i>=0;i--){
+            if(points.get(i)==0)zeroIndex=i;
+
+        }
+        return zeroIndex;
     }
 
     /**
@@ -80,7 +135,7 @@ public class QueryData {
         {
             oURL = new URL(p_sURL);
             oConnection = oURL.openConnection();
-            oReader = new BufferedReader(new InputStreamReader(oConnection.getInputStream()));
+            oReader = new BufferedReader(new InputStreamReader(oConnection.getInputStream(),"UTF8"));
             sbResponse = new StringBuilder();
 
             while((sLine = oReader.readLine()) != null)
