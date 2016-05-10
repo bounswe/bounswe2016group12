@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['querydata',['QueryData',['../classcom_1_1ahmet_1_1_query_data.html',1,'com::ahmet']]],
-  ['querydatatest',['QueryDataTest',['../classcom_1_1ahmet_1_1_query_data_test.html',1,'com::ahmet']]]
+  ['myxmlparser',['MyXMLParser',['../classmain_1_1java_1_1com_1_1ezgi_1_1_my_x_m_l_parser.html',1,'main::java::com::ezgi']]]
 ];

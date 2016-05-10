@@ -1,4 +1,4 @@
-package com.ahmet;
+package main.java.com.ahmet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -15,6 +15,26 @@
     </servlet-mapping>
 
     <servlet>
+    <servlet-name>EzgisServlet</servlet-name>
+    <servlet-class>main.java.com.ezgi.EzgisServlet</servlet-class>
+</servlet>
+
+    <servlet-mapping>
+        <servlet-name>EzgisServlet</servlet-name>
+        <url-pattern>/EzgiTekdemir</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Irem</servlet-name>
+        <servlet-class>main.java.com.irem.Irem</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Irem</servlet-name>
+        <url-pattern>/IremZog</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>UtkanServlet</servlet-name>
         <servlet-class>com.utkan.UtkanServlet</servlet-class>
     </servlet>

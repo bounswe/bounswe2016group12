@@ -1,4 +1,5 @@
-package com.ahmet;
+package test.java.com.ahmet;
+import main.java.com.ahmet.QueryData;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

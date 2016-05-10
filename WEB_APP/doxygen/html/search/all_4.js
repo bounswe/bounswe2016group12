@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['querydata',['QueryData',['../classcom_1_1ahmet_1_1_query_data.html',1,'com::ahmet']]],
-  ['querydata',['QueryData',['../classcom_1_1ahmet_1_1_query_data.html#a63caeb1484ec80010eea5bf0ae740c1b',1,'com::ahmet::QueryData']]],
-  ['querydatatest',['QueryDataTest',['../classcom_1_1ahmet_1_1_query_data_test.html',1,'com::ahmet']]]
+  ['readxml',['readXML',['../classmain_1_1java_1_1com_1_1ezgi_1_1_my_x_m_l_parser.html#a8a91548324095ae97b5f48deb999af89',1,'main::java::com::ezgi::MyXMLParser']]]
 ];

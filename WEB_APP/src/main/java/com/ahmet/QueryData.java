@@ -1,4 +1,4 @@
-package com.ahmet;
+package main.java.com.ahmet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
  * Created by Ahmet Ercan Tekden on 3.05.2016.
  */
 public class QueryData {
-    ArrayList<String> Columns;
-    ArrayList<String[]> rows;
+    public ArrayList<String> Columns;
+    public ArrayList<String[]> rows;
     /**
      * Creates a Query Objects by processing xml file acquired by connecting to endpoint of sparql link.
      * @param URL Rest Endpoint of query which gives xml file
