@@ -3,6 +3,7 @@ package main.java.com.ezgi;
 /**
  * Created by Ezgi on 5/6/2016.
  */
+
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -19,6 +20,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+//Parse XML using DOM Parser.
 public class MyXMLParser {
 
     String query = "";
@@ -30,7 +32,11 @@ public class MyXMLParser {
     }
 
 
-
+    /*
+     * Helper function for readXML, which reads input char by char.
+     * @param Reader rd
+     * @return XML as String
+     */
     private String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
@@ -40,18 +46,26 @@ public class MyXMLParser {
         return sb.toString();
     }
 
+
+    /*
+     * Read XML from given URL.
+     * @param String url
+     * @return String xmlText
+     */
     public String readXML(String url) throws IOException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String xmlText = readAll(rd);
-            //System.out.println(xmlText);
             return xmlText;
         } finally {
             is.close();
         }
     }
 
+    /*
+    * Parse given XML string using DOM.
+     */
     public void getData() throws IOException, SAXException, ParserConfigurationException {
         String xml = readXML(query);
         xml = xml.replace("\n", "");
