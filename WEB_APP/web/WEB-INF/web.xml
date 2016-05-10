@@ -25,12 +25,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>IremsServlet</servlet-name>
+        <servlet-name>Irem</servlet-name>
         <servlet-class>main.java.com.irem.Irem</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>IremsServlet</servlet-name>
+        <servlet-name>Irem</servlet-name>
         <url-pattern>/IremZog</url-pattern>
     </servlet-mapping>
 
