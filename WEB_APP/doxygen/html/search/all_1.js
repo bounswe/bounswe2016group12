@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['geturlcontent',['getURLContent',['../classcom_1_1ahmet_1_1_query_data.html#afa904fbc0828256264eb3b9d55c09354',1,'com::ahmet::QueryData']]]
+  ['ezgisservlet',['EzgisServlet',['../classmain_1_1java_1_1com_1_1ezgi_1_1_ezgis_servlet.html',1,'main::java::com::ezgi']]],
+  ['ezgisservlet_2ejava',['EzgisServlet.java',['../_ezgis_servlet_8java.html',1,'']]]
 ];
