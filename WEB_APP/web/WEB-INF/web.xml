@@ -14,4 +14,14 @@
         <url-pattern>/AhmetTekden</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UtkanServlet</servlet-name>
+        <servlet-class>com.utkan.UtkanServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UtkanServlet</servlet-name>
+        <url-pattern>/UtkanGezer</url-pattern>
+    </servlet-mapping>
+
 </web-app>
