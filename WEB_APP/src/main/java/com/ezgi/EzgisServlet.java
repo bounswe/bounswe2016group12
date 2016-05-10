@@ -131,7 +131,7 @@ public class EzgisServlet extends HttpServlet {
                     }
 
                 if (results.get("book").size() == 0) //size 0 means no such book exists
-                    writer.println("Ooopsie... No match found!");
+                    writer.println("The answer is... 42. JK, no match found.");
                 else {
                     writer.println("<form action=\"EzgiTekdemir\" method=\"POST\"> ");
                     writer.println("<table border=\"1\">");
