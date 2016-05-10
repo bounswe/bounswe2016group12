@@ -1,0 +1,83 @@
+\hypertarget{classcom_1_1ahmet_1_1_query_data}{}\section{com.\+ahmet.\+Query\+Data Class Reference}
+\label{classcom_1_1ahmet_1_1_query_data}\index{com.\+ahmet.\+Query\+Data@{com.\+ahmet.\+Query\+Data}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1ahmet_1_1_query_data_a63caeb1484ec80010eea5bf0ae740c1b}{Query\+Data} (String U\+RL)
+\item 
+void \hyperlink{classcom_1_1ahmet_1_1_query_data_a0148e5b827ac56ac85363d9e1f37cad5}{process\+X\+ML} (String U\+RL)
+\item 
+int \hyperlink{classcom_1_1ahmet_1_1_query_data_abf5364392a97960a7d008f795ec019ad}{calculate\+Points\+Ahmet} (String query)
+\item 
+String \hyperlink{classcom_1_1ahmet_1_1_query_data_afa904fbc0828256264eb3b9d55c09354}{get\+U\+R\+L\+Content} (String p\+\_\+s\+U\+RL)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Created by Ahmet Ercan Tekden on 3.\+05.\+2016. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}!Query\+Data@{Query\+Data}}
+\index{Query\+Data@{Query\+Data}!com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}}
+\subsubsection[{\texorpdfstring{Query\+Data(\+String U\+R\+L)}{QueryData(String URL)}}]{\setlength{\rightskip}{0pt plus 5cm}com.\+ahmet.\+Query\+Data.\+Query\+Data (
+\begin{DoxyParamCaption}
+\item[{String}]{U\+RL}
+\end{DoxyParamCaption}
+)}\hypertarget{classcom_1_1ahmet_1_1_query_data_a63caeb1484ec80010eea5bf0ae740c1b}{}\label{classcom_1_1ahmet_1_1_query_data_a63caeb1484ec80010eea5bf0ae740c1b}
+Creates a Query Objects by processing xml file acquired by connecting to endpoint of sparql link. 
+\begin{DoxyParams}{Parameters}
+{\em U\+RL} & Rest Endpoint of query which gives xml file \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}!calculate\+Points\+Ahmet@{calculate\+Points\+Ahmet}}
+\index{calculate\+Points\+Ahmet@{calculate\+Points\+Ahmet}!com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}}
+\subsubsection[{\texorpdfstring{calculate\+Points\+Ahmet(\+String query)}{calculatePointsAhmet(String query)}}]{\setlength{\rightskip}{0pt plus 5cm}int com.\+ahmet.\+Query\+Data.\+calculate\+Points\+Ahmet (
+\begin{DoxyParamCaption}
+\item[{String}]{query}
+\end{DoxyParamCaption}
+)}\hypertarget{classcom_1_1ahmet_1_1_query_data_abf5364392a97960a7d008f795ec019ad}{}\label{classcom_1_1ahmet_1_1_query_data_abf5364392a97960a7d008f795ec019ad}
+Calculates points according to my selected data. This is not generic function, it works with my sparql query.
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & term entered by user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of rows corresponding to searched user term. 
+\end{DoxyReturn}
+\index{com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}!get\+U\+R\+L\+Content@{get\+U\+R\+L\+Content}}
+\index{get\+U\+R\+L\+Content@{get\+U\+R\+L\+Content}!com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}}
+\subsubsection[{\texorpdfstring{get\+U\+R\+L\+Content(\+String p\+\_\+s\+U\+R\+L)}{getURLContent(String p_sURL)}}]{\setlength{\rightskip}{0pt plus 5cm}String com.\+ahmet.\+Query\+Data.\+get\+U\+R\+L\+Content (
+\begin{DoxyParamCaption}
+\item[{String}]{p\+\_\+s\+U\+RL}
+\end{DoxyParamCaption}
+)}\hypertarget{classcom_1_1ahmet_1_1_query_data_afa904fbc0828256264eb3b9d55c09354}{}\label{classcom_1_1ahmet_1_1_query_data_afa904fbc0828256264eb3b9d55c09354}
+Gets Source Code of Url 
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+s\+U\+RL} & Url of web address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String containing source code. 
+\end{DoxyReturn}
+\index{com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}!process\+X\+ML@{process\+X\+ML}}
+\index{process\+X\+ML@{process\+X\+ML}!com\+::ahmet\+::\+Query\+Data@{com\+::ahmet\+::\+Query\+Data}}
+\subsubsection[{\texorpdfstring{process\+X\+M\+L(\+String U\+R\+L)}{processXML(String URL)}}]{\setlength{\rightskip}{0pt plus 5cm}void com.\+ahmet.\+Query\+Data.\+process\+X\+ML (
+\begin{DoxyParamCaption}
+\item[{String}]{U\+RL}
+\end{DoxyParamCaption}
+)}\hypertarget{classcom_1_1ahmet_1_1_query_data_a0148e5b827ac56ac85363d9e1f37cad5}{}\label{classcom_1_1ahmet_1_1_query_data_a0148e5b827ac56ac85363d9e1f37cad5}
+Processes xml of given url to to create table data. 
+\begin{DoxyParams}{Parameters}
+{\em U\+RL} & Url of Xml of sparql query. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/com/ahmet/Query\+Data.\+java\end{DoxyCompactItemize}

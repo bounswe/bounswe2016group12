@@ -25,6 +25,8 @@ public class EzgisServlet extends HttpServlet {
     final String password = "123456789";
     final String className = "com.mysql.jdbc.Driver";
     final String queryUrl = "https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=%23Books%20by%20a%20given%20Author%20including%20genres%2C%20series%2C%20and%20publication%20year%0ASELECT%20DISTINCT%20%3Fbook%20%20%3FbookLabel%20%3Fgenre_label%20%3FauthorLabel%20%3FpublicationDate%0AWHERE%0A%7B%0A%09%3Fauthor%20%3Flabel%20%22Douglas%20Adams%22%40en%20.%0A%09%3Fbook%20wdt%3AP31%20wd%3AQ571%20.%0A%09%3Fbook%20wdt%3AP50%20%3Fauthor%20.%0A%0A%09%09%3Fbook%20wdt%3AP136%20%3Fgenre%20.%0A%09%09%3Fgenre%20rdfs%3Alabel%20%3Fgenre_label%20filter%20(lang(%3Fgenre_label)%20%3D%20%22en%22).%0A%09%09%3Fbook%20wdt%3AP577%20%3FpublicationDate%20.%0A%0A%09SERVICE%20wikibase%3Alabel%20%7B%0A%09%09bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22%20.%0A%09%7D%0A%7D";
+    final MyXMLParser data = new MyXMLParser(queryUrl);
+
     //Insert/update remote data.
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String[] items = request.getParameterValues("selectedItem"); //Get selected items.
@@ -37,8 +39,9 @@ public class EzgisServlet extends HttpServlet {
                 conn = DriverManager.getConnection(url, username, password);
                 Statement stmt = conn.createStatement();
 
+                //Insert items into database if their boxes are checked.
                 for (int i = 0; i < items.length; i++) {
-                    String query = "INSERT INTO EzgiSaved (URL,SaveTime) VALUES('" + items[i] + "', now())";
+                    String query = "INSERT INTO EzgiSaved (URL, SaveTime) VALUES('" + items[i] + "', now())";
                     stmt.execute(query);
                 }
 
@@ -67,12 +70,15 @@ public class EzgisServlet extends HttpServlet {
 
     //Retrieve remote data.
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MyXMLParser data = new MyXMLParser(queryUrl);
 
-        try {
-            data.getData();
-        } catch (SAXException e) { e.printStackTrace(); }
-        catch (ParserConfigurationException e) { e.printStackTrace(); }
+
+            try {
+                data.getData();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            }
 
         //Sets content type to HTML.
         response.setContentType("text/html");
@@ -85,6 +91,7 @@ public class EzgisServlet extends HttpServlet {
             writer.println("<title>EzgisServlet.java:doGet(): Servlet code!</title>");
             writer.println("</head><body>");
             writer.println("<h1 style=\"text-align: center;\">WELCOME TO EZGI SEARCH!</h1>");
+            writer.println("<h2>You can search all about Douglas Adams' books here.</h2>");
             writer.println("<h3><span style=\"color: #ff0000;\">Enter a search term:</span>&nbsp;</h3>");
             writer.println("<form action='" + request.getRequestURI() + "' method='GET'>");
             writer.println("<input type=\"text\" name=\"query\">");
@@ -92,6 +99,7 @@ public class EzgisServlet extends HttpServlet {
             writer.println("<p>&nbsp;</p>");
             writer.println("</form>");
 
+            //Get input from user (search term).
             String searchterm = "";
             if (request.getParameter("query") != null) {
                 searchterm = request.getParameter("query");
@@ -123,13 +131,12 @@ public class EzgisServlet extends HttpServlet {
                     }
 
                 if (results.get("book").size() == 0) //size 0 means no such book exists
-                    writer.println("No match found!");
+                    writer.println("Ooopsie... No match found!");
                 else {
                     writer.println("<form action=\"EzgiTekdemir\" method=\"POST\"> ");
                     writer.println("<table border=\"1\">");
                     writer.println("<tbody>");
                     writer.println("<tr>");
-                    //writer.println("<th>" + "&nbsp; link &nbsp;" + "</th>");
                     for (String key : results.keySet()) {
                         writer.println("<th>" + "&nbsp;" + key + "&nbsp;" + "</th>");
 
@@ -141,7 +148,6 @@ public class EzgisServlet extends HttpServlet {
 
                         for (int j = 0; j < results.get("book").size(); j++) {
                             writer.println("<tr>");
-                           // writer.println("<td>" + "&nbsp;" + (j + 1) + "&nbsp;" + "</td>");
 
                             for (String key : results.keySet()) {
                                 if (key.equals("book")) continue;
@@ -178,6 +184,7 @@ public class EzgisServlet extends HttpServlet {
                     conn = DriverManager.getConnection(url, username, password);
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM EzgiSaved");
+                    //Write previous searches on a table if there is no query input.
                     while (rs.next()) {
                         String URL = rs.getString("URL");
                         String Time = rs.getString("SaveTime");

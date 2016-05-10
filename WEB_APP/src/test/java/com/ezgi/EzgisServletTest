@@ -1,0 +1,28 @@
+package test.java.com.ezgi
+
+import main.java.com.ezgi.EzgisServlet
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+/**
+ * Created by Ezgi on 5/10/2016.
+ */
+class EzgisServletTest {
+
+    void setUp() {
+        super.setUp()
+
+
+    }
+
+
+    void testDoPost() {
+
+    }
+
+    void testDoGet() {
+
+    }
+}
