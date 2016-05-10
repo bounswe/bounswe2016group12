@@ -36,4 +36,7 @@ Assignments and direct link to wiki are below.
  * [Peer Reviews](https://github.com/bounswe/bounswe2016group12/wiki/Peer-Reviews)
  * [Mock-Ups](https://github.com/bounswe/bounswe2016group12/wiki/Mockups)
 
+##Assignment #6
+ * [Utkan's Page](http://ec2-54-187-197-69.us-west-2.compute.amazonaws.com:8080/UtkanIndex/UtkanGezer)
+
 ## Here is the [Wiki]( https://github.com/bounswe/bounswe2016group12/wiki) page.
