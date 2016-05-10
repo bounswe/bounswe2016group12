@@ -19,6 +19,7 @@
   <h1>This is Cmpe 352/451 group 12 Index Page</h1>
 
   <a href="AhmetTekden">Ahmet Ercan Tekden</a> <br>
+  
   <a href="Fepersembe">Furkan Erdem Perşembe</a> <br>
   <a href="UtkanGezer">Mehmet Utkan Gezer</a> <br>
   <a href="EzgiTekdemir">Ezgi Tekdemir</a> <br>
