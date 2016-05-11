@@ -236,6 +236,9 @@ public class UtkanServlet extends HttpServlet {
      * @return
      */
     List<ScoredRecord> relatedRecords(String query) {
+        if (records == null)
+            return new ArrayList<ScoredRecord>();
+
         ArrayList<Record> directMatches = new ArrayList<>();
         for (Record r : records) {
             if (r.name.toLowerCase().contains(query.toLowerCase())) {
