@@ -4,6 +4,7 @@ This is a 352/451 course project of group12 of year 2016 at [CMPE@BOUN](https://
 
 Assignments are below...
 But first, check out our [Home Page] (http://ec2-54-187-197-69.us-west-2.compute.amazonaws.com:8080/Index/)!
+
 Project description will be updated. Stay tuned!
 
 ##Assignment #6
