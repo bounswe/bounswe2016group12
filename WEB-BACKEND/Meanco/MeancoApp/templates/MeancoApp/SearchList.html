@@ -1,0 +1,15 @@
+{% extends 'MeancoApp\Home.html' %}
+{% block content %}
+   <form id="search" method="get" action="http://www.google.com">
+       <input type="text"><button type="button">Tag</button><button type="button">Topic</button>
+   </form>
+ {% for i in 'aaa' %}
+    <hr>
+     <div class="SearchResult">
+        <div class="SearchTitle">
+            Title
+        </div>
+        <h2>Tags</h2>
+    </div>
+{% endfor %}
+{% endblock %}
