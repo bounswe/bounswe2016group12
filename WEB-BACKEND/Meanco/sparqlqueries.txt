@@ -1,0 +1,10 @@
+
+Topic Search query example:
+
+SELECT ?search ?searchLabel ?searchDescription
+WHERE
+{
+	?search wdt:P373 ?searchname .
+  	filter regex(str(?searchname),"^Donald Trump") .
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+}
