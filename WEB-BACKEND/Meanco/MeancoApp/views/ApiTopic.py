@@ -3,6 +3,9 @@
 def addTopic():
     return
 
+def searchTopic():
+    return
+
 def editTopic():
     return
 
