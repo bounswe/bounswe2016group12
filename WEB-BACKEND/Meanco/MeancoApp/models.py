@@ -57,6 +57,8 @@ class Topic(models.Model):
         self.comment_count.value -= 1
         self.save()
 
+### TopicName
+
 class TopicName(models.Model):
     topic = models.ForeignKey(Topic, on_delete = models.CASCADE, related_name = 'names')
     name = models.CharField(max_length = 40)
@@ -66,14 +68,14 @@ class TopicName(models.Model):
         topicnamevoters = self.topic.topicnamevoter_set.all()
 
         for tnv in topicnamevoters:
-            if tnv.user == votecaster:
+            if tnv.profile == votecaster:
                 if not skipifhasvoted:
                     tnv.topic_name.value = self
                     tnv.save()
                 return
 
         tnv = TopicNameVoter(
-            user = votecaster,
+            profile = votecaster,
             topic = self.topic,
             topic_name = self
         )
@@ -87,12 +89,12 @@ class TopicNameVoter(models.Model):
     def get_current_name(self):
         return self.topic.name()
     
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete = models.CASCADE)
     topic_name = models.ForeignKey(TopicName, on_delete = models.SET_DEFAULT, default = get_current_name)
 
     class Meta:
-        unique_together = (('topic', 'user'), ('topic', 'topic_name'), ('user', 'topic_name'))
+        unique_together = (('topic', 'profile'), ('topic', 'topic_name'), ('profile', 'topic_name'))
 
 #####
 # TAG, ofTopic
@@ -121,10 +123,12 @@ class Tag(models.Model):
     class Meta:
         unique_together = (('url', ), ('label', 'context'))
 
+### TopicTag
+
 class TopicTag(models.Model):
     topic = models.ForeignKey(Topic, on_delete = models.CASCADE, related_name = 'tags')
     tag = models.ForeignKey(Tag, on_delete = models.PROTECT, related_name = 'topics')
-    user = models.ForeignKey(User, on_delete = models.SET_NULL, null = True, related_name = 'topictags')
+    profile = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = 'topictags')
 
     class Meta:
         unique_together = ('topic', 'tag')
@@ -132,7 +136,7 @@ class TopicTag(models.Model):
 def topictag_post_init(**kwargs):
     topictag = kwargs.get('instance')
     
-    topictag.topic.name().vote(comment.user, skipifhasvoted = True)
+    topictag.topic.name().vote(comment.profile, skipifhasvoted = True)
     topictag.tag.topic_tagged()
 
 def topictag_pre_delete(**kwargs):
@@ -149,7 +153,7 @@ pre_delete.connect(topictag_pre_delete, TopicTag)
 
 class Comment(models.Model):
     topic = models.ForeignKey(Topic, on_delete = models.CASCADE, related_name = 'comments')
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'comments') # LATER: make it get set to default = AnonymousUser
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name = 'comments') # LATER: make it get set to default = AnonymousUser
     vote_count = models.IntegerField(default = 0)
     boost_count = models.IntegerField(default = 0)
     boost_timestamp = models.DateTimeField()
@@ -171,12 +175,12 @@ class Comment(models.Model):
         commentvoters = self.commentvoter_set.all()
 
         for cv in commentvoters:
-            if cv.user == votecaster:
+            if cv.profile == votecaster:
                 cv.toggle()
                 return
 
         cv = CommentVoter(
-            user = votecaster,
+            profile = votecaster,
             comment = self,
             comment_version = self.current()
         )
@@ -204,7 +208,7 @@ def comment_post_init(**kwargs):
     comment = kwargs.get('instance')
     comment.topic.commented()
 
-    comment.topic.name().vote(comment.user, skipifhasvoted = True)
+    comment.topic.name().vote(comment.profile, skipifhasvoted = True)
 
 def comment_pre_delete(**kwargs):
     comment = kwargs.get('instance')
@@ -212,6 +216,8 @@ def comment_pre_delete(**kwargs):
 
 post_init.connect(comment_post_init, Comment)
 pre_delete.connect(comment_pre_delete, Comment)
+
+### CommentVersion
 
 class CommentVersion(models.Model):
     comment = models.ForeignKey(Comment, on_delete = models.CASCADE, related_name = 'versions')
@@ -223,8 +229,10 @@ class CommentVersion(models.Model):
         ordering = ['-timestamp']
         unique_together = ('comment', 'timestamp')
 
+### CommentVoter
+
 class CommentVoter(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete = models.CASCADE)
     comment_version = models.ForeignKey(CommentVersion, on_delete = models.CASCADE)
     active = models.BooleanField(default = False)
@@ -240,7 +248,7 @@ class CommentVoter(models.Model):
         self.save()
 
     class Meta:
-        unique_together = (('user', 'comment'), ('user', 'comment_version'))
+        unique_together = (('profile', 'comment'), ('profile', 'comment_version'))
 
 def comment_voter_post_init(**kwargs):
     cv = kwargs.get('instance')
@@ -272,12 +280,14 @@ class Relation(models.Model):
     class Meta:
         unique_together = ('topic_a', 'topic_b')
 
+### RelationLabel
+
 class RelationLabel(models.Model):
     relation = models.ForeignKey(Relation, on_delete = models.CASCADE, related_name = 'labels')
     direction = models.NullBooleanField(default = None)
     text = models.CharField(max_length = 20, default = 'related')
 
-    user = models.ForeignKey(User, on_delete = models.SET_NULL, null = True, related_name = 'relations')
+    profile = models.ForeignKey(Profile, on_delete = models.SET_NULL, null = True, related_name = 'relations')
     vote_count = models.IntegerField(default = 0)
     boost_count = models.IntegerField(default = 0)
     boost_timestamp = models.DateTimeField()
@@ -286,12 +296,12 @@ class RelationLabel(models.Model):
         voters = self.voters.all()
 
         for rlv in voters:
-            if rlv.user == votecaster:
+            if rlv.profile == votecaster:
                 rlv.toggle()
                 return
 
         rlv = RelationLabelVoter(
-            user = votecaster,
+            profile = votecaster,
             relation_label = self
         )
         rlv.save()
@@ -317,8 +327,10 @@ class RelationLabel(models.Model):
     class Meta:
         unique_together = ('relation', 'direction', 'text')
 
+### RelationLabelVoter
+
 class RelationLabelVoter(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete = models.CASCADE)
     relation_label = models.ForeignKey(RelationLabel, on_delete = models.CASCADE, related_name = 'voters')
     active = models.BooleanField(default = False)
 
@@ -333,7 +345,7 @@ class RelationLabelVoter(models.Model):
         self.save()
 
     class Meta:
-        unique_together = ('user', 'relation_label')
+        unique_together = ('profile', 'relation_label')
 
 def rl_voter_post_init(**kwargs):
     rlv = kwargs.get('instance')
