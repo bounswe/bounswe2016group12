@@ -33,8 +33,7 @@
         <activity android:name=".TrendingActivity" />
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="Meanco"></activity>
     </application>
 
 </manifest>
