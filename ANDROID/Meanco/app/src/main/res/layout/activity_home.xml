@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
 
-    tools:context="bounswe16group12.com.meanco.HomeActivity">
+    tools:context="bounswe16group12.com.meanco.activities.HomeActivity">
 
 
     <include layout="@layout/content_home" />

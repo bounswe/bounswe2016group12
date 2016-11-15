@@ -1,4 +1,4 @@
-package bounswe16group12.com.meanco;
+package bounswe16group12.com.meanco.activities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.profile.BioFragment;
 import bounswe16group12.com.meanco.fragments.profile.NotificationsFragment;
 

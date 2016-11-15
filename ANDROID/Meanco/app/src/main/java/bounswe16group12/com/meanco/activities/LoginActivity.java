@@ -1,4 +1,4 @@
-package bounswe16group12.com.meanco;
+package bounswe16group12.com.meanco.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -32,6 +32,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import bounswe16group12.com.meanco.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

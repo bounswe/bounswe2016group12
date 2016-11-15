@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
 
-    tools:context="bounswe16group12.com.meanco.ProfileActivity">
+    tools:context="bounswe16group12.com.meanco.activities.ProfileActivity">
 
 
     <android.support.design.widget.TabLayout

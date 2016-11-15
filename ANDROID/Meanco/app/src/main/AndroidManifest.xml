@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,18 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".activities.SearchActivity" />
         <activity
-            android:name=".ProfileActivity"
-            android:parentActivityName=".LoginActivity">
+            android:name=".activities.ProfileActivity"
+            android:label="Profile"
+            android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
+                android:value=".activities.LoginActivity" />
         </activity>
-        <activity android:name=".TrendingActivity" />
+        <activity android:name=".activities.TrendingActivity" />
         <activity
-            android:name=".HomeActivity"
-            android:label="Meanco"></activity>
+            android:name=".activities.HomeActivity"
+            android:label="Meanco" />
+        <activity android:name="bounswe16group12.com.meanco.adapters.CustomHomeAdapter"></activity>
     </application>
 
 </manifest>
