@@ -1,4 +1,8 @@
 from django.shortcuts import render
-
+from sys import platform as _platform
 def get_page(request):
-    return render(request, 'MeancoApp/CommentList.html' , {})
+    if _platform=="win32":
+
+        return render(request, 'MeancoApp\CommentList.html' , {})
+    else:
+        return render(request, 'MeancoApp/CommentList.html', {})
