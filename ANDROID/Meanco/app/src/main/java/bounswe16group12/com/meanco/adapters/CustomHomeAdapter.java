@@ -15,12 +15,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 
-public class CustomHomeAdapter extends ArrayAdapter<Topic> implements Filterable {
+public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterable{
 
     List<Topic> topicsWithTags;
     List<Topic> filteredData;
@@ -57,43 +58,70 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements Filterable
         Log.i("t hillary?", t.getTopicName());
 
 
+        TextView topicName = null;
+        LinearLayout linearLayout = null;
+
 
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
 
-            if (t != null) {
+            // if (t != null) {
 
 
-                TextView topicName = (TextView) v.findViewById(R.id.topicitem);
-                topicName.setText(t.getTopicName());
-                Log.i("tn", t.getTopicName());
-                LinearLayout linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
+            topicName = (TextView) v.findViewById(R.id.topicitem);
+            topicName.setText(t.getTopicName());
+            Log.i("tn", t.getTopicName());
+            /*linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
-                ArrayList<Tag> tg = t.getTags();
-
-
-                for(int i=0; i<tg.size(); i++){
-
-                    TextView tagView = new TextView(getContext());
-
-                    tagView.setText(tg.get(i).getTagName());
-                    tagView.setBackgroundResource(R.drawable.tagbg);
-                    tagView.setTextColor(Color.WHITE);
-                    tagView.setGravity(Gravity.CENTER);
-                    tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    tagView.setPadding(15, 15, 15, 15);
-                    linearLayout.addView(tagView);
-
-                }
+            ArrayList<Tag> tg = t.getTags();
 
 
+            for (int i = 0; i < tg.size(); i++) {
 
-            }
+                TextView tagView = new TextView(getContext());
+
+                tagView.setText(tg.get(i).getTagName());
+                tagView.setBackgroundResource(R.drawable.tagbg);
+                tagView.setTextColor(Color.WHITE);
+                tagView.setGravity(Gravity.CENTER);
+                tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                tagView.setPadding(15, 15, 15, 15);
+                linearLayout.addView(tagView);
+
+            }*/
+        }else{
+            topicName = (TextView) v.findViewById(R.id.topicitem);
+            topicName.setText(getItem(position).getTopicName());
+
 
         }
+
+
+
+
+
+
+        //}
         return v;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        topicsWithTags.clear();
+        if (charText.length() == 0) {
+            topicsWithTags.addAll(filteredData);
+        } else {
+            for (Topic topic : filteredData) {
+                if (topic.getTopicName().toLowerCase(Locale.getDefault())
+                        .contains(charText)) {
+                    topicsWithTags.add(topic);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -135,7 +163,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements Filterable
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
             filteredData = (ArrayList<Topic>) results.values;
-
             if (results.count > 0)
             {
                 notifyDataSetChanged();

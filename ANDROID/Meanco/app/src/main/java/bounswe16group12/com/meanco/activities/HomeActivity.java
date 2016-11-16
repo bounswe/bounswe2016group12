@@ -196,6 +196,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         } else {
             Log.i("Nomad", "onQueryTextChange " + newText.toString());
             HomeActivityFragment.adapter.getFilter().filter(newText.toString());
+
+
         }
         return true;
     }
