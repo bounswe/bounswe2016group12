@@ -38,11 +38,16 @@ public class HomeActivityFragment extends Fragment{
             topics = new ArrayList<>();
             ArrayList<Tag> tagList = new ArrayList<>();
             tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag2"));
-            tagList.add(new Tag("tag3"));
-            tagList.add(new Tag("tag4"));
+            tagList.add(new Tag("tag1"));
+            tagList.add(new Tag("tag1"));
+            tagList.add(new Tag("tag1"));
+            ArrayList<Tag> tagList2 = new ArrayList<>();
+            tagList2.add(new Tag("tag2"));
+            tagList2.add(new Tag("tag2"));
+            tagList2.add(new Tag("tag2"));
+            tagList2.add(new Tag("tag2"));
             topics.add(new Topic("Donald Trump", tagList));
-            topics.add(new Topic("Hillary Clinton", tagList));
+            topics.add(new Topic("Hillary Clinton", tagList2));
     }
 
     @Override
