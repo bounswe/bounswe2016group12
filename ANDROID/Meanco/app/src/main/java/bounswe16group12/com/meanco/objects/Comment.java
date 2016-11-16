@@ -5,4 +5,15 @@ package bounswe16group12.com.meanco.objects;
  */
 
 public class Comment {
+
+    //private int topic_id;
+    private String content;
+
+    public Comment(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }
