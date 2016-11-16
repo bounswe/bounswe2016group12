@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <me.originqiu.library.EditTag
+        android:id="@+id/edit_tag_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:delete_mode_bg="@color/colorPrimary"
+        app:input_layout="@layout/view_simple_input_tag"
+        app:tag_layout="@layout/view_simple_tag"
+        />
+
+</LinearLayout>

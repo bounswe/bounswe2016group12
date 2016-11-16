@@ -1,0 +1,19 @@
+diff a/ANDROID/Meanco/app/src/main/AndroidManifest.xml b/ANDROID/Meanco/app/src/main/AndroidManifest.xml	(rejected hunks)
+@@ -22,6 +22,16 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
++        <activity android:name=".MainActivity">
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN" />
++
++                <category android:name="android.intent.category.LAUNCHER" />
++            </intent-filter>
++        </activity>
++        <activity android:name=".SearchActivity" />
++        <activity android:name=".ProfileActivity" />
++        <activity android:name=".TrendingActivity"></activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
