@@ -12,5 +12,17 @@
         app:input_layout="@layout/view_simple_input_tag"
         app:tag_layout="@layout/view_simple_tag"
         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/topic_name"
+        android:hint="Enter topic to add the tag"
+        android:textSize="14sp" />
 
 </LinearLayout>
