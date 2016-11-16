@@ -5,3 +5,10 @@ from django.contrib.auth.models import User
 
 class Profile(Model):
     user = OneToOneField(User, on_delete=CASCADE)
+
+    def __unicode__(self):
+        return str(self.pk)
+
+    def __str__(self):
+        return str(self.pk)
+
