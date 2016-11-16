@@ -5,11 +5,13 @@
 
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
 
     tools:context="bounswe16group12.com.meanco.activities.HomeActivity">
+
 
 
     <include layout="@layout/content_home" />

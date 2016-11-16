@@ -1,15 +1,22 @@
 package bounswe16group12.com.meanco.fragments.home;
 
+import android.app.ListActivity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.activities.HomeActivity;
+import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -19,26 +26,23 @@ import bounswe16group12.com.meanco.objects.Topic;
  * A placeholder fragment containing a simple view.
  */
 public class HomeActivityFragment extends Fragment{
-    static CustomHomeAdapter adapter;
+    public static CustomHomeAdapter adapter;
     static List<Topic> topics;
+    public static ListView listView;
 
     public static List<Topic> getTopics() {
         return topics;
     }
 
-    public static void setTopics(List<Topic> topics) {
-        HomeActivityFragment.topics = topics;
-    }
-
     public HomeActivityFragment() {
-        topics=new ArrayList<>();
-        ArrayList<Tag> tagList = new ArrayList<>();
-        tagList.add(new Tag("tag1"));
-        tagList.add(new Tag("tag2"));
-        tagList.add(new Tag("tag3"));
-        tagList.add(new Tag("tag4"));
-        topics.add(new Topic("Donald Trump", tagList));
-        topics.add(new Topic("Hillary Clinton", tagList));
+            topics = new ArrayList<>();
+            ArrayList<Tag> tagList = new ArrayList<>();
+            tagList.add(new Tag("tag1"));
+            tagList.add(new Tag("tag2"));
+            tagList.add(new Tag("tag3"));
+            tagList.add(new Tag("tag4"));
+            topics.add(new Topic("Donald Trump", tagList));
+            topics.add(new Topic("Hillary Clinton", tagList));
     }
 
     @Override
@@ -49,11 +53,19 @@ public class HomeActivityFragment extends Fragment{
 
         adapter = new CustomHomeAdapter(getContext(), R.layout.fragment_home, topics);
 
-
-
-        ListView listView = (ListView) rootView.findViewById(R.id.content_home);
+        listView = (ListView) rootView.findViewById(R.id.content_home);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                String message = adapter.getItem(position).getTopicName();
+                Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
+                intent.putExtra("activityTitle", message);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
@@ -62,3 +74,4 @@ public class HomeActivityFragment extends Fragment{
 
 
 }
+
