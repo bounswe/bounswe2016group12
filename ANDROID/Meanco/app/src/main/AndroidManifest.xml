@@ -31,28 +31,24 @@
                 android:value=".activities.LoginActivity" />
         </activity>
         <activity android:name=".activities.TrendingActivity" />
-
-
         <activity
             android:name=".activities.HomeActivity"
             android:label="Meanco">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".activities.HomeActivity" />
         </activity>
-
+        <activity android:name=".activities.SearchResultsActivity"></activity>
         <activity
             android:name=".activities.TopicDetailActivity"
-            android:parentActivityName=".activities.HomeActivity"></activity>
-
-        <activity android:name=".activities.SearchResultsActivity">
-
+            android:parentActivityName=".activities.HomeActivity">
         </activity>
     </application>
 
