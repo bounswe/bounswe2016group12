@@ -1,4 +1,4 @@
-package bounswe16group12.com.meanco.fragments;
+package bounswe16group12.com.meanco.fragments.home;
 
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
@@ -37,16 +38,18 @@ public class TopicDetailActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 
-        ArrayList<Tag> tagList = new ArrayList<>();
-        tagList.add(new Tag("tag1"));
-        tagList.add(new Tag("tag2"));
-        tagList.add(new Tag("tag3"));
-        tagList.add(new Tag("tag4"));
-        Topic t = new Topic("Donald Trump", tagList);
+        String topicName = getActivity().getTitle().toString();
+        ArrayList<Tag> tg = new ArrayList<>();
+        for(Topic t: HomeActivityFragment.getTopics()){
+            if(t.getTopicName().equals(topicName)){
+                tg.addAll(t.getTags());
+            }
+        }
+
+
 
         LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.linearlayout_detail);
 
-        ArrayList<Tag> tg = t.getTags();
 
         for(int i=0; i<tg.size(); i++){
 

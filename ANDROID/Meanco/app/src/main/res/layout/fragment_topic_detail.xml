@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="bounswe16group12.com.meanco.fragments.TopicDetailActivityFragment"
+    tools:context="bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment"
     tools:showIn="@layout/activity_topic_detail">
 
 

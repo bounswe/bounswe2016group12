@@ -39,4 +39,8 @@ public class Relation {
     public void setTopicTo(Topic topicTo) {
         this.topicTo = topicTo;
     }
+
+    public String getRelationName() {
+        return relationName;
+    }
 }

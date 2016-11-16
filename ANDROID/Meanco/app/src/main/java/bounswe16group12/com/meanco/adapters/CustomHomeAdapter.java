@@ -86,7 +86,10 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
                 tagView.setBackgroundResource(R.drawable.tagbg);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setGravity(Gravity.CENTER);
-                tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMarginEnd(10);
+                tagView.setLayoutParams(lp);
+
                 tagView.setPadding(15, 15, 15, 15);
                 linearLayout.addView(tagView);
 
