@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
+import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import me.originqiu.library.EditTag;
@@ -70,7 +71,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        //ADD TOPIC
 
         final FloatingActionButton topic_fab = (FloatingActionButton) findViewById(R.id.add_topic);
         topic_fab.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +87,10 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                 final EditTag editTagView = (EditTag) customView.findViewById(R.id.edit_tag_view);
                 final MEditText mEditText = (MEditText) customView.findViewById(R.id.meditText);
                 final EditText topicName = (EditText) customView.findViewById(R.id.topic_name);
+                final EditText relationName = (EditText) customView.findViewById(R.id.relation_name);
+                final EditText topicName2 = (EditText) customView.findViewById(R.id.topic_name_2);
+
+
                 mEditText.addTextChangedListener(new TextWatcher() {
 
                     @Override
@@ -113,7 +118,14 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO: add topic to database
-                                HomeActivityFragment.getTopics().add(new Topic(topicName.getText().toString(), tagsOfTopic));
+                                Topic topicFrom = new Topic(topicName.getText().toString(), tagsOfTopic);
+                                HomeActivityFragment.getTopics().add(topicFrom);
+                                String rltName = relationName.getText().toString();
+
+                                //TODO: if topic is not in database, do not do this. Dummy variable.
+                                Topic topicTo = new Topic(topicName2.getText().toString(), tagsOfTopic);
+                                HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, false));
+
 
                             }
                         })

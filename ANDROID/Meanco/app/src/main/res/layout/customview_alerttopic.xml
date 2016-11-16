@@ -4,19 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/topic_name"
-            android:hint="Enter topic name" />
-
-    </LinearLayout>
+        android:ems="10"
+        android:id="@+id/topic_name"
+        android:hint="Enter topic name" />
 
     <me.originqiu.library.EditTag
         android:id="@+id/edit_tag_view"
@@ -26,5 +20,39 @@
         app:input_layout="@layout/view_simple_input_tag"
         app:tag_layout="@layout/view_simple_tag"
         />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/relation_name"
+        android:hint="Enter relation name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/topic_name_2"
+            android:hint="Enter topic to be related" />
+        <TextView
+            android:text="bidirectional?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_weight="1" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

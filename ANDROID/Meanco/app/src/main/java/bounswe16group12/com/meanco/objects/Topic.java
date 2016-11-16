@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Topic {
     private String topicName;
     private ArrayList<Tag> tags;
+    private ArrayList<Comment> comments;
 
     public Topic (String topicName, ArrayList<Tag> tags){
         this.topicName = topicName;

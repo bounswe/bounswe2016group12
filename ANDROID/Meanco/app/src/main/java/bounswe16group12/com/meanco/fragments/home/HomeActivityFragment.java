@@ -19,6 +19,7 @@ import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 
@@ -28,14 +29,20 @@ import bounswe16group12.com.meanco.objects.Topic;
 public class HomeActivityFragment extends Fragment{
     public static CustomHomeAdapter adapter;
     static List<Topic> topics;
+    static List<Relation> relations;
     public static ListView listView;
 
     public static List<Topic> getTopics() {
         return topics;
     }
+    public static List<Relation> getRelations() {
+        return relations;
+    }
+
 
     public HomeActivityFragment() {
             topics = new ArrayList<>();
+            relations = new ArrayList<>();
             ArrayList<Tag> tagList = new ArrayList<>();
             tagList.add(new Tag("tag1"));
             tagList.add(new Tag("tag1"));
