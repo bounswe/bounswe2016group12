@@ -22,6 +22,7 @@ import android.widget.SearchView;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
@@ -71,6 +72,67 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+
+        final FloatingActionButton relation_fab = (FloatingActionButton) findViewById(R.id.add_relation);
+        relation_fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        tagsOfTopic = new ArrayList<>();
+
+                        final View customView = getLayoutInflater().inflate(R.layout.edit_relation, null, false);
+
+
+                        final EditText topicName = (EditText) customView.findViewById(R.id.topic_name);
+                        final EditText relationName = (EditText) customView.findViewById(R.id.relation_name);
+                        final EditText topicName2 = (EditText) customView.findViewById(R.id.topic_name_2);
+                        final CheckBox bidirectional = (CheckBox) customView.findViewById(R.id.bidirectional);
+
+
+                        new AlertDialog.Builder(HomeActivity.this)
+                                .setTitle("Add relation")
+                                .setView(customView)
+                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Topic topicFrom = null;
+                                        Topic topicTo = null;
+                                        int count = 0;
+                                        for(Topic topic : HomeActivityFragment.getTopics()){
+                                            if (count==2) break; //both exist in db
+                                            if(topic.getTopicName().equals(topicName.getText().toString())) {
+                                                topicFrom = topic;
+                                                count ++;
+                                            }
+                                            else if(topic.getTopicName().equals(topicName2.getText().toString())) {
+                                                topicTo = topic;
+                                                count ++;
+                                            }
+                                        }
+                                        if(topicFrom!=null && topicTo!=null) {
+
+                                            String rltName = relationName.getText().toString();
+
+                                            //TODO: if topic is not in database, do not do this. Dummy variable.
+                                            HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, bidirectional.isEnabled()));
+                                        }
+
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .show();
+
+
+                    }
+
+                }
+        );
 
         //ADD TOPIC
 
