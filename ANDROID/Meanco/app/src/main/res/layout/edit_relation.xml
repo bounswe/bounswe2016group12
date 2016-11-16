@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_height="match_parent">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/topic_name"
-        android:hint="Enter topic name" />
-
-    <me.originqiu.library.EditTag
-        android:id="@+id/edit_tag_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:delete_mode_bg="@color/colorPrimary"
-        app:input_layout="@layout/view_simple_input_tag"
-        app:tag_layout="@layout/view_simple_tag" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorPrimaryDark" />
+        android:hint="Enter topic"
+        android:textSize="14sp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:id="@+id/relation_name"
-        android:hint="Enter relation name"
+        android:id="@+id/topic_name_2"
+        android:hint="Enter topic to be related"
         android:textSize="14sp" />
 
     <LinearLayout
@@ -44,8 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:id="@+id/topic_name_2"
-            android:hint="Enter topic to be related"
+            android:id="@+id/relation_name"
+            android:hint="Enter relation name"
             android:textSize="14sp" />
         <TextView
             android:text="bidirectional?"
@@ -64,8 +50,5 @@
 
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>

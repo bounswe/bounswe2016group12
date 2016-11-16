@@ -15,15 +15,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SearchView;
 
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
+import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import me.originqiu.library.EditTag;
@@ -72,6 +75,67 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
 
+        final FloatingActionButton relation_fab = (FloatingActionButton) findViewById(R.id.add_relation);
+        relation_fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        tagsOfTopic = new ArrayList<>();
+
+                        final View customView = getLayoutInflater().inflate(R.layout.edit_relation, null, false);
+
+
+                        final EditText topicName = (EditText) customView.findViewById(R.id.topic_name);
+                        final EditText relationName = (EditText) customView.findViewById(R.id.relation_name);
+                        final EditText topicName2 = (EditText) customView.findViewById(R.id.topic_name_2);
+                        final CheckBox bidirectional = (CheckBox) customView.findViewById(R.id.bidirectional);
+
+
+                        new AlertDialog.Builder(HomeActivity.this)
+                                .setTitle("Add relation")
+                                .setView(customView)
+                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Topic topicFrom = null;
+                                        Topic topicTo = null;
+                                        int count = 0;
+                                        for(Topic topic : HomeActivityFragment.getTopics()){
+                                            if (count==2) break; //both exist in db
+                                            if(topic.getTopicName().equals(topicName.getText().toString())) {
+                                                topicFrom = topic;
+                                                count ++;
+                                            }
+                                            else if(topic.getTopicName().equals(topicName2.getText().toString())) {
+                                                topicTo = topic;
+                                                count ++;
+                                            }
+                                        }
+                                        if(topicFrom!=null && topicTo!=null) {
+
+                                            String rltName = relationName.getText().toString();
+
+                                            //TODO: if topic is not in database, do not do this. Dummy variable.
+                                            HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, bidirectional.isEnabled()));
+                                        }
+
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .show();
+
+
+                    }
+
+                }
+        );
+
+        //ADD TOPIC
+
         final FloatingActionButton topic_fab = (FloatingActionButton) findViewById(R.id.add_topic);
         topic_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +150,11 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                 final EditTag editTagView = (EditTag) customView.findViewById(R.id.edit_tag_view);
                 final MEditText mEditText = (MEditText) customView.findViewById(R.id.meditText);
                 final EditText topicName = (EditText) customView.findViewById(R.id.topic_name);
+                final EditText relationName = (EditText) customView.findViewById(R.id.relation_name);
+                final EditText topicName2 = (EditText) customView.findViewById(R.id.topic_name_2);
+                final CheckBox bidirectional = (CheckBox) customView.findViewById(R.id.bidirectional);
+
+
                 mEditText.addTextChangedListener(new TextWatcher() {
 
                     @Override
@@ -98,8 +167,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             String s = result.substring(0, result.length() - 1);
                             editTagView.addTag(s);
                             mEditText.setText("");
-                            Tag tag = new Tag(s);
-                            tagsOfTopic.add(tag);
+                            tagsOfTopic.add(new Tag(s));
                         }
                     }
 
@@ -113,7 +181,15 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO: add topic to database
-                                HomeActivityFragment.getTopics().add(new Topic(topicName.getText().toString(), tagsOfTopic));
+                                Topic topicFrom = new Topic(topicName.getText().toString(), tagsOfTopic);
+                                HomeActivityFragment.getTopics().add(topicFrom);
+                                String rltName = relationName.getText().toString();
+
+
+                                //TODO: if topic is not in database, do not do this. Dummy variable.
+                                Topic topicTo = new Topic(topicName2.getText().toString(), tagsOfTopic);
+                                HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, bidirectional.isEnabled()));
+
 
                             }
                         })
@@ -134,10 +210,12 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         tag_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tagsOfTopic = new ArrayList<>();
                 View input = getLayoutInflater().inflate(R.layout.edit_tag, null, false);
 
                 final EditTag editTagView = (EditTag) input.findViewById(R.id.edit_tag_view);
                 final MEditText mEditText = (MEditText) input.findViewById(R.id.meditText);
+                final EditText topicName = (EditText) input.findViewById(R.id.topic_name);
                 mEditText.addTextChangedListener(new TextWatcher() {
 
                     @Override
@@ -147,8 +225,11 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         String result = returnedResult.toString();
                         if (result.length() == 0) return;
                         if (result.charAt(result.length() - 1) == ('\n')) {
-                            editTagView.addTag(result.substring(0, result.length() - 1));
+                            String s = result.substring(0, result.length() - 1);
+                            editTagView.addTag(s);
                             mEditText.setText("");
+                            tagsOfTopic.add(new Tag(s));
+
                         }
                     }
 
@@ -161,7 +242,15 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setView(input)
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //TODO: Add tag to database.
+                                //TODO: Get topic from database, add tag to topic. Check if exists.)
+                                Topic foundTopic = null;
+                                for(Topic t: HomeActivityFragment.getTopics()){
+                                    if(t.getTopicName().equals(topicName.getText().toString())){
+                                        t.getTags().addAll(tagsOfTopic);
+                                        break;
+                                    }
+                                }
+
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -173,12 +262,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
             }
 
         });
-
-
-
-
     }
-
 
     @Override
     public boolean onQueryTextSubmit(String query) {
