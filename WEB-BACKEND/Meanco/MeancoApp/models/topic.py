@@ -17,11 +17,11 @@ class Topic(Model):
         return str(self.pk)
 
     def name(self):
-        return Name.objects.filter(topic=self.id).first()
+        return self.names.first()
+
     def viewed(self):
         self.view_count.value += 1
         self.save()
-
     def commented(self):
         self.comment_count.value += 1
         self.save()
@@ -58,7 +58,7 @@ class Name(Model):
     #         topic=self.topic,
     #         name=self
     #     )
-    #     tc.save()
+    #     voter.save()
 
     class Meta:
         ordering = ['-vote_count']

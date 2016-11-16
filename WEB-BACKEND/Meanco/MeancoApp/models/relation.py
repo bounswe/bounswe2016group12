@@ -32,13 +32,13 @@ class Relation(Model):
 
 class Label(Model):
     relation = ForeignKey(Relation, on_delete=CASCADE, related_name='labels')
-    direction = NullBooleanField(default=None)
+    #direction = NullBooleanField(default=None)
     text = CharField(max_length=20, default='related')
 
     profile = ForeignKey(Profile, on_delete=SET_NULL, null=True, related_name='relations')
     vote_count = IntegerField(default=0)
-    boost_count = IntegerField(default=0)
-    boost_timestamp = DateTimeField()
+    #boost_count = IntegerField(default=0)
+    #boost_timestamp = DateTimeField()
 
     def __unicode__(self):
         return str(self.pk)
@@ -79,7 +79,7 @@ class Label(Model):
     #             self.save()
 
     class Meta:
-        unique_together = ('relation', 'direction', 'text')
+        unique_together = ('relation', 'text')
 
 ### relation.LabelVoter
 

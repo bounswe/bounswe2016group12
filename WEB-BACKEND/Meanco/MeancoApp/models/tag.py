@@ -10,7 +10,7 @@ from .topic import Topic
 class Tag(Model):
     label = CharField(max_length=20)
     context = CharField(max_length=20)
-    url = URLField(default=None)
+    url = URLField(default=None,blank=True,null=True)
 
     view_count = IntegerField(default=0)
     topic_count = IntegerField(default=0)

@@ -4,59 +4,56 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core import serializers
+from django.conf.urls import  url
 
 # Example Post Request to addTopic
 #
 # userId= 15
 # topicName="Donald Trump"
-# tags=Politician:Occupation,English:Native Language
-#
+# tag=Politician
+# context= Occupation
 # TODO:Add better control
 @csrf_exempt
 def addTopic(request):
     if request.method== 'POST':
         userId =request.POST.get('userId')
         topicName=request.POST.get('topicName')
-        tags = request.POST.get('tags')
+        tag = request.POST.get('tag')
+        context =request.POST.get('context')
         print(userId)
         try:
             t=Topic()
             t.save()
         except:
             return HttpResponse(("Topic Couldn't be created:"))
-        print(tags)
-        tagsList=tags.split(",")
         try:
             tName = Name(topic_id=t.id,label=topicName)
             tName.save()
         except:
             return HttpResponse(("TopicName Creation Error: " ,topicName))
-        print (len(tagsList))
-        for tagWithContext in tagsList:
-            tag=tagWithContext.split(":")
-            print(len(tag))
-            if Tag.objects.filter(label=tag[0],context=tag[1]).exists():
-                print(tag)
-                try:
-                    tagModel=Tag.objects.get(label=tag[0],context=tag[1])
-                    print (userId,t.id,tagModel.id)
+        if Tag.objects.filter(label=tag,context=context).exists():
+            try:
+                tagModel=Tag.objects.get(label=tag,context=context)
+                if OfTopic.objects.filter(topic_id=t.id,tag_id=tagModel.id).exists():
+                    print("Weird Stuff")
+                else:
                     tt=OfTopic(topic_id=t.id,tag_id=tagModel.id,profile_id=userId)
                     tt.save()
-                    print(tt)
-                    #tagModel.topic_tagged()
-                except:
-                    return HttpResponse(("Tag Linking Error:",tag[0]," ",tag[1]))
-            else :
-                try:
-                    tagModel=Tag(label=tag[0],context=tag[1])
-                    tagModel.save()
-                except:
-                    return HttpResponse(("Tag creation error: ",tag[0]," ",tag[1]))
-                try:
-                    OfTopic(profile_id=userId, topic=t.id,tag=tagModel.id).save()
-                    #tagModel.topic_tagged()
-                except:
-                    return HttpResponse(("Tag creation error: ",tag[0]," ",tag[1]))
+                #tagModel.topic_tagged()
+            except:
+                return HttpResponse("Tag Linking Error:")
+        else :
+            try:
+                tagModel=Tag(label=tag,context=context)
+                tagModel.save()
+            except:
+                return HttpResponse("Tag creation error")
+            try:
+                tt = OfTopic(topic_id=t.id, tag_id=tagModel.id, profile_id=userId)
+                tt.save()
+                #tagModel.topic_tagged()
+            except:
+                return HttpResponse("Tag Linking error")
         return HttpResponse("Topic created succesfully")
     else:
         return HttpResponse("Wrong Request")
@@ -68,23 +65,24 @@ def addTopic(request):
 def searchTopic(request):
     if request.method== 'GET':
         searchParam=request.GET.get("search")
-        topics= Name.objects.filter(name=searchParam)
+        topics= Name.objects.filter(label=searchParam)
         return HttpResponse(serializers.serialize('json',topics),content_type='json')
     else:
         return HttpResponse("Wrong Request")
 # Example Post Request to addTopicName
 #
 # topicId:25 TopicName= President
+@csrf_exempt
 def addTopicName(request):
     if request.method== 'POST':
         id=request.POST.get("topicId")
         name = request.POST.get("topicName")
         try:
-            tn =Name(topic=id,name=name)
+            tn = Name(topic_id=id,label=name)
             tn.save()
         except:
             return HttpResponse(("TopicName creation error: ",name))
-        return HttpResponse("Topic created succesfully")
+        return HttpResponse("TopicName created succesfully")
     else:
         return HttpResponse("Wrong Request")
 

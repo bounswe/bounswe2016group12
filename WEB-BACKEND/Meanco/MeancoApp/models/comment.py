@@ -13,8 +13,6 @@ class Comment(Model):
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='comments')
     profile = ForeignKey(Profile, on_delete=CASCADE, related_name='comments') # LATER: make it get set to default = AnonymousUser
     vote_count = IntegerField(default=0)
-    boost_count = IntegerField(default=0)
-    boost_timestamp = DateTimeField()
 
     def __unicode__(self):
         return str(self.pk)
