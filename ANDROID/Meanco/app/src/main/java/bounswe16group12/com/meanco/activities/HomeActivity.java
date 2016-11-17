@@ -238,6 +238,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                         Toast.makeText(HomeActivity.this, "TOPIC ADDED.", Toast.LENGTH_LONG).show();
                                     }
                                 }
+                                HomeActivityFragment.adapter.add(topicFrom);
                                 HomeActivityFragment.adapter.notifyDataSetChanged();
                                // HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, bidirectional.isEnabled()));
 
