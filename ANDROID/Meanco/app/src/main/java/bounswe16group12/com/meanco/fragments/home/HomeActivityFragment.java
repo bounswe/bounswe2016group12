@@ -33,23 +33,6 @@ public class HomeActivityFragment extends Fragment{
         return relations;
     }
 
-    /*public HomeActivityFragment() {
-            topics = new ArrayList<>();
-            relations = new ArrayList<>();
-            ArrayList<Tag> tagList = new ArrayList<>();
-            tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag1"));
-            ArrayList<Tag> tagList2 = new ArrayList<>();
-            tagList2.add(new Tag("tag2"));
-            tagList2.add(new Tag("tag2"));
-            tagList2.add(new Tag("tag2"));
-            tagList2.add(new Tag("tag2"));
-            topics.add(new Topic("Donald Trump", tagList));
-            topics.add(new Topic("Hillary Clinton", tagList2));
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

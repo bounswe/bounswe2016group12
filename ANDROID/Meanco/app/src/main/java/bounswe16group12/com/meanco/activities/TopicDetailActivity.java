@@ -89,8 +89,19 @@ public class TopicDetailActivity extends AppCompatActivity {
         TextView rn = (TextView) customView.findViewById(R.id.relation_name);
         ImageView iv = (ImageView) customView.findViewById(R.id.arrow_direction_picture);
 
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+        List<Relation> relations = databaseHelper.getAllRelations();
+
+        for(Relation r : relations){
+            if(r.topicFrom.equals(title)){
+                rn.setText(r.relationName);
+                iv.setImageResource(R.drawable.left_arrow);
+            }
+        }
+
         //TODO: implement adapter.
         /*
+
 
         for(Relation r: HomeActivityFragment.getRelations()){
             if(r.getTopicFrom().equals(title)) {

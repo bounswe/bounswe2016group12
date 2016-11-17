@@ -307,6 +307,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 }
                                 if(foundTopic != null){
                                     databaseHelper.addOrUpdateTopic(foundTopic);
+                                    Log.i("FOUND TOPIC",foundTopic.topicName);
+                                    HomeActivityFragment.adapter.notifyDataSetChanged();
                                 }
                             }
                         })

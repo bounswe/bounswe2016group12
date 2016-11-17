@@ -72,15 +72,6 @@ public class TopicDetailActivityFragment extends Fragment {
 
         List<Comment> comments = databaseHelper.getAllComments();
         List<String> contents = new ArrayList<String>();
-     /*   Comment c1 = new Comment("","After a video from 2005 was released of Trump making obscene comments and bragging about sexually abusing women was released, the Republican hopeful responded by writing the episode off as just ‘locker room banter’.\n" +
-                "Read more at http://www.marieclaire.co.uk/entertainment/people/donald-trump-quotes-57213#iuslG35o6fl228Wo.99");
-        Comment c2 = new Comment("","Donald was born on the 14th of June, 1946 in New York, to Fred and Elizabeth Trump. His father, who ended up being one of New York’s biggest property developers, was American-German. Fred Trump was once arrested at a KKK rally and was sued by the US Justice Department for refusing to rent flats to African-American people. His mother was Scottish and had left poverty in Scotland to live in America. So Trump does actually have a family, which might come as a surprise to those of us who’d assumed he was forged in a cave, like an orc. Trump was expelled from school at the age of 13 and sent to the New York military academy.\n" +
-                "Read more at http://www.marieclaire.co.uk/entertainment/people/donald-trump-quotes-57213#iuslG35o6fl228Wo.99");
-        Comment c3 = new Comment("","nooooooo not again.");
-        Comment c4 = new Comment("","The main thing is he is not handsome.");
-        Comment c5 = new Comment("","Then deciding that insulting Hillary’s husband on national television simply wasn’t enough, Trump went on to also throw some pretty serious accusations at the Democrat presidential candidate too: ‘I’ve said some foolish things but there’s a big difference between the words and actions of other people,’ he went on. ‘Bill Clinton has actually abused women and Hillary has bullied, attacked, shamed and intimidated his victims.’\n" +
-                "Read more at http://www.marieclaire.co.uk/entertainment/people/donald-trump-quotes-57213#iuslG35o6fl228Wo.99");
-        Comment c6 = new Comment("","He is awesome.");*/
 
        for(Comment c : comments){
            if(c.topicName.equals(topicName))
