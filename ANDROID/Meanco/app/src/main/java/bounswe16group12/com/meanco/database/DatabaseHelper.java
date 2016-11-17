@@ -353,7 +353,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_COMMENT_TOPIC_NAME, comment.topicName);
-            values.put(KEY_COMMENT_CONTENT, comment.content));
+            values.put(KEY_COMMENT_CONTENT, comment.content);
 
             // First try to update the user in case the user already exists in the database
             // This assumes userNames are unique
@@ -437,7 +437,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_RELATION_NAME, relation.relationName);
-            values.put(KEY_RELATION_FIRST_TOPIC_NAME, relation.topicFrom));
+            values.put(KEY_RELATION_FIRST_TOPIC_NAME, relation.topicFrom);
             values.put(KEY_RELATION_SECOND_TOPIC_NAME, relation.topicTo);
             values.put(KEY_RELATION_IS_BIDIRECTIONAL, (relation.isBidirectional ? 1 : 0));
 
@@ -493,7 +493,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     relation.topicTo = cursor.getString(cursor.getColumnIndex(KEY_RELATION_SECOND_TOPIC_NAME));
                     relation.isBidirectional = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_IS_BIDIRECTIONAL)) == 1 ? true:false;
 
-
                     relations.add(relation);
                 } while(cursor.moveToNext());
             }
@@ -506,5 +505,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return relations;
     }
-    
+
 }

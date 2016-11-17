@@ -7,11 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
+
+import java.util.List;
+
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
+import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
+import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
 
@@ -25,6 +33,39 @@ public class TopicDetailActivity extends AppCompatActivity {
 
         title = getIntent().getStringExtra("activityTitle").toString();
         setTitle(title);
+
+        final FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
+        comment_fab.setOnClickListener(
+                new View.OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View v) {
+
+                        final View customView = getLayoutInflater().inflate(R.layout.edit_comment, null, false);
+                        final EditText content = (EditText) customView.findViewById(R.id.edit_comment_edittext);
+
+                        new AlertDialog.Builder(TopicDetailActivity.this)
+                                .setTitle("Add relation")
+                                .setView(customView)
+                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Comment c = new Comment(getTitle().toString(),content.getText().toString());
+                                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+                                        databaseHelper.addOrUpdateComment(c);
+                                        TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
+                                        TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
 
     }
 

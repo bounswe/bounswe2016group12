@@ -120,8 +120,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                                             String rltName = relationName.getText().toString();
 
-                                            //TODO: if topic is not in database, do not do this. Dummy variable.
-                                            HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, bidirectional.isEnabled()));
+                                            Relation rel = new Relation(rltName,topicFrom.topicName,topicTo.topicName,bidirectional.isEnabled());
+                                            databaseHelper.addOrUpdateRelation(rel);
                                         }
 
                                     }
@@ -210,7 +210,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                     }
 
                                 }
-                                else if (topicTo.topicName.equals("") && rltName.equals("")){
+                                else if (topicTo.topicName.equals("") || rltName.equals("")){
                                     boolean isFound = false;
                                     for(Topic topic : topics){
                                         if(topic.topicName.equals(topicFrom.topicName)){
@@ -235,14 +235,15 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                     }
                                     if(!isFound){
                                         databaseHelper.addOrUpdateTopic(topicFrom);
-                                        Toast.makeText(HomeActivity.this, "TOPIC ADDED.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(HomeActivity.this, "TOPIC ADDED.", Toast.LENGTH_SHORT).show();
+                                        Relation rel = new Relation(rltName,topicFrom.topicName,topicTo.topicName,bidirectional.isEnabled());
+                                        databaseHelper.addOrUpdateRelation(rel);
+                                        Toast.makeText(HomeActivity.this, "RELATION ADDED.", Toast.LENGTH_SHORT).show();
+
                                     }
                                 }
                                 HomeActivityFragment.adapter.add(topicFrom);
                                 HomeActivityFragment.adapter.notifyDataSetChanged();
-                               // HomeActivityFragment.getRelations().add(new Relation(rltName, topicFrom, topicTo, bidirectional.isEnabled()));
-
-
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -294,17 +295,19 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setView(input)
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //TODO: Get topic from database, add tag to topic. Check if exists.)
                                 Topic foundTopic = null;
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 List<Topic> topics = databaseHelper.getAllTopics();
                                 for(Topic t: topics){
                                     if(t.getTopicName().equals(topicName.getText().toString())){
                                         t.getTags().addAll(tagsOfTopic);
+                                        foundTopic = t;
                                         break;
                                     }
                                 }
-
+                                if(foundTopic != null){
+                                    databaseHelper.addOrUpdateTopic(foundTopic);
+                                }
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -314,7 +317,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         })
                         .show();
             }
-
         });
     }
 
