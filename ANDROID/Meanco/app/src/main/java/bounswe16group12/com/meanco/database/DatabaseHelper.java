@@ -357,7 +357,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             // First try to update the user in case the user already exists in the database
             // This assumes userNames are unique
-            int rows = db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_TOPIC_NAME + "= ?", new String[]{comment.topicName});
+            int rows = db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_CONTENT + "= ?", new String[]{comment.content});
 
             // Check if update succeeded
             if (rows == 1) {
