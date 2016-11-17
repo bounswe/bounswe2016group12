@@ -5,10 +5,11 @@ package bounswe16group12.com.meanco.objects;
  */
 
 public class Relation {
-    boolean isBidirectional;
-    Topic topicFrom;
-    Topic topicTo;
-    String relationName;
+    public boolean isBidirectional;
+    public Topic topicFrom;
+    public Topic topicTo;
+    public String relationName;
+
     public Relation(String relationName, Topic topicFrom, Topic topicTo, boolean isBidirectional) {
         this.isBidirectional = isBidirectional;
         this.topicFrom = topicFrom;

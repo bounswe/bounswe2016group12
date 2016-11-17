@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;

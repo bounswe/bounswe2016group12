@@ -103,7 +103,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
             linearLayout.removeAllViews();
 
-
             for (int i = 0; i < tg.size(); i++) {
 
                 TextView tagView = new TextView(getContext());
@@ -117,15 +116,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
                 linearLayout.addView(tagView);
 
             }
-
-
         }
-
-
-
-
-
-
         //}
         return v;
     }
