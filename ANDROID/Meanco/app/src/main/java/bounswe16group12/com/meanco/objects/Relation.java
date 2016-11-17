@@ -6,11 +6,13 @@ package bounswe16group12.com.meanco.objects;
 
 public class Relation {
     public boolean isBidirectional;
-    public Topic topicFrom;
-    public Topic topicTo;
+    public String topicFrom;
+    public String topicTo;
     public String relationName;
 
-    public Relation(String relationName, Topic topicFrom, Topic topicTo, boolean isBidirectional) {
+    public Relation(){}
+
+    public Relation(String relationName, String topicFrom, String topicTo, boolean isBidirectional) {
         this.isBidirectional = isBidirectional;
         this.topicFrom = topicFrom;
         this.topicTo = topicTo;
@@ -23,22 +25,6 @@ public class Relation {
 
     public void setBidirectional(boolean bidirectional) {
         isBidirectional = bidirectional;
-    }
-
-    public Topic getTopicFrom() {
-        return topicFrom;
-    }
-
-    public void setTopicFrom(Topic topicFrom) {
-        this.topicFrom = topicFrom;
-    }
-
-    public Topic getTopicTo() {
-        return topicTo;
-    }
-
-    public void setTopicTo(Topic topicTo) {
-        this.topicTo = topicTo;
     }
 
     public String getRelationName() {

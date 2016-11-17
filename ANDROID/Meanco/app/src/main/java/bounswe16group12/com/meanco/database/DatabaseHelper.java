@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import bounswe16group12.com.meanco.objects.Comment;
+import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.objects.User;
 
@@ -144,6 +146,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // Simplest implementation is to drop all old tables and recreate them
             db.execSQL("DROP TABLE IF EXISTS " + KEY_USER_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_TOPIC_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + KEY_COMMENT_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + KEY_RELATION_TABLE);
             onCreate(db);
         }
     }
@@ -320,6 +324,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topics;
     }
 
+    //HELPER FOR ARRAYLIST TO STRING
     private ArrayList<String> stringToList(String s){
         Log.i("TOPIC HELPER",s);
         s = s.replace("[","");
@@ -329,4 +334,177 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return output;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    //COMMENT
+    /////////////////////////////////////////////////////////////////////////////////
+
+    // Insert or update a user in the database
+    // Since SQLite doesn't support "upsert" we need to fall back on an attempt to UPDATE (in case the
+    // user already exists) optionally followed by an INSERT (in case the user does not already exist).
+    // Unfortunately, there is a bug with the insertOnConflict method
+    // (https://code.google.com/p/android/issues/detail?id=13045) so we need to fall back to the more
+    // verbose option of querying for the user's primary key if we did an update.
+    public long addOrUpdateComment(Comment comment) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long commentId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_COMMENT_TOPIC_NAME, comment.topicName);
+            values.put(KEY_COMMENT_CONTENT, comment.content));
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_TOPIC_NAME + "= ?", new String[]{comment.topicName});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_COMMENT_ID, KEY_COMMENT_TOPIC_NAME, KEY_COMMENT_CONTENT);
+                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(comment.topicName)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        commentId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                commentId = db.insertOrThrow(KEY_COMMENT_ID, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to add or update user");
+        } finally {
+            db.endTransaction();
+        }
+        return commentId;
+    }
+
+    public List<Comment> getAllComments() {
+        List<Comment> comments = new ArrayList<>();
+
+        // SELECT * FROM POSTS
+        String COMMENTS_SELECT_QUERY = "SELECT * FROM comments";
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(COMMENTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Comment comment = new Comment();
+                    comment.topicName = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_TOPIC_NAME));
+                    comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+
+                    comments.add(comment);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return comments;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //RELATION
+    /////////////////////////////////////////////////////////////////////////////////
+
+    // Insert or update a user in the database
+    // Since SQLite doesn't support "upsert" we need to fall back on an attempt to UPDATE (in case the
+    // user already exists) optionally followed by an INSERT (in case the user does not already exist).
+    // Unfortunately, there is a bug with the insertOnConflict method
+    // (https://code.google.com/p/android/issues/detail?id=13045) so we need to fall back to the more
+    // verbose option of querying for the user's primary key if we did an update.
+    public long addOrUpdateRelation(Relation relation) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long relationId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_RELATION_NAME, relation.relationName);
+            values.put(KEY_RELATION_FIRST_TOPIC_NAME, relation.topicFrom));
+            values.put(KEY_RELATION_SECOND_TOPIC_NAME, relation.topicTo);
+            values.put(KEY_RELATION_IS_BIDIRECTIONAL, (relation.isBidirectional ? 1 : 0));
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(KEY_RELATION_TABLE, values, KEY_RELATION_NAME + "= ?", new String[]{relation.relationName});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_RELATION_ID, KEY_RELATION_FIRST_TOPIC_NAME, KEY_RELATION_SECOND_TOPIC_NAME,KEY_RELATION_IS_BIDIRECTIONAL);
+                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(relation.relationName)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        relationId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                relationId = db.insertOrThrow(KEY_RELATION_ID, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to add or update user");
+        } finally {
+            db.endTransaction();
+        }
+        return relationId;
+    }
+
+    public List<Relation> getAllRelations() {
+        List<Relation> relations = new ArrayList<>();
+
+        // SELECT * FROM POSTS
+        String RELATIONS_SELECT_QUERY = "SELECT * FROM relations";
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(RELATIONS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                   Relation relation = new Relation();
+                    relation.relationName = cursor.getString(cursor.getColumnIndex(KEY_RELATION_NAME));
+                    relation.topicFrom = cursor.getString(cursor.getColumnIndex(KEY_RELATION_FIRST_TOPIC_NAME));
+                    relation.topicTo = cursor.getString(cursor.getColumnIndex(KEY_RELATION_SECOND_TOPIC_NAME));
+                    relation.isBidirectional = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_IS_BIDIRECTIONAL)) == 1 ? true:false;
+
+
+                    relations.add(relation);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return relations;
+    }
+    
 }
