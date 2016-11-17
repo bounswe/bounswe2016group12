@@ -29,11 +29,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.objects.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -78,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    //attemptLogin();
                     return true;
                 }
                 return false;
@@ -90,9 +93,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                // attemptLogin();
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+
+                String email = mEmailView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                User newUser = new User(email,password);
+
+                List<User> users = databaseHelper.getAllUsers();
+                boolean isUserFound = false;
+                for (User user : users) {
+                    if(user.username.equals(newUser.username) && user.password.equals(newUser.password)){
+                        isUserFound =  true;
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    else if(user.username.equals(newUser.username) && !user.password.equals(newUser.password)) {
+                        isUserFound = true;
+                        Toast.makeText(LoginActivity.this, "WRONG PASSWORD.", Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                }
+                if(!isUserFound) {
+                    databaseHelper.addOrUpdateUser(newUser);
+                    Toast.makeText(LoginActivity.this, "USER ACCOUNT CREATED SUCCESFULLY.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 

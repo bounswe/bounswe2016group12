@@ -75,18 +75,21 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             Log.i("tn", t.getTopicName());
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
-            ArrayList<Tag> tg = t.getTags();
+            ArrayList<String> tg = t.getTags();
 
 
             for (int i = 0; i < tg.size(); i++) {
 
                 TextView tagView = new TextView(getContext());
 
-                tagView.setText(tg.get(i).getTagName());
+                tagView.setText(tg.get(i));
                 tagView.setBackgroundResource(R.drawable.tagbg);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setGravity(Gravity.CENTER);
-                tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMarginEnd(10);
+                tagView.setLayoutParams(lp);
+
                 tagView.setPadding(15, 15, 15, 15);
                 linearLayout.addView(tagView);
 
@@ -95,17 +98,16 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(getItem(position).getTopicName());
 
-            ArrayList<Tag> tg = getItem(position).getTags();
+            ArrayList<String> tg = getItem(position).getTags();
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
             linearLayout.removeAllViews();
-
 
             for (int i = 0; i < tg.size(); i++) {
 
                 TextView tagView = new TextView(getContext());
 
-                tagView.setText(tg.get(i).getTagName());
+                tagView.setText(tg.get(i));
                 tagView.setBackgroundResource(R.drawable.tagbg);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setGravity(Gravity.CENTER);
@@ -114,15 +116,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
                 linearLayout.addView(tagView);
 
             }
-
-
         }
-
-
-
-
-
-
         //}
         return v;
     }

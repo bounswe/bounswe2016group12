@@ -5,7 +5,8 @@ package bounswe16group12.com.meanco.objects;
  */
 
 public class Tag {
-    private String tagName;
+    public int tagId;
+    public String tagName;
 
     public Tag(String tagName){
         this.tagName = tagName;

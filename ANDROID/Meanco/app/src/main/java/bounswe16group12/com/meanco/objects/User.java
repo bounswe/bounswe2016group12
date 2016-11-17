@@ -5,4 +5,16 @@ package bounswe16group12.com.meanco.objects;
  */
 
 public class User {
+    public int userId;
+    public String username;
+    public String password;
+
+    public User(){
+
+    }
+
+    public User( String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 }

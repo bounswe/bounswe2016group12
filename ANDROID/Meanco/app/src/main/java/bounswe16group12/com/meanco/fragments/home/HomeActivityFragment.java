@@ -12,9 +12,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
@@ -24,33 +26,11 @@ import bounswe16group12.com.meanco.objects.Topic;
  */
 public class HomeActivityFragment extends Fragment{
     public static CustomHomeAdapter adapter;
-    static List<Topic> topics;
     static List<Relation> relations;
     public static ListView listView;
 
-    public static List<Topic> getTopics() {
-        return topics;
-    }
     public static List<Relation> getRelations() {
         return relations;
-    }
-
-
-    public HomeActivityFragment() {
-            topics = new ArrayList<>();
-            relations = new ArrayList<>();
-            ArrayList<Tag> tagList = new ArrayList<>();
-            tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag1"));
-            tagList.add(new Tag("tag1"));
-            ArrayList<Tag> tagList2 = new ArrayList<>();
-            tagList2.add(new Tag("tag2"));
-            tagList2.add(new Tag("tag2"));
-            tagList2.add(new Tag("tag2"));
-            tagList2.add(new Tag("tag2"));
-            topics.add(new Topic("Donald Trump", tagList));
-            topics.add(new Topic("Hillary Clinton", tagList2));
     }
 
     @Override
@@ -58,6 +38,9 @@ public class HomeActivityFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity().getApplicationContext());
+        List<Topic> topics = databaseHelper.getAllTopics();
 
         adapter = new CustomHomeAdapter(getContext(), R.layout.fragment_home, topics);
 

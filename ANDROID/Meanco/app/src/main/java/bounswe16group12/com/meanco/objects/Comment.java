@@ -6,14 +6,14 @@ package bounswe16group12.com.meanco.objects;
 
 public class Comment {
 
-    //private int topic_id;
-    private String content;
+    public String topicName;
+    public String content;
 
-    public Comment(String content) {
+    public Comment(){}
+
+    public Comment(String topicName, String content) {
+        this.topicName = topicName;
         this.content = content;
     }
 
-    public String getContent() {
-        return content;
-    }
 }

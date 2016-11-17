@@ -16,4 +16,20 @@
 
     <include layout="@layout/content_topic_detail" />
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="bottom|right"
+        android:clickable="true"
+        android:src="@drawable/fab_add"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fabSize="mini"
+        app:backgroundTint="@color/colorPrimary" />
+
 </android.support.design.widget.CoordinatorLayout>
