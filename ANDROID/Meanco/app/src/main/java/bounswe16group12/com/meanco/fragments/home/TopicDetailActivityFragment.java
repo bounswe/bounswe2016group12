@@ -3,6 +3,7 @@ package bounswe16group12.com.meanco.fragments.home;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -39,23 +41,24 @@ public class TopicDetailActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 
         String topicName = getActivity().getTitle().toString();
-        ArrayList<Tag> tg = new ArrayList<>();
-        for(Topic t: HomeActivityFragment.getTopics()){
+        ArrayList<String> tg = new ArrayList<>();
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+        List<Topic> topics = databaseHelper.getAllTopics();
+
+        for(Topic t: topics){
             if(t.getTopicName().equals(topicName)){
+                Log.i("DETAIL TAGS", t.tags.toString());
                 tg.addAll(t.getTags());
             }
         }
 
-
-
         LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.linearlayout_detail);
-
 
         for(int i=0; i<tg.size(); i++){
 
             TextView tagView = new TextView(getContext());
 
-            tagView.setText(tg.get(i).getTagName());
+            tagView.setText(tg.get(i));
             tagView.setBackgroundResource(R.drawable.tagbg);
             tagView.setTextColor(Color.WHITE);
             tagView.setGravity(Gravity.CENTER);

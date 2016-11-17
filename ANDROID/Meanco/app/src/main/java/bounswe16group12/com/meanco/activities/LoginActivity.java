@@ -35,9 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.database.UserDBHelper;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.User;
-import bounswe16group12.com.meanco.database.UserDBHelper;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -94,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                // attemptLogin();
-                UserDBHelper databaseHelper = UserDBHelper.getInstance(getApplicationContext());
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
 
                 String email = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();

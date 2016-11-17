@@ -7,11 +7,16 @@ import java.util.ArrayList;
  */
 
 public class Topic {
+    public int topicId;
     public String topicName;
-    public ArrayList<Tag> tags;
+    public ArrayList<String> tags;
     public ArrayList<Comment> comments;
 
-    public Topic (String topicName, ArrayList<Tag> tags){
+    public Topic(){
+
+    }
+
+    public Topic (String topicName, ArrayList<String> tags){
         this.topicName = topicName;
         this.tags = tags;
     }
@@ -20,7 +25,7 @@ public class Topic {
         return topicName;
     }
 
-    public ArrayList<Tag> getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
@@ -28,7 +33,7 @@ public class Topic {
         this.topicName = topicName;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 }
