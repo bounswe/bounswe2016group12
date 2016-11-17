@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^API/AddRelation', ApiRelation.addRelation),
     url(r'^API/EditRelation', ApiRelation.editRelation),
     url(r'^API/AddTag', ApiTag.addTag),
+    url(r'^topic/(?P<id>[0-9]+)', Comment.get_page),
 ]
