@@ -105,25 +105,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_USERS_TABLE);
 
-        String CREATE_COMMENT_TABLE = "CREATE TABLE " + KEY_TOPIC_TABLE +
+        String CREATE_TOPIC_TABLE = "CREATE TABLE " + KEY_TOPIC_TABLE +
                 "(" +
                 KEY_TOPIC_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_TOPIC_NAME + " TEXT," +
                 KEY_TAG_LIST + " TEXT" +
                 ")";
 
-        db.execSQL(CREATE_COMMENT_TABLE);
+        db.execSQL(CREATE_TOPIC_TABLE);
 
-        String CREATE_RELATION_TABLE = "CREATE TABLE " + KEY_COMMENT_TABLE +
+        String CREATE_COMMENT_TABLE = "CREATE TABLE " + KEY_COMMENT_TABLE +
                 "(" +
                 KEY_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_COMMENT_TOPIC_NAME + " TEXT," +
                 KEY_COMMENT_CONTENT + " TEXT" +
                 ")";
 
-        db.execSQL(CREATE_RELATION_TABLE);
+        db.execSQL(CREATE_COMMENT_TABLE);
 
-        String CREATE_TOPICS_TABLE = "CREATE TABLE " + KEY_RELATION_TABLE +
+        String CREATE_RELATION_TABLE = "CREATE TABLE " + KEY_RELATION_TABLE +
                 "(" +
                 KEY_RELATION_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_RELATION_NAME + " TEXT," +
@@ -133,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 ")";
 
-        db.execSQL(CREATE_TOPICS_TABLE);
+        db.execSQL(CREATE_RELATION_TABLE);
 
     }
 
@@ -377,7 +377,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             } else {
                 // user with this userName did not already exist, so insert new user
-                commentId = db.insertOrThrow(KEY_COMMENT_ID, null, values);
+                commentId = db.insertOrThrow(KEY_COMMENT_TABLE, null, values);
                 db.setTransactionSuccessful();
             }
         } catch (Exception e) {
@@ -463,7 +463,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             } else {
                 // user with this userName did not already exist, so insert new user
-                relationId = db.insertOrThrow(KEY_RELATION_ID, null, values);
+                relationId = db.insertOrThrow(KEY_RELATION_TABLE, null, values);
                 db.setTransactionSuccessful();
             }
         } catch (Exception e) {

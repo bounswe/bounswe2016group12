@@ -12,10 +12,8 @@ public class Comment {
     public Comment(){}
 
     public Comment(String topicName, String content) {
+        this.topicName = topicName;
         this.content = content;
     }
 
-    public String getContent() {
-        return content;
-    }
 }

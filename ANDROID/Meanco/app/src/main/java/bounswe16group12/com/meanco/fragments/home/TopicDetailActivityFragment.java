@@ -43,14 +43,12 @@ public class TopicDetailActivityFragment extends Fragment {
 
         String topicName = getActivity().getIntent().getStringExtra("activityTitle").toString();
 
-        Log.i("TOPIC NAME", topicName);
         ArrayList<String> tg = new ArrayList<>();
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
         List<Topic> topics = databaseHelper.getAllTopics();
 
         for(Topic t: topics){
             if(t.getTopicName().equals(topicName)){
-                Log.i("DETAIL TAGS", t.tags.toString());
                 tg.addAll(t.getTags());
             }
         }
@@ -83,7 +81,6 @@ public class TopicDetailActivityFragment extends Fragment {
         Comment c5 = new Comment("","Then deciding that insulting Hillary’s husband on national television simply wasn’t enough, Trump went on to also throw some pretty serious accusations at the Democrat presidential candidate too: ‘I’ve said some foolish things but there’s a big difference between the words and actions of other people,’ he went on. ‘Bill Clinton has actually abused women and Hillary has bullied, attacked, shamed and intimidated his victims.’\n" +
                 "Read more at http://www.marieclaire.co.uk/entertainment/people/donald-trump-quotes-57213#iuslG35o6fl228Wo.99");
         Comment c6 = new Comment("","He is awesome.");*/
-
 
        for(Comment c : comments){
            if(c.topicName.equals(topicName))

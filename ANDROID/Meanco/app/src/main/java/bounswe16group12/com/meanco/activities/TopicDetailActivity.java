@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +39,6 @@ public class TopicDetailActivity extends AppCompatActivity {
         comment_fab.setOnClickListener(
                 new View.OnClickListener() {
 
-
                     @Override
                     public void onClick(View v) {
 
@@ -50,9 +50,11 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Comment c = new Comment(getTitle().toString(),content.getText().toString());
+                                        Comment c = new Comment(title,content.getText().toString());
+                                        Log.i("NAME COMMENT",c.topicName);
                                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                         databaseHelper.addOrUpdateComment(c);
+
                                         TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
                                         TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
                                     }
