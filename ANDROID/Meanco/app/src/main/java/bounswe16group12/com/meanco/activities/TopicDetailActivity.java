@@ -34,7 +34,7 @@ public class TopicDetailActivity extends AppCompatActivity {
         title = getIntent().getStringExtra("activityTitle").toString();
         setTitle(title);
 
-        final FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
+        FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
                 new View.OnClickListener() {
 
@@ -46,7 +46,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                         final EditText content = (EditText) customView.findViewById(R.id.edit_comment_edittext);
 
                         new AlertDialog.Builder(TopicDetailActivity.this)
-                                .setTitle("Add relation")
+                                .setTitle("Add Comment")
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

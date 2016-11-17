@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
@@ -40,7 +41,7 @@ public class TopicDetailActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 
-        String topicName = getActivity().getTitle().toString();
+        String topicName = getActivity().getIntent().getStringExtra("activityTitle").toString();
 
         Log.i("TOPIC NAME", topicName);
         ArrayList<String> tg = new ArrayList<>();
