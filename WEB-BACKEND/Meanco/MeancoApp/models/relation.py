@@ -15,7 +15,7 @@ class Relation(Model):
 
     def label(self):
 
-        first=Label.objects.filter(relation=self.id).first()
+        first=Label.objects.filter(relation=self.id)
         return first
 
     class Meta:
