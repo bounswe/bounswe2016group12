@@ -1,13 +1,19 @@
-{% extends 'MeancoApp\Home.html' %}
+{% extends 'MeancoApp/Home.html' %}
 {% block content %}
- {% for i in 'aaa' %}
-    <hr>
-     <div class="Comment">
-        <div class="date">
-            Date
+    <h1>{{ topic.name.label }}</h1>
+    {% for comment in comments %}
+        <hr>
+        <div class="Comment">
+            <div class="date">
+                {{ comment.current.timestamp }}
+            </div>
+            <h2>{{ comment.profile.user.username }}</h2>
+            <p>{{ comment.content }}</p>
         </div>
-        <h2>User Name</h2>
-        <p>Comment Here</p>
-    </div>
-{% endfor %}
+    {% endfor %}
+
+    <h2>TAGS:</h2>
+    {% for of in oftopic %}
+        <p>{{ of.tag.label }}</p>
+    {% endfor %}
 {% endblock %}
