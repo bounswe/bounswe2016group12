@@ -20,6 +20,8 @@
     <script type="text/javascript" src="vis-4.17.0/dist/vis.js"></script>
     <link href="vis-4.17.0/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
 
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,85 +31,15 @@
 
 </head>
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="home.html">MEANCO</a>
-      </div>
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li ><a >Let's Connect! <span class="sr-only">(current)</span></a></li>
-        </ul>
 
-       <form class="navbar-form navbar-left search-form" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <button type="submit" name="searchTopic" class="btn btn-default">Topic</button>
-            <button type="submit" name="searchTag" class="btn btn-default">Tag</button>
-        </form>
-
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="login.html">Login</a></li>
-          <li><a href="signup.html">SignUp</a></li>
-        </ul>
-
-        
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+  <div w3-include-html="navbar.html"></div>
 
   <div id="wrapper">
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper" class="sidebar">
             <ul class="sidebar-nav">
-                <li>
-                  <div class="Trendings">
-                    <h4> Trending Topics </h4>
-                    <ul class="ordered">
-                      <li >
-                        Python
-                      </li>
-                      <li>
-                        Django
-                      </li>
-                      <li>
-                        Python
-                      </li>
-                      <li>
-                        Django
-                      </li>
-                      <li>
-                        Python
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li>
-                  <div class="Trendings">
-                    <h4> Trending Tags </h4>
-                    <ul class="ordered">
-                      <li >
-                        Python
-                      </li>
-                      <li>
-                        Django
-                      </li>
-                      <li>
-                        Python
-                      </li>
-                      <li>
-                        Django
-                      </li>
-                      <li>
-                        Python
-                      </li>
-                    </ul>
-                  </div>
-                </li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -115,7 +47,6 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
-
               <div id="mynetwork" style="height: 1500px"></div>
 
               <script type="text/javascript">
@@ -145,13 +76,12 @@
                 var options = {};
                 var network = new vis.Network(container, data, options);
               </script>
+              </div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
 
   </div>
-
-
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -160,14 +90,9 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Menu Toggle Script -->
-    <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    </script>
-
+        <script>
+          w3IncludeHTML();
+        </script>
 
 </body>
 
