@@ -1,6 +1,7 @@
 {% extends 'MeancoApp/Home.html' %}
 
 {% block content %}
+
     {% for topic in topics %}
         <g>
         <svg width="100" height="100">
@@ -11,4 +12,16 @@
         </g>
         <a href="/topic/{{ topic.id }}">{{ topic.name.label }}</a>
     {% endfor %}
+
+    {% if user.is_authenticated %}
+        <h1>New topic:</h1>
+        <form action="API/AddTopic" method="post"> {% csrf_token %}
+            Topic name: <input type="text" name="topicName"><br>
+            Tag: <input type="text" name="tag"><br>
+            Context: <input type="text" name="context"><br>
+            <button type="submit">Save</button>
+        </form>
+    {% else %}
+    {% endif %}
+
 {% endblock %}

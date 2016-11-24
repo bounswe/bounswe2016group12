@@ -15,7 +15,7 @@ def addTag(request):
     topicId=request.POST.get("topicId")
     label = request.POST.get("label")
     context = request.POST.get("context")
-    profileId=request.POST.get("profileId")
+    profileId=request.user.id
     if Tag.objects.filter(label=label, context=context).exists():
         try:
             tagModel = Tag.objects.get(label=label, context=context)
