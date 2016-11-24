@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 def addComment(request):
     if request.method == 'POST':
         topicId=request.POST.get('topicId')
-        profileId=request.POST.get('profile')
+        profileId = request.user.id
         text= request.POST.get('text')
         try:
             print(topicId,profile)
