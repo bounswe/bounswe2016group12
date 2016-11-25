@@ -7,7 +7,7 @@
 
         var nodes = new vis.DataSet([
             {% for topic in topics %}
-                {id: {{ topic.id }}, label: {{ topic.name }}},
+                {id: {{ topic.id }}, label: {{ topic.name.label }}},
             {% endfor %}
         ]);
 
