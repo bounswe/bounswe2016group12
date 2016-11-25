@@ -1,39 +1,54 @@
+{% comment %}
 {% extends 'MeancoApp/Home.html' %}
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
-{% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
 
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" >
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" >
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <a href="#" class="btn btn-lg btn-primary btn-block" role="button"> Login </a>
+            {# Assumes you setup the password_reset view in your URLconf #}
+            <a href="{% url 'login' %}">Forgot Password?</a>
+        </form>
+        <div>
+          <td>{{ form.username.label_tag }}</td>
+          <td>{{ form.username }}</td>
+        </div>
+        <div>
+          <td>{{ form.password.label_tag }}</td>
+          <td>{{ form.password }}</td>
+        </div>
 
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="" />
-</div>
-</form>
+        <div>
+          <input type="submit" value="login" />
+          <input type="hidden" name="next" value="" />
+        </div>
+    </form>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'login' %}">Lost password?</a></p>
+
 
 {% endblock %}
+{% endcomment %}

@@ -23,7 +23,7 @@
         {% if user.is_authenticated %}
           <li>User: {{ user.get_username }}</li>
           <div class="btn-group btn-group-lg">
-            <a href="memberProfile.html" class="btn btn-default btn-xs" role="button" >
+            <a href="{% url 'profile'%}" class="btn btn-default btn-xs" role="button" >
               <span class="glyphicon glyphicon-wrench"></span>
             </a>
             <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-danger btn-xs" role="button">

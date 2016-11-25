@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,46 +13,45 @@
     <title>MeanCo</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
-    <link href="index.css" rel="stylesheet">
+    <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
 
-    <script type="text/javascript" src="vis-4.17.0/dist/vis.js"></script>
-    <link href="vis-4.17.0/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{% static 'vis-4.17.0/dist/vis.js' %}"></script>
+    <link href="{% static 'vis-4.17.0/dist/vis-network.min.css' %}" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
 
   {% include 'MeancoApp/Navbar.html' %}
 
-  {% block content %}
-    <div id="wrapper">
+  <div id="wrapper">
 
-        <!-- Sidebar -->
-      {% include 'MeancoApp/Sidebar.html' %}
-        <!-- /#sidebar-wrapper -->
+    {% include 'MeancoApp/Sidebar.html' %}
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
+    <div id="page-content-wrapper">
 
-            <div class="container-fluid">
+        <div class="container-fluid">
 
-            </div>
+        {% block content %}
+
+        {% endblock %}
+
+
         </div>
+    </div>
         <!-- /#page-content-wrapper -->
 
-    </div>
+  </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-  {% endblock %}
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 </body>
 </html>
