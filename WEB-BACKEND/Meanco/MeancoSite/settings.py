@@ -35,6 +35,7 @@ INSTALLED_APPS = [
                   'django.contrib.messages',
                   'django.contrib.staticfiles',
                   'MeancoApp',
+                  'rest_framework',
                   ]
 
 MIDDLEWARE = [
@@ -120,3 +121,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ]
+}
