@@ -18,8 +18,6 @@ class Relation(Model):
         first=Label.objects.filter(relation=self.id)
         return first
 
-    class Meta:
-        unique_together = ('topic_a', 'topic_b')
 
     def __unicode__(self):
         return str(self.pk)

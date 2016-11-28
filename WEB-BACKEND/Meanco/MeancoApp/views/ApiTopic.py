@@ -5,7 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core import serializers
 from django.conf.urls import  url
-
+from rest_framework import generics
+from MeancoApp.serializers import *
 # Example Post Request to addTopic
 #
 # userId= 15
@@ -97,3 +98,10 @@ def deleteTopic(request):
 def rateTopicName(request):
 
     return
+class TopicList(generics.ListCreateAPIView):
+    queryset = Topic.objects.all()
+    serializer_class= TopicListSerializer
+
+class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Topic.objects.all()
+    serializer_class= TopicSerializer
