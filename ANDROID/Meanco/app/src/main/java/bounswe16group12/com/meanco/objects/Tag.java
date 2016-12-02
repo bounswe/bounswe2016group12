@@ -9,7 +9,7 @@ public class Tag {
     public String tagName;
     public String context;
 
-    public Tag(){}
+    public Tag(){}//Empty constructor to define
 
     public Tag(int tagId,String context,String tagName){
         this.tagName = tagName;

@@ -10,11 +10,10 @@ public class Topic {
     public int topicId;
     public String topicName;
     public ArrayList<Tag> tags;
+    //public String context; //TODO: ADD TO EVERYWHERE
     //public ArrayList<Comment> comments;
 
-    public Topic(){
-
-    }
+    public Topic(){}//Empty constructor to define
 
     public Topic (int topicId, String topicName, ArrayList<Tag> tags){
         this.topicId = topicId;

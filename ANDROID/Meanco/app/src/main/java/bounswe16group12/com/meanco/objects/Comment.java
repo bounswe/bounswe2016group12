@@ -10,7 +10,7 @@ public class Comment {
     public int topicId;
     public String content;
 
-    public Comment(){}
+    public Comment(){}//Empty constructor to define
 
     public Comment(int commentId, int topicId, String content) {
         this.commentId = commentId;
