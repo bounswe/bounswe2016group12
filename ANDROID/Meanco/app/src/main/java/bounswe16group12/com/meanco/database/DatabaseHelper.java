@@ -202,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //IF returns -1 , no such topic like that
-    public int getTopicId(String name, String context){
+    public int getTopicId(String name){
         SQLiteDatabase db = getReadableDatabase();
 
         String TOPIC_SELECT_WITH_NAME_QUERY = "SELECT * FROM topics WHERE name = '" + name + "'";
