@@ -10,6 +10,7 @@ public class Topic {
     public int topicId;
     public String topicName;
     public ArrayList<Tag> tags;
+    //public String context; //TODO: ADD TO EVERYWHERE
     //public ArrayList<Comment> comments;
 
     public Topic(){

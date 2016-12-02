@@ -262,6 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TOPIC
     /////////////////////////////////////////////////////////////////////////////////
 
+    //Adds topic
     public void addTopic(Topic topic){
         SQLiteDatabase db = getWritableDatabase();
         // TODO : Check if it is in database.
@@ -288,16 +289,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Insert or update a user in the database
-    // Since SQLite doesn't support "upsert" we need to fall back on an attempt to UPDATE (in case the
-    // user already exists) optionally followed by an INSERT (in case the user does not already exist).
-    // Unfortunately, there is a bug with the insertOnConflict method
-    // (https://code.google.com/p/android/issues/detail?id=13045) so we need to fall back to the more
-    // verbose option of querying for the user's primary key if we did an update.
+    //IF returns -1 , no such topic like that
+    public int getTopicId(String name, String context){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String TOPIC_SELECT_WITH_NAME_QUERY = "SELECT * FROM topics WHERE name = '" + name + "'";
+
+        Cursor cursor = db.rawQuery(TOPIC_SELECT_WITH_NAME_QUERY,null);
+        int topicId = -1;
+        try {
+            if (cursor.moveToFirst()) {
+                topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
+            }
+        } finally {
+            cursor.close();
+        }
+        return topicId;
+    }
+
+    //If returns null, no such topic.
+    public Topic getTopic(int topicId){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String TOPIC_SELECT_WITH_ID_QUERY = "SELECT * FROM topics WHERE id = '" + topicId + "'";
+
+        Cursor cursor = db.rawQuery(TOPIC_SELECT_WITH_ID_QUERY,null);
+        Topic topic = null;
+        try {
+            if (cursor.moveToFirst()) {
+                topic = new Topic();
+                topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
+                topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
+                String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
+
+                ArrayList<String> tagIdList = stringToList(tags);
+                ArrayList<Tag> tagList = new ArrayList<Tag>();
+                for(String s: tagIdList){
+                    int tagId = Integer.parseInt(s);
+                    Tag t = getTag(tagId);
+                    tagList.add(t);
+                }
+
+                topic.tags = tagList;
+            }
+        } finally {
+            cursor.close();
+        }
+        return topic;
+    }
+
+    //Update topic
     public void updateTopic(Topic topic) {
         // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
-        SQLiteDatabase db = getWritableDatabase();
-        long topicId = -1;
+        int topicId = topic.topicId;
+
+        SQLiteDatabase db = getReadableDatabase();
 
         List<Tag> tags = topic.tags;
         ArrayList<String> tagIds = new ArrayList<String>();
@@ -309,43 +355,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put(KEY_TOPIC_ID, topic.topicId);
+            values.put(KEY_TOPIC_ID, topic.topicId );
             values.put(KEY_TOPIC_NAME, topic.topicName);
-            values.put(KEY_TAG_LIST, Arrays.toString(topic.tags.toArray()));
+            values.put(KEY_TAG_LIST, Arrays.toString(tagIds.toArray()));
 
-            // First try to update the user in case the user already exists in the database
-            // This assumes userNames are unique
-            int rows = db.update(KEY_TOPIC_TABLE, values, KEY_TOPIC_NAME + "= ?", new String[]{topic.topicName});
+            db.update(KEY_TOPIC_TABLE, values, KEY_TOPIC_ID + "= ?", new String[]{""+topic.topicId});
 
-            // Check if update succeeded
-            if (rows == 1) {
-                // Get the primary key of the user we just updated
-                String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
-                        KEY_TOPIC_ID, KEY_TOPIC_NAME, KEY_TAG_LIST);
-                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(topic.topicName)});
-                try {
-                    if (cursor.moveToFirst()) {
-                        topicId = cursor.getInt(0);
-                        db.setTransactionSuccessful();
-                    }
-                } finally {
-                    if (cursor != null && !cursor.isClosed()) {
-                        cursor.close();
-                    }
-                }
-            } else {
-                // user with this userName did not already exist, so insert new user
-                topicId = db.insertOrThrow(KEY_TOPIC_TABLE, null, values);
-                db.setTransactionSuccessful();
-            }
+
         } catch (Exception e) {
             Log.d("USER DB HELPER", "Error while trying to add or update user");
         } finally {
             db.endTransaction();
         }
-       // return topicId;
     }
 
+    //Returns all topics.
     public List<Topic> getAllTopics() {
         List<Topic> topics = new ArrayList<>();
 
@@ -401,12 +425,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TAG
     /////////////////////////////////////////////////////////////////////////////////
 
-    public void addTag(Tag t){
+    public void addTag(Tag tag){
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_TAG_ID, tag.tagId );
+            values.put(KEY_TAG_NAME, tag.tagName );
+            values.put(KEY_TAG_DESCRIPTION,tag.context);
 
+            db.insert(KEY_TOPIC_TABLE,null,values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to add or update user");
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public Tag getTag(int tagId){
+        SQLiteDatabase db = getReadableDatabase();
+        String where = KEY_TAG_ID + " = ?";
+        String[] whereArgs = {"" + tagId};
+        Cursor cursor = db.query(KEY_TAG_TABLE, null, where, whereArgs, null);
+        Topic topic = null;
+        try {
+            if (cursor.moveToFirst()) {
+                topic = new Topic();
+                topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
+                topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
+                String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
 
+                ArrayList<String> tagIdList = stringToList(tags);
+                ArrayList<Tag> tagList = new ArrayList<Tag>();
+                for(String s: tagIdList){
+                    int tagId = Integer.parseInt(s);
+                    Tag t = getTag(tagId);
+                    tagList.add(t);
+                }
+
+                topic.tags = tagList;
+            }
+        } finally {
+            cursor.close();
+        }
+        return topic;
     }
 
     public List<Tag> getAllTags(int tagId){
