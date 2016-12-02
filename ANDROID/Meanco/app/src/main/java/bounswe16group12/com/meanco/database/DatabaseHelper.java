@@ -445,35 +445,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Tag getTag(int tagId){
         SQLiteDatabase db = getReadableDatabase();
-        String where = KEY_TAG_ID + " = ?";
-        String[] whereArgs = {"" + tagId};
-        Cursor cursor = db.query(KEY_TAG_TABLE, null, where, whereArgs, null);
-        Topic topic = null;
+        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM tags WHERE id = '" + tagId + "'";
+
+        Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
+        Tag tag = null;
         try {
             if (cursor.moveToFirst()) {
-                topic = new Topic();
-                topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
-                topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
-                String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
-
-                ArrayList<String> tagIdList = stringToList(tags);
-                ArrayList<Tag> tagList = new ArrayList<Tag>();
-                for(String s: tagIdList){
-                    int tagId = Integer.parseInt(s);
-                    Tag t = getTag(tagId);
-                    tagList.add(t);
-                }
-
-                topic.tags = tagList;
+                tag = new Tag();
+                tag.tagId = cursor.getInt(cursor.getColumnIndex(KEY_TAG_ID));
+                tag.tagName = cursor.getString(cursor.getColumnIndex(KEY_TAG_NAME));
+                tag.context = cursor.getString(cursor.getColumnIndex(KEY_TAG_DESCRIPTION));
             }
         } finally {
             cursor.close();
         }
-        return topic;
+        return tag;
     }
 
     public List<Tag> getAllTags(int tagId){
+        List<Tag> tags = new ArrayList<>();
 
+        // SELECT * FROM POSTS
+        String TAGS_SELECT_QUERY = "SELECT * FROM tags";
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(TAGS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                   Tag tag = new Tag();
+                    tag.tagId = cursor.getInt(cursor.getColumnIndex(KEY_TAG_ID));
+                    tag.tagName = cursor.getString(cursor.getColumnIndex(KEY_TAG_NAME));
+                    tag.context = cursor.getString(cursor.getColumnIndex(KEY_TAG_DESCRIPTION));
+
+                    tags.add(tag);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return tags;
     }
 
     //////////////////////////////////////////////////////////////////////////////////
