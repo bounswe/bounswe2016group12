@@ -20,9 +20,11 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
 
     private Context context;
     private String url;
-    public GetTopicDetail(String url, Context context){
+    private int topicId;
+    public GetTopicDetail(String url, int topicId, Context context){
         this.context = context;
         this.url = url;
+        this.topicId = topicId;
     }
 
     @Override
@@ -30,13 +32,23 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
         super.onPostExecute(response);
 
         try {
-            JSONObject jsonObject=null;
+            JSONObject jsonObject=new JSONObject(response.getData());
 
             if (jsonObject != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 if (response.getResponseCode() == 200) {
-                    Comment comment = new Comment();
+                    JSONArray commentsObject = jsonObject.getJSONArray("comments");
+                    for(int i=0;i<commentsObject.length();i++){
+
+                        JSONObject topicObject = commentsObject.getJSONObject(i);
+                        int commentId = topicObject.getInt("id");
+                        String content = topicObject.getString("content");
+                        Comment c = new Comment(commentId, topicId, content);
+                        databaseHelper.addOrUpdateComment(c);
+
+
+                    }
                 }
 
             }
