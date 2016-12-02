@@ -1,6 +1,5 @@
 package bounswe16group12.com.meanco.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SearchView;
@@ -29,17 +27,16 @@ import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Relation;
-import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import me.originqiu.library.EditTag;
 import me.originqiu.library.MEditText;
 
 
-
 public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-    static ArrayList<String> tagsOfTopic;
+    static ArrayList<String> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
 
+    //Home activity has search functionality, so changing the default menu is needed.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -57,43 +54,36 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                searchView.clearFocus();
+                searchView.clearFocus(); //to close soft keyboard when collapsed
                 return true;  // Return true to collapse action view
             }
 
             @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
-                return true;  // Return true to expand action view
-            }
+            public boolean onMenuItemActionExpand(MenuItem item) {return true;}
         });
 
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
+        //Add relation floating action button
         final FloatingActionButton relation_fab = (FloatingActionButton) findViewById(R.id.add_relation);
         relation_fab.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         tagsOfTopic = new ArrayList<>();
-
                         final View customView = getLayoutInflater().inflate(R.layout.edit_relation, null, false);
-
-
                         final EditText topicName = (EditText) customView.findViewById(R.id.topic_name);
                         final EditText relationName = (EditText) customView.findViewById(R.id.relation_name);
                         final EditText topicName2 = (EditText) customView.findViewById(R.id.topic_name_2);
                         final CheckBox bidirectional = (CheckBox) customView.findViewById(R.id.bidirectional);
 
-
+                        //Open alert dialog when button is pressed.
                         new AlertDialog.Builder(HomeActivity.this)
                                 .setTitle("Add relation")
                                 .setView(customView)
@@ -105,35 +95,30 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                         List<Topic> topics = databaseHelper.getAllTopics();
 
-                                        for(Topic topic : topics){
-                                            if (count==2) break; //both exist in db
-                                            if(topic.getTopicName().equals(topicName.getText().toString())) {
+                                        for (Topic topic : topics) {
+                                            if (count == 2) break; //both exist in db
+                                            if (topic.getTopicName().equals(topicName.getText().toString())) {
                                                 topicFrom = topic;
-                                                count ++;
-                                            }
-                                            else if(topic.getTopicName().equals(topicName2.getText().toString())) {
+                                                count++;
+                                            } else if (topic.getTopicName().equals(topicName2.getText().toString())) {
                                                 topicTo = topic;
-                                                count ++;
+                                                count++;
                                             }
                                         }
-                                        if(topicFrom!=null && topicTo!=null) {
+                                        if (topicFrom != null && topicTo != null) {
 
                                             String rltName = relationName.getText().toString();
 
-                                            Relation rel = new Relation(rltName,topicFrom.topicName,topicTo.topicName,bidirectional.isEnabled());
+                                            Relation rel = new Relation(rltName, topicFrom.topicName, topicTo.topicName, bidirectional.isEnabled());
                                             databaseHelper.addOrUpdateRelation(rel);
                                         }
 
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
+                                    public void onClick(DialogInterface dialog, int which) {}
                                 })
                                 .show();
-
-
                     }
 
                 }
@@ -149,9 +134,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                 tagsOfTopic = new ArrayList<>();
 
                 final View customView = getLayoutInflater().inflate(R.layout.customview_alerttopic, null, false);
-
-
-
                 final EditTag editTagView = (EditTag) customView.findViewById(R.id.edit_tag_view);
                 final MEditText mEditText = (MEditText) customView.findViewById(R.id.meditText);
                 final EditText topicName = (EditText) customView.findViewById(R.id.topic_name);
@@ -176,8 +158,13 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         }
                     }
 
-                    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                    @Override public void afterTextChanged(Editable s) {}
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
 
                 });
                 new AlertDialog.Builder(HomeActivity.this)
@@ -193,50 +180,47 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 Topic topicTo = new Topic(topicName2.getText().toString(), tagsOfTopic);
                                 String rltName = relationName.getText().toString();
 
-                                if(topicFrom.topicName.equals("")){
+                                if (topicFrom.topicName.equals("")) {
                                     Toast.makeText(HomeActivity.this, "PLEASE ENTER A TOPIC NAME.", Toast.LENGTH_LONG).show();
-                                }
-                                else if(topicTo.topicName.equals("") && rltName.equals("")){
+                                } else if (topicTo.topicName.equals("") && rltName.equals("")) {
                                     boolean isFound = false;
-                                    for(Topic topic : topics){
-                                        if(topic.topicName.equals(topicFrom.topicName)){
+                                    for (Topic topic : topics) {
+                                        if (topic.topicName.equals(topicFrom.topicName)) {
                                             Toast.makeText(HomeActivity.this, "TOPIC NAME CREATED BEFORE.", Toast.LENGTH_LONG).show();
                                             isFound = true;
                                             break;
                                         }
                                     }
-                                    if(!isFound){
+                                    if (!isFound) {
                                         databaseHelper.addOrUpdateTopic(topicFrom);
                                     }
 
-                                }
-                                else if (topicTo.topicName.equals("") || rltName.equals("")){
+                                } else if (topicTo.topicName.equals("") || rltName.equals("")) {
                                     boolean isFound = false;
-                                    for(Topic topic : topics){
-                                        if(topic.topicName.equals(topicFrom.topicName)){
+                                    for (Topic topic : topics) {
+                                        if (topic.topicName.equals(topicFrom.topicName)) {
                                             Toast.makeText(HomeActivity.this, "TOPIC NAME CREATED BEFORE.", Toast.LENGTH_LONG).show();
                                             isFound = true;
                                             break;
                                         }
                                     }
-                                    if(!isFound){
+                                    if (!isFound) {
                                         databaseHelper.addOrUpdateTopic(topicFrom);
                                         Toast.makeText(HomeActivity.this, "TOPIC ADDED BUT RELATION NOT (MISSING FIELDS).", Toast.LENGTH_LONG).show();
                                     }
-                                }
-                                else{
+                                } else {
                                     boolean isFound = false;
-                                    for(Topic topic : topics){
-                                        if(topic.topicName.equals(topicFrom.topicName)){
+                                    for (Topic topic : topics) {
+                                        if (topic.topicName.equals(topicFrom.topicName)) {
                                             Toast.makeText(HomeActivity.this, "TOPIC NAME CREATED BEFORE.", Toast.LENGTH_LONG).show();
                                             isFound = true;
                                             break;
                                         }
                                     }
-                                    if(!isFound){
+                                    if (!isFound) {
                                         databaseHelper.addOrUpdateTopic(topicFrom);
                                         Toast.makeText(HomeActivity.this, "TOPIC ADDED.", Toast.LENGTH_SHORT).show();
-                                        Relation rel = new Relation(rltName,topicFrom.topicName,topicTo.topicName,bidirectional.isEnabled());
+                                        Relation rel = new Relation(rltName, topicFrom.topicName, topicTo.topicName, bidirectional.isEnabled());
                                         databaseHelper.addOrUpdateRelation(rel);
                                         Toast.makeText(HomeActivity.this, "RELATION ADDED.", Toast.LENGTH_SHORT).show();
 
@@ -286,8 +270,13 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         }
                     }
 
-                    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                    @Override public void afterTextChanged(Editable s) {}
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
                 });
 
                 new AlertDialog.Builder(HomeActivity.this)
@@ -298,16 +287,15 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 Topic foundTopic = null;
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 List<Topic> topics = databaseHelper.getAllTopics();
-                                for(Topic t: topics){
-                                    if(t.getTopicName().equals(topicName.getText().toString())){
+                                for (Topic t : topics) {
+                                    if (t.getTopicName().equals(topicName.getText().toString())) {
                                         t.getTags().addAll(tagsOfTopic);
                                         foundTopic = t;
                                         break;
                                     }
                                 }
-                                if(foundTopic != null){
+                                if (foundTopic != null) {
                                     databaseHelper.addOrUpdateTopic(foundTopic);
-                                    Log.i("FOUND TOPIC",foundTopic.topicName);
                                     HomeActivityFragment.adapter.notifyDataSetChanged();
                                 }
                             }
@@ -332,11 +320,9 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onQueryTextChange(String newText) {
         if (TextUtils.isEmpty(newText)) {
             HomeActivityFragment.adapter.getFilter().filter("");
-            Log.i("Nomad", "onQueryTextChange Empty String");
             HomeActivityFragment.listView.clearTextFilter();
 
         } else {
-            Log.i("Nomad", "onQueryTextChange " + newText.toString());
             HomeActivityFragment.adapter.getFilter().filter(newText.toString());
 
 
