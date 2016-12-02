@@ -41,11 +41,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_TOPIC_NAME = "topicName";
     private static final String KEY_TAG_LIST = "tags";
 
+    //TAG
+    private static final String KEY_TAG_TABLE = "tags";
+
+    private static final String KEY_TAG_ID = "id";
+    private static final String KEY_TAG_NAME = "tagName";
+    private static final String KEY_TAG_DESCRIPTION = "description";
+
     //COMMENT
     private static final String KEY_COMMENT_TABLE = "comments";
 
     private static final String KEY_COMMENT_ID = "id";
-    private static final String KEY_COMMENT_TOPIC_NAME = "topicName";
+    private static final String KEY_COMMENT_TOPIC_ID = "topicId";
     private static final String KEY_COMMENT_CONTENT = "content";
 
     //RELATION
@@ -53,8 +60,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String KEY_RELATION_ID = "id";
     private static final String KEY_RELATION_NAME = "relationName";
-    private static final String KEY_RELATION_FIRST_TOPIC_NAME = "firstTopicName";
-    private static final String KEY_RELATION_SECOND_TOPIC_NAME = "secondTopicName";
+    private static final String KEY_RELATION_FIRST_TOPIC_ID = "firstTopicId";
+    private static final String KEY_RELATION_SECOND_TOPIC_ID = "secondTopicId";
     private static final String KEY_RELATION_IS_BIDIRECTIONAL = "isbidirectional";
 
 
@@ -114,10 +121,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_TOPIC_TABLE);
 
+        String CREATE_TAG_TABLE = "CREATE TABLE " + KEY_TAG_TABLE +
+                "(" +
+                KEY_TAG_ID + " INTEGER PRIMARY KEY," + // Define a primary key
+                KEY_TAG_NAME + " TEXT," +
+                KEY_TAG_DESCRIPTION + " TEXT" +
+                ")";
+
+        db.execSQL(CREATE_TAG_TABLE);
+
         String CREATE_COMMENT_TABLE = "CREATE TABLE " + KEY_COMMENT_TABLE +
                 "(" +
                 KEY_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
-                KEY_COMMENT_TOPIC_NAME + " TEXT," +
+                KEY_COMMENT_TOPIC_ID + " INTEGER," +
                 KEY_COMMENT_CONTENT + " TEXT" +
                 ")";
 
@@ -127,8 +143,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_RELATION_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_RELATION_NAME + " TEXT," +
-                KEY_RELATION_FIRST_TOPIC_NAME + " TEXT," +
-                KEY_RELATION_SECOND_TOPIC_NAME + " TEXT," +
+                KEY_RELATION_FIRST_TOPIC_ID + " INTEGER," +
+                KEY_RELATION_SECOND_TOPIC_ID + " INTEGER," +
                 KEY_RELATION_IS_BIDIRECTIONAL + " INTEGER" + // 0 or 1 (boolean)
 
                 ")";
@@ -148,6 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + KEY_TOPIC_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_COMMENT_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_RELATION_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + KEY_TAG_TABLE);
             onCreate(db);
         }
     }
@@ -170,19 +187,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
+
+            values.put(KEY_USER_ID, user.userId);
             values.put(KEY_USER_NAME, user.username);
             values.put(KEY_USER_PASSWORD, user.password);
 
             // First try to update the user in case the user already exists in the database
             // This assumes userNames are unique
-            int rows = db.update(KEY_USER_TABLE, values, KEY_USER_NAME + "= ?", new String[]{user.username});
+            int rows = db.update(KEY_USER_TABLE, values, KEY_USER_ID + "="+user.userId,null);
 
             // Check if update succeeded
             if (rows == 1) {
                 // Get the primary key of the user we just updated
                 String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
                         KEY_USER_ID, KEY_USER_TABLE, KEY_USER_NAME);
-                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(user.username)});
+                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(user.userId)});
                 try {
                     if (cursor.moveToFirst()) {
                         userId = cursor.getInt(0);
@@ -242,13 +261,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //TOPIC
     /////////////////////////////////////////////////////////////////////////////////
 
+    public void addTopic(Topic topic){
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_TOPIC_ID, topic.topicId );
+            values.put(KEY_TOPIC_NAME, topic.topicName);
+            values.put(KEY_TAG_LIST, Arrays.toString(topic.tags.toArray()));
+
+            db.insert(KEY_TOPIC_TABLE,null,values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to add or update user");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     // Insert or update a user in the database
     // Since SQLite doesn't support "upsert" we need to fall back on an attempt to UPDATE (in case the
     // user already exists) optionally followed by an INSERT (in case the user does not already exist).
     // Unfortunately, there is a bug with the insertOnConflict method
     // (https://code.google.com/p/android/issues/detail?id=13045) so we need to fall back to the more
     // verbose option of querying for the user's primary key if we did an update.
-    public long addOrUpdateTopic(Topic topic) {
+    public void updateTopic(Topic topic) {
         // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
         SQLiteDatabase db = getWritableDatabase();
         long topicId = -1;
@@ -289,7 +327,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-        return topicId;
+       // return topicId;
     }
 
     public List<Topic> getAllTopics() {
