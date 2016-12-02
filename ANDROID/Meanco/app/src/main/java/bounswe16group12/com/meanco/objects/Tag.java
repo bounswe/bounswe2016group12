@@ -7,16 +7,13 @@ package bounswe16group12.com.meanco.objects;
 public class Tag {
     public int tagId;
     public String tagName;
+    public String context;
 
-    public Tag(String tagName){
+    public Tag(){}
+
+    public Tag(int tagId,String context,String tagName){
         this.tagName = tagName;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+        this.context = context;
+        this.tagId=tagId;
     }
 }
