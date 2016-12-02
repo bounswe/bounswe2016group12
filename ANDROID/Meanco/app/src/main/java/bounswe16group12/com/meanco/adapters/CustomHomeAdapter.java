@@ -160,7 +160,11 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             String filterableString ;
 
             for (int i = 0; i < count; i++) {
-                filterableString = list.get(i).getTopicName();
+                Topic temp = list.get(i);
+                filterableString = temp.getTopicName();
+                for(int j=0; j < temp.getTags().size(); j++){
+                    filterableString += temp.getTags().get(j);
+                }
                 if (filterableString.toLowerCase().contains(filterString)) {
                     nlist.add(list.get(i));
                 }
