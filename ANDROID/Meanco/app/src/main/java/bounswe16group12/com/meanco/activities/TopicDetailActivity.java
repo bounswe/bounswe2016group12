@@ -16,6 +16,7 @@ import com.github.clans.fab.FloatingActionButton;
 
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
@@ -23,14 +24,17 @@ import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 
 public class TopicDetailActivity extends AppCompatActivity {
-
+/*
     String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
+
+        new GetTopicDetail(MeancoApplication.SITE_URL, getIntent().getStringExtra("topicId").toString(), getApplicationContext()).execute();
 
         title = getIntent().getStringExtra("activityTitle").toString();
         setTitle(title);
@@ -51,7 +55,6 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Comment c = new Comment(title,content.getText().toString());
-                                        Log.i("NAME COMMENT",c.topicName);
                                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                         databaseHelper.addOrUpdateComment(c);
 
@@ -114,7 +117,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                 if(!r.isBidirectional())
                     iv.setImageResource(R.drawable.left_arrow);
             }
-        }*/
+        }//ESKIDEN COMMENT VARDI
 
         //dummy
         rn.setText("aaa");
@@ -135,5 +138,5 @@ public class TopicDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

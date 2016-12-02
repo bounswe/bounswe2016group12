@@ -48,7 +48,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
 
                         //related to topic name
                         int topicId = topicObject.getInt("id");
-                        String topicName = topicObject.getJSONObject("name").getString("label");
+                        String topicName = topicObject.getString("name");
 
                         //related to relations
                         JSONArray relationsTo = topicObject.getJSONArray("relations_a");

@@ -3,6 +3,7 @@ package bounswe16group12.com.meanco.fragments.home;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
@@ -20,6 +22,7 @@ import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.GetTopicList;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -51,12 +54,32 @@ public class HomeActivityFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                String message = adapter.getItem(position).getTopicName();
+                String message = adapter.getItem(position).topicName;
+                String topicId = adapter.getItem(position).topicId+"";
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
                 intent.putExtra("activityTitle", message);
+                intent.putExtra("topicId", topicId);
                 startActivity(intent);
             }
         });
+
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout)  rootView.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        adapter.clear();
+                        new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
+                        adapter.updateArray();
+                        adapter.notifyDataSetChanged();
+                        refreshLayout.setRefreshing(false);
+                    }
+                }
+        );
+
+
 
         return rootView;
     }

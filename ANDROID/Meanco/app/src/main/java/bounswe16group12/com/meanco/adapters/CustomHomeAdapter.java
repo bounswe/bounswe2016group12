@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Locale;
 
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.activities.HomeActivity;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 
@@ -55,7 +58,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
         View v = convertView;
         Topic t = getItem(position);
-        Log.i("t hillary?", t.getTopicName());
 
 
         TextView topicName = null;
@@ -71,23 +73,25 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
 
             topicName = (TextView) v.findViewById(R.id.topicitem);
-            topicName.setText(t.getTopicName());
-            Log.i("tn", t.getTopicName());
+            topicName.setText(t.topicName);
+            Log.i("tn", t.topicName);
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
-            ArrayList<String> tg = t.getTags();
+            ArrayList<Tag> tg = t.tags;
 
 
             for (int i = 0; i < tg.size(); i++) {
 
                 TextView tagView = new TextView(getContext());
 
-                tagView.setText(tg.get(i));
+                tagView.setText(tg.get(i).tagName);
                 tagView.setBackgroundResource(R.drawable.tagbg);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setGravity(Gravity.CENTER);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.setMarginEnd(10);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    lp.setMarginEnd(10);
+                }
                 tagView.setLayoutParams(lp);
 
                 tagView.setPadding(15, 15, 15, 15);
@@ -96,9 +100,9 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             }
         }else{
             topicName = (TextView) v.findViewById(R.id.topicitem);
-            topicName.setText(getItem(position).getTopicName());
+            topicName.setText(getItem(position).topicName);
 
-            ArrayList<String> tg = getItem(position).getTags();
+            ArrayList<Tag> tg = getItem(position).tags;
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
             linearLayout.removeAllViews();
@@ -107,7 +111,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
                 TextView tagView = new TextView(getContext());
 
-                tagView.setText(tg.get(i));
+                tagView.setText(tg.get(i).tagName);
                 tagView.setBackgroundResource(R.drawable.tagbg);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setGravity(Gravity.CENTER);
@@ -129,7 +133,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             topicsWithTags.addAll(filteredData);
         } else {
             for (Topic topic : filteredData) {
-                if (topic.getTopicName().toLowerCase(Locale.getDefault())
+                if (topic.topicName.toLowerCase(Locale.getDefault())
                         .contains(charText)) {
                     topicsWithTags.add(topic);
                 }
@@ -161,9 +165,9 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
             for (int i = 0; i < count; i++) {
                 Topic temp = list.get(i);
-                filterableString = temp.getTopicName();
-                for(int j=0; j < temp.getTags().size(); j++){
-                    filterableString += temp.getTags().get(j);
+                filterableString = temp.topicName;
+                for(int j=0; j < temp.tags.size(); j++){
+                    filterableString += temp.tags.get(j);
                 }
                 if (filterableString.toLowerCase().contains(filterString)) {
                     nlist.add(list.get(i));
@@ -193,6 +197,12 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         }
 
 
+
+
+    }
+    public void updateArray(){
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+        topicsWithTags = databaseHelper.getAllTopics();
     }
 }
 

@@ -30,7 +30,7 @@ import bounswe16group12.com.meanco.objects.Topic;
  * A placeholder fragment containing a simple view.
  */
 public class TopicDetailActivityFragment extends Fragment {
-    public static ArrayAdapter<String> mCommentsAdapter;
+   /* public static ArrayAdapter<String> mCommentsAdapter;
 
     public TopicDetailActivityFragment() {
     }
@@ -95,5 +95,5 @@ public class TopicDetailActivityFragment extends Fragment {
         });
 
         return rootView;
-    }
+    }*/
 }

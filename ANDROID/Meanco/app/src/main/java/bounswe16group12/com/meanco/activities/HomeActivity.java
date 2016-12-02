@@ -3,6 +3,7 @@ package bounswe16group12.com.meanco.activities;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -32,7 +33,7 @@ import me.originqiu.library.EditTag;
 import me.originqiu.library.MEditText;
 
 
-public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     static ArrayList<String> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
 
@@ -70,6 +71,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         //Add relation floating action button
         final FloatingActionButton relation_fab = (FloatingActionButton) findViewById(R.id.add_relation);
         relation_fab.setOnClickListener(
@@ -89,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Topic topicFrom = null;
+                                       /* Topic topicFrom = null;
                                         Topic topicTo = null;
                                         int count = 0;
                                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
@@ -97,10 +100,10 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                                         for (Topic topic : topics) {
                                             if (count == 2) break; //both exist in db
-                                            if (topic.getTopicName().equals(topicName.getText().toString())) {
+                                            if (topic.topicName.equals(topicName.getText().toString())) {
                                                 topicFrom = topic;
                                                 count++;
-                                            } else if (topic.getTopicName().equals(topicName2.getText().toString())) {
+                                            } else if (topic.topicName.equals(topicName2.getText().toString())) {
                                                 topicTo = topic;
                                                 count++;
                                             }
@@ -111,7 +114,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                                             Relation rel = new Relation(rltName, topicFrom.topicName, topicTo.topicName, bidirectional.isEnabled());
                                             databaseHelper.addOrUpdateRelation(rel);
-                                        }
+                                        }*/
 
                                     }
                                 })
@@ -176,7 +179,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 List<Topic> topics = databaseHelper.getAllTopics();
 
-                                Topic topicFrom = new Topic(topicName.getText().toString(), tagsOfTopic);
+                               /* Topic topicFrom = new Topic(topicName.getText().toString(), tagsOfTopic);
                                 Topic topicTo = new Topic(topicName2.getText().toString(), tagsOfTopic);
                                 String rltName = relationName.getText().toString();
 
@@ -227,7 +230,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                     }
                                 }
                                 HomeActivityFragment.adapter.add(topicFrom);
-                                HomeActivityFragment.adapter.notifyDataSetChanged();
+                                HomeActivityFragment.adapter.notifyDataSetChanged();*/
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -284,7 +287,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setView(input)
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Topic foundTopic = null;
+                         /*       Topic foundTopic = null;
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 List<Topic> topics = databaseHelper.getAllTopics();
                                 for (Topic t : topics) {
@@ -297,7 +300,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 if (foundTopic != null) {
                                     databaseHelper.addOrUpdateTopic(foundTopic);
                                     HomeActivityFragment.adapter.notifyDataSetChanged();
-                                }
+                                }*/
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -308,6 +311,10 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .show();
             }
         });
+
+
+
+
     }
 
     @Override
@@ -329,5 +336,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         return true;
     }
+
+
 
 }

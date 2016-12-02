@@ -20,10 +20,10 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
 
     private Context context;
     private String url;
-    private int topicId;
-    public GetTopicDetail(String url, int topicId, Context context){
+    private String topicId;
+    public GetTopicDetail(String url, String topicId, Context context){
         this.context = context;
-        this.url = url;
+        this.url = url + topicId;
         this.topicId = topicId;
     }
 
@@ -44,7 +44,7 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         JSONObject topicObject = commentsObject.getJSONObject(i);
                         int commentId = topicObject.getInt("id");
                         String content = topicObject.getString("content");
-                        Comment c = new Comment(commentId, topicId, content);
+                        Comment c = new Comment(commentId, Integer.valueOf(topicId), content);
                         databaseHelper.addOrUpdateComment(c);
 
 
