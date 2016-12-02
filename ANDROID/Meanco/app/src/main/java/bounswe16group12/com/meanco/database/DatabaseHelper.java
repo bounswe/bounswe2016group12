@@ -13,6 +13,7 @@ import java.util.List;
 
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
+import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.objects.User;
 
@@ -263,13 +264,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addTopic(Topic topic){
         SQLiteDatabase db = getWritableDatabase();
+        // TODO : Check if it is in database.
+        List<Tag> tags = topic.tags;
+        ArrayList<String> tagIds = new ArrayList<String>();
+
+        for(Tag tag : tags){
+            tagIds.add(""+tag.tagId);
+        }
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_TOPIC_ID, topic.topicId );
             values.put(KEY_TOPIC_NAME, topic.topicName);
-            values.put(KEY_TAG_LIST, Arrays.toString(topic.tags.toArray()));
+            values.put(KEY_TAG_LIST, Arrays.toString(tagIds.toArray()));
 
             db.insert(KEY_TOPIC_TABLE,null,values);
             db.setTransactionSuccessful();
@@ -291,9 +299,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         long topicId = -1;
 
+        List<Tag> tags = topic.tags;
+        ArrayList<String> tagIds = new ArrayList<String>();
+
+        for(Tag tag : tags){
+            tagIds.add(""+tag.tagId);
+        }
+
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
+            values.put(KEY_TOPIC_ID, topic.topicId);
             values.put(KEY_TOPIC_NAME, topic.topicName);
             values.put(KEY_TAG_LIST, Arrays.toString(topic.tags.toArray()));
 
@@ -344,10 +360,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     Topic topic = new Topic();
+                    topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
                     topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
                     String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
 
-                    topic.tags = stringToList(tags);
+                    ArrayList<String> tagIdList = stringToList(tags);
+                    ArrayList<Tag> tagList = new ArrayList<Tag>();
+                    for(String s: tagIdList){
+                        int tagId = Integer.parseInt(s);
+                        Tag t = getTag(tagId);
+                        tagList.add(t);
+                    }
+
+                    topic.tags = tagList;
 
                     topics.add(topic);
                 } while(cursor.moveToNext());
@@ -370,6 +395,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<String> output = new ArrayList<>(Arrays.asList(s.split(",")));
         Log.i("STRING OF FIRST",output.get(0));
         return output;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    //TAG
+    /////////////////////////////////////////////////////////////////////////////////
+
+    public void addTag(Tag t){
+
+    }
+
+    public Tag getTag(int tagId){
+
+    }
+
+    public List<Tag> getAllTags(int tagId){
+
     }
 
     //////////////////////////////////////////////////////////////////////////////////
