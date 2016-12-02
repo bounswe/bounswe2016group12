@@ -11,7 +11,7 @@ public class Relation {
     public int topicTo;
     public String relationName;
 
-    public Relation(){}
+    public Relation(){} //Empty constructor to define
 
     public Relation(int relationId,String relationName, int topicFrom, int topicTo, boolean isBidirectional) {
         this.isBidirectional = isBidirectional;

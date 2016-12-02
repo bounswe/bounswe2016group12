@@ -453,7 +453,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
 
         Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
-       Comment comment = null
+       Comment comment = null;
         try {
             if (cursor.moveToFirst()) {
                 comment = new Comment();
@@ -468,8 +468,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Comment> getAllComments(int topicId){
-        Topic topic = getTopic(topicId);
-
         String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE " + KEY_COMMENT_TOPIC_ID + " = '" + topicId + "'";
 
         SQLiteDatabase db = getReadableDatabase();
@@ -503,16 +501,95 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //RELATION
     /////////////////////////////////////////////////////////////////////////////////
 
-    public void addRelation(Relation r){
+    public void addRelation(Relation relation){
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_RELATION_ID, relation.relationId );
+            values.put(KEY_RELATION_NAME, relation.relationName );
+            values.put(KEY_RELATION_FIRST_TOPIC_ID,relation.topicFrom);
+            values.put(KEY_RELATION_SECOND_TOPIC_ID,relation.topicTo);
+            values.put(KEY_RELATION_IS_BIDIRECTIONAL,relation.isBidirectional ? 1:0);
 
+            db.insert(KEY_RELATION_TABLE,null,values);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to add or update user");
+        } finally {
+            db.endTransaction();
+        }
     }
 
-    public void getRelation(int relationId){
+    public void updateRelation(Relation relation){
+        SQLiteDatabase db = getReadableDatabase();
 
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_RELATION_ID, relation.relationId );
+            values.put(KEY_RELATION_NAME, relation.relationName );
+            values.put(KEY_RELATION_FIRST_TOPIC_ID,relation.topicFrom);
+            values.put(KEY_RELATION_SECOND_TOPIC_ID,relation.topicTo);
+            values.put(KEY_RELATION_IS_BIDIRECTIONAL,relation.isBidirectional ? 1:0);
+
+            db.update(KEY_RELATION_TABLE, values, KEY_RELATION_ID + "= ?", new String[]{""+relation.relationId});
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to add or update user");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public Relation getRelation(int relationId){
+        SQLiteDatabase db = getReadableDatabase();
+        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + relationId + "'";
+
+        Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
+        Relation relation = null;
+        try {
+            if (cursor.moveToFirst()) {
+                relation = new Relation();
+                relation.relationId = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_ID));
+                relation.relationName = cursor.getString(cursor.getColumnIndex(KEY_RELATION_NAME));
+                relation.topicFrom = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_FIRST_TOPIC_ID));
+                relation.topicTo = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_SECOND_TOPIC_ID));
+                relation.isBidirectional = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_IS_BIDIRECTIONAL)) == 1; //if 1 -> true , else false
+
+            }
+        } finally {
+            cursor.close();
+        }
+        return relation;
     }
 
     public List<Relation> getAllRelations(int topicId){
+        String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId + "'";
 
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(COMMENTS_SELECT_QUERY, null);
+        List<Relation> relations = new ArrayList<>();
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Relation relation = new Relation();
+                    relation.relationId = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_ID));
+                    relation.relationName = cursor.getString(cursor.getColumnIndex(KEY_RELATION_NAME));
+                    relation.topicFrom = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_FIRST_TOPIC_ID));
+                    relation.topicTo = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_SECOND_TOPIC_ID));
+                    relation.isBidirectional = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_IS_BIDIRECTIONAL)) == 1; //if 1 -> true , else false
+
+                    relations.add(relation);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return relations;
     }
 
 
