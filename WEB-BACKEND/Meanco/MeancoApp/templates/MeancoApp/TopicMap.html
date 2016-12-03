@@ -7,17 +7,15 @@
 
         var nodes = new vis.DataSet([
             {% for topic in topics %}
-                {id: {{ topic.id }}, label: {{ topic.name.label }}, color:'#C2FABC'},
+                {id: {{ topic.id }}, label: {{ topic.name }}, color:'#C2FABC'},
             {% endfor %}
         ]);
 
         var edges = new vis.DataSet([
             {% for topic in topics %}
                 {% for relation in topic.relationsFrom %}
-                    {% for label in relation.label %}
-                        {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }},
-                            arrows: 'from', label: {{ label.text }}, font: {align: 'top'}},
-                    {% endfor %}
+                    {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }},
+                        arrows: 'from', label: {{ relation.label.text }}, font: {align: 'top'}},
                 {% endfor %}
             {% endfor %}
         ]);
@@ -32,13 +30,16 @@
         var network = new vis.Network(container, data, options);
 
 
-        {% comment %}
-        This function will redirect the topic's page when clicked, url should be updated.
-        network.on("click", function (params) {
+        network.on("doubleClick", function (params) {
             params.event = "[original event]";
-            document.getElementById('eventSpan').innerHTML = '<a href="topic/(?P<id>[0-9]+)" />' ;
+            var obj = JSON.parse(params, null, 4);
+            {% if obj.nodes[0] != null %}
+                document.getElementById('eventSpan').innerHTML = '<a href="topic/' + obj.nodes[0]  +'" />' ;
+            {% else %}
+                document.getElementById('eventSpan').innerHTML = '<a href=relation/' + obj.edges[0]  +'" />' ;
+            {% endif %}
         });
-        {% endcomment %}
+
 
     </script>
 
