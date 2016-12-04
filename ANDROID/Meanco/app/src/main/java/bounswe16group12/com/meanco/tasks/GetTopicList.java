@@ -61,7 +61,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                             int topicToId = relationObject.getInt("topicToId");
                             boolean isBidirectional = (relationObject.getInt("isBidirectional")==0) ? false : true;
                             Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
-                            databaseHelper.addOrUpdateRelation(r);
+                            databaseHelper.addRelation(r);
                         }
 
                         //related to tag
@@ -77,7 +77,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                         }
 
                         Topic t = new Topic(topicId, topicName, tagsArray);
-                        databaseHelper.addOrUpdateTopic(t);
+                        databaseHelper.addTopic(t);
 
 
                     }

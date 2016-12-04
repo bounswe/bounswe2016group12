@@ -183,6 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for(Tag tag : tags){
             tagIds.add(""+tag.tagId);
+            addTag(tag); //TODO: Logic will be changed
         }
 
         db.beginTransaction();
