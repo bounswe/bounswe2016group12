@@ -1,6 +1,6 @@
 {% extends 'MeancoApp/Home.html' %}
 {% block content %}
-    <font size="13" color="orange">{{ topic.name.label }}</font>
+    <font size="13" color="orange">{{ topic.label }}</font>
 </br>
     <font size="5" color="#8a2be2">Relations:</font>
      </br>
@@ -13,28 +13,20 @@
 
     <!--Relations from this to others:-->
     {% for relation in relationsFrom %}
-        {% for label in relation.label %}
-            <!--{% if label.direction %}
-                <h3>{{ label.text }}:</h3> {{ relation.topic_a.name.label }} -> {{ relation.topic_b.name.label }}
-            {% endif %}
-            {% if not label.direction %}
-                <h3>{{ label.text }}:</h3> {{ relation.topic_a.name.label }} <-> {{ relation.topic_b.name.label }}
-            {% endif %}-->
-            <font size="5">{{ label.text }}:</font> {{ relation.topic_a.name.label }} - {{ relation.topic_b.name.label }}
-            </br>
-        {% endfor %}
+        {% if not relation.isBidirectional %}
+            <h3>{{ relation.label }}:</h3> {{ relation.topic_a.label }} -> {{ relation.topic_b.label }}
+        {% endif %}
+        {% if relation.isBidirectional %}
+            <h3>{{ relation.label }}:</h3> {{ relation.topic_a.label }} <-> {{ relation.topic_b.label }}
+        {% endif %}
+        </br>
+
     {% endfor %}
     <!--Relations to this from others.-->
     {% for relation in relationsTo %}
-        {% for label in relation.label %}
-            <!--{% if label.direction %}
-            <h3>{{ label.text }}:</h3> {{ relation.topic_a.name.label }} <- {{ relation.topic_b.name.label }}
-            {% endif %}
-            {% if not label.direction %}
-                <h3>{{ label.text }}:</h3> {{ relation.topic_a.name.label }} <-> {{ relation.topic_b.name.label }}
-            {% endif %}-->
-            <h3>{{ label.text }}:</h3> {{ relation.topic_a.name.label }} - {{ relation.topic_b.name.label }}
-        {% endfor %}
+        {% if not relation.isBidirectional %}
+            <h3>{{ relation.label }}:</h3> {{ relation.topic_a.label }} <- {{ relation.topic_b.label }}
+        {% endif %}
     {% endfor %}
 
     </br>

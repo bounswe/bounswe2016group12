@@ -10,7 +10,7 @@ from .topic import Topic
 class Tag(Model):
     label = CharField(max_length=20)
     description = CharField(max_length=20)
-    url = URLField(default=None,blank=True,null=True)
+    URL = URLField(default=None,blank=True,null=True)
 
     view_count = IntegerField(default=0)
     topic_count = IntegerField(default=0)
@@ -34,15 +34,13 @@ class Tag(Model):
         self.save()
 
     class Meta:
-        unique_together = (('url', ), ('label', 'description'))
+        unique_together = (('URL', ), ('label', 'description'))
 
 ### tag.OfTopic
 
 class OfTopic(Model):
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='tags')
     tag = ForeignKey(Tag, on_delete=PROTECT, related_name='topics')
-    profile = ForeignKey(Profile, on_delete=SET_NULL, null=True, related_name='topictags')
-
     def __unicode__(self):
         return str(self.pk)
 
@@ -51,17 +49,3 @@ class OfTopic(Model):
 
     class Meta:
         unique_together = ('topic', 'tag')
-
-# def oftopic_post_init(**kwargs):
-#     oftopic = kwargs.get('instance')
-#
-#     oftopic.topic.name().vote(oftopic.profile, skipifhasvoted=True)
-#     oftopic.tag.topic_tagged()
-#
-# def oftopic_pre_delete(**kwargs):
-#     oftopic = kwargs.get('instance')
-#
-#     oftopic.tag.topic_tag_removed()
-#
-# post_init.connect(oftopic_post_init, OfTopic)
-# pre_delete.connect(oftopic_pre_delete, OfTopic)
