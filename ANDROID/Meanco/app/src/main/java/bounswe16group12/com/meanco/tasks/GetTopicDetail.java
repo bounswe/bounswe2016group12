@@ -47,7 +47,6 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         Comment c = new Comment(commentId, Integer.valueOf(topicId), content);
                         databaseHelper.addComment(c);
 
-
                     }
                 }
 
