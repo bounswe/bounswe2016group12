@@ -237,12 +237,12 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                               // databaseHelper.addTag(tagsOfTopic);
+                                for(Tag t: tagsOfTopic)
+                                    databaseHelper.addTag(t);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("AlertDialog", "Negative");
                             }
                         })
                         .show();
