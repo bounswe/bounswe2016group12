@@ -1,31 +1,42 @@
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">MEANCO</a>
-      </div>
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li ><a >Let's Connect! <span class="sr-only">(current)</span></a></li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-                <li>User: {{ user.get_username }}</li>
-                <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-            {% else %}
-                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-                <li><a href="{% url 'login'%}?next={{request.path}}">SignUp</a></li>
-            {% endif %}
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-  <form class="form-inline">
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Search">
-      <button type="submit" name="searchTopic" class="btn btn-default">Topic</button>
-      <button type="submit" name="searchTag" class="btn btn-default">Tag</button>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">MEANCO</a>
     </div>
-  </form>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ><a >Let's Connect! <span class="sr-only">(current)</span></a></li>
+      </ul>
+
+     <form class="navbar-form navbar-left search-form" role="search">
+          <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" name="searchTopic" class="btn btn-default">Topic</button>
+          <button type="submit" name="searchTag" class="btn btn-default">Tag</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          <li>User: {{ user.get_username }}</li>
+          <div class="btn-group btn-group-lg">
+            <a href="/" class="btn btn-default btn-xs" role="button" >
+              <span class="glyphicon glyphicon-wrench"></span>
+            </a>
+            <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-danger btn-xs" role="button">
+              <span class="glyphicon glyphicon-off" ></span>
+            </a>
+          </div>
+        {% else %}
+          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+          <li><a href="{% url 'login'%}?next={{request.path}}">SignUp</a></li>
+        {% endif %}
+      </ul>
+
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

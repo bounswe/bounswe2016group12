@@ -1,0 +1,27 @@
+.search-form {
+	margin-left: 10%;
+}
+
+.sidebar {
+	margin-top: 51px;
+}
+
+.page-content {
+	margin-top: 90px;
+}
+
+.sidebar-button {
+
+	margin: 20px 10px ;
+}
+
+.Trendings {
+	background-color: rgb(234, 255, 255);
+	margin: 20px 20px 20px 20px;
+	height: 250px;
+	width: 200px;
+}
+
+.ordered li {
+	margin: 1px 1px 1px 1px;
+}
