@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.List;
+import java.util.Random;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
@@ -27,17 +29,20 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 
 public class TopicDetailActivity extends AppCompatActivity {
-/*
+    Topic topic;
     String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
 
-        new GetTopicDetail(MeancoApplication.SITE_URL, getIntent().getStringExtra("topicId").toString(), getApplicationContext()).execute();
-
         title = getIntent().getStringExtra("activityTitle").toString();
         setTitle(title);
+        DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
+        int topicId = db.getTopicId(title);
+        topic = db.getTopic(topicId);
+
+        new GetTopicDetail(MeancoApplication.SITE_URL,""+topicId, getApplicationContext()).execute();
 
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
@@ -54,9 +59,10 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Comment c = new Comment(title,content.getText().toString());
+                                        //TODO: Will get id from HTTP:POST
+                                        Comment c = new Comment((new Random()).nextInt(100),topic.topicId,content.getText().toString());
                                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                                        databaseHelper.addOrUpdateComment(c);
+                                        databaseHelper.addComment(c);
 
                                         TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
                                         TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
@@ -93,34 +99,18 @@ public class TopicDetailActivity extends AppCompatActivity {
         ImageView iv = (ImageView) customView.findViewById(R.id.arrow_direction_picture);
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-        List<Relation> relations = databaseHelper.getAllRelations();
-
-        for(Relation r : relations){
-            if(r.topicFrom.equals(title)){
-                rn.setText(r.relationName);
-                iv.setImageResource(R.drawable.left_arrow);
-            }
-        }
+        List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
 
         //TODO: implement adapter.
-        /*
 
-
-        for(Relation r: HomeActivityFragment.getRelations()){
-            if(r.getTopicFrom().equals(title)) {
-                rn.setText(r.getRelationName);
-                if(!r.isBidirectional())
+        for(Relation r: relations){
+                rn.setText(r.relationName);
+                if(!r.isBidirectional)
                     iv.setImageResource(R.drawable.right_arrow);
-            }
-            else if(r.getTopicTo().equals(title)) {
-                rn.setText(r.getRelationName);
-                if(!r.isBidirectional())
-                    iv.setImageResource(R.drawable.left_arrow);
-            }
-        }//ESKIDEN COMMENT VARDI
+        }
 
         //dummy
-        rn.setText("aaa");
+        rn.setText("politician");
         iv.setImageResource(R.drawable.left_arrow);
 
         if (id == R.id.action_relation) {
@@ -138,5 +128,5 @@ public class TopicDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

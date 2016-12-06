@@ -30,12 +30,7 @@ import bounswe16group12.com.meanco.tasks.GetTopicList;
  */
 public class HomeActivityFragment extends Fragment{
     public static CustomHomeAdapter adapter;
-    static List<Relation> relations;
     public static ListView listView;
-
-    public static List<Relation> getRelations() {
-        return relations;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +52,10 @@ public class HomeActivityFragment extends Fragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 String message = adapter.getItem(position).topicName;
-                String topicId = adapter.getItem(position).topicId+"";
+               // String topicId = adapter.getItem(position).topicId+"";
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
                 intent.putExtra("activityTitle", message);
-                intent.putExtra("topicId", topicId);
+               // intent.putExtra("topicId", topicId);
                 startActivity(intent);
             }
         });

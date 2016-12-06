@@ -205,7 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getTopicId(String name){
         SQLiteDatabase db = getReadableDatabase();
 
-        String TOPIC_SELECT_WITH_NAME_QUERY = "SELECT * FROM topics WHERE name = '" + name + "'";
+        String TOPIC_SELECT_WITH_NAME_QUERY = "SELECT * FROM topics WHERE topicName = '" + name + "'";
 
         Cursor cursor = db.rawQuery(TOPIC_SELECT_WITH_NAME_QUERY,null);
         int topicId = -1;
@@ -574,10 +574,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Relation> getAllRelations(int topicId){
-        String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId + "'";
+        String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId + "'";
+        //TODO: Add second Relation ID equality with OR
 
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(COMMENTS_SELECT_QUERY, null);
+        Cursor cursor = db.rawQuery(RELATIONS_SELECT_QUERY, null);
         List<Relation> relations = new ArrayList<>();
         try {
             if (cursor.moveToFirst()) {
