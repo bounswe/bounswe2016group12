@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 def addComment(request):
     if request.method == 'POST':
         topicId=request.POST.get('topicId')
-        profileId=request.POST.get('profile')
+        profileId = request.user.id
         text= request.POST.get('text')
         try:
             print(topicId,profile)
@@ -41,5 +41,22 @@ def editComment(request):
 def deleteComment():
     return
 
-def rateComment():
-    return
+
+#
+#
+#   comment : 5
+#   direction : "upvote"
+@csrf_exempt
+def rateComment(request):
+    comment = request.POST.get("comment")
+    profile = 1   # replace with auth
+    direction = request.POST.get("direction")
+    if Voter.objects.filter(comment_id=comment, profile_id=profile):
+        voter = Voter.objects.get(comment_id=comment, profile_id=profile)
+        voter.toggle(direction)
+        voter.save()
+    else:
+        voter = Voter(comment_id=comment, profile_id=profile)
+        voter.toggle(direction)
+        voter.save()
+    return HttpResponse("Rated", status=200);

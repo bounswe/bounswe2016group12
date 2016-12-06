@@ -19,4 +19,6 @@ from MeancoApp.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('MeancoApp.urls')),
+    url(r'^api-auth/', include('rest_framework.urls',namespace='rest_framework')),
+
 ]
