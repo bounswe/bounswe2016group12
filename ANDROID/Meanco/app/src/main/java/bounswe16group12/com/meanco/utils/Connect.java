@@ -81,6 +81,16 @@ public class Connect {
 
     }
 
+    public void postForm() throws IOException {
+        URL url1 = new URL(url);
+        urlConnection = (HttpURLConnection) url1.openConnection();
+        urlConnection.setRequestMethod("POST");
+
+
+    }
+
+
+
 
 
     public static class APIResult{

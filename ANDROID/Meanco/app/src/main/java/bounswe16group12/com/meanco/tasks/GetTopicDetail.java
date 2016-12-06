@@ -66,6 +66,7 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         return jsonObject;
     }
 }

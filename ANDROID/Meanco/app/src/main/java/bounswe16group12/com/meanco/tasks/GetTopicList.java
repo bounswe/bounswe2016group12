@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,13 +31,17 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
         this.url = url;
     }
 
+    public static void parseJSON(Connect.APIResult response){
+
+    }
+
     @Override
     protected void onPostExecute(Connect.APIResult response) {
         super.onPostExecute(response);
 
         try {
             JSONArray jsonArray=new JSONArray(response.getData());
-
+            Log.i("JSON GET", response.getData());
             if (jsonArray != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
@@ -48,7 +53,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
 
                         //related to topic name
                         int topicId = topicObject.getInt("id");
-                        String topicName = topicObject.getString("name");
+                        String topicName = topicObject.getString("label");
 
                         //related to relations
                         JSONArray relationsTo = topicObject.getJSONArray("relations_a");
@@ -57,27 +62,40 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                         for(int j=0; j<relationsTo.length(); j++){
                             JSONObject relationObject = relationsTo.getJSONObject(j);
                             int relationId = relationObject.getInt("id");
-                            String label = relationObject.getString("label");
-                            int topicToId = relationObject.getInt("topicToId");
-                            boolean isBidirectional = (relationObject.getInt("isBidirectional")==0) ? false : true;
-                            Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
-                            databaseHelper.addRelation(r);
+                            //vote count
+                            //int voteCount = relationObject.getInt(vote_count);
+                            if(databaseHelper.getRelation(relationId)==null) {
+                                String label = relationObject.getString("label");
+                                int topicToId = relationObject.getInt("topic_b");
+                                boolean isBidirectional = relationObject.getBoolean("isBidirectional");
+                                Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
+                                databaseHelper.addRelation(r);
+                            }
                         }
 
                         //related to tag
                         JSONArray tags = topicObject.getJSONArray("tags");
 
                         for(int j=0; j<tags.length(); j++){
-                            JSONObject tagObject = tags.getJSONObject(j);
+                            JSONObject tagObject = tags.getJSONObject(j).getJSONObject("tag");
+
                             int tagId = tagObject.getInt("id");
                             String label = tagObject.getString("label");
                             String description = tagObject.getString("description");
+                            //url
+                            //String tagUrl = tagObject.getString("URL");
                             Tag t = new Tag(tagId, description, label);
                             tagsArray.add(t);
+                            if(databaseHelper.getTag(tagId)==null) {
+                                databaseHelper.addTag(t);
+                            }
                         }
 
-                        Topic t = new Topic(topicId, topicName, tagsArray);
-                        databaseHelper.addTopic(t);
+                        if(databaseHelper.getTopic(topicId)==null) {
+                            Topic t = new Topic(topicId, topicName, tagsArray);
+
+                            databaseHelper.addTopic(t);
+                        }
 
 
                     }
@@ -85,6 +103,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
 
             }
         } catch (JSONException e) {
+
             e.printStackTrace();
         }
     }

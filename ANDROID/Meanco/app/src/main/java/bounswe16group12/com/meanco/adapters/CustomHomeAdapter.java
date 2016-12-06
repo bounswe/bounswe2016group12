@@ -74,29 +74,30 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(t.topicName);
-            Log.i("tn", t.topicName);
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
             ArrayList<Tag> tg = t.tags;
 
 
-            for (int i = 0; i < tg.size(); i++) {
+            if(tg!=null) {
+                for (int i = 0; i < tg.size(); i++) {
 
-                TextView tagView = new TextView(getContext());
+                    TextView tagView = new TextView(getContext());
 
-                tagView.setText(tg.get(i).tagName);
-                tagView.setBackgroundResource(R.drawable.tagbg);
-                tagView.setTextColor(Color.WHITE);
-                tagView.setGravity(Gravity.CENTER);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    lp.setMarginEnd(10);
+                    tagView.setText(tg.get(i).tagName);
+                    tagView.setBackgroundResource(R.drawable.tagbg);
+                    tagView.setTextColor(Color.WHITE);
+                    tagView.setGravity(Gravity.CENTER);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        lp.setMarginEnd(10);
+                    }
+                    tagView.setLayoutParams(lp);
+
+                    tagView.setPadding(15, 15, 15, 15);
+                    linearLayout.addView(tagView);
+
                 }
-                tagView.setLayoutParams(lp);
-
-                tagView.setPadding(15, 15, 15, 15);
-                linearLayout.addView(tagView);
-
             }
         }else{
             topicName = (TextView) v.findViewById(R.id.topicitem);
@@ -201,8 +202,10 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
     }
     public void updateArray(){
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-        topicsWithTags = databaseHelper.getAllTopics();
+        topicsWithTags = DatabaseHelper.getInstance(getContext()).getAllTopics();
+        for(Topic t:topicsWithTags){
+            Log.d("updated", t.topicName);
+        }
     }
 }
 

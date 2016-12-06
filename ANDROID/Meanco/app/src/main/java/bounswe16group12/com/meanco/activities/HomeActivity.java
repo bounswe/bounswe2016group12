@@ -239,6 +239,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 for(Tag t: tagsOfTopic)
                                     databaseHelper.addTag(t);
+
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

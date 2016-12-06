@@ -183,7 +183,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for(Tag tag : tags){
             tagIds.add(""+tag.tagId);
-            addTag(tag); //TODO: Logic will be changed
         }
 
         db.beginTransaction();
@@ -289,28 +288,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(TOPICS_SELECT_QUERY, null);
         try {
+
             if (cursor.moveToFirst()) {
                 do {
+
                     Topic topic = new Topic();
                     topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
                     topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
                     String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
 
                     ArrayList<String> tagIdList = stringToList(tags);
-                    ArrayList<Tag> tagList = new ArrayList<Tag>();
-                    for(String s: tagIdList){
-                        int tagId = Integer.parseInt(s);
-                        Tag t = getTag(tagId);
-                        tagList.add(t);
+
+                    if(tagIdList!=null) {
+                        ArrayList<Tag> tagList = new ArrayList<Tag>();
+                        for (String s : tagIdList) {
+                            int tagId = Integer.parseInt(s);
+                            Tag t = getTag(tagId);
+                            tagList.add(t);
+                        }
+
+                        topic.tags = tagList;
+                    }else {
+                        topic.tags = null;
                     }
-
-                    topic.tags = tagList;
-
                     topics.add(topic);
+
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+            //Log.d("USER DB HELPER", "Error while trying to get posts from database");
+            e.printStackTrace();
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -321,11 +328,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //HELPER FOR ARRAYLIST TO STRING
     private ArrayList<String> stringToList(String s){
-        Log.i("TOPIC HELPER",s);
+        ArrayList<String> output = null;
+        s = s.replaceAll(" ", "");
         s = s.replace("[","");
         s = s.replace("]","");
-        ArrayList<String> output = new ArrayList<>(Arrays.asList(s.split(",")));
-        Log.i("STRING OF FIRST",output.get(0));
+        if(!s.equals("")){
+            output = new ArrayList<>(Arrays.asList(s.split(",")));
+        }
         return output;
     }
 
@@ -342,7 +351,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_TAG_NAME, tag.tagName );
             values.put(KEY_TAG_DESCRIPTION,tag.context);
 
-            db.insert(KEY_TOPIC_TABLE,null,values);
+            db.insert(KEY_TAG_TABLE,null,values);
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("USER DB HELPER", "Error while trying to add or update user");
@@ -544,7 +553,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Relation getRelation(int relationId){
         SQLiteDatabase db = getReadableDatabase();
-        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + relationId + "'";
+        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM relations WHERE id = '" + relationId + "'";
 
         Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
         Relation relation = null;
