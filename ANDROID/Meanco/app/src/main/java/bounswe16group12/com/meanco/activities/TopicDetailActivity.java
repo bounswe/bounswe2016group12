@@ -42,8 +42,6 @@ public class TopicDetailActivity extends AppCompatActivity {
         int topicId = db.getTopicId(title);
         topic = db.getTopic(topicId);
 
-        new GetTopicDetail(MeancoApplication.SITE_URL,""+topicId, getApplicationContext()).execute();
-
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
                 new View.OnClickListener() {

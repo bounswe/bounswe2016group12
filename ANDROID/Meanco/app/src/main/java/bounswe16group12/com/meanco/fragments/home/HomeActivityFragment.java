@@ -23,6 +23,7 @@ import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
 
 /**
@@ -50,7 +51,8 @@ public class HomeActivityFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
+                //Task before intent fires
+                new GetTopicDetail(MeancoApplication.SITE_URL,""+adapter.getItem(position).topicId, getContext()).execute();
                 String message = adapter.getItem(position).topicName;
                // String topicId = adapter.getItem(position).topicId+"";
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);

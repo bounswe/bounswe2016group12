@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
@@ -51,8 +52,8 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
 
                     }
                 }
-
             }
+            //TODO: Add the new comments into adapter
         } catch (JSONException e) {
             e.printStackTrace();
         }
