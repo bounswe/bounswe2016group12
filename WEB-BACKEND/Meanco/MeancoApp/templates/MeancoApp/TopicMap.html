@@ -29,7 +29,7 @@
         var options = {};
         var network = new vis.Network(container, data, options);
 
-
+        {% comment %}
         network.on("doubleClick", function (params) {
             params.event = "[original event]";
             var obj = JSON.parse(params, null, 4);
@@ -39,6 +39,7 @@
                 document.getElementById('eventSpan').innerHTML = '<a href=relation/' + obj.edges[0]  +'" />' ;
             {% endif %}
         });
+        {% endcomment %}
 
 
     </script>

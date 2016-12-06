@@ -47,7 +47,7 @@
     </li>
   </ul>
 </div>
-
+{% comment %}
 <form action="API/AddTopic" method="post"> {% csrf_token %}
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -84,6 +84,18 @@
           </div>
     </div>
 </form>
+{% endcomment %}
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <form action="API/AddTopic" method="post"> {% csrf_token %}
+            Topic Name: <input type="text" name="topicName"> <br>
+            Tags: <input type="text" name="tag"> <br>
+            Context: <input type="text" name="context"> <br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+
 <div class="modal fade" id="relationModal" role="dialog">
   <div class="modal-dialog">
 
