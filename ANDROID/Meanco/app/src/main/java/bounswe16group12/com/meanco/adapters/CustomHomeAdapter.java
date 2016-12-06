@@ -3,6 +3,10 @@ package bounswe16group12.com.meanco.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +27,8 @@ import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+
+import static android.icu.lang.UProperty.INT_START;
 
 public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterable{
 
@@ -81,20 +87,8 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
             if(tg!=null) {
                 for (int i = 0; i < tg.size(); i++) {
-
-                    TextView tagView = new TextView(getContext());
-
-                    tagView.setText(tg.get(i).tagName);
-                    tagView.setBackgroundResource(R.drawable.tagbg);
-                    tagView.setTextColor(Color.WHITE);
-                    tagView.setGravity(Gravity.CENTER);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        lp.setMarginEnd(10);
-                    }
-                    tagView.setLayoutParams(lp);
-
-                    tagView.setPadding(15, 15, 15, 15);
+                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
+                    TextView tagView = beautifyTagView(text, getContext());
                     linearLayout.addView(tagView);
 
                 }
@@ -109,21 +103,30 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             linearLayout.removeAllViews();
 
             for (int i = 0; i < tg.size(); i++) {
-
-                TextView tagView = new TextView(getContext());
-
-                tagView.setText(tg.get(i).tagName);
-                tagView.setBackgroundResource(R.drawable.tagbg);
-                tagView.setTextColor(Color.WHITE);
-                tagView.setGravity(Gravity.CENTER);
-                tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                tagView.setPadding(15, 15, 15, 15);
+                String text = tg.get(i).tagName + ": " + tg.get(i).context;
+                TextView tagView = beautifyTagView(text, getContext());
                 linearLayout.addView(tagView);
 
             }
         }
         //}
         return v;
+    }
+
+    public TextView beautifyTagView(String text, Context context){
+        TextView tagView = new TextView(context);
+        final SpannableStringBuilder str = new SpannableStringBuilder(text);
+        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tagView.setText(str);
+        tagView.setBackgroundResource(R.drawable.tagbg);
+        tagView.setTextColor(Color.WHITE);
+        tagView.setGravity(Gravity.CENTER);
+        tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        tagView.setPadding(15, 15, 15, 15);
+        return tagView;
     }
 
     // Filter Class
