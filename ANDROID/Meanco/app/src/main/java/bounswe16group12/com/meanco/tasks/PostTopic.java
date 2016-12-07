@@ -5,13 +5,20 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -66,29 +73,39 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
     protected Connect.APIResult doInBackground(Void... void) {
 
-       // String urlParameters  = "name="+topic.topicName+"&tag="+topic.tags.get(0).tagName+"&description="+topic.topicName+"&URL="+topic.topicName;
-  //      byte[] postData       = urlParameters.getBytes();
+        String urlParameters  = "name="+topic.topicName+"&tag="+topic.tags.get(0).tagName+"&description="+topic.tags.get(0).context+"&URL="+topic.tags.get(0).URL;
+       // byte[] postData       = urlParameters.getBytes();
       //  int    postDataLength = postData.length;
         URL url            = null;
         try {
             url = new URL(this.url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setChunkedStreamingMode(0);
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("name",topic.topicName);
-            conn.setRequestProperty("tag",topic.tags.get(0).tagName);
-            conn.setRequestProperty("description",topic.topicName);
-            conn.setRequestProperty("URL",topic.topicName);
             conn.setDoOutput(true);
             conn.setInstanceFollowRedirects(false);
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
             //conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
             conn.setUseCaches(false);
-            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-            wr.write(postData);
 
+            DataOutputStream ds = new DataOutputStream(conn.getOutputStream());
+            ds.writeBytes(urlParameters);
+            ds.flush();
+            ds.close();
 
+            int responseCode = conn.getResponseCode();
 
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line = "";
+                    StringBuilder responseOutput = new StringBuilder();
+                    System.out.println("output===============" + br);
+            while((line = br.readLine()) != null ) {
+                    responseOutput.append(line);
+            }
+                    br.close();
+            return new Connect.APIResult(responseCode,responseOutput.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
@@ -98,4 +115,6 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
         }
         return null; //TODO: Return response
     }
+
+
 }
