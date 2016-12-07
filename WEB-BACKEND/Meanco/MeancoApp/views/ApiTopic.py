@@ -9,7 +9,6 @@ from rest_framework import generics
 from MeancoApp.serializers import *
 # Example Post Request to addTopic
 #
-# userId= 15
 # topicName="Donald Trump"
 # tag=Politician
 # description= Occupation
@@ -18,7 +17,6 @@ from MeancoApp.serializers import *
 @csrf_exempt
 def addTopic(request):
     if request.method== 'POST':
-        userId =request.POST.get('userId')
         topicName=request.POST.get('topicName')
         tag = request.POST.get('tag')
         description =request.POST.get('description')
@@ -34,7 +32,7 @@ def addTopic(request):
                 if OfTopic.objects.filter(topic_id=t.id,tag_id=tagModel.id).exists():
                     print("Weird Stuff")
                 else:
-                    tt=OfTopic(topic_id=t.id,tag_id=tagModel.id,profile_id=userId)
+                    tt=OfTopic(topic_id=t.id,tag_id=tagModel.id)
                     tt.save()
                 #tagModel.topic_tagged()
             except:
@@ -46,13 +44,13 @@ def addTopic(request):
             except:
                 return HttpResponse("Tag creation error",status=400)
             try:
-                tt = OfTopic(topic_id=t.id, tag_id=tagModel.id, profile_id=userId)
+                tt = OfTopic(topic_id=t.id, tag_id=tagModel.id)
                 tt.save()
                 #tagModel.topic_tagged()
             except:
                 return HttpResponse("Tag Linking error",status=400)
         return HttpResponse(json.dumps({
-            "Topic": t}),
+            "Topic": t.id}),
             status=200,
             content_type="application/json")
     else:
@@ -86,11 +84,18 @@ def searchTopic(request):
             print(topicsWithCountOfTags)
             topicData = list(Topic.objects.filter(id__in=topicsWithCountOfTags.keys()))
             print(topicData)
-            topicData= sorted(topicData, key=lambda obj:topicsWithCountOfTags[obj.id]['count'],reverse=True)[0:10]
+            topicData= sorted(topicData, key=lambda obj:topicsWithCountOfTags[obj.id]['count'],reverse=True)[0:3]
             print(topicData)
             return HttpResponse(django.core.serializers.serialize('json',topicData), content_type='json')
     else:
         return HttpResponse("Wrong Request")
+
+
+# search= Donald
+def topicListerGet(request):
+    searchParam = request.GET.get("search")
+    topics = Topic.objects.filter(label__startswith=searchParam)
+    return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
 
 class TopicList(generics.ListCreateAPIView):
     queryset = Topic.objects.all()
