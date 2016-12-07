@@ -32,6 +32,7 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.PostTag;
+import bounswe16group12.com.meanco.tasks.PostTopic;
 import me.originqiu.library.EditTag;
 import me.originqiu.library.MEditText;
 
@@ -171,8 +172,9 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 String topicName = topicNameEdit.getText().toString();
                                 //TODO:Change ID.
                                 Topic topic = new Topic(-1, topicName, tagsOfTopic);
-                                databaseHelper.addTopic(topic);
+                                //databaseHelper.addTopic(topic);
 
+                                new PostTopic(topic,getApplicationContext()).execute();
 
                                 String topicName2 = topicName2Edit.getText().toString();
                                 String relationName = relationNameEdit.getText().toString();

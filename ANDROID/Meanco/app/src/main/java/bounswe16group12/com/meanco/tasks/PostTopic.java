@@ -53,7 +53,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
         try {
             JSONObject jsonObject=new JSONObject(response.getData());
-            Log.i("JSON GET", response.getData());
+            Log.i("JSON POST", response.getData());
             if (jsonObject != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
@@ -71,7 +71,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
         }
     }
 
-    protected Connect.APIResult doInBackground(Void... void) {
+    protected Connect.APIResult doInBackground(Void... voids) {
 
         String urlParameters  = "name="+topic.topicName+"&tag="+topic.tags.get(0).tagName+"&description="+topic.tags.get(0).context+"&URL="+topic.tags.get(0).URL;
        // byte[] postData       = urlParameters.getBytes();
@@ -100,7 +100,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String line = "";
                     StringBuilder responseOutput = new StringBuilder();
-                    System.out.println("output===============" + br);
+                    Log.i("POST OUTPUT","" + br);
             while((line = br.readLine()) != null ) {
                     responseOutput.append(line);
             }
