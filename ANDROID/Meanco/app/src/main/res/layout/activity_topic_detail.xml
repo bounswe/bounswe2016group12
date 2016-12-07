@@ -16,6 +16,7 @@
 
     <include layout="@layout/content_topic_detail" />
 
+
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fabComment"
         android:layout_width="wrap_content"

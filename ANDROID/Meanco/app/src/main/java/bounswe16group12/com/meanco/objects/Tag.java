@@ -7,16 +7,22 @@ package bounswe16group12.com.meanco.objects;
 public class Tag {
     public int tagId;
     public String tagName;
+    public String context;
+    public String URL;
 
-    public Tag(String tagName){
+    public Tag(){}//Empty constructor to define
+
+    //TODO: REMOVE THIS CONSTRUCTOR
+    public Tag(int tagId,String context,String tagName){
         this.tagName = tagName;
+        this.context = context;
+        this.tagId=tagId;
     }
 
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
+    public Tag(int tagId,String context,String tagName,String URL){
         this.tagName = tagName;
+        this.context = context;
+        this.tagId=tagId;
+        this.URL = URL;
     }
 }

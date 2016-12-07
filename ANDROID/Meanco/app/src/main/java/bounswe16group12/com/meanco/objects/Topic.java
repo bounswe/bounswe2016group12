@@ -9,31 +9,16 @@ import java.util.ArrayList;
 public class Topic {
     public int topicId;
     public String topicName;
-    public ArrayList<String> tags;
-    public ArrayList<Comment> comments;
+    public ArrayList<Tag> tags;
+    //public String context; //TODO: ADD TO EVERYWHERE
+    //public ArrayList<Comment> comments;
 
-    public Topic(){
+    public Topic(){}//Empty constructor to define
 
-    }
-
-    public Topic (String topicName, ArrayList<String> tags){
+    public Topic (int topicId, String topicName, ArrayList<Tag> tags){
+        this.topicId = topicId;
         this.topicName = topicName;
         this.tags = tags;
     }
 
-    public String getTopicName() {
-        return topicName;
-    }
-
-    public ArrayList<String> getTags() {
-        return tags;
-    }
-
-    public void setTopicName(String topicName) {
-        this.topicName = topicName;
-    }
-
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
-    }
 }

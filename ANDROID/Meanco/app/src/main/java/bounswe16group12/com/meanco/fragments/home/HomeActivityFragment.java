@@ -1,8 +1,13 @@
 package bounswe16group12.com.meanco.fragments.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,35 +17,40 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.GetTopicDetail;
+import bounswe16group12.com.meanco.tasks.GetTopicList;
+import rm.com.longpresspopup.LongPressPopup;
+import rm.com.longpresspopup.LongPressPopupBuilder;
+import rm.com.longpresspopup.PopupInflaterListener;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class HomeActivityFragment extends Fragment{
     public static CustomHomeAdapter adapter;
-    static List<Relation> relations;
     public static ListView listView;
-
-    public static List<Relation> getRelations() {
-        return relations;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
+
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity().getApplicationContext());
         List<Topic> topics = databaseHelper.getAllTopics();
+
 
         adapter = new CustomHomeAdapter(getContext(), R.layout.fragment_home, topics);
 
@@ -50,19 +60,34 @@ public class HomeActivityFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                String message = adapter.getItem(position).getTopicName();
+                //Task before intent fires
+                new GetTopicDetail(MeancoApplication.SITE_URL,adapter.getItem(position).topicId, getContext()).execute();
+                String message = adapter.getItem(position).topicName;
+               // String topicId = adapter.getItem(position).topicId+"";
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
                 intent.putExtra("activityTitle", message);
+               // intent.putExtra("topicId", topicId);
                 startActivity(intent);
             }
         });
 
+
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout)  rootView.findViewById(R.id.swiperefresh);
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
+                        refreshLayout.setRefreshing(false);
+                    }
+                }
+        );
+
+
+
         return rootView;
     }
-
-
-
-
 }
 

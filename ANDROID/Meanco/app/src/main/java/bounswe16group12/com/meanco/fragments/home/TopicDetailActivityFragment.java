@@ -1,8 +1,13 @@
 package bounswe16group12.com.meanco.fragments.home;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +25,7 @@ import java.util.List;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
+import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
@@ -43,39 +49,24 @@ public class TopicDetailActivityFragment extends Fragment {
 
         String topicName = getActivity().getIntent().getStringExtra("activityTitle").toString();
 
-        ArrayList<String> tg = new ArrayList<>();
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-        List<Topic> topics = databaseHelper.getAllTopics();
 
-        for(Topic t: topics){
-            if(t.getTopicName().equals(topicName)){
-                tg.addAll(t.getTags());
-            }
-        }
+        int topicId = databaseHelper.getTopicId(topicName);
+        Topic topic = databaseHelper.getTopic(topicId);
 
         LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.linearlayout_detail);
 
-        for(int i=0; i<tg.size(); i++){
-
-            TextView tagView = new TextView(getContext());
-
-            tagView.setText(tg.get(i));
-            tagView.setBackgroundResource(R.drawable.tagbg);
-            tagView.setTextColor(Color.WHITE);
-            tagView.setGravity(Gravity.CENTER);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMarginEnd(10);
-            tagView.setLayoutParams(lp);
-            tagView.setPadding(15, 15, 15, 15);
+        for (int i = 0; i < topic.tags.size(); i++) {
+            String text = topic.tags.get(i).tagName + ": " + topic.tags.get(i).context;
+            TextView tagView = CustomHomeAdapter.beautifyTagView(text, getContext());
             linearLayout.addView(tagView);
         }
 
-        List<Comment> comments = databaseHelper.getAllComments();
+        List<Comment> comments = databaseHelper.getAllComments(topic.topicId);
         List<String> contents = new ArrayList<String>();
 
        for(Comment c : comments){
-           if(c.topicName.equals(topicName))
-             contents.add(c.content);
+           contents.add(c.content);
        }
 
         mCommentsAdapter = new ArrayAdapter<String>(
@@ -95,5 +86,15 @@ public class TopicDetailActivityFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public static void updateAdapter(DatabaseHelper databaseHelper, int topicId){
+        mCommentsAdapter.clear();
+        List<Comment> comments = databaseHelper.getAllComments(topicId);
+        for(Comment c : comments){
+            mCommentsAdapter.add(c.content);
+        }
+        mCommentsAdapter.notifyDataSetChanged();
+
     }
 }

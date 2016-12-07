@@ -94,10 +94,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View view) {
                // attemptLogin();
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-
+                //TODO: Will change the login logic
                 String email = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                User newUser = new User(email,password);
+                //TODO: get user id
+                User newUser = new User(-1,email,password);
 
                 List<User> users = databaseHelper.getAllUsers();
                 boolean isUserFound = false;
