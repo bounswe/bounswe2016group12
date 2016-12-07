@@ -24,12 +24,14 @@ import com.github.clans.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.PostTag;
 import me.originqiu.library.EditTag;
 import me.originqiu.library.MEditText;
 
@@ -237,8 +239,10 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                                for(Tag t: tagsOfTopic)
+                                for(Tag t: tagsOfTopic) {
                                     databaseHelper.addTag(t);
+                                    new PostTag(MeancoApplication.POST_TAG_URL, getApplicationContext(), t);
+                                }
 
                             }
                         })

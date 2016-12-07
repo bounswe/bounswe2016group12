@@ -25,6 +25,7 @@ import java.util.List;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
+import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
@@ -57,7 +58,7 @@ public class TopicDetailActivityFragment extends Fragment {
 
         for (int i = 0; i < topic.tags.size(); i++) {
             String text = topic.tags.get(i).tagName + ": " + topic.tags.get(i).context;
-            TextView tagView = beautifyTagView(text, getContext());
+            TextView tagView = CustomHomeAdapter.beautifyTagView(text, getContext());
             linearLayout.addView(tagView);
         }
 
@@ -85,21 +86,5 @@ public class TopicDetailActivityFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    public TextView beautifyTagView(String text, Context context){
-        TextView tagView = new TextView(context);
-        final SpannableStringBuilder str = new SpannableStringBuilder(text);
-        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        tagView.setText(str);
-        tagView.setBackgroundResource(R.drawable.tagbg);
-        tagView.setTextColor(Color.WHITE);
-        tagView.setGravity(Gravity.CENTER);
-        tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        tagView.setPadding(15, 15, 15, 15);
-        return tagView;
     }
 }

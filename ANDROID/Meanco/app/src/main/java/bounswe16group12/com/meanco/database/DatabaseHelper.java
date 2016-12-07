@@ -236,10 +236,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 ArrayList<String> tagIdList = stringToList(tags);
                 ArrayList<Tag> tagList = new ArrayList<Tag>();
-                for(String s: tagIdList){
-                    int tagId = Integer.parseInt(s);
-                    Tag t = getTag(tagId);
-                    tagList.add(t);
+                if(tagIdList!=null) {
+                    for (String s : tagIdList) {
+                        int tagId = Integer.parseInt(s);
+                        Tag t = getTag(tagId);
+                        tagList.add(t);
+                    }
                 }
 
                 topic.tags = tagList;

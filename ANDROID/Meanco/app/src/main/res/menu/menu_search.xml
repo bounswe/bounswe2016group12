@@ -10,8 +10,5 @@
 
         android:imeOptions="actionDone"/>
 
-    <item
-        android:id="@+id/menu_refresh"
-        app:showAsAction="never"
-        android:title="Swipe to refresh"/>
+
 </menu>

@@ -44,6 +44,8 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
     @Override
     public int getCount() {
+        if(filteredData==null)
+            return 0;
         return filteredData.size();
     }
 
@@ -75,7 +77,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
 
-            // if (t != null) {
 
 
             topicName = (TextView) v.findViewById(R.id.topicitem);
@@ -102,32 +103,19 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
             linearLayout.removeAllViews();
 
-            for (int i = 0; i < tg.size(); i++) {
-                String text = tg.get(i).tagName + ": " + tg.get(i).context;
-                TextView tagView = beautifyTagView(text, getContext());
-                linearLayout.addView(tagView);
+            if(tg!=null) {
+                for (int i = 0; i < tg.size(); i++) {
+                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
+                    TextView tagView = beautifyTagView(text, getContext());
+                    linearLayout.addView(tagView);
 
+                }
             }
         }
-        //}
         return v;
     }
 
-    public TextView beautifyTagView(String text, Context context){
-        TextView tagView = new TextView(context);
-        final SpannableStringBuilder str = new SpannableStringBuilder(text);
-        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        tagView.setText(str);
-        tagView.setBackgroundResource(R.drawable.tagbg);
-        tagView.setTextColor(Color.WHITE);
-        tagView.setGravity(Gravity.CENTER);
-        tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        tagView.setPadding(15, 15, 15, 15);
-        return tagView;
-    }
 
     // Filter Class
     public void filter(String charText) {
@@ -170,8 +158,11 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             for (int i = 0; i < count; i++) {
                 Topic temp = list.get(i);
                 filterableString = temp.topicName;
-                for(int j=0; j < temp.tags.size(); j++){
-                    filterableString += temp.tags.get(j);
+                if(temp.tags!=null) {
+                    for (int j = 0; j < temp.tags.size(); j++) {
+                        filterableString += temp.tags.get(j);
+                    }
+
                 }
                 if (filterableString.toLowerCase().contains(filterString)) {
                     nlist.add(list.get(i));
@@ -209,6 +200,30 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         for(Topic t:topicsWithTags){
             Log.d("updated", t.topicName);
         }
+    }
+
+    public static TextView beautifyTagView(String text, Context context){
+        TextView tagView = new TextView(context);
+        final SpannableStringBuilder str = new SpannableStringBuilder(text);
+        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        tagView.setText(str);
+        tagView.setBackgroundResource(R.drawable.tagbg);
+        tagView.setTextColor(Color.WHITE);
+        tagView.setGravity(Gravity.CENTER);
+        tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            lp.setMarginEnd(10);
+        }
+        tagView.setLayoutParams(lp);
+
+        tagView.setPadding(15, 15, 15, 15);
+        return tagView;
     }
 }
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -20,6 +21,8 @@ import java.util.Random;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
+//import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
@@ -31,6 +34,8 @@ import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
     String title;
+    //public static CustomTopicDetailAdapter adapter;
+    public static ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,25 +96,42 @@ public class TopicDetailActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+        List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
+        //adapter=new CustomTopicDetailAdapter(getBaseContext(), R.layout.fragment_home, relations);
+
         final View customView = getLayoutInflater().inflate(R.layout.relation_dialog_item, null, false);
 
         TextView rn = (TextView) customView.findViewById(R.id.relation_name);
         ImageView iv = (ImageView) customView.findViewById(R.id.arrow_direction_picture);
-
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-        List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
-
         //TODO: implement adapter.
-
-        for(Relation r: relations){
+        int rel_count=0;
+            for (Relation r : relations) {
                 rn.setText(r.relationName);
-                if(!r.isBidirectional)
-                    iv.setImageResource(R.drawable.right_arrow);
+
+                if (r.topicFrom == topic.topicId) {
+                    if(r.isBidirectional)
+                        iv.setImageResource(R.drawable.two_arrow);
+                    else
+                        iv.setImageResource(R.drawable.right_arrow);
+                    rel_count++;
+                }else if (r.topicTo == topic.topicId) {
+                    if(r.isBidirectional)
+                        iv.setImageResource(R.drawable.two_arrow);
+                    else
+                        iv.setImageResource(R.drawable.left_arrow);
+                    rel_count++;
+                }else
+                    continue;
+            }
+        if(rel_count==0) {
+            rn.setVisibility(View.GONE);
+            iv.setVisibility(View.GONE);
         }
 
-        //dummy
-        rn.setText("politician");
-        iv.setImageResource(R.drawable.left_arrow);
+
 
         if (id == R.id.action_relation) {
             new AlertDialog.Builder(TopicDetailActivity.this)
