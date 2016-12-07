@@ -29,22 +29,26 @@ def addRelation(request):
         return HttpResponse("Relation Couldn't be created")
     return HttpResponse("Relation created",status=200)
 
-#
+#   userId : 1
 #   relation : 5
 #   direction : "upvote"
 #
 @csrf_exempt
 def rateRelation(request):
     relation = request.POST.get("relation")
-    profile = 1
+
+    if 'userId' not in request.POST:
+        userId = request.user.id
+    else:
+        userId = request.POST.get("userId")
+
     direction= request.POST.get("direction")
-    if RelationVoter.objects.filter(relation_id=relation,profile_id=profile):
-        relationVoter=RelationVoter.objects.get(relation_id=relation,profile_id=profile)
+    if RelationVoter.objects.filter(relation_id=relation,profile_id=userId):
+        relationVoter=RelationVoter.objects.get(relation_id=relation,profile_id=userId)
         relationVoter.toggle(direction)
         relationVoter.save()
     else:
-        relationVoter=RelationVoter(relation_id=relation,profile_id=profile)
+        relationVoter=RelationVoter(relation_id=relation,profile_id=userId)
         relationVoter.toggle(direction)
         relationVoter.save()
     return HttpResponse("Rated",status=200);
-
