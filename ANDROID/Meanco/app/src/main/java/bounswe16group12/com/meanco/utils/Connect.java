@@ -85,13 +85,7 @@ public class Connect {
         URL url1 = new URL(url);
         urlConnection = (HttpURLConnection) url1.openConnection();
         urlConnection.setRequestMethod("POST");
-
-
     }
-
-
-
-
 
     public static class APIResult{
         int responseCode;
