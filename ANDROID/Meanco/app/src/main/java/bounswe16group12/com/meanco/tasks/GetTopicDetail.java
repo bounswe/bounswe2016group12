@@ -51,7 +51,6 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                             Comment c = new Comment(commentId, topicId, content);
                             databaseHelper.addComment(c);
                         }
-
                     }
                 }
                 TopicDetailActivityFragment.updateAdapter(databaseHelper, topicId);

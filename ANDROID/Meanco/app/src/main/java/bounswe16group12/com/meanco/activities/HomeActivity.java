@@ -148,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             String s = result.substring(0, result.length() - 1);
                             editTagView.addTag(s);
                             mEditText.setText("");
-                            tagsOfTopic.add(new Tag(-1, "context",s));
+                            tagsOfTopic.add(new Tag(-1, "context",s,s));
                         }
                     }
 
@@ -221,7 +221,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             String s = result.substring(0, result.length() - 1);
                             editTagView.addTag(s);
                             mEditText.setText("");
-                            tagsOfTopic.add(new Tag(-1, "context",s));
+                            tagsOfTopic.add(new Tag(-1, "context",s,s));
 
                         }
                     }
