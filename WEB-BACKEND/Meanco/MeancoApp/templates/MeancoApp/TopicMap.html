@@ -7,15 +7,15 @@
 
         var nodes = new vis.DataSet([
             {% for topic in topics %}
-                {id: {{ topic.id }}, label: {{ topic.name }}, color:'#C2FABC'},
+                {id: {{ topic.id }}, label: '{{ topic.label }}', color:'#C2FABC'},
             {% endfor %}
         ]);
 
         var edges = new vis.DataSet([
             {% for topic in topics %}
-                {% for relation in topic.relationsFrom %}
-                    {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }},
-                        arrows: 'from', label: {{ relation.label.text }}, font: {align: 'top'}},
+                {% for relation in topic.relations_a.all %}
+                    {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
+                        arrows: 'from', label: '{{ relation.label }}', font: {align: 'top'}},
                 {% endfor %}
             {% endfor %}
         ]);
@@ -29,18 +29,13 @@
         var options = {};
         var network = new vis.Network(container, data, options);
 
-        {% comment %}
         network.on("doubleClick", function (params) {
-            params.event = "[original event]";
-            var obj = JSON.parse(params, null, 4);
-            {% if obj.nodes[0] != null %}
-                document.getElementById('eventSpan').innerHTML = '<a href="topic/' + obj.nodes[0]  +'" />' ;
-            {% else %}
-                document.getElementById('eventSpan').innerHTML = '<a href=relation/' + obj.edges[0]  +'" />' ;
-            {% endif %}
+            if (params.nodes[0] != null) {
+                location.href = "topic/" + params.nodes[0];
+            } else {
+                //location.href = "relation/" + params.edges[0];
+            }
         });
-        {% endcomment %}
-
 
     </script>
 

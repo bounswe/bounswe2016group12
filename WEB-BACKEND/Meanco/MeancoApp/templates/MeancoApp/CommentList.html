@@ -1,4 +1,70 @@
 {% extends 'MeancoApp/Home.html' %}
+
+{% block content %}
+
+    <div class="col-md-4">
+        <h1> {{ topic.label }} </h1>
+        <ul style="list-style-type:none">
+            {% for tag in tags %}
+                <li> <h3> <span class="label label-default listSpan">{{ tag.label }}({{ tag.content }})</span> </h3></li>
+            {% endfor %}
+
+        </ul>
+        {% if user.is_authenticated %}
+            <div class="form-group" >
+                <textarea class="form-control" rows="1" id="comment"></textarea>
+                <button type="button" class="btn btn-success">Add Tag</button>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <div class="row" style="background-color:#C2FABC;">
+            <div class="col-md-2" >
+                <h4> Votes </h4>
+            </div>
+
+            <div class="col-md-8">
+                <h4> Top Comments </h4>
+            </div>
+
+            <div class="col-md-2">
+                <h4> Up/Down Vote </h4>
+            </div>
+        </div>
+        <p></p>
+        <hr>
+        {% for comment in comments %}
+            <div class="row">
+                <div class="col-md-2">
+                    <h4> {{ comment.vote_count }} </h4>
+                </div>
+                <div class="col-md-8">
+                    <p> {{ comment.content }}</p>
+                    <p>{{ comment.current.timestamp }} {{ comment.profile.user.username }}</p>
+                </div>
+                <div class="col-md-2">
+                    <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                    <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+
+        <form>
+            <div class="form-group" style="position:fixed; bottom: 0; width: 700px">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+                <button type="button" class="btn btn-success">Add Comment</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+
+{% comment %}
+
+{% extends 'MeancoApp/Home.html' %}
 {% block content %}
     <font size="13" color="orange">{{ topic.label }}</font>
 </br>
@@ -70,3 +136,4 @@
         <p>{{ of.tag.label }}</p>
     {% endfor %}
 {% endblock %}
+{% endcomment %}

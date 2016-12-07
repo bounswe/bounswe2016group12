@@ -31,8 +31,8 @@
             </a>
           </div>
         {% else %}
-          <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-          <li><a href="{% url 'login'%}?next={{request.path}}">SignUp</a></li>
+          <li><a href="{% url 'login'%}?next={{request.path}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li><a href="{% url 'login'%}?next={{request.path}}"><span class="glyphicon glyphicon-user"></span> SignUp</a></li>
         {% endif %}
       </ul>
 

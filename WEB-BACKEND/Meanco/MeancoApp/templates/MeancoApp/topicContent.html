@@ -3,10 +3,10 @@
 {% block content %}
 
     <div class="col-md-4">
-        <h1> {{ topic.name.label }} </h1>
+        <h1> {{ topic.label }} </h1>
         <ul style="list-style-type:none">
             {% for tag in tags %}
-                <li> <h3> <span class="label label-default listSpan">{{ tag.name.label }}({{ tag.content }})</span> </h3></li>
+                <li> <h3> <span class="label label-default listSpan">{{ tag.label }}({{ tag.content }})</span> </h3></li>
             {% endfor %}
 
         </ul>
