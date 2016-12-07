@@ -1,0 +1,16 @@
+{% extends 'MeancoApp/Home.html' %}
+
+{% block content %}
+    <form method="post" action="API/Register" id="signupId" class="post-form">
+        {% csrf_token %}
+        <div class="col-md-4"></div>
+        <div class="col-md-3">
+            <form class="form-signin">
+                <h2 class="form-signin-heading">Please login</h2>
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">Sign up</button>
+            </form>
+        </div>
+        <div class="col-md-5"></div>
+    </form>
+{% endblock %}
