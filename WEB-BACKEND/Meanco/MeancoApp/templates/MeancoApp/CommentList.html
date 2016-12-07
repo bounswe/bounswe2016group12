@@ -11,10 +11,13 @@
 
         </ul>
         {% if user.is_authenticated %}
-            <div class="form-group" >
-                <textarea class="form-control" rows="1" id="comment"></textarea>
-                <button type="button" class="btn btn-success">Add Tag</button>
-            </div>
+            <form action="/API/AddTag" method="post"> {% csrf_token %}
+                <input type="hidden" name="topicId" value="{{ topic.id }}"><br>
+                Tag: <input type="text" class="form-control" rows="1" name="label"><br>
+                Context: <input type="text" class="form-control" name="context"><br>
+                <button type="submit" class="btn btn-success">Add Tag</button>
+            </form>
+
         {% endif %}
     </div>
     <div class="col-md-8">
@@ -50,13 +53,17 @@
             <hr>
         {% endfor %}
 
-        <form>
+        {% if user.is_authenticated %}
             <div class="form-group" style="position:fixed; bottom: 0; width: 700px">
                 <label for="comment">Comment:</label>
-                <textarea class="form-control" rows="5" id="comment"></textarea>
-                <button type="button" class="btn btn-success">Add Comment</button>
+                <form action="/API/AddComment" method="post"> {% csrf_token %}
+                    <input type="hidden" name="topicId" value="{{ topic.id }}"><br>
+                    <input type="text" class="form-control" rows="5" name="text"><br>
+                    <button type="submit" class="btn btn-success">Add Comment</button>
+                </form>
             </div>
-        </form>
+        {% endif %}
+
     </div>
 
 {% endblock %}
