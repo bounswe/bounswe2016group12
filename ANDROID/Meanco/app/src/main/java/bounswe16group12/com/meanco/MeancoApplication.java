@@ -21,12 +21,4 @@ public class MeancoApplication extends Application {
 
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        new GetTopicList(SITE_URL, getApplicationContext()).execute();
-
-
-    }
 }

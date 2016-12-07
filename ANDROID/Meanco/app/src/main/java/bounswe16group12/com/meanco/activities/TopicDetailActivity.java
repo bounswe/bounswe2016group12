@@ -24,12 +24,10 @@ import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
-import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
-import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;

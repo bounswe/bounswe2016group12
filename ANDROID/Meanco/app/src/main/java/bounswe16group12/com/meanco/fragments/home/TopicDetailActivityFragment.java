@@ -87,4 +87,14 @@ public class TopicDetailActivityFragment extends Fragment {
 
         return rootView;
     }
+
+    public static void updateAdapter(DatabaseHelper databaseHelper, int topicId){
+        mCommentsAdapter.clear();
+        List<Comment> comments = databaseHelper.getAllComments(topicId);
+        for(Comment c : comments){
+            mCommentsAdapter.add(c.content);
+        }
+        mCommentsAdapter.notifyDataSetChanged();
+
+    }
 }

@@ -21,8 +21,8 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
 
     private Context context;
     private String url;
-    private String topicId;
-    public GetTopicDetail(String url, String topicId, Context context){
+    private int topicId;
+    public GetTopicDetail(String url, int topicId, Context context){
         this.context = context;
         this.url = url + topicId;
         this.topicId = topicId;
@@ -48,12 +48,13 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                             JSONArray versions = topicObject.getJSONArray("versions");
                             JSONObject contentObject = versions.getJSONObject(i);
                             String content = contentObject.getString("content");
-                            Comment c = new Comment(commentId, Integer.valueOf(topicId), content);
+                            Comment c = new Comment(commentId, topicId, content);
                             databaseHelper.addComment(c);
                         }
 
                     }
                 }
+                TopicDetailActivityFragment.updateAdapter(databaseHelper, topicId);
             }
             //TODO: Add the new comments into adapter
         } catch (JSONException e) {

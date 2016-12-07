@@ -197,9 +197,9 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
     }
     public void updateArray(){
         topicsWithTags = DatabaseHelper.getInstance(getContext()).getAllTopics();
-        for(Topic t:topicsWithTags){
-            Log.d("updated", t.topicName);
-        }
+        for(Topic t:topicsWithTags)
+            this.add(t);
+
     }
 
     public static TextView beautifyTagView(String text, Context context){
