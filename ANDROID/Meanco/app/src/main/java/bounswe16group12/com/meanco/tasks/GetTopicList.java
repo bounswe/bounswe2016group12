@@ -85,9 +85,8 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                             int tagId = tagObject.getInt("id");
                             String label = tagObject.getString("label");
                             String description = tagObject.getString("description");
-                            //url
-                            //String tagUrl = tagObject.getString("URL");
-                            Tag t = new Tag(tagId, description, label);
+                            String URL = tagObject.getString("URL");
+                            Tag t = new Tag(tagId, description, label,URL);
                             tagsArray.add(t);
                             if(databaseHelper.getTag(tagId)==null) {
                                 databaseHelper.addTag(t);

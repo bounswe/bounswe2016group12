@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper sInstance;
 
     private static final String DATABASE_NAME = "meancoDB";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     //USER
     private static final String KEY_USER_TABLE = "users";
@@ -48,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_TAG_ID = "id";
     private static final String KEY_TAG_NAME = "tagName";
     private static final String KEY_TAG_DESCRIPTION = "description";
+    private static final String KEY_TAG_URL = "url";
 
     //COMMENT
     private static final String KEY_COMMENT_TABLE = "comments";
@@ -126,7 +127,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_TAG_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_TAG_NAME + " TEXT," +
-                KEY_TAG_DESCRIPTION + " TEXT" +
+                KEY_TAG_DESCRIPTION + " TEXT," +
+                KEY_TAG_URL + " TEXT" +
                 ")";
 
         db.execSQL(CREATE_TAG_TABLE);
@@ -352,6 +354,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_TAG_ID, tag.tagId );
             values.put(KEY_TAG_NAME, tag.tagName );
             values.put(KEY_TAG_DESCRIPTION,tag.context);
+            values.put(KEY_TAG_URL,tag.URL);
 
             db.insert(KEY_TAG_TABLE,null,values);
             db.setTransactionSuccessful();
@@ -374,6 +377,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 tag.tagId = cursor.getInt(cursor.getColumnIndex(KEY_TAG_ID));
                 tag.tagName = cursor.getString(cursor.getColumnIndex(KEY_TAG_NAME));
                 tag.context = cursor.getString(cursor.getColumnIndex(KEY_TAG_DESCRIPTION));
+                tag.URL = cursor.getString(cursor.getColumnIndex(KEY_TAG_URL));
             }
         } finally {
             cursor.close();
@@ -405,6 +409,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     if(tagIds.contains(tag.tagId)) {
                         tag.tagName = cursor.getString(cursor.getColumnIndex(KEY_TAG_NAME));
                         tag.context = cursor.getString(cursor.getColumnIndex(KEY_TAG_DESCRIPTION));
+                        tag.URL = cursor.getString(cursor.getColumnIndex(KEY_TAG_URL));
 
                         tags.add(tag);
                     }
