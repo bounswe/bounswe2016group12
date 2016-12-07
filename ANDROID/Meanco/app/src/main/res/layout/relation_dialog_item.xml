@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relation_name"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <ImageView
         android:layout_width="50dp"
@@ -14,17 +22,5 @@
         android:id="@+id/arrow_direction_picture"
         android:layout_margin="10dp" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/arrow_direction_picture"
-        android:layout_toRightOf="@+id/arrow_direction_picture"
-        android:layout_toEndOf="@+id/arrow_direction_picture"
-        android:layout_marginLeft="39dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginBottom="13dp"
-        android:id="@+id/relation_name"
-        android:textSize="18sp"
-        android:visibility="visible" />
-</RelativeLayout>
+
+</LinearLayout>

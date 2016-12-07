@@ -40,8 +40,8 @@ public class CustomTopicDetailAdapter extends ArrayAdapter<Relation> {
         Relation r = getItem(position);
 
 
-        TextView rn = null;
-        ImageView iv = null;
+        TextView rn;
+        ImageView iv;
 
 
         if (v == null) {
@@ -54,22 +54,23 @@ public class CustomTopicDetailAdapter extends ArrayAdapter<Relation> {
             iv = (ImageView) v.findViewById(R.id.arrow_direction_picture);
 
             //TODO: NEDEN OLMUYOR?
-            rn.setText(r.relationName);
-
             if (r.topicFrom == topicId) {
-                    if(r.isBidirectional)
-                        iv.setImageResource(R.drawable.two_arrow);
+                rn.setText(r.relationName);
+                Log.d("NEDENNN", rn.getText().toString());
+                if(r.isBidirectional)
+                    iv.setImageResource(R.drawable.two_arrow);
 
-                    else
-                        iv.setImageResource(R.drawable.right_arrow);
+                else
+                    iv.setImageResource(R.drawable.right_arrow);
 
 
-                }else if (r.topicTo == topicId) {
-                    if(r.isBidirectional)
-                        iv.setImageResource(R.drawable.two_arrow);
-                    else
-                        iv.setImageResource(R.drawable.left_arrow);
-                }
+            }else if (r.topicTo == topicId) {
+                rn.setText(r.relationName);
+                if(r.isBidirectional)
+                    iv.setImageResource(R.drawable.two_arrow);
+                else
+                    iv.setImageResource(R.drawable.left_arrow);
+            }
 
 
         }
