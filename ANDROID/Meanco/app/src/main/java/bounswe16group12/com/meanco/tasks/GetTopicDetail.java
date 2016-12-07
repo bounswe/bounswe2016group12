@@ -44,11 +44,13 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
 
                         JSONObject topicObject = commentsObject.getJSONObject(i);
                         int commentId = topicObject.getInt("id");
-                        JSONArray versions = topicObject.getJSONArray("versions");
-                        JSONObject contentObject = versions.getJSONObject(i);
-                        String content = contentObject.getString("content");
-                        Comment c = new Comment(commentId, Integer.valueOf(topicId), content);
-                        databaseHelper.addComment(c);
+                        if(databaseHelper.getComment(commentId)==null) {
+                            JSONArray versions = topicObject.getJSONArray("versions");
+                            JSONObject contentObject = versions.getJSONObject(i);
+                            String content = contentObject.getString("content");
+                            Comment c = new Comment(commentId, Integer.valueOf(topicId), content);
+                            databaseHelper.addComment(c);
+                        }
 
                     }
                 }

@@ -25,5 +25,6 @@
         android:layout_marginStart="39dp"
         android:layout_marginBottom="13dp"
         android:id="@+id/relation_name"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="visible" />
 </RelativeLayout>

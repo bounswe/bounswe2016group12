@@ -22,7 +22,7 @@ import java.util.Random;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
-//import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
+import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
@@ -34,7 +34,7 @@ import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
     String title;
-    //public static CustomTopicDetailAdapter adapter;
+    public static CustomTopicDetailAdapter adapter;
     public static ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,36 +100,13 @@ public class TopicDetailActivity extends AppCompatActivity {
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
-        //adapter=new CustomTopicDetailAdapter(getBaseContext(), R.layout.fragment_home, relations);
+        adapter=new CustomTopicDetailAdapter(getApplicationContext(), R.layout.relation_dialog_view, relations, topic.topicId);
 
-        final View customView = getLayoutInflater().inflate(R.layout.relation_dialog_item, null, false);
+        final View customView = getLayoutInflater().inflate(R.layout.relation_dialog_view, null, false);
 
-        TextView rn = (TextView) customView.findViewById(R.id.relation_name);
-        ImageView iv = (ImageView) customView.findViewById(R.id.arrow_direction_picture);
-        //TODO: implement adapter.
-        int rel_count=0;
-            for (Relation r : relations) {
-                rn.setText(r.relationName);
 
-                if (r.topicFrom == topic.topicId) {
-                    if(r.isBidirectional)
-                        iv.setImageResource(R.drawable.two_arrow);
-                    else
-                        iv.setImageResource(R.drawable.right_arrow);
-                    rel_count++;
-                }else if (r.topicTo == topic.topicId) {
-                    if(r.isBidirectional)
-                        iv.setImageResource(R.drawable.two_arrow);
-                    else
-                        iv.setImageResource(R.drawable.left_arrow);
-                    rel_count++;
-                }else
-                    continue;
-            }
-        if(rel_count==0) {
-            rn.setVisibility(View.GONE);
-            iv.setVisibility(View.GONE);
-        }
+        listView = (ListView) customView.findViewById(R.id.relations_list);
+        listView.setAdapter(adapter);
 
 
 
