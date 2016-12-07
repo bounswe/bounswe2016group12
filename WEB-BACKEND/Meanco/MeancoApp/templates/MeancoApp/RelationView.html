@@ -1,0 +1,33 @@
+{% extends 'MeancoApp/Home.html' %}
+
+{% block content %}
+
+    <div class="col-md-4">
+        <h1> {{ topic_a.name.label }} </h1>
+        <ul style="list-style-type:none">
+            {% for tag in topic_a.tags %}
+                <li> <h3> <span class="label label-default listSpan">{{ tag.name.label }}({{ tag.content }})</span> </h3></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-md-4">
+        <ul>
+            {% for relation in relations %}
+                <li>
+                    ------->
+                    {{ relation.label}}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-md-4">
+        <h1> {{ topic_b.label }} </h1>
+        <ul style="list-style-type:none">
+            {% for tag in topic_b.tags %}
+                <li> <h3> <span class="label label-default listSpan">{{ tag.label }}({{ tag.content }})</span> </h3></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

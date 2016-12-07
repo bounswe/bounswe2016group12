@@ -1,53 +1,64 @@
 <div id="sidebar-wrapper" class="sidebar">
 
-  <ul class="sidebar-nav">
+  <ul class="sidebar-nav" >
     {% if user.is_authenticated %}
 
     <li>
-      <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#myModal">Create Topic</button>
+        <div class="well" style="background-color: black; border: #000000">
+            <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#myModal">Create Topic</button>
+        </div>
     </li>
     <li>
-      <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#relationModal">Add Relation</button>
+        <div class="well" style="background-color: black; border: #000000">
+            <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#relationModal">Add Relation</button>
+        </div>
     </li>    
 
     {% else %}
 
-      <li>
-        <div class="Trendings">
-          <h4> Trending Topics </h4>
-            <ul class="ordered">
-              <li >
-                Elections
-              </li>
-              <li >
-                Pizzagate
-              </li>
-              <li >
-                Trump Victory
-              </li>
-              <li >
-                Dolar 
-              </li>
-            </ul>
-          </div>
-        </li>
-      <li>
+          <li>
+            <div class="Trendings">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Trending Topics</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                    {% for topic in popularTopics %}
+                        <tr>
+                            <td>{{ topic.label }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+              </table>
+            </div>
+          </li>
 
     {% endif %}
 
-    <li>
-      <div class="Trendings">
-      <h4> Trending Tags </h4>
-        <ul class="ordered">
-          <li >
-            Python
+
+          <li>
+            <div class="Trendings" style="position:fixed; bottom: 0; ">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Trending Tags</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                    {% for tag in popularTags %}
+                        <tr>
+                            <td>{{ tag.label }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+              </table>
+            </div>
           </li>
-        </ul>
-      </div>
-    </li>
   </ul>
 </div>
-{% comment %}
+
 <form action="API/AddTopic" method="post"> {% csrf_token %}
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -77,14 +88,14 @@
 
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                <button type="submit" class="btn btn-info" data-dismiss="modal">Submit</button>
               </div>
             </div>
 
           </div>
     </div>
 </form>
-{% endcomment %}
+{% comment %}
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
         <form action="API/AddTopic" method="post"> {% csrf_token %}
@@ -95,6 +106,7 @@
         </form>
     </div>
 </div>
+{% endcomment %}
 
 <div class="modal fade" id="relationModal" role="dialog">
   <div class="modal-dialog">
@@ -132,7 +144,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
+        <button type="submit" class="btn btn-info" data-dismiss="modal">Submit</button>
       </div>
     </div>
 
