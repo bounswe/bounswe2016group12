@@ -128,17 +128,12 @@
 
     function pickTag(id){
         console.log("a tag is picked!");
-        $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\">");
         console.log("Tag label: " + tags[id].label);
-        if(tags[id].description){
-            console.log("Tag description: " + tags[id].description);
-            $("#tagDescriptionId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"description\" id=\"tagDescriptionId\" value=\"" + tags[id].description + "\">");
-        }else{
-            console.log("Tag description: ");
-            $("#tagDescriptionId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"description\" id=\"tagDescriptionId\" value=\"\" disabled>");
-        }
-        $("#tagURLId").replaceWith("<input type=\"hidden\" class=\"form-control\" name=\"URL\" id=\"tagURLId\" value=\"" + tags[id].url + "\">");
+        $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\">");
+        console.log("Tag description: " + tags[id].description);
+        $("#tagDescriptionId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"description\" id=\"tagDescriptionId\" value=\"" + tags[id].description + "\" readonly=\"readonly\">");
         console.log("Tag url: " + tags[id].url);
+        $("#tagURLId").replaceWith("<input type=\"hidden\" class=\"form-control\" name=\"URL\" id=\"tagURLId\" value=\"" + tags[id].url + "\" readonly=\"readonly\">");
     }
 
     $(document).ready(function () {
