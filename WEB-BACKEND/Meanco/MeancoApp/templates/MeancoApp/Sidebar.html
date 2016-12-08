@@ -129,11 +129,11 @@
     function pickTag(id){
         console.log("a tag is picked!");
         console.log("Tag label: " + tags[id].label);
-        $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\">");
+        $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\" readonly=\"readonly\">");
         console.log("Tag description: " + tags[id].description);
         $("#tagDescriptionId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"description\" id=\"tagDescriptionId\" value=\"" + tags[id].description + "\" readonly=\"readonly\">");
         console.log("Tag url: " + tags[id].url);
-        $("#tagURLId").replaceWith("<input type=\"hidden\" class=\"form-control\" name=\"URL\" id=\"tagURLId\" value=\"" + tags[id].url + "\" readonly=\"readonly\">");
+        $("#tagURLId").replaceWith("<input type=\"hidden\" class=\"form-control\" name=\"URL\" id=\"tagURLId\" value=\"" + tags[id].url + "\">");
     }
 
     $(document).ready(function () {
