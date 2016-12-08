@@ -45,7 +45,7 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         JSONObject topicObject = commentsObject.getJSONObject(i);
                         int commentId = topicObject.getInt("id");
                         JSONArray versions = topicObject.getJSONArray("versions");
-                        JSONObject contentObject = versions.getJSONObject(i);
+                        JSONObject contentObject = versions.getJSONObject(0);
                         String content = contentObject.getString("content");
                         Comment c = new Comment(commentId, topicId, content);
                         databaseHelper.addComment(c);
