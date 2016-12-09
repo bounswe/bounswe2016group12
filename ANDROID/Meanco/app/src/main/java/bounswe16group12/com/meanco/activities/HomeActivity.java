@@ -238,8 +238,9 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             public void onClick(DialogInterface dialog, int which) {
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 for(Tag t: tagsOfTopic) {
-                                    databaseHelper.addTag(t);
-                                    new PostTag(MeancoApplication.POST_TAG_URL, getApplicationContext(), t);
+                                    //databaseHelper.addTag(t);
+                                    //new PostTag(MeancoApplication.POST_TAG_URL, getApplicationContext(), t);
+                                    //TODO: Redirect to WikiSearch after getting topicId
                                 }
 
                             }
