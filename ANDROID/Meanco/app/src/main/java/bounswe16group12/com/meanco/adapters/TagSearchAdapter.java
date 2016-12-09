@@ -67,7 +67,7 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
 
 
             checkedTextView  = (CheckedTextView) v.findViewById(R.id.checkedTextView);
-          
+
             if(TagSearchActivity.checkedTags.indexOf(t) != -1)
                 checkedTextView.setChecked(true);
 
@@ -80,17 +80,6 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
 
 
             checkedTextView.setText(str);
-           /* checkedTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    checkedTextView.toggle();
-                    if(TagSearchActivity.checkedTags.indexOf(t) == -1)
-                        TagSearchActivity.checkedTags.add(t);
-                    else
-                        TagSearchActivity.checkedTags.remove(t);
-
-                }
-            });*/
 
         return v;
     }
