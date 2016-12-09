@@ -17,7 +17,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/add_topic_button" />
+        android:layout_above="@+id/add_topic_button"
+        android:choiceMode="multipleChoice"/>
 
     <Button
         android:text="Add topic"

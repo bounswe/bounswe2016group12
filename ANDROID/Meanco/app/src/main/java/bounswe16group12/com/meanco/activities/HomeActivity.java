@@ -180,25 +180,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                                 Intent i = new Intent(HomeActivity.this, TagSearchActivity.class);
                                 i.putExtra("topicName", topicName);
                                 startActivity(i);
-
-
-                                /*DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-
-                                String topicName = topicNameEdit.getText().toString();
-                                //TODO:Change ID.
-                                Topic topic = new Topic(-1, topicName, tagsOfTopic);
-                                //databaseHelper.addTopic(topic);
-
-                                new PostTopic(topic,getApplicationContext()).execute();
-
-                                String topicName2 = topicName2Edit.getText().toString();
-                                String relationName = relationNameEdit.getText().toString();
-                                boolean isBidirectional = bidirectionalEdit.isEnabled();
-
-                                //Relation
-
-                                HomeActivityFragment.adapter.add(topic);
-                                HomeActivityFragment.adapter.notifyDataSetChanged();*/
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

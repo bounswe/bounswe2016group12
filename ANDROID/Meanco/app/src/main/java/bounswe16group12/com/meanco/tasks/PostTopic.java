@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.activities.TagSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -68,6 +69,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
                     topic.tags.clear();
                     topic.tags.add(t);
 
+                    TagSearchActivity.checkedTags.clear();
                     databaseHelper.addTopic(topic);
                 }
 
@@ -93,6 +95,8 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
             data += "&" + URLEncoder.encode("URL", "UTF-8")
                 + "=" + URLEncoder.encode(topic.topicName + topic.tags.get(2).tagName, "UTF-8");
+
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

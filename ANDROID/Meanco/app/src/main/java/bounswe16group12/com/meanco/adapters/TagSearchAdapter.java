@@ -6,29 +6,23 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
+import android.widget.Checkable;
+import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.TagSearchActivity;
-import bounswe16group12.com.meanco.database.DatabaseHelper;
-import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
-import bounswe16group12.com.meanco.objects.Topic;
-import rm.com.longpresspopup.LongPressPopup;
-import rm.com.longpresspopup.LongPressPopupBuilder;
 
 /**
  * Created by Ezgi on 12/7/2016.
@@ -61,15 +55,10 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View v, ViewGroup parent) {
 
-        View v = convertView;
-        Tag t = getItem(position);
-
-
-        TextView tagString;
-        CheckBox checkBox;
-
+        final Tag t = getItem(position);
+        final CheckedTextView checkedTextView;
 
        // if (v == null) {
             LayoutInflater vi;
@@ -77,31 +66,29 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
             v = vi.inflate(R.layout.tag_search_item, null);
 
 
-            tagString = (TextView) v.findViewById(R.id.tag_string);
-            checkBox = (CheckBox) v.findViewById(R.id.tag_check);
+            checkedTextView  = (CheckedTextView) v.findViewById(R.id.checkedTextView);
+            for(Tag c: TagSearchActivity.checkedTags) {
+                if (t.tagName.equals(c.tagName)){
+                    checkedTextView.setChecked(true);
+                }
+            }
             String text = t.tagName + ": " + t.context;
 
             final SpannableStringBuilder str = new SpannableStringBuilder(text);
             str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            str.setSpan(new ForegroundColorSpan(Color.GRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-            tagString.setText(str);
+            checkedTextView.setText(str);
+            checkedTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkedTextView.toggle();
+                    TagSearchActivity.checkedTags.add(t);
 
-            if(checkBox.isChecked()){
-                TagSearchActivity.checkedTags.add(t);
-            }
-
-
-
-
-
-        //}
-
-
-
-
+                }
+            });
 
         return v;
     }
@@ -111,4 +98,6 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
             this.add(t);
         }
     }
+
+
 }

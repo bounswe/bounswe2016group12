@@ -55,11 +55,13 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(TagSearchActivity.this, HomeActivity.class);
-                TagSearchAdapter.wikiTags.clear();
-                adapter.clear();
+                for(Tag t: checkedTags)
+                        Log.i("tag", t.tagName);
                 Topic topic = new Topic(-1, topicName, checkedTags);
                 new PostTopic(topic, TagSearchActivity.this).execute();
-                checkedTags.clear();
+                //clears the checked array in post topic
+                TagSearchAdapter.wikiTags.clear();
+                adapter.clear();
                 startActivity(i);
                 finish();
 
