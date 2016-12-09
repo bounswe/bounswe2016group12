@@ -22,10 +22,19 @@ def addComment(request):
             print(topicId,profile)
             Com=Comment(topic_id=topicId,profile_id=userId)
             Com.save()
-            print("asd")
             Com.edit(text)
         except:
             return HttpResponse("Comment Creation Error")
+        try:
+            if(CommentedTopic.objects.filter(topic_id=topicId,user_id=userId).exists()):
+                ct=CommentedTopic.objects.get(topic_id=topicId,user_id=userId)
+                ct.visited()
+                ct.save()
+            else:
+                ct=CommentedTopic(topic_id=topicId,user_id=userId)
+                ct.save()
+        except:
+            return HttpResponse("Comment linking Error")
         return HttpResponse("Comment Created")
 # example:
 # commentId: 1
@@ -40,6 +49,13 @@ def editComment(request):
             Com.edit(text)
         except:
             HttpResponse("Comment Edit Error")
+
+        try:
+            ct = CommentedTopic.objects.get(topic_id=Com.topic,user_id=Com.profile)
+            ct.visited()
+            ct.save()
+        except:
+            return HttpResponse("Comment linking Error")
         return HttpResponse("Comment Edited")
 
 

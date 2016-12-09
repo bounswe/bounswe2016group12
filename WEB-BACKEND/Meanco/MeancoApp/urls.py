@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^API/AddTopic', ApiTopic.addTopic),
     url(r'^API/SearchTopic', ApiTopic.searchTopic),
+    url(r'^API/FollowTopic', ApiTopic.followTopic),
     url(r'^API/TopicLister', ApiTopic.topicListerGet),
     url(r'^API/AddComment', ApiComment.addComment),
     url(r'^API/EditComment', ApiComment.editComment),

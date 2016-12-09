@@ -90,8 +90,33 @@ def searchTopic(request):
     else:
         return HttpResponse("Wrong Request")
 
+# (Android)UserId:1
+# TopicId=5
+@csrf_exempt
+def followTopic(request):
+    if (request.method=="POST"):
+        TopicId = request.POST.get('TopicId')
 
+        if 'UserId' not in request.POST:
+            UserId = request.user.id
+        else:
+            UserId = request.POST.get("UserId")
+        print(UserId)
+        print(TopicId)
+        try:
+            if(FollowedTopic.objects.filter(user_id=UserId,topic_id=TopicId).exists()):
+                ft=FollowedTopic.objects.get(user_id=UserId,topic_id=TopicId)
+                ft.delete()
+            else:
+                ft = FollowedTopic(user_id=UserId,topic_id=TopicId)
+                ft.save()
+        except:
+            return HttpResponse("Follow Topic Error")
+        return HttpResponse("Success")
+    else:
+        return HttpResponse("Wrong Request")
 # search= Donald
+
 def topicListerGet(request):
     searchParam = request.GET.get("search")
     topics = Topic.objects.filter(label__startswith=searchParam)
