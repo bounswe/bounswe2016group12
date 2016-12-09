@@ -63,7 +63,8 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
                     topic.topicId = topicId;
 
                    for(Tag t: topic.tags){
-                       new PostTag(MeancoApplication.POST_TAG_URL,t,topicId).execute();
+                       boolean isLast = (topic.tags.size() - topic.tags.indexOf(t)) == 1;
+                       new PostTag(MeancoApplication.POST_TAG_URL,t,topicId,isLast,context).execute();
                    }
                 }
             }

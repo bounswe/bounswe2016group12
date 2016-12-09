@@ -1,5 +1,6 @@
 package bounswe16group12.com.meanco.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -17,6 +18,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bounswe16group12.com.meanco.MeancoApplication;
+import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.utils.Connect;
 
@@ -28,13 +31,15 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
     private Tag tagToPost = null;// post data
     private int topicId;
     private String url;
+    private boolean isLast;
+    private Context context;
 
-
-
-    public PostTag(String url, Tag tagToPost, int topicId){
+    public PostTag(String url, Tag tagToPost, int topicId, boolean isLast,Context context){
         this.url = url;
         this.tagToPost = tagToPost;
         this.topicId = topicId;
+        this.isLast = isLast;
+        this.context = context;
     }
 
 
@@ -42,9 +47,12 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
     protected void onPostExecute(Connect.APIResult response) {
         super.onPostExecute(response);
 
-                if (response.getResponseCode() == 200 && response != null) {
-                    Log.i("TAG_POST_REQUEST",response.getData());
-                }
+        if (response.getResponseCode() == 200 && response != null) {
+            Log.i("TAG_POST_REQUEST",response.getData());
+        }
+        if(isLast){
+            new GetTopicList(MeancoApplication.SITE_URL,context);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
