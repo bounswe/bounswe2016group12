@@ -44,7 +44,6 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
 
         try {
             JSONArray jsonArray=new JSONArray(response.getData());
-            Log.i("JSON GET", response.getData());
             if (jsonArray != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
