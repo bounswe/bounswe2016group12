@@ -20,6 +20,7 @@ import java.net.URLEncoder;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.activities.HomeActivity;
+import bounswe16group12.com.meanco.activities.TagSearchActivity;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.utils.Connect;
 
@@ -51,6 +52,7 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
             Log.i("TAG_POST_REQUEST",response.getData());
         }
         if(isLast){
+            TagSearchActivity.checkedTags.clear();
             new GetTopicList(MeancoApplication.SITE_URL,context);
         }
     }

@@ -3,21 +3,22 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <CheckedTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/checkedTextView"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:textSize="18sp"
+        android:text="abc" />
 
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tag_string"
-        android:layout_weight="10"
-        android:textSize="24sp"
-        android:padding="10dp" />
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tag_check"
-        android:layout_weight="1"
-        android:layout_marginRight="10dp" />
+
 
 </LinearLayout>

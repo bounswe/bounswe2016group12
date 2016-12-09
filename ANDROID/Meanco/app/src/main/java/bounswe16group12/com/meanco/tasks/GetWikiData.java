@@ -40,7 +40,9 @@ public class GetWikiData extends AsyncTask<Void, Void, Connect.APIResult > {
         try {
 
             TagSearchAdapter.wikiTags.clear();
+            TagSearchAdapter.wikiTags.addAll(TagSearchActivity.checkedTags);
             Log.d("wiki response", response.getData());
+           // Log.d("wiki tags after clear", );
             JSONArray jsonArray=new JSONObject(response.getData()).getJSONArray("search");
 
             if (jsonArray != null) {
