@@ -1,7 +1,5 @@
 from django.db.models import Model, IntegerField, DateTimeField, ForeignKey, CharField, CASCADE, SET_DEFAULT
 from django.contrib.auth.models import User
-from .profile import Profile
-
 ### topic.Topic
 
 class Topic(Model):
