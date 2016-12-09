@@ -82,7 +82,7 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
 
 
             checkedTextView.setText(str);
-            checkedTextView.setOnClickListener(new View.OnClickListener() {
+           /* checkedTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     checkedTextView.toggle();
@@ -92,7 +92,7 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
                         TagSearchActivity.checkedTags.remove(t);
 
                 }
-            });
+            });*/
 
         return v;
     }
