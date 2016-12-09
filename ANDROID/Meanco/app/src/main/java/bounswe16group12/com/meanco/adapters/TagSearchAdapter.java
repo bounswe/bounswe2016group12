@@ -67,12 +67,10 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
 
 
             checkedTextView  = (CheckedTextView) v.findViewById(R.id.checkedTextView);
-            for(Tag c: TagSearchActivity.checkedTags) {
-                if (t.URL.equals(c.URL)){
-                    checkedTextView.setChecked(true);
-                    break;
-                }
-            }
+          
+            if(TagSearchActivity.checkedTags.indexOf(t) != -1)
+                checkedTextView.setChecked(true);
+
             String text = t.tagName + ": " + t.context;
 
             final SpannableStringBuilder str = new SpannableStringBuilder(text);
