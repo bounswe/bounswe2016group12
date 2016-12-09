@@ -12,6 +12,7 @@ public class MeancoApplication extends Application {
 
     public static String SITE_URL = "http://46.101.253.73:8000/API/T/";
     public static String POST_TAG_URL = "http://46.101.253.73:8000/API/AddTag";
+    public static String WIKIDATA_URL = "https://www.wikidata.org/w/api.php?action=wbsearchentities&language=en&format=json&search=";
 
 
 

@@ -34,9 +34,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
         this.url = url;
     }
 
-    public static void parseJSON(Connect.APIResult response){
 
-    }
 
     @Override
     protected void onPostExecute(Connect.APIResult response) {
