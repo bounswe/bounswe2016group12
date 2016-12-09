@@ -29,7 +29,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import bounswe16group12.com.meanco.activities.TagSearchActivity;
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -57,22 +57,16 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
         try {
             JSONObject jsonObject=new JSONObject(response.getData());
-            Log.i("JSON POST", response.getData());
             if (jsonObject != null) {
-                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-
                 if (response.getResponseCode() == 200) {
                     int topicId = jsonObject.getInt("Topic");
                     topic.topicId = topicId;
 
-                    Tag t = new Tag(topic.tags.get(0).tagId,topic.tags.get(1).tagName,topic.tags.get(0).tagName,topic.tags.get(2).tagName);
-                    topic.tags.clear();
-                    topic.tags.add(t);
-
-                    TagSearchActivity.checkedTags.clear();
-                    databaseHelper.addTopic(topic);
+                   for(Tag t: topic.tags){
+                       boolean isLast = (topic.tags.size() - topic.tags.indexOf(t)) == 1;
+                       new PostTag(MeancoApplication.POST_TAG_URL,t,topicId,isLast,context).execute();
+                   }
                 }
-
             }
         } catch (JSONException e) {
 
@@ -84,18 +78,16 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
         String data = null;
         try {
-            //TODO: get(0): topicName get(1): context get(2): URL
             data = URLEncoder.encode("topicName", "UTF-8")
                     + "=" + URLEncoder.encode(topic.topicName, "UTF-8");
             data += "&" + URLEncoder.encode("tag", "UTF-8") + "="
                 + URLEncoder.encode(topic.tags.get(0).tagName, "UTF-8");
 
             data += "&" + URLEncoder.encode("description", "UTF-8")
-                + "=" + URLEncoder.encode(topic.tags.get(1).tagName, "UTF-8");
+                + "=" + URLEncoder.encode(topic.tags.get(0).context, "UTF-8");
 
             data += "&" + URLEncoder.encode("URL", "UTF-8")
-                + "=" + URLEncoder.encode(topic.topicName + topic.tags.get(2).tagName, "UTF-8");
-
+                + "=" + URLEncoder.encode(topic.topicName + topic.tags.get(0).URL, "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -124,8 +116,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
             text = sb.toString();
 
             int responseCode = conn.getResponseCode();
-            Log.i("POST_RESPONSE", "" + responseCode);
-            Log.i("POST_RESPONSE", text);
+
             return new Connect.APIResult(responseCode,text);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -134,7 +125,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; //TODO: Return response
+        return null;
     }
 
 
