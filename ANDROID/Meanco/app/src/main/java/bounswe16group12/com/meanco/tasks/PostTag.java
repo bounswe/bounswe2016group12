@@ -53,7 +53,6 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
         }
         if(isLast){
             Log.i("TAG_POST","FINISHED");
-          //  TagSearchActivity.checkedTags.clear();
             new GetTopicList(MeancoApplication.SITE_URL,context);
         }
     }
