@@ -60,7 +60,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
                 for(Tag t: checkedTags)
                         Log.i("tag", t.tagName + " : " + t.context + " : " + t.URL);
                 Topic topic = new Topic(-1, topicName, checkedTags);
-                new PostTopic(topic, TagSearchActivity.this).execute();
+                new PostTopic(topic, TagSearchActivity.this, MeancoApplication.POST_TOPIC_URL).execute();
                 //clears the checked array in post topic
                 TagSearchAdapter.wikiTags.clear();
                 adapter.clear();
