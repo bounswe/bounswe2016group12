@@ -9,6 +9,17 @@ import java.util.ArrayList;
 public class Topic {
     public int topicId;
     public String topicName;
+
+    @Override
+    public String toString() {
+
+        return "Topic{" +
+                "topicId=" + topicId +
+                ", topicName='" + topicName + '\'' +
+                ", tags=" + tags +
+                '}';
+    }
+
     public ArrayList<Tag> tags;
     //public String context; //TODO: ADD TO EVERYWHERE
     //public ArrayList<Comment> comments;

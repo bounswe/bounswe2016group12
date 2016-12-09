@@ -178,28 +178,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Adds topic
     public void addTopic(Topic topic){
-        SQLiteDatabase db = getWritableDatabase();
-        // TODO : Check if it is in database.
-        List<Tag> tags = topic.tags;
-        ArrayList<String> tagIds = new ArrayList<String>();
-
-        for(Tag tag : tags){
-            tagIds.add(""+tag.tagId);
+        if(getTopic(topic.topicId) != null){
+            updateTopic(topic);
         }
+        else {
+            SQLiteDatabase db = getWritableDatabase();
 
-        db.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_TOPIC_ID, topic.topicId );
-            values.put(KEY_TOPIC_NAME, topic.topicName);
-            values.put(KEY_TAG_LIST, Arrays.toString(tagIds.toArray()));
+            List<Tag> tags = topic.tags;
+            ArrayList<String> tagIds = new ArrayList<String>();
 
-            db.insert(KEY_TOPIC_TABLE,null,values);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to add or update user");
-        } finally {
-            db.endTransaction();
+            for (Tag tag : tags) {
+                tagIds.add("" + tag.tagId);
+            }
+
+            db.beginTransaction();
+            try {
+                ContentValues values = new ContentValues();
+                values.put(KEY_TOPIC_ID, topic.topicId);
+                values.put(KEY_TOPIC_NAME, topic.topicName);
+                values.put(KEY_TAG_LIST, Arrays.toString(tagIds.toArray()));
+
+                db.insert(KEY_TOPIC_TABLE, null, values);
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+                Log.d("USER DB HELPER", "Error while trying to add or update user");
+            } finally {
+                db.endTransaction();
+            }
         }
     }
 
@@ -257,7 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Update topic
     public void updateTopic(Topic topic) {
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         List<Tag> tags = topic.tags;
         ArrayList<String> tagIds = new ArrayList<String>();
@@ -274,10 +279,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_TAG_LIST, Arrays.toString(tagIds.toArray()));
 
             db.update(KEY_TOPIC_TABLE, values, KEY_TOPIC_ID + "= ?", new String[]{""+topic.topicId});
-
-
+            db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to add or update user");
+            Log.d("USER DB HELPER", "Error while trying to update topic");
         } finally {
             db.endTransaction();
         }
@@ -430,25 +434,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /////////////////////////////////////////////////////////////////////////////////
 
    public void addComment(Comment comment){
-       SQLiteDatabase db = getWritableDatabase();
-       db.beginTransaction();
-       try {
-           ContentValues values = new ContentValues();
-           values.put(KEY_COMMENT_ID, comment.commentId );
-           values.put(KEY_COMMENT_TOPIC_ID, comment.topicId );
-           values.put(KEY_COMMENT_CONTENT,comment.content);
+       if(getComment(comment.commentId) != null){
+           updateComment(comment);
+       }
+       else {
 
-           db.insert(KEY_COMMENT_TABLE,null,values);
-           db.setTransactionSuccessful();
-       } catch (Exception e) {
-           Log.d("USER DB HELPER", "Error while trying to add or update user");
-       } finally {
-           db.endTransaction();
+           SQLiteDatabase db = getWritableDatabase();
+           db.beginTransaction();
+           try {
+               ContentValues values = new ContentValues();
+               values.put(KEY_COMMENT_ID, comment.commentId);
+               values.put(KEY_COMMENT_TOPIC_ID, comment.topicId);
+               values.put(KEY_COMMENT_CONTENT, comment.content);
+
+               db.insert(KEY_COMMENT_TABLE, null, values);
+               db.setTransactionSuccessful();
+           } catch (Exception e) {
+               Log.d("USER DB HELPER", "Error while trying to add or update user");
+           } finally {
+               db.endTransaction();
+           }
        }
    }
 
     public void updateComment(Comment comment){
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         db.beginTransaction();
         try {
@@ -458,6 +468,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_COMMENT_CONTENT,comment.content);
 
             db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_ID + "= ?", new String[]{""+comment.commentId});
+            db.setTransactionSuccessful();
+
         } catch (Exception e) {
             Log.d("USER DB HELPER", "Error while trying to add or update user");
         } finally {
@@ -511,35 +523,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return comments;
     }
 
-
-
-
     //////////////////////////////////////////////////////////////////////////////////
     //RELATION
     /////////////////////////////////////////////////////////////////////////////////
 
     public void addRelation(Relation relation){
-        SQLiteDatabase db = getWritableDatabase();
-        db.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_RELATION_ID, relation.relationId );
-            values.put(KEY_RELATION_NAME, relation.relationName );
-            values.put(KEY_RELATION_FIRST_TOPIC_ID,relation.topicFrom);
-            values.put(KEY_RELATION_SECOND_TOPIC_ID,relation.topicTo);
-            values.put(KEY_RELATION_IS_BIDIRECTIONAL,relation.isBidirectional ? 1:0);
+        if(getRelation(relation.relationId) != null){
+            updateRelation(relation);
+        }
+        else {
+            SQLiteDatabase db = getWritableDatabase();
+            db.beginTransaction();
+            try {
+                ContentValues values = new ContentValues();
+                values.put(KEY_RELATION_ID, relation.relationId);
+                values.put(KEY_RELATION_NAME, relation.relationName);
+                values.put(KEY_RELATION_FIRST_TOPIC_ID, relation.topicFrom);
+                values.put(KEY_RELATION_SECOND_TOPIC_ID, relation.topicTo);
+                values.put(KEY_RELATION_IS_BIDIRECTIONAL, relation.isBidirectional ? 1 : 0);
 
-            db.insert(KEY_RELATION_TABLE,null,values);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to add or update user");
-        } finally {
-            db.endTransaction();
+                db.insert(KEY_RELATION_TABLE, null, values);
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+                Log.d("USER DB HELPER", "Error while trying to add or update user");
+            } finally {
+                db.endTransaction();
+            }
         }
     }
 
     public void updateRelation(Relation relation){
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         db.beginTransaction();
         try {
@@ -551,6 +565,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_RELATION_IS_BIDIRECTIONAL,relation.isBidirectional ? 1:0);
 
             db.update(KEY_RELATION_TABLE, values, KEY_RELATION_ID + "= ?", new String[]{""+relation.relationId});
+            db.setTransactionSuccessful();
+
         } catch (Exception e) {
             Log.d("USER DB HELPER", "Error while trying to add or update user");
         } finally {

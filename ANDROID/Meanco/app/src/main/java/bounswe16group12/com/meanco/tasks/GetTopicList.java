@@ -65,13 +65,11 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                             int relationId = relationObject.getInt("id");
                             //vote count
                             //int voteCount = relationObject.getInt(vote_count);
-                            if(databaseHelper.getRelation(relationId)==null) {
-                                String label = relationObject.getString("label");
-                                int topicToId = relationObject.getInt("topic_b");
-                                boolean isBidirectional = relationObject.getBoolean("isBidirectional");
-                                Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
-                                databaseHelper.addRelation(r);
-                            }
+                            String label = relationObject.getString("label");
+                            int topicToId = relationObject.getInt("topic_b");
+                            boolean isBidirectional = relationObject.getBoolean("isBidirectional");
+                            Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
+                            databaseHelper.addRelation(r);
                         }
 
                         //related to tag
@@ -86,26 +84,18 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                             String URL = tagObject.getString("URL");
                             Tag t = new Tag(tagId, description, label,URL);
                             tagsArray.add(t);
+
                             if(databaseHelper.getTag(tagId)==null) {
                                 databaseHelper.addTag(t);
                             }
                         }
-
-                        if(databaseHelper.getTopic(topicId)==null) {
-                            Topic t = new Topic(topicId, topicName, tagsArray);
-
-                            databaseHelper.addTopic(t);
-                        }
-
-
+                        Topic t = new Topic(topicId, topicName, tagsArray);
+                        databaseHelper.addTopic(t);
                     }
                 }
-
                 HomeActivityFragment.adapter.clear();
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
-
-
             }
         } catch (JSONException e) {
 
