@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -56,7 +58,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             public void onClick(View view) {
                 Intent i = new Intent(TagSearchActivity.this, HomeActivity.class);
                 for(Tag t: checkedTags)
-                        Log.i("tag", t.tagName);
+                        Log.i("tag", t.tagName + " : " + t.context + " : " + t.URL);
                 Topic topic = new Topic(-1, topicName, checkedTags);
                 new PostTopic(topic, TagSearchActivity.this).execute();
                 //clears the checked array in post topic
@@ -69,12 +71,20 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         });
 
         //TODO: click on item, get
-       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                CheckedTextView box = (CheckedTextView) view.findViewById(R.id.checkedTextView);
+                if(box.isChecked()) {
+                    box.setChecked(false);
+                    checkedTags.remove(adapter.getItem(i));
+                }
+                else{
+                    box.setChecked(true);
+                    checkedTags.add(adapter.getItem(i));
+                }
             }
-        });*/
+        });
 
 
 
