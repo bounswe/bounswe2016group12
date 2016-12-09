@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
+import bounswe16group12.com.meanco.activities.TagSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -62,10 +63,13 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
                     int topicId = jsonObject.getInt("Topic");
                     topic.topicId = topicId;
 
-                   for(Tag t: topic.tags){
-                       boolean isLast = (topic.tags.size() - topic.tags.indexOf(t)) == 1;
-                       new PostTag(MeancoApplication.POST_TAG_URL,t,topicId,isLast,context).execute();
+                   for(Tag tag: topic.tags){
+                       boolean isLast = (topic.tags.size() - topic.tags.indexOf(tag)) == 1;
+                       new PostTag(MeancoApplication.POST_TAG_URL,tag,topicId,isLast,context).execute();
                    }
+
+                   TagSearchActivity.checkedTags.clear();
+
                 }
             }
         } catch (JSONException e) {
@@ -87,7 +91,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
                 + "=" + URLEncoder.encode(topic.tags.get(0).context, "UTF-8");
 
             data += "&" + URLEncoder.encode("URL", "UTF-8")
-                + "=" + URLEncoder.encode(topic.topicName + topic.tags.get(0).URL, "UTF-8");
+                + "=" + URLEncoder.encode(topic.tags.get(0).URL, "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

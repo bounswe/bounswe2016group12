@@ -48,11 +48,12 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
     protected void onPostExecute(Connect.APIResult response) {
         super.onPostExecute(response);
 
-        if (response.getResponseCode() == 200 && response != null) {
-            Log.i("TAG_POST_REQUEST",response.getData());
+        if (response != null) {
+            Log.i("TAG_POST_REQUEST","CODE: " + response.getResponseCode() + "   DATA: " + response.getData());
         }
         if(isLast){
-            TagSearchActivity.checkedTags.clear();
+            Log.i("TAG_POST","FINISHED");
+          //  TagSearchActivity.checkedTags.clear();
             new GetTopicList(MeancoApplication.SITE_URL,context);
         }
     }
