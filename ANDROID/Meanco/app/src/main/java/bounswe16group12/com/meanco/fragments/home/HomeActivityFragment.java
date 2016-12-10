@@ -39,9 +39,11 @@ import rm.com.longpresspopup.PopupInflaterListener;
 public class HomeActivityFragment extends Fragment{
     public static CustomHomeAdapter adapter;
     public static ListView listView;
+    public static ListView relationsListView;
+    public static CustomTopicDetailAdapter relationAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
@@ -67,6 +69,35 @@ public class HomeActivityFragment extends Fragment{
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
                 intent.putExtra("topicId", topicId);
                 startActivity(intent);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Topic topic = adapter.getItem(position);
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
+                relationAdapter = new CustomTopicDetailAdapter(getContext(), R.layout.relation_dialog_view, relations, topic.topicId);
+
+
+                final View customView = inflater.inflate(R.layout.relation_dialog_view, null, false);
+
+
+                ListView relationListView = (ListView) customView.findViewById(R.id.relations_list);
+                relationListView.setAdapter(relationAdapter);
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle(topic.topicName + "'s Relations")
+                        .setView(customView)
+                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+                return true;
             }
         });
 
