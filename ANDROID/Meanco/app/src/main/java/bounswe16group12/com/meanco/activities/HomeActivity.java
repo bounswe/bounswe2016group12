@@ -29,13 +29,8 @@ import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
-import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
-import bounswe16group12.com.meanco.objects.Topic;
-import bounswe16group12.com.meanco.tasks.PostTag;
-import bounswe16group12.com.meanco.tasks.PostTopic;
-import me.originqiu.library.EditTag;
-import me.originqiu.library.MEditText;
+
 
 
 public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{

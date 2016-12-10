@@ -3,11 +3,11 @@ package bounswe16group12.com.meanco.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +23,9 @@ import java.util.List;
 import java.util.Locale;
 
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
-
-import static android.icu.lang.UProperty.INT_START;
 
 public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterable{
 
@@ -87,7 +84,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
 
             if(tg!=null) {
-                for (int i = 0; i < tg.size(); i++) {
+                for (int i = 0; i < (tg.size() > 3 ? 3:tg.size()); i++) { //Display only first 3 tags of topic on the main page
                     String text = tg.get(i).tagName + ": " + tg.get(i).context;
                     TextView tagView = beautifyTagView(text, getContext());
                     linearLayout.addView(tagView);
@@ -138,7 +135,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
     public Filter getFilter() {
         return mFilter;
     }
-
 
     private class ItemFilter extends Filter {
         @Override
