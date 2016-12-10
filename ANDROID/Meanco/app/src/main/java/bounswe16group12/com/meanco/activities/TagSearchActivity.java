@@ -45,9 +45,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         super.onCreate(savedInstanceState);
 
         final String intentFromDetail = getIntent().getStringExtra("ifDetail");
-        /*if(intentFromDetail=="true")
-            setTheme(android.R.style.Theme_Dialog);
-*/
+
         setContentView(R.layout.activity_tag_search);
 
 
@@ -96,7 +94,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             @Override
             public void onClick(View view) {
 
-                TagSearchActivity.checkedTags.clear();
+                checkedTags.clear();
                 TagSearchAdapter.wikiTags.clear();
                 adapter.clear();
                 finish();

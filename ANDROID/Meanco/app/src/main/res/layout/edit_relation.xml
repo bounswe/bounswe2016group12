@@ -5,15 +5,14 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearlayout"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
 
-        >
+        />
 
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,23 +27,15 @@
             android:ems="10"
             android:id="@+id/relation_name"
             android:hint="Enter relation name"
-            android:textSize="14sp" />
-        <TextView
-            android:text="bidirectional?"
-
-
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:textAlignment="viewEnd"
-            android:gravity="end"
-            android:textSize="12sp"
-            android:layout_width="0dp"
-            android:layout_weight="5"/>
+            android:textSize="14sp"
+            android:layout_weight="9"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/bidirectional"/>
+            android:id="@+id/bidirectional"
+            android:layout_weight="1"
+            android:text="bidirectional?"/>
 
 
     </LinearLayout>
