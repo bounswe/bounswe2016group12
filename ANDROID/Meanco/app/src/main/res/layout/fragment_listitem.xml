@@ -9,7 +9,7 @@
     android:text="skudgf"
     android:id="@+id/topicitem"
     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="2dp">
     </TextView>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/linearlayout"
-        android:paddingBottom="10dp">
+        >
 
     </LinearLayout>
 

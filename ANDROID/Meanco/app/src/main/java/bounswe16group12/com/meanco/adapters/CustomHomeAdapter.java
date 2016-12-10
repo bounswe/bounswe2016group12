@@ -64,31 +64,26 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         View v = convertView;
         Topic t = getItem(position);
 
-
         TextView topicName = null;
         LinearLayout linearLayout = null;
-
 
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
 
-
-
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(t.topicName);
+
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
             ArrayList<Tag> tg = t.tags;
-
 
             if(tg!=null) {
                 for (int i = 0; i < (tg.size() > 3 ? 3:tg.size()); i++) { //Display only first 3 tags of topic on the main page
                     String text = tg.get(i).tagName + ": " + tg.get(i).context;
                     TextView tagView = beautifyTagView(text, getContext());
                     linearLayout.addView(tagView);
-
                 }
             }
         }else{
@@ -97,22 +92,27 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
             ArrayList<Tag> tg = getItem(position).tags;
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
-
             linearLayout.removeAllViews();
+
+            LinearLayout.LayoutParams layparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layparam.setMargins(0,0,0,1);
+            linearLayout.setLayoutParams(layparam);
 
             if(tg!=null) {
                 for (int i = 0; i < tg.size(); i++) {
                     String text = tg.get(i).tagName + ": " + tg.get(i).context;
                     TextView tagView = beautifyTagView(text, getContext());
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        lp.setMargins(2,0,0,3);
+                    }
+                    tagView.setLayoutParams(lp);
                     linearLayout.addView(tagView);
-
                 }
             }
         }
         return v;
     }
-
-
 
     // Filter Class
     public void filter(String charText) {
@@ -186,10 +186,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             }
 
         }
-
-
-
-
     }
     public void updateArray(){
         topicsWithTags = DatabaseHelper.getInstance(getContext()).getAllTopics();
@@ -207,18 +203,15 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
 
         tagView.setText(str);
+        tagView.setTextSize(12.0f);
         tagView.setBackgroundResource(R.drawable.tagbg);
         tagView.setTextColor(Color.WHITE);
         tagView.setGravity(Gravity.CENTER);
        // tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            lp.setMarginEnd(10);
-        }
-        tagView.setLayoutParams(lp);
 
-        tagView.setPadding(15, 15, 15, 15);
+
+        tagView.setPadding(15, 0, 15, 0);
         return tagView;
     }
 }
