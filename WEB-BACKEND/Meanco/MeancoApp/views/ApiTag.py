@@ -3,6 +3,7 @@ from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import django.core.serializers
+import json
 #
 # topicId : 1
 # label : "asd"
@@ -26,20 +27,23 @@ def addTag(request):
                 tt.save()
             #tagModel.topic_tagged()
         except:
-            return HttpResponse("Tag Linking Error:",status=400)
+            return HttpResponse("Tag Linking Error:", status=400)
     else:
         try:
             tagModel = Tag(label=label, description=description,URL=URL)
             tagModel.save()
         except:
-            return HttpResponse("Tag creation error",status=400)
+            return HttpResponse("Tag creation error", status=400)
         try:
             tt = OfTopic(topic_id=topicId, tag_id=tagModel.id)
             tt.save()
             #tagModel.topic_tagged()
         except:
-            return HttpResponse("Tag Linking error",status=400)
-    return HttpResponse("Tag Added",status=200)
+            return HttpResponse("Tag Linking error", status=400)
+    return HttpResponse(json.dumps({
+            "tagId": tagModel.id}),
+            status=200,
+            content_type="application/json")
 
 #
 # URL: www.asd.com

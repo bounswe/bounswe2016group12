@@ -19,13 +19,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
+import bounswe16group12.com.meanco.activities.TagSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -53,17 +58,19 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
         try {
             JSONObject jsonObject=new JSONObject(response.getData());
-            Log.i("JSON POST", response.getData());
             if (jsonObject != null) {
-                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-
                 if (response.getResponseCode() == 200) {
-                    int topicId = jsonObject.getInt("topic");
+                    int topicId = jsonObject.getInt("Topic");
                     topic.topicId = topicId;
-                    DatabaseHelper db = DatabaseHelper.getInstance(context);
-                    db.addTopic(topic);
-                }
 
+                   for(Tag tag: topic.tags){
+                       boolean isLast = (topic.tags.size() - topic.tags.indexOf(tag)) == 1;
+                       new PostTag(MeancoApplication.POST_TAG_URL,tag,topicId,isLast,context).execute();
+                   }
+
+                   TagSearchActivity.checkedTags.clear();
+
+                }
             }
         } catch (JSONException e) {
 
@@ -73,39 +80,48 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
     protected Connect.APIResult doInBackground(Void... voids) {
 
-        String urlParameters  = "name="+topic.topicName+"&tag="+topic.tags.get(0).tagName+"&description="+topic.tags.get(0).context+"&URL="+topic.tags.get(0).URL;
-       // byte[] postData       = urlParameters.getBytes();
-      //  int    postDataLength = postData.length;
+        String data = null;
+        try {
+            data = URLEncoder.encode("topicName", "UTF-8")
+                    + "=" + URLEncoder.encode(topic.topicName, "UTF-8");
+            data += "&" + URLEncoder.encode("tag", "UTF-8") + "="
+                + URLEncoder.encode(topic.tags.get(0).tagName, "UTF-8");
+
+            data += "&" + URLEncoder.encode("description", "UTF-8")
+                + "=" + URLEncoder.encode(topic.tags.get(0).context, "UTF-8");
+
+            data += "&" + URLEncoder.encode("URL", "UTF-8")
+                + "=" + URLEncoder.encode(topic.tags.get(0).URL, "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String text = "";
+        BufferedReader reader=null;
         URL url            = null;
         try {
             url = new URL(this.url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setChunkedStreamingMode(0);
-            conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            conn.setInstanceFollowRedirects(false);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setRequestProperty("charset", "utf-8");
-            //conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
-            conn.setUseCaches(false);
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            wr.write( data );
+            wr.flush();
 
-            DataOutputStream ds = new DataOutputStream(conn.getOutputStream());
-            ds.writeBytes(urlParameters);
-            ds.flush();
-            ds.close();
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+
+            // Read Server Response
+            while((line = reader.readLine()) != null)
+            {
+                // Append server response in string
+                sb.append(line + "\n");
+            }
+            text = sb.toString();
 
             int responseCode = conn.getResponseCode();
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String line = "";
-                    StringBuilder responseOutput = new StringBuilder();
-                    Log.i("POST OUTPUT","" + br);
-            while((line = br.readLine()) != null ) {
-                    responseOutput.append(line);
-            }
-                    br.close();
-            return new Connect.APIResult(responseCode,responseOutput.toString());
+            return new Connect.APIResult(responseCode,text);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
@@ -113,7 +129,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; //TODO: Return response
+        return null;
     }
 
 

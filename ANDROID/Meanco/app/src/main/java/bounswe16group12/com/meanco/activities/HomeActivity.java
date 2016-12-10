@@ -1,6 +1,7 @@
 package bounswe16group12.com.meanco.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -127,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                 tagsOfTopic = new ArrayList<>();
 
-                final View customView = getLayoutInflater().inflate(R.layout.customview_alerttopic, null, false);
+               /* final View customView = getLayoutInflater().inflate(R.layout.customview_alerttopic, null, false);
                 final EditTag editTagView = (EditTag) customView.findViewById(R.id.edit_tag_view);
                 final MEditText mEditText = (MEditText) customView.findViewById(R.id.meditText);
                 final EditText topicNameEdit = (EditText) customView.findViewById(R.id.topic_name);
@@ -148,7 +149,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             String s = result.substring(0, result.length() - 1);
                             editTagView.addTag(s);
                             mEditText.setText("");
-                            tagsOfTopic.add(new Tag(-1, "context",s));
+                            tagsOfTopic.add(new Tag(-1, "context",s,s));
                         }
                     }
 
@@ -160,30 +161,25 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                     public void afterTextChanged(Editable s) {
                     }
 
-                });
+                });*/
+
+                EditText temp = new EditText(HomeActivity.this);
+                temp.setHint("Enter topic name");
+                final EditText topicNameInput = temp;
+
+
+                //TODO: next goes to intent
                 new AlertDialog.Builder(HomeActivity.this)
                         .setTitle("Add topic")
-                        .setView(customView)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        .setView(topicNameInput)
+                        .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+                                String topicName = topicNameInput.getText().toString();
 
-                                String topicName = topicNameEdit.getText().toString();
-                                //TODO:Change ID.
-                                Topic topic = new Topic(-1, topicName, tagsOfTopic);
-                                //databaseHelper.addTopic(topic);
-
-                                new PostTopic(topic,getApplicationContext()).execute();
-
-                                String topicName2 = topicName2Edit.getText().toString();
-                                String relationName = relationNameEdit.getText().toString();
-                                boolean isBidirectional = bidirectionalEdit.isEnabled();
-
-                                //Relation
-
-                                HomeActivityFragment.adapter.add(topic);
-                                HomeActivityFragment.adapter.notifyDataSetChanged();
+                                Intent i = new Intent(HomeActivity.this, TagSearchActivity.class);
+                                i.putExtra("topicName", topicName);
+                                startActivity(i);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -221,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             String s = result.substring(0, result.length() - 1);
                             editTagView.addTag(s);
                             mEditText.setText("");
-                            tagsOfTopic.add(new Tag(-1, "context",s));
+                            tagsOfTopic.add(new Tag(-1, "context",s,s));
 
                         }
                     }
@@ -242,8 +238,9 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                             public void onClick(DialogInterface dialog, int which) {
                                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                 for(Tag t: tagsOfTopic) {
-                                    databaseHelper.addTag(t);
-                                    new PostTag(MeancoApplication.POST_TAG_URL, getApplicationContext(), t);
+                                    //databaseHelper.addTag(t);
+                                    //new PostTag(MeancoApplication.POST_TAG_URL, getApplicationContext(), t);
+                                    //TODO: Redirect to WikiSearch after getting topicId
                                 }
 
                             }

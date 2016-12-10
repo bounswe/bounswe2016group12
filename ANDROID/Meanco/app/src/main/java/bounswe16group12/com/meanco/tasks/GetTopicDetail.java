@@ -44,19 +44,15 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
 
                         JSONObject topicObject = commentsObject.getJSONObject(i);
                         int commentId = topicObject.getInt("id");
-                        if(databaseHelper.getComment(commentId)==null) {
-                            JSONArray versions = topicObject.getJSONArray("versions");
-                            JSONObject contentObject = versions.getJSONObject(i);
-                            String content = contentObject.getString("content");
-                            Comment c = new Comment(commentId, topicId, content);
-                            databaseHelper.addComment(c);
-                        }
-
+                        JSONArray versions = topicObject.getJSONArray("versions");
+                        JSONObject contentObject = versions.getJSONObject(0);
+                        String content = contentObject.getString("content");
+                        Comment c = new Comment(commentId, topicId, content);
+                        databaseHelper.addComment(c);
                     }
                 }
                 TopicDetailActivityFragment.updateAdapter(databaseHelper, topicId);
             }
-            //TODO: Add the new comments into adapter
         } catch (JSONException e) {
             e.printStackTrace();
         }

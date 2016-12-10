@@ -34,9 +34,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
         this.url = url;
     }
 
-    public static void parseJSON(Connect.APIResult response){
 
-    }
 
     @Override
     protected void onPostExecute(Connect.APIResult response) {
@@ -44,7 +42,6 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
 
         try {
             JSONArray jsonArray=new JSONArray(response.getData());
-            Log.i("JSON GET", response.getData());
             if (jsonArray != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
@@ -67,13 +64,11 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                             int relationId = relationObject.getInt("id");
                             //vote count
                             //int voteCount = relationObject.getInt(vote_count);
-                            if(databaseHelper.getRelation(relationId)==null) {
-                                String label = relationObject.getString("label");
-                                int topicToId = relationObject.getInt("topic_b");
-                                boolean isBidirectional = relationObject.getBoolean("isBidirectional");
-                                Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
-                                databaseHelper.addRelation(r);
-                            }
+                            String label = relationObject.getString("label");
+                            int topicToId = relationObject.getInt("topic_b");
+                            boolean isBidirectional = relationObject.getBoolean("isBidirectional");
+                            Relation r = new Relation(relationId, label, topicId, topicToId, isBidirectional);
+                            databaseHelper.addRelation(r);
                         }
 
                         //related to tag
@@ -85,30 +80,21 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                             int tagId = tagObject.getInt("id");
                             String label = tagObject.getString("label");
                             String description = tagObject.getString("description");
-                            //url
-                            //String tagUrl = tagObject.getString("URL");
-                            Tag t = new Tag(tagId, description, label);
+                            String URL = tagObject.getString("URL");
+                            Tag t = new Tag(tagId, description, label,URL);
                             tagsArray.add(t);
+
                             if(databaseHelper.getTag(tagId)==null) {
                                 databaseHelper.addTag(t);
                             }
                         }
-
-                        if(databaseHelper.getTopic(topicId)==null) {
-                            Topic t = new Topic(topicId, topicName, tagsArray);
-
-                            databaseHelper.addTopic(t);
-                        }
-
-
+                        Topic t = new Topic(topicId, topicName, tagsArray);
+                        databaseHelper.addTopic(t);
                     }
                 }
-
                 HomeActivityFragment.adapter.clear();
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
-
-
             }
         } catch (JSONException e) {
 
