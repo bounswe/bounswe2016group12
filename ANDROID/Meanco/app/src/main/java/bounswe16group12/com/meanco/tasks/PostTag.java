@@ -21,6 +21,7 @@ import java.net.URLEncoder;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.activities.TagSearchActivity;
+import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.utils.Connect;
 
@@ -53,8 +54,10 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
         }
         if(isLast){
             Log.i("TAG_POST","FINISHED");
-            new GetTopicList(MeancoApplication.SITE_URL,context).execute();
+            TagSearchActivity.checkedTags.clear();
         }
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

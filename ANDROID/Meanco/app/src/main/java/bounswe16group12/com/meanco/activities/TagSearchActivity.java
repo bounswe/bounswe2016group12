@@ -29,6 +29,7 @@ import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetWikiData;
+import bounswe16group12.com.meanco.tasks.PostTag;
 import bounswe16group12.com.meanco.tasks.PostTopic;
 
 public class TagSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
@@ -36,15 +37,26 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
     SearchView searchView;
     ListView listView;
     public static ArrayList<Tag> checkedTags = new ArrayList<>();
+
     public static TagSearchAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final String intentFromDetail = getIntent().getStringExtra("ifDetail");
+        /*if(intentFromDetail=="true")
+            setTheme(android.R.style.Theme_Dialog);
+*/
         setContentView(R.layout.activity_tag_search);
 
+
         final String topicName = getIntent().getStringExtra("topicName").toString();
-        title = "Add topic - " + topicName;
+
+        if(intentFromDetail=="false")
+            title = "Add topic - " + topicName;
+        else
+            title = "Add tag(s) for " + topicName;
         setTitle(title);
 
 
@@ -56,21 +68,42 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         addTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(TagSearchActivity.this, HomeActivity.class);
-                for(Tag t: checkedTags)
-                        Log.i("tag", t.tagName + " : " + t.context + " : " + t.URL);
-                Topic topic = new Topic(-1, topicName, checkedTags);
-                new PostTopic(topic, TagSearchActivity.this, MeancoApplication.POST_TOPIC_URL).execute();
+                if(intentFromDetail=="false") {
+                    Topic topic = new Topic(-1, topicName, checkedTags);
+                    new PostTopic(topic, TagSearchActivity.this).execute();
+                }else{
+                    boolean isLast = false;
+                    int index = 0;
+                    for(Tag t: checkedTags){
+                        if(index == checkedTags.size()-1) isLast=true;
+
+                        index++;
+                        new PostTag(MeancoApplication.POST_TAG_URL, t, Integer.parseInt(getIntent().getStringExtra("topicId")), isLast, TagSearchActivity.this)
+                                .execute();
+
+                    }
+                }
                 //clears the checked array in post topic
                 TagSearchAdapter.wikiTags.clear();
                 adapter.clear();
-                startActivity(i);
                 finish();
 
             }
         });
 
-        //TODO: click on item, get
+        Button cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                TagSearchActivity.checkedTags.clear();
+                TagSearchAdapter.wikiTags.clear();
+                adapter.clear();
+                finish();
+
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,10 +111,12 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
                 if(box.isChecked()) {
                     box.setChecked(false);
                     checkedTags.remove(adapter.getItem(i));
+                    //adapter.notifyDataSetChanged();
                 }
                 else{
                     box.setChecked(true);
                     checkedTags.add(adapter.getItem(i));
+                    //adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -104,6 +139,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             searchView.setQueryHint("Search tag...");
 
         }
+
 
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
@@ -133,9 +169,9 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         if (TextUtils.isEmpty(newText)) {
             ;
         } else {
-            if(newText.length()>1){
+            //if(newText.length()>1){
                 new GetWikiData(MeancoApplication.WIKIDATA_URL+newText, TagSearchActivity.this).execute();
-            }
+            //}
 
         }
         return true;

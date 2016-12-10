@@ -16,7 +16,8 @@
         android:gravity="center_vertical"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:textSize="18sp"
-        android:text="abc" />
+        android:text="abc"
+        android:checked="false" />
 
 
 
