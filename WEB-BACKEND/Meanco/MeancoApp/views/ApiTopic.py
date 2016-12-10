@@ -25,7 +25,7 @@ def addTopic(request):
             t=Topic(label=topicName)
             t.save()
         except:
-            return HttpResponse("Topic Couldn't be created:",status=400)
+            return HttpResponse("Topic Couldn't be created:", status=400)
         if Tag.objects.filter(URL = URL).exists():
             try:
                 tagModel=Tag.objects.get(URL = URL)
@@ -36,25 +36,25 @@ def addTopic(request):
                     tt.save()
                 #tagModel.topic_tagged()
             except:
-                return HttpResponse("Tag Linking Error:",status=400)
+                return HttpResponse("Tag Linking Error:", status=400)
         else :
             try:
                 tagModel=Tag(label=tag,description=description,URL=URL)
                 tagModel.save()
             except:
-                return HttpResponse("Tag creation error",status=400)
+                return HttpResponse("Tag creation error", status=400)
             try:
                 tt = OfTopic(topic_id=t.id, tag_id=tagModel.id)
                 tt.save()
                 #tagModel.topic_tagged()
             except:
-                return HttpResponse("Tag Linking error",status=400)
+                return HttpResponse("Tag Linking error", status=400)
         return HttpResponse(json.dumps({
-            "Topic": t.id}),
+            "topicId": t.id}),
             status=200,
             content_type="application/json")
     else:
-        return HttpResponse("Wrong Request",status=400)
+        return HttpResponse("Wrong Request", status=400)
 # Example Get Request to searchTopic
 #
 # search: Donald
@@ -88,7 +88,7 @@ def searchTopic(request):
             print(topicData)
             return HttpResponse(django.core.serializers.serialize('json',topicData), content_type='json')
     else:
-        return HttpResponse("Wrong Request")
+        return HttpResponse("Wrong Request", status=400)
 
 # (Android)UserId:1
 # TopicId=5
@@ -111,10 +111,10 @@ def followTopic(request):
                 ft = FollowedTopic(user_id=UserId,topic_id=TopicId)
                 ft.save()
         except:
-            return HttpResponse("Follow Topic Error")
-        return HttpResponse("Success")
+            return HttpResponse("Follow Topic Error", status=400)
+        return HttpResponse("Success", status=200)
     else:
-        return HttpResponse("Wrong Request")
+        return HttpResponse("Wrong Request", status=400)
 # search= Donald
 
 def topicListerGet(request):
