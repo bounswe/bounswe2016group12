@@ -579,7 +579,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Relation> getAllRelations(int topicId){
-        String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId + "'";
+        String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId +
+                                        "' OR " + KEY_RELATION_SECOND_TOPIC_ID + " = '" + topicId + "'";
         //TODO: Add second Relation ID equality with OR
 
         SQLiteDatabase db = getReadableDatabase();
