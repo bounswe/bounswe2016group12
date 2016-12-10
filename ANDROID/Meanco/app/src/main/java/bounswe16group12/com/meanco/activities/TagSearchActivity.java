@@ -78,7 +78,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
                         if(index == checkedTags.size()-1) isLast=true;
 
                         index++;
-                        new PostTag(MeancoApplication.POST_TAG_URL, t, Integer.parseInt(getIntent().getStringExtra("topicId")), isLast, TagSearchActivity.this)
+                        new PostTag(MeancoApplication.POST_TAG_URL, t, getIntent().getIntExtra("topicId", -1), isLast, TagSearchActivity.this)
                                 .execute();
 
                     }
