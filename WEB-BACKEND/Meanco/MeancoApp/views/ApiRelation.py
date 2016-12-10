@@ -52,14 +52,14 @@ def rateRelation(request):
         userId = request.user.id
     else:
         userId = request.POST.get("userId")
-
+    profileId=Profile.objects.get(user_id=userId).id
     direction= request.POST.get("direction")
-    if RelationVoter.objects.filter(relation_id=relation,profile_id=userId):
-        relationVoter=RelationVoter.objects.get(relation_id=relation,profile_id=userId)
+    if RelationVoter.objects.filter(relation_id=relation,profile_id=profileId):
+        relationVoter=RelationVoter.objects.get(relation_id=relation,profile_id=profileId)
         relationVoter.toggle(direction)
         relationVoter.save()
     else:
-        relationVoter=RelationVoter(relation_id=relation,profile_id=userId)
+        relationVoter=RelationVoter(relation_id=relation,profile_id=profileId)
         relationVoter.toggle(direction)
         relationVoter.save()
     return HttpResponse("Rated",status=200);

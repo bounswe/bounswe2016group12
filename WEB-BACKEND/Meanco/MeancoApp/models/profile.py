@@ -14,7 +14,7 @@ class Profile(Model):
         return str(self.pk)
 
 class FollowedTopic(Model):
-    user =  ForeignKey(Profile, on_delete=CASCADE, related_name='followedTopics')
+    profile =  ForeignKey(Profile, on_delete=CASCADE, related_name='followedTopics')
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='followers')
     timestamp_last = DateTimeField(auto_now=True)
     def __unicode__(self):
@@ -23,7 +23,7 @@ class FollowedTopic(Model):
         return str(self.pk)
 
 class ViewedTopic(Model):
-    user =  ForeignKey(Profile, on_delete=CASCADE, related_name='viewedTopics')
+    profile =  ForeignKey(Profile, on_delete=CASCADE, related_name='viewedTopics')
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='viewers')
     visited_last = DateTimeField(default=timezone.now())
     def visited(self):
@@ -34,7 +34,7 @@ class ViewedTopic(Model):
     def __str__(self):
         return str(self.pk)
 class CommentedTopic(Model):
-    user =  ForeignKey(Profile, on_delete=CASCADE, related_name='commentedTopics')
+    profile =  ForeignKey(Profile, on_delete=CASCADE, related_name='commentedTopics')
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='commenters')
     commented_last = DateTimeField(default=timezone.now())
     def visited(self):

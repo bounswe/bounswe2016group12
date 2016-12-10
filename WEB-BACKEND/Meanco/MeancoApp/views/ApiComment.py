@@ -19,20 +19,21 @@ def addComment(request):
             userId= request.POST.get("userId")
 
         text= request.POST.get('text')
+        profileId=Profile.objects.get(user_id=userId).id
         try:
             print(topicId,profile)
-            Com=Comment(topic_id=topicId,profile_id=userId)
+            Com=Comment(topic_id=topicId,profile_id=profileId)
             Com.save()
             Com.edit(text)
         except:
             return HttpResponse("Comment Creation Error", status=400)
         try:
-            if(CommentedTopic.objects.filter(topic_id=topicId, user_id=userId).exists()):
-                ct=CommentedTopic.objects.get(topic_id=topicId, user_id=userId)
+            if(CommentedTopic.objects.filter(topic_id=topicId, profile_id=profileId).exists()):
+                ct=CommentedTopic.objects.get(topic_id=topicId, profile_id=profileId)
                 ct.visited()
                 ct.save()
             else:
-                ct=CommentedTopic(topic_id=topicId, user_id=userId)
+                ct=CommentedTopic(topic_id=topicId, profile_id=profileId)
                 ct.save()
         except:
             return HttpResponse("Comment linking Error", status=400)
@@ -55,7 +56,7 @@ def editComment(request):
             HttpResponse("Comment Edit Error", status=400)
 
         try:
-            ct = CommentedTopic.objects.get(topic_id=Com.topic, user_id=Com.profile)
+            ct = CommentedTopic.objects.get(topic_id=Com.topic,profile_id=Com.profile )
             ct.visited()
             ct.save()
         except:
@@ -79,14 +80,14 @@ def rateComment(request):
         userId = request.user.id
     else:
         userId = request.POST.get("userId")
-
+    profileId=Profile.objects.get(user_id=userId).id
     direction = request.POST.get("direction")
-    if Voter.objects.filter(comment_id=comment, profile_id=userId):
-        voter = Voter.objects.get(comment_id=comment, profile_id=userId)
+    if Voter.objects.filter(comment_id=comment, profile_id=profileId):
+        voter = Voter.objects.get(comment_id=comment, profile_id=profileId)
         voter.toggle(direction)
         voter.save()
     else:
-        voter = Voter(comment_id=comment, profile_id=userId)
+        voter = Voter(comment_id=comment, profile_id=profileId)
         voter.toggle(direction)
         voter.save()
     return HttpResponse("Rated", status=200);
