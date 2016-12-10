@@ -47,11 +47,10 @@ public class TopicDetailActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 
-        String topicName = getActivity().getIntent().getStringExtra("activityTitle").toString();
+        int topicId = getActivity().getIntent().getIntExtra("topicId",-1);
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
 
-        int topicId = databaseHelper.getTopicId(topicName);
         Topic topic = databaseHelper.getTopic(topicId);
 
         LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.linearlayout_detail);

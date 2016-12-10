@@ -38,7 +38,6 @@ import me.originqiu.library.MEditText;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
-    String title;
     public static CustomTopicDetailAdapter adapter;
     public static ListView listView;
     @Override
@@ -46,11 +45,10 @@ public class TopicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
 
-        title = getIntent().getStringExtra("activityTitle").toString();
-        setTitle(title);
+        int topicId = getIntent().getIntExtra("topicId",-1);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
-        int topicId = db.getTopicId(title);
         topic = db.getTopic(topicId);
+        setTitle(topic.topicName);
 
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
@@ -95,10 +93,9 @@ public class TopicDetailActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent i = new Intent(TopicDetailActivity.this, TagSearchActivity.class);
                         i.putExtra("ifDetail", "true");
-                        i.putExtra("topicName", title);
-                        i.putExtra("topicId", getIntent().getStringExtra("topicId").toString());
+                        i.putExtra("topicName", topic.topicName);
+                        i.putExtra("topicId",topic.topicId);
                         startActivity(i);
-
                     }
                 }
         );
@@ -134,7 +131,7 @@ public class TopicDetailActivity extends AppCompatActivity {
 
         if (id == R.id.action_relation) {
             new AlertDialog.Builder(TopicDetailActivity.this)
-                    .setTitle(title + "'s Relations")
+                    .setTitle(topic.topicName + "'s Relations")
                     .setView(customView)
                     .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
