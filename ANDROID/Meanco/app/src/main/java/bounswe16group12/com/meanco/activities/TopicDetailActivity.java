@@ -28,6 +28,7 @@ import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.PostComment;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
@@ -61,12 +62,13 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         //TODO: Will get id from HTTP:POST
-                                        Comment c = new Comment((new Random()).nextInt(100),topic.topicId,content.getText().toString());
-                                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                                        databaseHelper.addComment(c);
+                                        Comment c = new Comment(-1,topic.topicId,content.getText().toString());
+                                        new PostComment(MeancoApplication.POST_COMMENT_URL,c,MeancoApplication.userId,TopicDetailActivity.this).execute();
+                                     //   DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+                                    //    databaseHelper.addComment(c);
 
-                                        TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
-                                        TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
+                                      //  TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
+                                      //  TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
