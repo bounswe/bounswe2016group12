@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.utils.Connect;
 
@@ -44,7 +46,8 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
                 JSONObject jsonObject=new JSONObject(response.getData());
                 if (jsonObject != null) {
                     if (response.getResponseCode() == 200) {
-                      //  new GetTopicDetail(MeancoApplication.SITE_URL,relation.topicFrom,context).execute();
+                       // new GetTopicDetail(MeancoApplication.SITE_URL,relation.topicFrom,context).execute();
+                       // new GetTopicDetail(MeancoApplication.SITE_URL,relation.topicTo,context).execute();
 
                     }
                 }
@@ -67,13 +70,14 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
                         + "=" + URLEncoder.encode(relation.relationName,"UTF-8");
                 data += "&" + URLEncoder.encode("isBiDirectional", "UTF-8")
                         + "=" + URLEncoder.encode("" + (relation.isBidirectional ? 1:0),"UTF-8");
+                Log.i("data",data);
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            String text = "";
-            BufferedReader reader=null;
-            URL url            = null;
+            String text;
+            BufferedReader reader;
+            URL url;
             try {
                 url = new URL(this.url);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -84,7 +88,7 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
 
                 reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
-                String line = null;
+                String line;
 
                 // Read Server Response
                 while((line = reader.readLine()) != null)

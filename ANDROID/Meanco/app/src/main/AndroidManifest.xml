@@ -19,9 +19,7 @@
         <!-- LAUNCHER -->
         <activity
             android:name=".activities.LoginActivity"
-            android:label="@string/app_name">
-
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".activities.ProfileActivity"
             android:label="Profile"
@@ -37,7 +35,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,8 +51,9 @@
         <activity android:name=".activities.SearchResultsActivity" />
         <activity
             android:name=".activities.TopicDetailActivity"
-            android:parentActivityName=".activities.HomeActivity"></activity>
-        <activity android:name=".activities.TagSearchActivity"></activity>
+            android:parentActivityName=".activities.HomeActivity" />
+        <activity android:name=".activities.TagSearchActivity" />
+        <activity android:name=".activities.TopicSearchActivity"></activity>
     </application>
 
 </manifest>

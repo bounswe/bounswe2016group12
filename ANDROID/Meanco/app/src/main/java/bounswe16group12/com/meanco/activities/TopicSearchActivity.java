@@ -1,0 +1,196 @@
+package bounswe16group12.com.meanco.activities;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckedTextView;
+import android.widget.ListView;
+import android.widget.SearchView;
+
+import java.util.ArrayList;
+
+import bounswe16group12.com.meanco.MeancoApplication;
+import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.adapters.TopicSearchAdapter;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.objects.Relation;
+import bounswe16group12.com.meanco.objects.Tag;
+import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.GetWikiData;
+import bounswe16group12.com.meanco.tasks.PostRelation;
+import bounswe16group12.com.meanco.tasks.PostTag;
+import bounswe16group12.com.meanco.tasks.PostTopic;
+import bounswe16group12.com.meanco.tasks.SearchTask;
+
+public class TopicSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+
+    String title;
+    SearchView searchView;
+    ListView listView;
+    public static String fromOrTo;
+    public static Topic checkedTopic;
+
+    int oldId = 0;
+    int oldPosition=0;
+    public static TopicSearchAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tag_search);
+
+        final String relationName = getIntent().getStringExtra("relationName").toString();
+        final boolean isBidirectional = getIntent().getBooleanExtra("isBidirectional", false);
+        fromOrTo = getIntent().getStringExtra("fromOrTo").toString();
+
+        title = "Add " + relationName + " (" + (isBidirectional ? "bidirectional":"one way") + ")";
+        setTitle(title);
+
+        listView = (ListView) findViewById(R.id.tag_search_listview);
+        adapter = new TopicSearchAdapter(TopicSearchActivity.this, R.layout.activity_tag_search);
+        listView.setAdapter(adapter);
+
+
+
+        Button addRelationButton = (Button) findViewById(R.id.add_topic_button);
+        if(fromOrTo.equals("from")){
+            addRelationButton.setText("Next");
+
+        }else{
+            addRelationButton.setVisibility(View.VISIBLE);
+            addRelationButton.setText("Add relation");
+
+        }
+
+        addRelationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(fromOrTo.equals("to")) {
+                    Relation r = new Relation(-1, relationName, TopicSearchAdapter.idFrom, TopicSearchAdapter.idTo, isBidirectional);
+                    new PostRelation(MeancoApplication.POST_RELATION_URL, r, TopicSearchActivity.this).execute();
+
+                    TopicSearchAdapter.relationTopics.clear();
+                    adapter.clear();
+                    finish();
+                }else{
+
+
+
+
+                    Intent intent = new Intent(TopicSearchActivity.this, TopicSearchActivity.class);
+                    intent.putExtra("relationName", relationName);
+                    intent.putExtra("isBidirectional", isBidirectional);
+                    intent.putExtra("fromOrTo", "to");
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        });
+
+
+        Button cancelButton = (Button) findViewById(R.id.cancel_button);
+
+            cancelButton.setText("Cancel");
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    TopicSearchAdapter.relationTopics.clear();
+                    adapter.clear();
+                    finish();
+
+                }
+            });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                int newId = adapter.getItem(i).topicId;
+                if(oldId!=newId){
+                    listView.getChildAt(oldPosition).setBackgroundColor(0x00000000);
+                    //TopicSearchAdapter.relationTopics.remove(adapter.getItem(i));
+                    if(fromOrTo.equals("from")) {
+                        TopicSearchAdapter.idFrom = newId;
+                    }else {
+                        TopicSearchAdapter.idTo = newId;
+                    }
+                    oldId=newId;
+                    oldPosition=i;
+                }
+                view.setBackgroundColor(0x2F00FF00);
+
+
+
+            }
+        });
+
+
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+            searchView.setIconifiedByDefault(false);
+            if(fromOrTo.equals("from"))
+                searchView.setQueryHint("Search topic to be related from...");
+            else
+                searchView.setQueryHint("Search topic to be related to...");
+        }
+
+
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                searchView.clearFocus(); //to close soft keyboard when collapsed
+                return true;  // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {return true;}
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        searchView.clearFocus();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+            ;
+        } else {
+            new SearchTask(MeancoApplication.SEARCH_URL+newText, TopicSearchActivity.this).execute();
+
+        }
+        return true;
+    }
+}
