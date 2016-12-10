@@ -2,7 +2,7 @@ from MeancoApp.models import *
 from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+import json
 #
 # topic1 : 1
 # topic2 : 2
@@ -26,8 +26,19 @@ def addRelation(request):
                 relation2 = Relation(topic_a_id=topicEndPoint, topic_b_id=topicStartPoint, label=label,isBidirectional=isBidirectional)
                 relation2.save()
     except:
-        return HttpResponse("Relation Couldn't be created")
-    return HttpResponse("Relation created",status=200)
+        return HttpResponse("Relation Couldn't be created", status=400)
+    if(isBidirectional):
+        return HttpResponse(json.dumps({
+            "relationId": relation.id,
+            "secondRelationId":relation2.id}),
+            status=200,
+            content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({
+            "relationId": relation.id}),
+            status=200,
+            content_type="application/json")
+
 
 #   userId : 1
 #   relation : 5
