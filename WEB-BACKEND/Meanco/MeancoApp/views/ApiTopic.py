@@ -101,14 +101,14 @@ def followTopic(request):
             UserId = request.user.id
         else:
             UserId = request.POST.get("UserId")
-        print(UserId)
-        print(TopicId)
+        profileId=Profile.objects.get(user_id=UserId)
+
         try:
-            if(FollowedTopic.objects.filter(user_id=UserId,topic_id=TopicId).exists()):
-                ft=FollowedTopic.objects.get(user_id=UserId,topic_id=TopicId)
+            if(FollowedTopic.objects.filter(profile_id=profileId, topic_id=TopicId).exists()):
+                ft=FollowedTopic.objects.get(profile_id=profileId, topic_id=TopicId)
                 ft.delete()
             else:
-                ft = FollowedTopic(user_id=UserId,topic_id=TopicId)
+                ft = FollowedTopic(profile_id=profileId ,topic_id=TopicId)
                 ft.save()
         except:
             return HttpResponse("Follow Topic Error", status=400)
