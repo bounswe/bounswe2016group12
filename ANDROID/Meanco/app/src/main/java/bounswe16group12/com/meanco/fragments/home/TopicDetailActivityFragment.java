@@ -37,6 +37,7 @@ import bounswe16group12.com.meanco.objects.Topic;
  */
 public class TopicDetailActivityFragment extends Fragment {
     public static ArrayAdapter<String> mCommentsAdapter;
+    public static ArrayAdapter<SpannableStringBuilder> mTagsAdapter;
 
     public TopicDetailActivityFragment() {
     }
@@ -53,14 +54,27 @@ public class TopicDetailActivityFragment extends Fragment {
 
         Topic topic = databaseHelper.getTopic(topicId);
 
-        LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.linearlayout_detail);
+        //tags
+        List<SpannableStringBuilder> texts = new ArrayList<>();
 
-        for (int i = 0; i < topic.tags.size(); i++) {
-            String text = topic.tags.get(i).tagName + ": " + topic.tags.get(i).context;
-            TextView tagView = CustomHomeAdapter.beautifyTagView(text, getContext());
-            linearLayout.addView(tagView);
+        for(Tag t: topic.tags){
+            String text = t.tagName + ": " + t.context;
+
+            texts.add(beautifyString(text));
         }
 
+        mTagsAdapter = new ArrayAdapter<>(
+                getActivity(), // The current context (this activity)
+                R.layout.list_item_detail_tag, // The name of the layout ID.
+                R.id.list_item_detail_tag_textview, // The ID of the textview to populate.
+                texts
+        );
+
+
+        ListView tagListView = (ListView) rootView.findViewById(R.id.listView_tags);
+        tagListView.setAdapter(mTagsAdapter);
+
+        //comments
         List<Comment> comments = databaseHelper.getAllComments(topic.topicId);
         List<String> contents = new ArrayList<String>();
 
@@ -77,23 +91,42 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listView_topic_comments);
         listView.setAdapter(mCommentsAdapter);
 
+        /*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Toast.makeText(getActivity(), "Comment is Upvoted.", Toast.LENGTH_SHORT).show();
             }
         });
-
+        */
         return rootView;
     }
 
-    public static void updateAdapter(DatabaseHelper databaseHelper, int topicId){
+    public static void updateAdapters(DatabaseHelper databaseHelper, int topicId){
         mCommentsAdapter.clear();
+        mTagsAdapter.clear();
         List<Comment> comments = databaseHelper.getAllComments(topicId);
+        List<Tag> tags = databaseHelper.getTopic(topicId).tags;
         for(Comment c : comments){
             mCommentsAdapter.add(c.content);
         }
+        for(Tag t: tags){
+            String text = t.tagName + ": " + t.context;
+            mTagsAdapter.add(beautifyString(text));
+        }
         mCommentsAdapter.notifyDataSetChanged();
+        mTagsAdapter.notifyDataSetChanged();
 
+    }
+
+
+    public static SpannableStringBuilder beautifyString(String text){
+
+        final SpannableStringBuilder str = new SpannableStringBuilder(text);
+        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return str;
     }
 }
