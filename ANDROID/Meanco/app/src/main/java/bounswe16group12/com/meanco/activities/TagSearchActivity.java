@@ -70,7 +70,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             public void onClick(View view) {
                 if(intentFromDetail=="false") {
                     Topic topic = new Topic(-1, topicName, checkedTags);
-                    new PostTopic(topic, TagSearchActivity.this).execute();
+                    new PostTopic(topic, TagSearchActivity.this,MeancoApplication.POST_TOPIC_URL).execute();
                 }else{
                     boolean isLast = false;
                     int index = 0;
