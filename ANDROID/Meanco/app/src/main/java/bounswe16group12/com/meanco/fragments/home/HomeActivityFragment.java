@@ -63,10 +63,10 @@ public class HomeActivityFragment extends Fragment{
                 //Task before intent fires
                 new GetTopicDetail(MeancoApplication.SITE_URL,adapter.getItem(position).topicId, getContext()).execute();
                 String message = adapter.getItem(position).topicName;
-               // String topicId = adapter.getItem(position).topicId+"";
+                String topicId = adapter.getItem(position).topicId+"";
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
                 intent.putExtra("activityTitle", message);
-               // intent.putExtra("topicId", topicId);
+                intent.putExtra("topicId", topicId);
                 startActivity(intent);
             }
         });

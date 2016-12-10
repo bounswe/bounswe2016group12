@@ -1,10 +1,13 @@
 package bounswe16group12.com.meanco.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +31,10 @@ import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
+import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import me.originqiu.library.EditTag;
+import me.originqiu.library.MEditText;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
@@ -75,6 +82,23 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     }
                                 })
                                 .show();
+                    }
+                }
+        );
+
+
+        FloatingActionButton tag_fab = (FloatingActionButton) findViewById(R.id.fabTag);
+        tag_fab.setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(TopicDetailActivity.this, TagSearchActivity.class);
+                        i.putExtra("ifDetail", "true");
+                        i.putExtra("topicName", title);
+                        i.putExtra("topicId", getIntent().getStringExtra("topicId").toString());
+                        startActivity(i);
+
                     }
                 }
         );
