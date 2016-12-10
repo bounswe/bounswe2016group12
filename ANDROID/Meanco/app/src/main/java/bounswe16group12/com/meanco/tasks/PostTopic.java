@@ -45,11 +45,12 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
     private Topic topic;
     private Context context;
-    private final String url = "http://46.101.253.73:8000/API/AddTopic/";
+    private String url;
 
-    public PostTopic(Topic topic, Context context){
+    public PostTopic(Topic topic, Context context, String url){
         this.context = context;
         this.topic = topic;
+        this.url = url;
     }
 
     @Override

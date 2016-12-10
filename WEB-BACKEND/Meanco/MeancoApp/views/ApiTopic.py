@@ -3,61 +3,58 @@ from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from django.core import serializers
+import django.core.serializers
 from django.conf.urls import  url
 from rest_framework import generics
 from MeancoApp.serializers import *
 # Example Post Request to addTopic
 #
-# userId= 15
 # topicName="Donald Trump"
 # tag=Politician
-# context= Occupation
+# description= Occupation
+# URL: www.wikimedia.com/politician
 # TODO:Add better control
 @csrf_exempt
 def addTopic(request):
     if request.method== 'POST':
-        userId =request.POST.get('userId')
         topicName=request.POST.get('topicName')
         tag = request.POST.get('tag')
-        context =request.POST.get('context')
-        print(userId)
+        description =request.POST.get('description')
+        URL = request.POST.get('URL')
         try:
-            t=Topic()
+            t=Topic(label=topicName)
             t.save()
         except:
-            return HttpResponse(("Topic Couldn't be created:"))
-        try:
-            tName = Name(topic_id=t.id,label=topicName)
-            tName.save()
-        except:
-            return HttpResponse(("TopicName Creation Error: " ,topicName))
-        if Tag.objects.filter(label=tag,context=context).exists():
+            return HttpResponse("Topic Couldn't be created:",status=400)
+        if Tag.objects.filter(URL = URL).exists():
             try:
-                tagModel=Tag.objects.get(label=tag,context=context)
+                tagModel=Tag.objects.get(URL = URL)
                 if OfTopic.objects.filter(topic_id=t.id,tag_id=tagModel.id).exists():
                     print("Weird Stuff")
                 else:
-                    tt=OfTopic(topic_id=t.id,tag_id=tagModel.id,profile_id=userId)
+                    tt=OfTopic(topic_id=t.id,tag_id=tagModel.id)
                     tt.save()
                 #tagModel.topic_tagged()
             except:
-                return HttpResponse("Tag Linking Error:")
+                return HttpResponse("Tag Linking Error:",status=400)
         else :
             try:
-                tagModel=Tag(label=tag,context=context)
+                tagModel=Tag(label=tag,description=description,URL=URL)
                 tagModel.save()
             except:
-                return HttpResponse("Tag creation error")
+                return HttpResponse("Tag creation error",status=400)
             try:
-                tt = OfTopic(topic_id=t.id, tag_id=tagModel.id, profile_id=userId)
+                tt = OfTopic(topic_id=t.id, tag_id=tagModel.id)
                 tt.save()
                 #tagModel.topic_tagged()
             except:
-                return HttpResponse("Tag Linking error")
-        return HttpResponse("Topic created succesfully")
+                return HttpResponse("Tag Linking error",status=400)
+        return HttpResponse(json.dumps({
+            "Topic": t.id}),
+            status=200,
+            content_type="application/json")
     else:
-        return HttpResponse("Wrong Request")
+        return HttpResponse("Wrong Request",status=400)
 # Example Get Request to searchTopic
 #
 # search: Donald
@@ -66,38 +63,65 @@ def addTopic(request):
 def searchTopic(request):
     if request.method== 'GET':
         searchParam=request.GET.get("search")
-        topics= Name.objects.filter(label=searchParam)
-        return HttpResponse(serializers.serialize('json',topics),content_type='json')
+        topics= Topic.objects.filter(label__startswith=searchParam)
+
+        if(topics.count()>1):
+            return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
+        else:
+            TopicTags=OfTopic.objects.filter(topic_id=topics.values('id'))
+            tagsOfTopic=list(TopicTags.values_list('tag_id'))
+            tagsOfTopic=list(topicTag[0] for topicTag in tagsOfTopic)
+            topicsWithCountOfTags={}
+            for t in OfTopic.objects.all():
+                if not t.topic_id in topicsWithCountOfTags:
+                    topicsWithCountOfTags[t.topic_id]={
+                        'count':0
+                    }
+                print(t.tag_id)
+                if t.tag_id in tagsOfTopic:
+                    print("here")
+                    topicsWithCountOfTags[t.topic_id]['count']+=1
+            print(topicsWithCountOfTags)
+            topicData = list(Topic.objects.filter(id__in=topicsWithCountOfTags.keys()))
+            print(topicData)
+            topicData= sorted(topicData, key=lambda obj:topicsWithCountOfTags[obj.id]['count'],reverse=True)[0:3]
+            print(topicData)
+            return HttpResponse(django.core.serializers.serialize('json',topicData), content_type='json')
     else:
         return HttpResponse("Wrong Request")
-# Example Post Request to addTopicName
-#
-# topicId:25 TopicName= President
+
+# (Android)UserId:1
+# TopicId=5
 @csrf_exempt
-def addTopicName(request):
-    if request.method== 'POST':
-        id=request.POST.get("topicId")
-        name = request.POST.get("topicName")
+def followTopic(request):
+    if (request.method=="POST"):
+        TopicId = request.POST.get('TopicId')
+
+        if 'UserId' not in request.POST:
+            UserId = request.user.id
+        else:
+            UserId = request.POST.get("UserId")
+        print(UserId)
+        print(TopicId)
         try:
-            tn = Name(topic_id=id,label=name)
-            tn.save()
+            if(FollowedTopic.objects.filter(user_id=UserId,topic_id=TopicId).exists()):
+                ft=FollowedTopic.objects.get(user_id=UserId,topic_id=TopicId)
+                ft.delete()
+            else:
+                ft = FollowedTopic(user_id=UserId,topic_id=TopicId)
+                ft.save()
         except:
-            return HttpResponse(("TopicName creation error: ",name))
-        return HttpResponse("TopicName created succesfully")
+            return HttpResponse("Follow Topic Error")
+        return HttpResponse("Success")
     else:
         return HttpResponse("Wrong Request")
+# search= Donald
 
-# TODO: Learn is this necessary
-def deleteTopic(request):
-    return
-# Example Post Request to rateTopicName
-#
-# TopicNameId=15, upvote=1
-# TODO: Ask how voting is done in models.
+def topicListerGet(request):
+    searchParam = request.GET.get("search")
+    topics = Topic.objects.filter(label__startswith=searchParam)
+    return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
 
-def rateTopicName(request):
-
-    return
 class TopicList(generics.ListCreateAPIView):
     queryset = Topic.objects.all()
     serializer_class= TopicListSerializer

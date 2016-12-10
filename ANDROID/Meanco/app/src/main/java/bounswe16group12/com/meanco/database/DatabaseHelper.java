@@ -208,24 +208,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //IF returns -1 , no such topic like that
-    public int getTopicId(String name){
-        SQLiteDatabase db = getReadableDatabase();
-
-        String TOPIC_SELECT_WITH_NAME_QUERY = "SELECT * FROM topics WHERE topicName = '" + name + "'";
-
-        Cursor cursor = db.rawQuery(TOPIC_SELECT_WITH_NAME_QUERY,null);
-        int topicId = -1;
-        try {
-            if (cursor.moveToFirst()) {
-                topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
-            }
-        } finally {
-            cursor.close();
-        }
-        return topicId;
-    }
-
     //If returns null, no such topic.
     public Topic getTopic(int topicId){
         SQLiteDatabase db = getReadableDatabase();

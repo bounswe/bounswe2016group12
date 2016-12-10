@@ -1,0 +1,63 @@
+{% extends 'MeancoApp/Home.html' %}
+
+{% block content %}
+    <form method="post" id="post-form">
+        {% csrf_token %}
+        <div class="col-md-4"></div>
+        <div class="col-md-3">
+            <form class="form-signin">
+                <h2 class="form-signin-heading">Please signup:</h2>
+                <ul id="post-form-warning"></ul>
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">Sign up</button>
+            </form>
+        </div>
+        <div class="col-md-5"></div>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#post-form').on('submit', function(event){
+                event.preventDefault();
+                serializedData = $("#post-form").serialize();
+                console.log("form submitted!");  // sanity check
+                $.ajax({
+                    url: "API/Register",
+                    type: "post",
+                    data: serializedData,
+                    cache: 'false',
+                    dataType: "json",
+                    async: 'true',
+
+                    success: function(response) {
+                        console.log(response);
+                        result = JSON.stringify(response);
+                        if(response.UserId){
+                            console.log("User exists now.");
+                            window.location = "accounts/login";
+                        }else{
+                            console.log("User cannot be created.");
+                            str = "";
+                            if(response.username){
+                                str += "<li>"+ response.username[0] + "</li>";
+                            }
+                            if(response.email){
+                                str += "<li>" + response.email[0] + "</li>";
+                            }
+                            if(response.password2){
+                                for (var i in response.password2){
+                                    str += "<li>" + response.password2[i] + "</li>";
+                                }
+                            }
+                            $("#post-form-warning").html("<ul>" + str + "</ul>");
+                        }
+                        console.log(result);
+                    },
+                    error:function(response){
+                    },
+                });
+
+            });
+        });
+    </script>
+{% endblock %}
