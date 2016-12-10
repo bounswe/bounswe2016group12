@@ -37,7 +37,7 @@ def addComment(request):
         except:
             return HttpResponse("Comment linking Error", status=400)
         return HttpResponse(json.dumps({
-            "commentId": ct.id}),
+            "commentId": Com.id}),
             status=200,
             content_type="application/json")
 # example:
