@@ -85,8 +85,13 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write( data );
                 wr.flush();
+                int responseCode = conn.getResponseCode();
 
-                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                if(responseCode == 200) {
+                    reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                }
+                else
+                    reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                 StringBuilder sb = new StringBuilder();
                 String line;
 
@@ -97,8 +102,6 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
                     sb.append(line + "\n");
                 }
                 text = sb.toString();
-
-                int responseCode = conn.getResponseCode();
 
                 return new Connect.APIResult(responseCode,text);
             } catch (MalformedURLException e) {

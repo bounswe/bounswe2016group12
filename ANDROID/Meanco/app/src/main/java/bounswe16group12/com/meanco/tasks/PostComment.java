@@ -83,7 +83,14 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
             wr.write( data );
             wr.flush();
 
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode == 200) {
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            }
+            else
+                reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+
             StringBuilder sb = new StringBuilder();
             String line = null;
 
@@ -94,8 +101,6 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
                 sb.append(line + "\n");
             }
             text = sb.toString();
-
-            int responseCode = conn.getResponseCode();
 
             return new Connect.APIResult(responseCode,text);
         } catch (MalformedURLException e) {

@@ -73,7 +73,7 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
-        }
+
 
 
             topicName = (TextView) v.findViewById(R.id.topicitem);
@@ -91,7 +91,24 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
 
                 }
             }
+        }else{
+            topicName = (TextView) v.findViewById(R.id.topicitem);
+            topicName.setText(getItem(position).topicName);
 
+            ArrayList<Tag> tg = getItem(position).tags;
+            linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
+
+            linearLayout.removeAllViews();
+
+            if(tg!=null) {
+                for (int i = 0; i < tg.size(); i++) {
+                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
+                    TextView tagView = CustomHomeAdapter.beautifyTagView(text, getContext());
+                    linearLayout.addView(tagView);
+
+                }
+            }
+        }
         return v;
     }
 
