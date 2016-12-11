@@ -581,7 +581,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Relation> getAllRelations(int topicId){
         String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId +
                                         "' OR " + KEY_RELATION_SECOND_TOPIC_ID + " = '" + topicId + "'";
-        //TODO: Add second Relation ID equality with OR
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(RELATIONS_SELECT_QUERY, null);
@@ -596,7 +595,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     relation.topicTo = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_SECOND_TOPIC_ID));
                     relation.isBidirectional = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_IS_BIDIRECTIONAL)) == 1; //if 1 -> true , else false
 
-                    relations.add(relation);
+                    boolean isDuplicate = false;
+                    if(relation.isBidirectional) {
+                        for (Relation r : relations) {
+                            if (relation.topicFrom == r.topicTo && relation.topicTo == r.topicFrom)
+                                isDuplicate = true;
+                        }
+                    }
+                    if(!isDuplicate)
+                        relations.add(relation);
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {

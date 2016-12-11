@@ -72,6 +72,7 @@ public class CustomTopicDetailAdapter extends ArrayAdapter<Relation> implements 
             t2n = (TextView) v.findViewById(R.id.topic2_name);
 
             if (r.topicFrom == topicId) {
+                t2n.setText(DatabaseHelper.getInstance(getContext()).getTopic(r.topicTo).topicName);
 
                 if(r.isBidirectional)
                     iv.setImageResource(R.drawable.two_arrow);
@@ -81,6 +82,8 @@ public class CustomTopicDetailAdapter extends ArrayAdapter<Relation> implements 
 
 
             }else if (r.topicTo == topicId) {
+                t2n.setText(DatabaseHelper.getInstance(getContext()).getTopic(r.topicFrom).topicName);
+
                 if(r.isBidirectional)
                     iv.setImageResource(R.drawable.two_arrow);
                 else
@@ -88,7 +91,6 @@ public class CustomTopicDetailAdapter extends ArrayAdapter<Relation> implements 
             }
 
             rn.setText(r.relationName);
-            t2n.setText(DatabaseHelper.getInstance(getContext()).getTopic(r.topicTo).topicName);
 
 
 
