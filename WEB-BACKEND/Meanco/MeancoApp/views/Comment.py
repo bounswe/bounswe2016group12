@@ -15,7 +15,9 @@ def get_page(request, id):
             vt=ViewedTopic(profile_id=profileId,topic_id=topicId)
             vt.save()
 
-    topic = Topic.objects.filter(id=topicId ).first()
+    topic = Topic.objects.get(id=topicId )
+    topic.viewed()
+    topic.save()
     comments = Comment.objects.filter(topic=topicId)
     oftopic = OfTopic.objects.filter(topic=topicId)
     relationsFrom = Relation.objects.filter(topic_a=topicId)

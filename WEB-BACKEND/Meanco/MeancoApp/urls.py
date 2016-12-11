@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^API/AddTag', ApiTag.addTag),
     url(r'^API/SearchTag', ApiTag.searchTag),
     url(r'^API/Register', ApiAuthentication.register),
+    url(r'^API/Login', ApiAuthentication.login),
     url(r'^topic/(?P<id>[0-9]+)', Comment.get_page),
     url(r'^relation/(?P<id>[0-9]+)', Relation.get_page),
     url(r'^API/T/$', ApiTopic.TopicList.as_view()),

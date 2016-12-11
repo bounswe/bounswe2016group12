@@ -15,7 +15,7 @@ def addRelation(request):
     topicEndPoint = request.POST.get("topic2")
     label = request.POST.get("label")
     isBidirectional =  False
-    if(request.POST.get("isBidirectional")==1):isBidirectional=True
+    if(request.POST.get("isBidirectional")=='1'):isBidirectional=True
     try:
         if(Relation.objects.filter(topic_a_id=topicStartPoint,topic_b_id=topicEndPoint,label=label,isBidirectional=isBidirectional).exists()):
             return HttpResponse("Relation Exists",status=400)
