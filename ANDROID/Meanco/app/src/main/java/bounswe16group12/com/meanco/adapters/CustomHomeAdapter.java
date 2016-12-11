@@ -102,11 +102,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
                 for (int i = 0; i < tg.size(); i++) {
                     String text = tg.get(i).tagName + ": " + tg.get(i).context;
                     TextView tagView = beautifyTagView(text, getContext());
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        lp.setMargins(2,0,0,3);
-                    }
-                    tagView.setLayoutParams(lp);
+
                     linearLayout.addView(tagView);
                 }
             }
@@ -209,7 +205,10 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         tagView.setGravity(Gravity.CENTER);
        // tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(2,0,0,3);
 
+        tagView.setLayoutParams(lp);
 
         tagView.setPadding(15, 0, 15, 0);
         return tagView;
