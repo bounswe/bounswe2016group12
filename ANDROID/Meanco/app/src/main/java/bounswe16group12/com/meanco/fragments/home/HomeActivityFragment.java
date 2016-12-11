@@ -76,7 +76,7 @@ public class HomeActivityFragment extends Fragment{
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Topic topic = adapter.getItem(position);
+                final Topic topic = adapter.getItem(position);
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
                 List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
                 relationAdapter = new CustomTopicDetailAdapter(getContext(), R.layout.relation_dialog_view, relations, topic.topicId);
@@ -85,10 +85,10 @@ public class HomeActivityFragment extends Fragment{
                 final View customView = inflater.inflate(R.layout.relation_dialog_view, null, false);
 
 
-                ListView relationListView = (ListView) customView.findViewById(R.id.relations_list);
-                relationListView.setAdapter(relationAdapter);
 
-                new AlertDialog.Builder(getContext())
+
+
+               final AlertDialog dialog =  new AlertDialog.Builder(getContext())
                         .setTitle(topic.topicName + "'s Relations")
                         .setView(customView)
                         .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -97,6 +97,26 @@ public class HomeActivityFragment extends Fragment{
                             }
                         })
                         .show();
+
+
+                ListView relationListView = (ListView) customView.findViewById(R.id.relations_list);
+
+                relationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(getContext(), TopicDetailActivity.class);
+                        Relation r = relationAdapter.getItem(i);
+                        if(topic.topicId==r.topicFrom)
+                            intent.putExtra("topicId", r.topicTo);
+                        else
+                            intent.putExtra("topicId", r.topicFrom);
+
+                        startActivity(intent);
+                     //   dialog.dismiss();
+
+                    }
+                });
+                relationListView.setAdapter(relationAdapter);
                 return true;
             }
         });
