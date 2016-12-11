@@ -31,7 +31,9 @@
         <activity android:name=".activities.TrendingActivity" />
         <activity
             android:name=".activities.HomeActivity"
-            android:label="Meanco">
+            android:label="Meanco"
+            android:icon="@drawable/meanco_logo">
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
