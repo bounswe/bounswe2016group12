@@ -27,6 +27,9 @@ def addComment(request):
             Com.edit(text)
         except:
             return HttpResponse("Comment Creation Error", status=400)
+        topic=Topic.objects.get(id=topicId)
+        topic.commented()
+        topic.save()
         try:
             if(CommentedTopic.objects.filter(topic_id=topicId, profile_id=profileId).exists()):
                 ct=CommentedTopic.objects.get(topic_id=topicId, profile_id=profileId)

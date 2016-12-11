@@ -65,7 +65,7 @@ def searchTopic(request):
         searchParam=request.GET.get("search")
         topics= Topic.objects.filter(label__startswith=searchParam)
 
-        if(topics.count()>1):
+        if(topics.count()!=1):
             return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
         else:
             TopicTags=OfTopic.objects.filter(topic_id=topics.values('id'))
@@ -82,6 +82,12 @@ def searchTopic(request):
                     print("here")
                     topicsWithCountOfTags[t.topic_id]['count']+=1
             print(topicsWithCountOfTags)
+            topicsToRemove=list()
+            for t in topicsWithCountOfTags.keys():
+                if topicsWithCountOfTags[t]['count']==0:
+                    topicsToRemove.append(t)
+            for t in topicsToRemove:
+                topicsWithCountOfTags.pop(t)
             topicData = list(Topic.objects.filter(id__in=topicsWithCountOfTags.keys()))
             print(topicData)
             topicData= sorted(topicData, key=lambda obj:topicsWithCountOfTags[obj.id]['count'],reverse=True)[0:3]
@@ -127,5 +133,7 @@ class TopicList(generics.ListCreateAPIView):
     serializer_class= TopicListSerializer
 
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
+
     queryset = Topic.objects.all()
     serializer_class= TopicSerializer
+
