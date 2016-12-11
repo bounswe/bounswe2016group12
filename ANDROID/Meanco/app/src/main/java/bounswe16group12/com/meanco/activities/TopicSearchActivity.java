@@ -149,14 +149,15 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
         inflater.inflate(R.menu.menu_search, menu);
 
         MenuItem searchItem = menu.findItem(R.id.search);
+        searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
             searchView.setIconifiedByDefault(false);
             if(fromOrTo.equals("from"))
-                searchView.setQueryHint("Search topic to be related from...");
+                searchView.setQueryHint("Search topic from...");
             else
-                searchView.setQueryHint("Search topic to be related to...");
+                searchView.setQueryHint("Search topic to...");
         }
 
 
