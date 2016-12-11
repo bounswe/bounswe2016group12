@@ -71,22 +71,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
-
-            topicName = (TextView) v.findViewById(R.id.topicitem);
-            topicName.setText(t.topicName);
-
-            linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
-
-            ArrayList<Tag> tg = t.tags;
-
-            if(tg!=null) {
-                for (int i = 0; i < (tg.size() > 3 ? 3:tg.size()); i++) { //Display only first 3 tags of topic on the main page
-                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
-                    TextView tagView = beautifyTagView(text, getContext());
-                    linearLayout.addView(tagView);
-                }
-            }
-        }else{
+        }
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(getItem(position).topicName);
 
@@ -106,7 +91,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
                     linearLayout.addView(tagView);
                 }
             }
-        }
+
         return v;
     }
 
@@ -203,7 +188,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         tagView.setBackgroundResource(R.drawable.tagbg);
         tagView.setTextColor(Color.WHITE);
         tagView.setGravity(Gravity.CENTER);
-        tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(2,0,0,3);

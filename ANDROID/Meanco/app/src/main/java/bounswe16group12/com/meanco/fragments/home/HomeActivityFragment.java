@@ -41,6 +41,7 @@ public class HomeActivityFragment extends Fragment{
     public static ListView listView;
     public static ListView relationsListView;
     public static CustomTopicDetailAdapter relationAdapter;
+    public static List<Relation> relations;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -78,17 +79,12 @@ public class HomeActivityFragment extends Fragment{
 
                 final Topic topic = adapter.getItem(position);
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
+                relations = databaseHelper.getAllRelations(topic.topicId);
                 relationAdapter = new CustomTopicDetailAdapter(getContext(), R.layout.relation_dialog_view, relations, topic.topicId);
-
 
                 final View customView = inflater.inflate(R.layout.relation_dialog_view, null, false);
 
-
-
-
-
-               final AlertDialog dialog =  new AlertDialog.Builder(getContext())
+               new AlertDialog.Builder(getContext())
                         .setTitle(topic.topicName + "'s Relations")
                         .setView(customView)
                         .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -98,8 +94,10 @@ public class HomeActivityFragment extends Fragment{
                         })
                         .show();
 
+                Log.i("RELATIONS: ",relations.size() + " RELATIONS : " + relations.toString());
 
                 ListView relationListView = (ListView) customView.findViewById(R.id.relations_list);
+                relationListView.setAdapter(relationAdapter);
 
                 relationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -116,7 +114,6 @@ public class HomeActivityFragment extends Fragment{
 
                     }
                 });
-                relationListView.setAdapter(relationAdapter);
                 return true;
             }
         });

@@ -11,6 +11,17 @@ public class Relation {
     public int topicTo;
     public String relationName;
 
+    @Override
+    public String toString() {
+        return "Relation{" +
+                "relationId=" + relationId +
+                ", isBidirectional=" + isBidirectional +
+                ", topicFrom=" + topicFrom +
+                ", topicTo=" + topicTo +
+                ", relationName='" + relationName + '\'' +
+                '}';
+    }
+
     public Relation(){} //Empty constructor to define
 
     public Relation(int relationId,String relationName, int topicFrom, int topicTo, boolean isBidirectional) {
