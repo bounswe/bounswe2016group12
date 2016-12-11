@@ -17,7 +17,9 @@ public class MeancoApplication extends Application {
     public static final String POST_RELATION_URL = "http://46.101.253.73:8000/API/AddRelation/";
     public static final String WIKIDATA_URL = "https://www.wikidata.org/w/api.php?action=wbsearchentities&language=en&format=json&search=";
     public static final String SEARCH_URL = "http://46.101.253.73:8000/API/SearchTopic?search=";
-    public static final int userId = 1;
+    public static final String REGISTER_URL = "http://46.101.253.73:8000/API/Register";
+    public static final String LOGIN_URL = "http://46.101.253.73:8000/API/Login";
+
     public MeancoApplication() {
         // this method fires only once per application start.
         // getApplicationContext returns null here

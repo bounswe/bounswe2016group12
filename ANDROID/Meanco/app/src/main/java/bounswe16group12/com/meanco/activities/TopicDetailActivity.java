@@ -1,7 +1,9 @@
 package bounswe16group12.com.meanco.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
@@ -65,8 +67,9 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //TODO: Will get id from HTTP:POST
-                                        Comment c = new Comment((new Random()).nextInt(100),topic.topicId,content.getText().toString());
+                                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+                                        int userId = preferences.getInt("UserId", -1);
+                                        Comment c = new Comment(userId,topic.topicId,content.getText().toString());
                                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
                                         databaseHelper.addComment(c);
 

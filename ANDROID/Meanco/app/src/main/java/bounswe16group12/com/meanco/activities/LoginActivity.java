@@ -3,7 +3,9 @@ package bounswe16group12.com.meanco.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -34,9 +36,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.User;
+import bounswe16group12.com.meanco.tasks.Authentication;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -71,6 +75,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        int userId = preferences.getInt("UserId", -1);
+
+        if(userId != -1){
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -92,37 +105,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-               // attemptLogin();
-                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                //TODO: Will change the login logic
+               // attemptLogin(); //TODO : maybe use this.
                 String email = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                //TODO: get user id
-                User newUser = new User(-1,email,password);
 
-                List<User> users = databaseHelper.getAllUsers();
-                boolean isUserFound = false;
-                for (User user : users) {
-                    if(user.username.equals(newUser.username) && user.password.equals(newUser.password)){
-                        isUserFound =  true;
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    }
-                    else if(user.username.equals(newUser.username) && !user.password.equals(newUser.password)) {
-                        isUserFound = true;
-                        Toast.makeText(LoginActivity.this, "WRONG PASSWORD.", Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                }
-                if(!isUserFound) {
-                    databaseHelper.addOrUpdateUser(newUser);
-                    Toast.makeText(LoginActivity.this, "USER ACCOUNT CREATED SUCCESFULLY.", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                int indexOf = email.indexOf("@");
+                String username = email.substring(0,indexOf);
+                new Authentication(MeancoApplication.LOGIN_URL,email,username,password,getApplicationContext()).execute();
             }
         });
 
