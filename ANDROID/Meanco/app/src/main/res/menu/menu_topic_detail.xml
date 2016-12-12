@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="bounswe16group12.com.meanco.activities.TopicDetailActivity">
+    <item
+        android:id="@+id/action_relation"
+        android:icon="@drawable/two_arrow"
+        android:title="Relations"
+        app:showAsAction="always"
+        android:orderInCategory="0"/>
+</menu>
