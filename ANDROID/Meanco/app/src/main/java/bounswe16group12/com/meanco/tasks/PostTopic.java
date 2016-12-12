@@ -45,11 +45,12 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
     private Topic topic;
     private Context context;
-    private final String url = "http://46.101.253.73:8000/API/AddTopic/";
+    private String url;
 
-    public PostTopic(Topic topic, Context context){
+    public PostTopic(Topic topic, Context context, String url){
         this.context = context;
         this.topic = topic;
+        this.url = url;
     }
 
     @Override
@@ -60,13 +61,18 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
             JSONObject jsonObject=new JSONObject(response.getData());
             if (jsonObject != null) {
                 if (response.getResponseCode() == 200) {
-                    int topicId = jsonObject.getInt("Topic");
+                    int topicId = jsonObject.getInt("topicId");
                     topic.topicId = topicId;
 
-                   for(Tag tag: topic.tags){
-                       boolean isLast = (topic.tags.size() - topic.tags.indexOf(tag)) == 1;
-                       new PostTag(MeancoApplication.POST_TAG_URL,tag,topicId,isLast,context).execute();
-                   }
+                    Log.i("POST_TOPIC : ", topic.tags.size() + " T:  " + topic.tags.toString());
+                    topic.tags.remove(0); //Used in add topic task
+                    if(topic.tags.size() > 0) {
+                        for (Tag tag : topic.tags) {
+                            boolean isLast = (topic.tags.size() - topic.tags.indexOf(tag)) == 1;
+                            new PostTag(MeancoApplication.POST_TAG_URL, tag, topicId, isLast, context).execute();
+
+                        }
+                    }
 
                    TagSearchActivity.checkedTags.clear();
 
@@ -85,7 +91,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
             data = URLEncoder.encode("topicName", "UTF-8")
                     + "=" + URLEncoder.encode(topic.topicName, "UTF-8");
             data += "&" + URLEncoder.encode("tag", "UTF-8") + "="
-                + URLEncoder.encode(topic.tags.get(0).tagName, "UTF-8");
+            + URLEncoder.encode(topic.tags.get(0).tagName, "UTF-8");
 
             data += "&" + URLEncoder.encode("description", "UTF-8")
                 + "=" + URLEncoder.encode(topic.tags.get(0).context, "UTF-8");
@@ -93,6 +99,7 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
             data += "&" + URLEncoder.encode("URL", "UTF-8")
                 + "=" + URLEncoder.encode(topic.tags.get(0).URL, "UTF-8");
 
+            Log.i("TOPIC_DATA", data);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -103,13 +110,23 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
             url = new URL(this.url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write( data );
             wr.flush();
 
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode == 200) {
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            }
+            else
+                reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+
             StringBuilder sb = new StringBuilder();
             String line = null;
+
 
             // Read Server Response
             while((line = reader.readLine()) != null)
@@ -119,8 +136,8 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
             }
             text = sb.toString();
 
-            int responseCode = conn.getResponseCode();
 
+            Log.i("RESPONSE_TOPIC",responseCode + " BODY: " + text);
             return new Connect.APIResult(responseCode,text);
         } catch (MalformedURLException e) {
             e.printStackTrace();

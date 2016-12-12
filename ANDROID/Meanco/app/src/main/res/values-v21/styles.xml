@@ -6,5 +6,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
+        <item name="android:icon">@drawable/meanco_logo</item>
+        <item name="android:displayOptions">useLogo|showHome</item>
     </style>
 </resources>

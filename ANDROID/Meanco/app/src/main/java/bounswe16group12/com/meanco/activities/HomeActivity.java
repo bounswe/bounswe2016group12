@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,9 +16,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -32,21 +37,20 @@ import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
-import bounswe16group12.com.meanco.tasks.PostTag;
-import bounswe16group12.com.meanco.tasks.PostTopic;
-import me.originqiu.library.EditTag;
-import me.originqiu.library.MEditText;
+import bounswe16group12.com.meanco.tasks.PostRelation;
 
 
 public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     static ArrayList<Tag> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
+    private Spinner topicFromSpinner, topicToSpinner;
 
     //Home activity has search functionality, so changing the default menu is needed.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
+
 
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -76,7 +80,9 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.rsz_meanco_logo);
+        setTitle("  Meanco");
 
         //Add relation floating action button
         final FloatingActionButton relation_fab = (FloatingActionButton) findViewById(R.id.add_relation);
@@ -86,34 +92,33 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                     public void onClick(View v) {
                         tagsOfTopic = new ArrayList<>();
                         final View customView = getLayoutInflater().inflate(R.layout.edit_relation, null, false);
-                        final EditText topicNameEdit = (EditText) customView.findViewById(R.id.topic_name);
                         final EditText relationNameEdit = (EditText) customView.findViewById(R.id.relation_name);
-                        final EditText topicName2Edit = (EditText) customView.findViewById(R.id.topic_name_2);
                         final CheckBox bidirectionalEdit = (CheckBox) customView.findViewById(R.id.bidirectional);
 
                         //Open alert dialog when button is pressed.
-                        new AlertDialog.Builder(HomeActivity.this)
+                        final AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
                                 .setTitle("Add relation")
                                 .setView(customView)
-                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
 
-                                        //TODO:Change ID.
-
-                                        String topicName = topicNameEdit.getText().toString();
-                                        String topicName2 = topicName2Edit.getText().toString();
                                         String relationName = relationNameEdit.getText().toString();
-                                        boolean isBidirectional = bidirectionalEdit.isEnabled();
+                                        boolean isBidirectional = bidirectionalEdit.isChecked();
 
-                                        //Relation
+                                        Intent i = new Intent(HomeActivity.this, TopicSearchActivity.class);
+                                        i.putExtra("relationName", relationName);
+                                        i.putExtra("isBidirectional", isBidirectional);
+                                        i.putExtra("fromOrTo", "from");
+                                        startActivity(i);
+
+
 
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {}
-                                })
-                                .show();
+                                }).show();
+
                     }
 
                 }
@@ -125,43 +130,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         topic_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                tagsOfTopic = new ArrayList<>();
-
-               /* final View customView = getLayoutInflater().inflate(R.layout.customview_alerttopic, null, false);
-                final EditTag editTagView = (EditTag) customView.findViewById(R.id.edit_tag_view);
-                final MEditText mEditText = (MEditText) customView.findViewById(R.id.meditText);
-                final EditText topicNameEdit = (EditText) customView.findViewById(R.id.topic_name);
-                final EditText relationNameEdit = (EditText) customView.findViewById(R.id.relation_name);
-                final EditText topicName2Edit = (EditText) customView.findViewById(R.id.topic_name_2);
-                final CheckBox bidirectionalEdit = (CheckBox) customView.findViewById(R.id.bidirectional);
-
-
-                mEditText.addTextChangedListener(new TextWatcher() {
-
-                    @Override
-                    public void onTextChanged(CharSequence returnedResult, int start,
-                                              int before, int count) {
-
-                        String result = returnedResult.toString();
-                        if (result.length() == 0) return;
-                        if (result.charAt(result.length() - 1) == ('\n')) {
-                            String s = result.substring(0, result.length() - 1);
-                            editTagView.addTag(s);
-                            mEditText.setText("");
-                            tagsOfTopic.add(new Tag(-1, "context",s,s));
-                        }
-                    }
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-
-                });*/
 
                 EditText temp = new EditText(HomeActivity.this);
                 temp.setHint("Enter topic name");
@@ -179,6 +147,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                                 Intent i = new Intent(HomeActivity.this, TagSearchActivity.class);
                                 i.putExtra("topicName", topicName);
+                                i.putExtra("ifDetail", "false");
                                 startActivity(i);
                             }
                         })
@@ -193,68 +162,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
             }
 
         });
-
-
-        final FloatingActionButton tag_fab = (FloatingActionButton) findViewById(R.id.add_tag);
-        tag_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tagsOfTopic = new ArrayList<>();
-                View input = getLayoutInflater().inflate(R.layout.edit_tag, null, false);
-
-                final EditTag editTagView = (EditTag) input.findViewById(R.id.edit_tag_view);
-                final MEditText mEditText = (MEditText) input.findViewById(R.id.meditText);
-                final EditText topicName = (EditText) input.findViewById(R.id.topic_name);
-                mEditText.addTextChangedListener(new TextWatcher() {
-
-                    @Override
-                    public void onTextChanged(CharSequence returnedResult, int start,
-                                              int before, int count) {
-
-                        String result = returnedResult.toString();
-                        if (result.length() == 0) return;
-                        if (result.charAt(result.length() - 1) == ('\n')) {
-                            String s = result.substring(0, result.length() - 1);
-                            editTagView.addTag(s);
-                            mEditText.setText("");
-                            tagsOfTopic.add(new Tag(-1, "context",s,s));
-
-                        }
-                    }
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
-
-                new AlertDialog.Builder(HomeActivity.this)
-                        .setTitle("Add tags")
-                        .setView(input)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                                for(Tag t: tagsOfTopic) {
-                                    //databaseHelper.addTag(t);
-                                    //new PostTag(MeancoApplication.POST_TAG_URL, getApplicationContext(), t);
-                                    //TODO: Redirect to WikiSearch after getting topicId
-                                }
-
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .show();
-            }
-        });
-
-
-
 
     }
 
@@ -277,6 +184,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         return true;
     }
+
+
 
 
 

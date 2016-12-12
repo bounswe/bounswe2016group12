@@ -3,11 +3,11 @@ package bounswe16group12.com.meanco.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +23,9 @@ import java.util.List;
 import java.util.Locale;
 
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
-
-import static android.icu.lang.UProperty.INT_START;
 
 public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterable{
 
@@ -67,55 +64,36 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         View v = convertView;
         Topic t = getItem(position);
 
-
         TextView topicName = null;
         LinearLayout linearLayout = null;
-
 
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
-
-
-
-            topicName = (TextView) v.findViewById(R.id.topicitem);
-            topicName.setText(t.topicName);
-            linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
-
-            ArrayList<Tag> tg = t.tags;
-
-
-            if(tg!=null) {
-                for (int i = 0; i < tg.size(); i++) {
-                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
-                    TextView tagView = beautifyTagView(text, getContext());
-                    linearLayout.addView(tagView);
-
-                }
-            }
-        }else{
+        }
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(getItem(position).topicName);
 
             ArrayList<Tag> tg = getItem(position).tags;
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
-
             linearLayout.removeAllViews();
+
+            LinearLayout.LayoutParams layparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layparam.setMargins(0,0,0,1);
+            linearLayout.setLayoutParams(layparam);
 
             if(tg!=null) {
                 for (int i = 0; i < tg.size(); i++) {
                     String text = tg.get(i).tagName + ": " + tg.get(i).context;
                     TextView tagView = beautifyTagView(text, getContext());
-                    linearLayout.addView(tagView);
 
+                    linearLayout.addView(tagView);
                 }
             }
-        }
+
         return v;
     }
-
-
 
     // Filter Class
     public void filter(String charText) {
@@ -138,7 +116,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
     public Filter getFilter() {
         return mFilter;
     }
-
 
     private class ItemFilter extends Filter {
         @Override
@@ -190,10 +167,6 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             }
 
         }
-
-
-
-
     }
     public void updateArray(){
         topicsWithTags = DatabaseHelper.getInstance(getContext()).getAllTopics();
@@ -211,18 +184,17 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
 
 
         tagView.setText(str);
+        tagView.setTextSize(12.0f);
         tagView.setBackgroundResource(R.drawable.tagbg);
         tagView.setTextColor(Color.WHITE);
         tagView.setGravity(Gravity.CENTER);
-        tagView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            lp.setMarginEnd(10);
-        }
+        lp.setMargins(2,0,0,3);
+
         tagView.setLayoutParams(lp);
 
-        tagView.setPadding(15, 15, 15, 15);
+        tagView.setPadding(15, 0, 15, 0);
         return tagView;
     }
 }

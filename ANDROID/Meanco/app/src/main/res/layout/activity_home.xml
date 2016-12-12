@@ -40,16 +40,6 @@
             fab:fab_label="Add topic" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/add_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
-            app:fab_colorNormal="@color/colorPrimary"
-
-            fab:fab_size="mini"
-            fab:fab_label="Add tag" />
-
-        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/add_relation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
