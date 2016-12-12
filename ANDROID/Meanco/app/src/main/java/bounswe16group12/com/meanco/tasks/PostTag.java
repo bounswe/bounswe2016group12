@@ -54,6 +54,7 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
         }
         if(isLast){
             Log.i("TAG_POST","FINISHED");
+            //new GetTopicDetail(MeancoApplication.SITE_URL,topicId,context).execute();
             TagSearchActivity.checkedTags.clear();
         }
 
@@ -63,6 +64,21 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected Connect.APIResult doInBackground(Void... voids) {
+
+        //TODO: 50 will be 100 after backend update
+        if(tagToPost.context.length() > 50){
+            int indexOfPoint = tagToPost.context.indexOf(".");
+            int indexOfComma = tagToPost.context.indexOf(",");
+            if(indexOfPoint != -1){
+                tagToPost.context.substring(0,indexOfPoint);
+            }
+            else if(indexOfComma != -1){
+                tagToPost.context.substring(0,indexOfComma);
+            }
+            else{
+                tagToPost.context.substring(0,48);
+            }
+        }
 
         String data = null;
         try {
@@ -87,12 +103,20 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
             url = new URL(this.url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write( data );
             wr.flush();
 
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
+
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode == 200) {
+                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            }
+            else
+                reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));            StringBuilder sb = new StringBuilder();
             String line = null;
 
             // Read Server Response
@@ -103,7 +127,6 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
             }
             text = sb.toString();
 
-            int responseCode = conn.getResponseCode();
             return new Connect.APIResult(responseCode,text);
         } catch (MalformedURLException e) {
             e.printStackTrace();

@@ -18,4 +18,14 @@ public class Tag {
         this.tagId=tagId;
         this.URL = URL;
     }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tagId=" + tagId +
+                ", tagName='" + tagName + '\'' +
+                ", context='" + context + '\'' +
+                ", URL='" + URL + '\'' +
+                '}';
+    }
 }

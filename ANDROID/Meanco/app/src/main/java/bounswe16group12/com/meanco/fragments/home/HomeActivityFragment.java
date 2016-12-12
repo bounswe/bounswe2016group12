@@ -97,8 +97,6 @@ public class HomeActivityFragment extends Fragment{
                         })
                         .show();
 
-                Log.i("RELATIONS: ",relations.size() + " RELATIONS : " + relations.toString());
-
                 ListView relationListView = (ListView) customView.findViewById(R.id.relations_list);
                 relationListView.setAdapter(relationAdapter);
 

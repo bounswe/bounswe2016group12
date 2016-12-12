@@ -51,7 +51,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
 
         final String topicName = getIntent().getStringExtra("topicName").toString();
 
-        if(intentFromDetail=="false")
+        if(intentFromDetail.equals("false"))
             title = "Add topic - " + topicName;
         else
             title = "Add tag(s) for " + topicName;
@@ -66,7 +66,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         addTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(intentFromDetail=="false") {
+                if(intentFromDetail.equals("false")) {
                     Topic topic = new Topic(-1, topicName, checkedTags);
                     new PostTopic(topic, TagSearchActivity.this,MeancoApplication.POST_TOPIC_URL).execute();
                 }else{
