@@ -35,6 +35,7 @@ import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.PostComment;
 import me.originqiu.library.EditTag;
 import me.originqiu.library.MEditText;
 
@@ -69,12 +70,8 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
                                         int userId = preferences.getInt("UserId", -1);
-                                        Comment c = new Comment(userId,topic.topicId,content.getText().toString());
-                                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                                        databaseHelper.addComment(c);
-
-                                        TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
-                                        TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
+                                        Comment c = new Comment(-1,topic.topicId,content.getText().toString());
+                                        new PostComment(MeancoApplication.POST_COMMENT_URL,c,userId,getApplicationContext()).execute();
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
