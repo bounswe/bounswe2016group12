@@ -61,6 +61,7 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
         final CheckedTextView checkedTextView;
 
        // if (v == null) {
+
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.tag_search_item, null);

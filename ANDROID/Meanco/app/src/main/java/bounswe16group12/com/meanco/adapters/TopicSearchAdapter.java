@@ -69,7 +69,6 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
         LinearLayout linearLayout = null;
 
 
-        if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
