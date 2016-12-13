@@ -23,4 +23,7 @@
     <string name="title_activity_topic_detail">TopicDetailActivity</string>
     <string name="topic_from">Topic From:</string>
     <string name="topic_to">Topic To:</string>
+
+    <string name="downvote">Downvote</string>
+    <string name="upvote">Upvote</string>
 </resources>
