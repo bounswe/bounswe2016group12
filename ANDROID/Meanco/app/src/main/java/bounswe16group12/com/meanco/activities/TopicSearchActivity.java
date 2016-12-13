@@ -20,9 +20,11 @@ import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.adapters.TopicSearchAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.PostRelation;
+import bounswe16group12.com.meanco.utils.Functions;
 
 public class TopicSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
@@ -159,16 +161,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
-        List<Topic> topics;
-        if (TextUtils.isEmpty(newText)) {
-            topics = db.getAllTopics();
-        } else {
-           topics = db.getTopicsContainsText(newText);
-        }
-        adapter.relationTopics.clear();
-        adapter.relationTopics.addAll(topics);
-        adapter.notifyDataSetChanged();
-        return true;
+        return Functions.filterData(newText, adapter, adapter.relationTopics, getApplicationContext());
     }
 }

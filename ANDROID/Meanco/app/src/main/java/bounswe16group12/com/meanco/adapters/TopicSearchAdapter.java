@@ -17,6 +17,7 @@ import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.utils.Functions;
 
 /**
  * Created by Ezgi on 12/10/2016.
@@ -67,6 +68,7 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
 
         TextView topicName = null;
         LinearLayout linearLayout = null;
+        ArrayList<Tag> tg;
 
         if(v == null){
             LayoutInflater vi;
@@ -79,33 +81,26 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
             topicName.setText(t.topicName);
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
-            ArrayList<Tag> tg = t.tags;
+            tg = t.tags;
 
-
-            if(tg!=null) {
-                for (int i = 0; i < (tg.size() > 3 ? 3:tg.size()); i++) { //Display only first 3 tags of topic on the main page
-                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
-                    TextView tagView = CustomHomeAdapter.beautifyTagView(text, getContext());
-                    linearLayout.addView(tagView);
-
-                }
-            }
         }else{
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(getItem(position).topicName);
 
-            ArrayList<Tag> tg = getItem(position).tags;
+            tg = getItem(position).tags;
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
             linearLayout.removeAllViews();
 
-            if(tg!=null) {
-                for (int i = 0; i < tg.size(); i++) {
-                    String text = tg.get(i).tagName + ": " + tg.get(i).context;
-                    TextView tagView = CustomHomeAdapter.beautifyTagView(text, getContext());
-                    linearLayout.addView(tagView);
 
-                }
+        }
+
+        if(tg!=null) {
+            for (int i = 0; i < tg.size(); i++) {
+                String text = tg.get(i).tagName + ": " + tg.get(i).context;
+                TextView tagView = Functions.beautifyTagView(text, getContext());
+                linearLayout.addView(tagView);
+
             }
         }
         return v;
