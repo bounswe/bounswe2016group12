@@ -316,6 +316,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topics;
     }
 
+    //Returns all topics.
+    public List<Topic> getTopicsContainsText(String text) {
+        List<Topic> topics = new ArrayList<>();
+
+        String TOPICS_SELECT_QUERY = "SELECT * FROM topics WHERE " + KEY_TOPIC_NAME + " LIKE '%" + text + "%'";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(TOPICS_SELECT_QUERY, null);
+        try {
+
+            if (cursor.moveToFirst()) {
+                do {
+
+                    Topic topic = new Topic();
+                    topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
+                    topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
+                    String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
+
+                    ArrayList<String> tagIdList = stringToList(tags);
+
+                    if(tagIdList!=null) {
+                        ArrayList<Tag> tagList = new ArrayList<Tag>();
+                        for (String s : tagIdList) {
+                            int tagId = Integer.parseInt(s);
+                            Tag t = getTag(tagId);
+                            tagList.add(t);
+                        }
+
+                        topic.tags = tagList;
+                    }else {
+                        topic.tags = null;
+                    }
+                    topics.add(topic);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            //Log.d("USER DB HELPER", "Error while trying to get posts from database");
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return topics;
+    }
+
     //HELPER FOR ARRAYLIST TO STRING
     private ArrayList<String> stringToList(String s){
         ArrayList<String> output = null;
