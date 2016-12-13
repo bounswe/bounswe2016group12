@@ -40,12 +40,12 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.PostRelation;
+import bounswe16group12.com.meanco.utils.Functions;
 
 
 public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     static ArrayList<Tag> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
-    private Spinner topicFromSpinner, topicToSpinner;
 
     //Home activity has search functionality, so changing the default menu is needed.
     @Override
@@ -191,16 +191,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            HomeActivityFragment.adapter.getFilter().filter("");
-            HomeActivityFragment.listView.clearTextFilter();
 
-        } else {
-            HomeActivityFragment.adapter.getFilter().filter(newText.toString());
-
-
-        }
-        return true;
+        return Functions.filterData(newText, HomeActivityFragment.adapter, HomeActivityFragment.adapter.filteredData, getApplicationContext());
     }
 
     @Override

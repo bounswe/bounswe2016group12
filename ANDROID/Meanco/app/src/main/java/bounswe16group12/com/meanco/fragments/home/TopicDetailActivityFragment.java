@@ -11,6 +11,7 @@ import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -91,14 +92,16 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listView_topic_comments);
         listView.setAdapter(mCommentsAdapter);
 
-        /*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(getActivity(), "Comment is Upvoted.", Toast.LENGTH_SHORT).show();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
             }
+
+
         });
-        */
         return rootView;
     }
 

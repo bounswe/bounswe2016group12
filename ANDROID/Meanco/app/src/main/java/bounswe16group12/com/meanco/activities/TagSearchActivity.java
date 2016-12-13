@@ -33,7 +33,7 @@ import bounswe16group12.com.meanco.tasks.PostTag;
 import bounswe16group12.com.meanco.tasks.PostTopic;
 
 public class TagSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
-    String title;
+    //String title;
     SearchView searchView;
     ListView listView;
     public static ArrayList<Tag> checkedTags = new ArrayList<>();
@@ -51,11 +51,12 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
 
         final String topicName = getIntent().getStringExtra("topicName").toString();
 
+        /*
         if(intentFromDetail.equals("false"))
             title = "Add topic - " + topicName;
         else
             title = "Add tag(s) for " + topicName;
-        setTitle(title);
+        setTitle(title);*/
 
 
         listView = (ListView) findViewById(R.id.tag_search_listview);
@@ -109,12 +110,10 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
                 if(box.isChecked()) {
                     box.setChecked(false);
                     checkedTags.remove(adapter.getItem(i));
-                    //adapter.notifyDataSetChanged();
                 }
                 else{
                     box.setChecked(true);
                     checkedTags.add(adapter.getItem(i));
-                    //adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -130,11 +129,12 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         inflater.inflate(R.menu.menu_search, menu);
 
         MenuItem searchItem = menu.findItem(R.id.search);
+        searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
             searchView.setIconifiedByDefault(false);
-            searchView.setQueryHint("Search tag...");
+            searchView.setQueryHint("Search tag for " + getIntent().getStringExtra("topicName").toString() +"...");
 
         }
 
@@ -164,13 +164,8 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            ;
-        } else {
-            //if(newText.length()>1){
-                new GetWikiData(MeancoApplication.WIKIDATA_URL+newText, TagSearchActivity.this).execute();
-            //}
-
+        if (!TextUtils.isEmpty(newText)) {
+            new GetWikiData(MeancoApplication.WIKIDATA_URL+newText, TagSearchActivity.this).execute();
         }
         return true;
     }
