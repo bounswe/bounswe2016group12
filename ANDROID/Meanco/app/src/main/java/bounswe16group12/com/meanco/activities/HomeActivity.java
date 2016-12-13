@@ -203,8 +203,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        //Blocks  return action of back button to prevent user go back to login page.
+    }
 }
