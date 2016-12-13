@@ -40,7 +40,6 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
         }
     }
 
-
     @Override
     public int getCount(){
         if(relationTopics==null)
@@ -91,8 +90,6 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
 
             linearLayout.removeAllViews();
-
-
         }
 
         if(tg!=null) {
@@ -100,12 +97,10 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
                 String text = tg.get(i).tagName + ": " + tg.get(i).context;
                 TextView tagView = Functions.beautifyTagView(text, getContext());
                 linearLayout.addView(tagView);
-
             }
         }
         return v;
     }
-
     public void updateArray(){
         for(Topic t: relationTopics){
             this.add(t);
