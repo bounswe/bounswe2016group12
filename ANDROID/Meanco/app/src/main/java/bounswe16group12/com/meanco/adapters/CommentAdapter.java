@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.alexandrius.accordionswipelayout.library.SwipeLayout;
 
 import org.w3c.dom.Text;
 
@@ -64,6 +64,8 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
        // LinearLayout usernameLayout = null;
         TextView contentTextView = null;
         TextView usernameTextView = null;
+       // final ImageButton downvoteBtn = null;
+        //final ImageButton upvoteBtn = null;
 
         if(v == null) {
             LayoutInflater vi;
@@ -76,6 +78,25 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         //usernameLayout = (LinearLayout) v.findViewById(R.id.username_linearlayout);
         usernameTextView = (TextView) v.findViewById(R.id.username_item);
         usernameTextView.setText("username");
+
+        final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
+        downvoteBtn.setSelected(false);
+
+        downvoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downvoteBtn.setSelected(!downvoteBtn.isSelected());
+            }
+        });
+        final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
+        upvoteBtn.setSelected(false);
+
+        upvoteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upvoteBtn.setSelected(!upvoteBtn.isSelected());
+            }
+        });
         
         return v;
     }

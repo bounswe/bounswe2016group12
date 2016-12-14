@@ -21,8 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alexandrius.accordionswipelayout.library.SwipeLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +89,7 @@ public class TopicDetailActivityFragment extends Fragment {
 
     public static void updateAdapters(DatabaseHelper databaseHelper, int topicId){
         mCommentsAdapter.clear();
+        mCommentsAdapter.comments.clear();
         mTagsAdapter.clear();
         List<Comment> comments = databaseHelper.getAllComments(topicId);
         List<Tag> tags = databaseHelper.getTopic(topicId).tags;
