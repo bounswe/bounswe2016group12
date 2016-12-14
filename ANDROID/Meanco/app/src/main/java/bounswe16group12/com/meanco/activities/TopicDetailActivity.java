@@ -1,44 +1,29 @@
 package bounswe16group12.com.meanco.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
-import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
-import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.PostComment;
 import bounswe16group12.com.meanco.utils.Functions;
-import me.originqiu.library.EditTag;
-import me.originqiu.library.MEditText;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
@@ -64,7 +49,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         if (Functions.getUserId(TopicDetailActivity.this) == -1) {
-                            Functions.notLoggedInAlert(TopicDetailActivity.this);
+                            Functions.showNotLoggedInAlert(TopicDetailActivity.this);
 
                         } else {
 
@@ -100,7 +85,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (Functions.getUserId(TopicDetailActivity.this) == -1) {
-                            Functions.notLoggedInAlert(TopicDetailActivity.this);
+                            Functions.showNotLoggedInAlert(TopicDetailActivity.this);
 
                         }else {
                             Intent i = new Intent(TopicDetailActivity.this, TagSearchActivity.class);
