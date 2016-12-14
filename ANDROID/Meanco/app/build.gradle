@@ -30,9 +30,6 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.github.qiugang:EditTag:v1.2.3'
-    compile 'com.rm:longpresspopup:1.0.0'
-
-
 
     testCompile 'junit:junit:4.12'
 }

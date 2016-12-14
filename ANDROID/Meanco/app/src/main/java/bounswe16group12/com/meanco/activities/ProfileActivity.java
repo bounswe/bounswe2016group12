@@ -13,11 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.fragments.profile.BioFragment;
-import bounswe16group12.com.meanco.fragments.profile.NotificationsFragment;
+import bounswe16group12.com.meanco.fragments.profile.CommentsFragment;
 
-public class ProfileActivity extends AppCompatActivity implements BioFragment.OnFragmentInteractionListener, NotificationsFragment.OnFragmentInteractionListener {
-
+public class ProfileActivity {//extends AppCompatActivity implements CommentsFragment.OnFragmentInteractionListener, FollowFragment.OnFragmentInteractionListener {
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,5 +74,5 @@ public class ProfileActivity extends AppCompatActivity implements BioFragment.On
         }
 
 
-    }
+    }*/
 }

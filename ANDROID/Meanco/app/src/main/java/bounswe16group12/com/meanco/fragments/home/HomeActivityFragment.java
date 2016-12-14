@@ -30,9 +30,6 @@ import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
-import rm.com.longpresspopup.LongPressPopup;
-import rm.com.longpresspopup.LongPressPopupBuilder;
-import rm.com.longpresspopup.PopupInflaterListener;
 
 /**
  * A placeholder fragment containing a simple view.
