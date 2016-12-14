@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,10 +40,15 @@ import rm.com.longpresspopup.PopupInflaterListener;
 public class HomeActivityFragment extends Fragment{
     public static CustomHomeAdapter adapter;
     public static ListView listView;
+    public static ListView relationsListView;
+    public static CustomTopicDetailAdapter relationAdapter;
+    public static List<Relation> relations;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
 
         new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
 
@@ -62,12 +68,54 @@ public class HomeActivityFragment extends Fragment{
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 //Task before intent fires
                 new GetTopicDetail(MeancoApplication.SITE_URL,adapter.getItem(position).topicId, getContext()).execute();
-                String message = adapter.getItem(position).topicName;
-               // String topicId = adapter.getItem(position).topicId+"";
+               // String message = adapter.getItem(position).topicName;
+                int topicId = adapter.getItem(position).topicId;
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
-                intent.putExtra("activityTitle", message);
-               // intent.putExtra("topicId", topicId);
+                intent.putExtra("topicId", topicId);
                 startActivity(intent);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final Topic topic = adapter.getItem(position);
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                relations = databaseHelper.getAllRelations(topic.topicId);
+                relationAdapter = new CustomTopicDetailAdapter(getContext(), R.layout.relation_dialog_view, relations, topic.topicId);
+
+                final View customView = inflater.inflate(R.layout.relation_dialog_view, null, false);
+
+               new AlertDialog.Builder(getContext())
+                        .setTitle(topic.topicName + "'s Relations")
+                        .setView(customView)
+                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+                ListView relationListView = (ListView) customView.findViewById(R.id.relations_list);
+                relationListView.setAdapter(relationAdapter);
+
+                relationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(getContext(), TopicDetailActivity.class);
+                        Relation r = relationAdapter.getItem(i);
+                        if(topic.topicId==r.topicFrom)
+                            intent.putExtra("topicId", r.topicTo);
+                        else
+                            intent.putExtra("topicId", r.topicFrom);
+
+                        startActivity(intent);
+                     //   dialog.dismiss();
+
+                    }
+                });
+                return true;
             }
         });
 

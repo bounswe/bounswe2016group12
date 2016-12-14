@@ -208,24 +208,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //IF returns -1 , no such topic like that
-    public int getTopicId(String name){
-        SQLiteDatabase db = getReadableDatabase();
-
-        String TOPIC_SELECT_WITH_NAME_QUERY = "SELECT * FROM topics WHERE topicName = '" + name + "'";
-
-        Cursor cursor = db.rawQuery(TOPIC_SELECT_WITH_NAME_QUERY,null);
-        int topicId = -1;
-        try {
-            if (cursor.moveToFirst()) {
-                topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
-            }
-        } finally {
-            cursor.close();
-        }
-        return topicId;
-    }
-
     //If returns null, no such topic.
     public Topic getTopic(int topicId){
         SQLiteDatabase db = getReadableDatabase();
@@ -597,8 +579,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Relation> getAllRelations(int topicId){
-        String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId + "'";
-        //TODO: Add second Relation ID equality with OR
+        String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId +
+                                        "' OR " + KEY_RELATION_SECOND_TOPIC_ID + " = '" + topicId + "'";
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(RELATIONS_SELECT_QUERY, null);
@@ -613,7 +595,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     relation.topicTo = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_SECOND_TOPIC_ID));
                     relation.isBidirectional = cursor.getInt(cursor.getColumnIndex(KEY_RELATION_IS_BIDIRECTIONAL)) == 1; //if 1 -> true , else false
 
-                    relations.add(relation);
+                    boolean isDuplicate = false;
+                    if(relation.isBidirectional) {
+                        for (Relation r : relations) {
+                            if (relation.topicFrom == r.topicTo && relation.topicTo == r.topicFrom)
+                                isDuplicate = true;
+                        }
+                    }
+                    if(!isDuplicate)
+                        relations.add(relation);
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -623,6 +613,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
         return relations;
     }
 

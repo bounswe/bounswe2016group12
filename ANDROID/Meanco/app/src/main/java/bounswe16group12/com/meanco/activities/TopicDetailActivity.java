@@ -1,10 +1,15 @@
 package bounswe16group12.com.meanco.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +21,7 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -27,11 +33,14 @@ import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
+import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.PostComment;
+import me.originqiu.library.EditTag;
+import me.originqiu.library.MEditText;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
-    String title;
     public static CustomTopicDetailAdapter adapter;
     public static ListView listView;
     @Override
@@ -39,11 +48,10 @@ public class TopicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
 
-        title = getIntent().getStringExtra("activityTitle").toString();
-        setTitle(title);
+        int topicId = getIntent().getIntExtra("topicId",-1);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
-        int topicId = db.getTopicId(title);
         topic = db.getTopic(topicId);
+        setTitle(topic.topicName);
 
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
@@ -60,13 +68,10 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //TODO: Will get id from HTTP:POST
-                                        Comment c = new Comment((new Random()).nextInt(100),topic.topicId,content.getText().toString());
-                                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-                                        databaseHelper.addComment(c);
-
-                                        TopicDetailActivityFragment.mCommentsAdapter.add(c.content);
-                                        TopicDetailActivityFragment.mCommentsAdapter.notifyDataSetChanged();
+                                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+                                        int userId = preferences.getInt("UserId", -1);
+                                        Comment c = new Comment(-1,topic.topicId,content.getText().toString());
+                                        new PostComment(MeancoApplication.POST_COMMENT_URL,c,userId,getApplicationContext()).execute();
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -75,6 +80,22 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     }
                                 })
                                 .show();
+                    }
+                }
+        );
+
+
+        FloatingActionButton tag_fab = (FloatingActionButton) findViewById(R.id.fabTag);
+        tag_fab.setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(TopicDetailActivity.this, TagSearchActivity.class);
+                        i.putExtra("ifDetail", "true");
+                        i.putExtra("topicName", topic.topicName);
+                        i.putExtra("topicId",topic.topicId);
+                        startActivity(i);
                     }
                 }
         );
@@ -110,7 +131,7 @@ public class TopicDetailActivity extends AppCompatActivity {
 
         if (id == R.id.action_relation) {
             new AlertDialog.Builder(TopicDetailActivity.this)
-                    .setTitle(title + "'s Relations")
+                    .setTitle(topic.topicName + "'s Relations")
                     .setView(customView)
                     .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
