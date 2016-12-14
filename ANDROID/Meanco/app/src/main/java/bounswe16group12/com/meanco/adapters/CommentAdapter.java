@@ -84,9 +84,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
         final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
 
-        downvoteBtn.setSelected(false);
-        upvoteBtn.setSelected(false);
-
+       // downvoteBtn.setSelected(false);
+       // upvoteBtn.setSelected(false);
+        //TODO: Get voted comment data from server
         downvoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
