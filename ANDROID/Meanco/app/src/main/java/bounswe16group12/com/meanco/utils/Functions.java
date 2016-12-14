@@ -1,8 +1,11 @@
 package bounswe16group12.com.meanco.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -13,11 +16,16 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.activities.HomeActivity;
+import bounswe16group12.com.meanco.activities.LoginActivity;
+import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Topic;
 
@@ -79,6 +87,28 @@ public class Functions {
 
         tagView.setPadding(15, 0, 15, 0);
         return tagView;
+    }
+
+    public static void notLoggedInAlert(final Context context){
+
+        final TextView alert = new TextView(context);
+        alert.setText("You have to login to complete this action.");
+        alert.setPadding(30,30,30,30);
+
+        new AlertDialog.Builder(context)
+                .setTitle("Not logged in!")
+                .setView(alert)
+                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent i = new Intent(context, LoginActivity.class);
+                        context.startActivity(i);
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {}
+                }).show();
     }
 
     public static int getUserId(Context context){

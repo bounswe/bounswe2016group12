@@ -36,6 +36,7 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.PostComment;
+import bounswe16group12.com.meanco.utils.Functions;
 import me.originqiu.library.EditTag;
 import me.originqiu.library.MEditText;
 
@@ -53,6 +54,8 @@ public class TopicDetailActivity extends AppCompatActivity {
         topic = db.getTopic(topicId);
         setTitle(topic.topicName);
 
+
+
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
                 new View.OnClickListener() {
@@ -60,25 +63,31 @@ public class TopicDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        final View customView = getLayoutInflater().inflate(R.layout.edit_comment, null, false);
-                        final EditText content = (EditText) customView.findViewById(R.id.edit_comment_edittext);
+                        if (Functions.getUserId(TopicDetailActivity.this) == -1) {
+                            Functions.notLoggedInAlert(TopicDetailActivity.this);
 
-                        new AlertDialog.Builder(TopicDetailActivity.this)
-                                .setTitle("Add Comment")
-                                .setView(customView)
-                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
+                        } else {
 
-                                        Comment c = new Comment(-1,topic.topicId,content.getText().toString());
-                                        new PostComment(MeancoApplication.POST_COMMENT_URL,c,getApplicationContext()).execute();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
+                            final View customView = getLayoutInflater().inflate(R.layout.edit_comment, null, false);
+                            final EditText content = (EditText) customView.findViewById(R.id.edit_comment_edittext);
 
-                                    }
-                                })
-                                .show();
+                            new AlertDialog.Builder(TopicDetailActivity.this)
+                                    .setTitle("Add Comment")
+                                    .setView(customView)
+                                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString());
+                                            new PostComment(MeancoApplication.POST_COMMENT_URL, c, getApplicationContext()).execute();
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 }
         );
@@ -90,11 +99,16 @@ public class TopicDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(TopicDetailActivity.this, TagSearchActivity.class);
-                        i.putExtra("ifDetail", "true");
-                        i.putExtra("topicName", topic.topicName);
-                        i.putExtra("topicId",topic.topicId);
-                        startActivity(i);
+                        if (Functions.getUserId(TopicDetailActivity.this) == -1) {
+                            Functions.notLoggedInAlert(TopicDetailActivity.this);
+
+                        }else {
+                            Intent i = new Intent(TopicDetailActivity.this, TagSearchActivity.class);
+                            i.putExtra("ifDetail", "true");
+                            i.putExtra("topicName", topic.topicName);
+                            i.putExtra("topicId", topic.topicId);
+                            startActivity(i);
+                        }
                     }
                 }
         );

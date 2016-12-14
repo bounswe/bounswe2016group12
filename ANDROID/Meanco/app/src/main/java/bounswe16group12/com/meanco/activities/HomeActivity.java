@@ -99,43 +99,52 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         getSupportActionBar().setIcon(R.drawable.rsz_meanco_logo);
         setTitle("  Meanco");
 
+
+
         //Add relation floating action button
         final FloatingActionButton relation_fab = (FloatingActionButton) findViewById(R.id.add_relation);
         relation_fab.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tagsOfTopic = new ArrayList<>();
-                        final View customView = getLayoutInflater().inflate(R.layout.edit_relation, null, false);
-                        final EditText relationNameEdit = (EditText) customView.findViewById(R.id.relation_name);
-                        final CheckBox bidirectionalEdit = (CheckBox) customView.findViewById(R.id.bidirectional);
 
-                        //Open alert dialog when button is pressed.
-                        final AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
-                                .setTitle("Add relation")
-                                .setView(customView)
-                                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
+                        if (Functions.getUserId(HomeActivity.this) == -1) {
 
-                                        String relationName = relationNameEdit.getText().toString();
-                                        boolean isBidirectional = bidirectionalEdit.isChecked();
+                            Functions.notLoggedInAlert(HomeActivity.this);
 
-                                        Intent i = new Intent(HomeActivity.this, TopicSearchActivity.class);
-                                        i.putExtra("relationName", relationName);
-                                        i.putExtra("isBidirectional", isBidirectional);
-                                        i.putExtra("fromOrTo", "from");
-                                        startActivity(i);
+                        } else {
+                            tagsOfTopic = new ArrayList<>();
+                            final View customView = getLayoutInflater().inflate(R.layout.edit_relation, null, false);
+                            final EditText relationNameEdit = (EditText) customView.findViewById(R.id.relation_name);
+                            final CheckBox bidirectionalEdit = (CheckBox) customView.findViewById(R.id.bidirectional);
+
+                            //Open alert dialog when button is pressed.
+                            final AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
+                                    .setTitle("Add relation")
+                                    .setView(customView)
+                                    .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            String relationName = relationNameEdit.getText().toString();
+                                            boolean isBidirectional = bidirectionalEdit.isChecked();
+
+                                            Intent i = new Intent(HomeActivity.this, TopicSearchActivity.class);
+                                            i.putExtra("relationName", relationName);
+                                            i.putExtra("isBidirectional", isBidirectional);
+                                            i.putExtra("fromOrTo", "from");
+                                            startActivity(i);
 
 
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    }).show();
 
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {}
-                                }).show();
+                        }
 
                     }
-
                 }
         );
 
@@ -146,34 +155,41 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onClick(View v) {
 
-                EditText temp = new EditText(HomeActivity.this);
-                temp.setHint("Enter topic name");
-                final EditText topicNameInput = temp;
+                if (Functions.getUserId(HomeActivity.this) == -1) {
+
+                    Functions.notLoggedInAlert(HomeActivity.this);
+
+                } else {
+
+                    EditText temp = new EditText(HomeActivity.this);
+                    temp.setHint("Enter topic name");
+                    final EditText topicNameInput = temp;
 
 
-                //TODO: next goes to intent
-                new AlertDialog.Builder(HomeActivity.this)
-                        .setTitle("Add topic")
-                        .setView(topicNameInput)
-                        .setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                    //TODO: next goes to intent
+                    new AlertDialog.Builder(HomeActivity.this)
+                            .setTitle("Add topic")
+                            .setView(topicNameInput)
+                            .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                String topicName = topicNameInput.getText().toString();
+                                    String topicName = topicNameInput.getText().toString();
 
-                                Intent i = new Intent(HomeActivity.this, TagSearchActivity.class);
-                                i.putExtra("topicName", topicName);
-                                i.putExtra("ifDetail", "false");
-                                startActivity(i);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(HomeActivity.this, TagSearchActivity.class);
+                                    i.putExtra("topicName", topicName);
+                                    i.putExtra("ifDetail", "false");
+                                    startActivity(i);
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        })
-                        .show();
+                                }
+                            })
+                            .show();
 
 
+                }
             }
 
         });
