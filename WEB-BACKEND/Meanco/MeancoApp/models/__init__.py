@@ -1,4 +1,4 @@
-from .profile import Profile
+from .profile import *
 from .topic import *
 from .tag import *
 from .comment import *

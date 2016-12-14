@@ -1,100 +1,242 @@
 <div id="sidebar-wrapper" class="sidebar" >
 
-  <ul class="sidebar-nav" >
-    {% if user.is_authenticated %}
+    <ul class="sidebar-nav" >
 
-    <li>
-        <div class="well" style="background-color: black; border: #000000">
-            <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#myModal">Create Topic</button>
-        </div>
-    </li>
-    <li>
-        <div class="well" style="background-color: black; border: #000000">
-            <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#relationModal">Add Relation</button>
-        </div>
-    </li>    
+     {% if user.is_authenticated %}
+
+         <li>
+             <div class="well" style="background-color: black; border: #000000">
+                 <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#myModal">Create Topic</button>
+            </div>
+        </li>
+        <li>
+            <div class="well" style="background-color: black; border: #000000">
+                <button type="button" class="btn btn-info btn-lg sidebar-button" data-toggle="modal" data-target="#relationModal">Add Relation</button>
+            </div>
+        </li>
 
     {% else %}
 
-          <li>
+        <li>
             <div class="Trendings">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Trending Topics</th>
-                  </tr>
-                </thead>
-                  <tbody>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trending Topics</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     {% for topic in popularTopics %}
                         <tr>
                             <td>{{ topic.label }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
-              </table>
+                </table>
             </div>
-          </li>
+        </li>
 
     {% endif %}
 
-
-          <li>
+        <li>
             <div class="Trendings" style="position:fixed; bottom: 0; ">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Trending Tags</th>
-                  </tr>
-                </thead>
-                  <tbody>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Trending Tags</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     {% for tag in popularTags %}
                         <tr>
                             <td>{{ tag.label }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
-              </table>
+                </table>
             </div>
-          </li>
-  </ul>
+        </li>
+    </ul>
 </div>
 
-<form action="API/AddTopic" method="post"> {% csrf_token %}
+<form method="post" id="addTopicId">
+    {% csrf_token %}
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Create Topic</h4>
-              </div>
-              <div class="modal-body">
-                  <form class="form-horizontal">
-                    <div class="form-group">
-                      <label class="control-label col-sm-3" >Topic Name:</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" name="topicName">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label col-sm-3" >Tags:</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" name="tag">
-                      </div>
-                    </div>
-
+                <div class="modal-header">
+                    <button type="button" class="close">&times;</button>
+                    <h4 class="modal-title">Create Topic</h4>
+                    <p id="warningId"></p>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" >Topic Name:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="topicName" id="topicNameId">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" >Search tag:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="searchTagId">
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="pickTagId">Pick a tag:
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="tagListId">
+                                <li>None</li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" >Tag:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="tag" id="tagLabelId" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" >Description:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="description" id="tagDescriptionId" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="hidden" class="form-control" name="URL" id="tagURLId">
+                            </div>
+                        </div>
                   </form>
 
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-info" data-dismiss="modal">Submit</button>
+                <button type="submit" id="submitId" class="btn btn-info">Submit</button>
               </div>
             </div>
 
           </div>
     </div>
 </form>
+
+<script>
+
+    var tags = [];
+
+    function pickTag(id){
+        console.log("a tag is picked!");
+        console.log("Tag label: " + tags[id].label);
+        $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\" readonly=\"readonly\">");
+        console.log("Tag description: " + tags[id].description);
+        $("#tagDescriptionId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"description\" id=\"tagDescriptionId\" value=\"" + tags[id].description + "\" readonly=\"readonly\">");
+        console.log("Tag url: " + tags[id].url);
+        $("#tagURLId").replaceWith("<input type=\"hidden\" class=\"form-control\" name=\"URL\" id=\"tagURLId\" value=\"" + tags[id].url + "\">");
+    }
+
+    $(document).ready(function () {
+        $('#searchTagId').on('change', function(event){
+            event.preventDefault();
+            tags = [];
+            console.log("search form changed!");  // sanity check
+            console.log($(this).val());
+            $.ajax({
+                url: "https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+$(this).val()+"&language=en&format=json",
+                type: "get",
+                cache: 'false',
+                dataType: "jsonp",
+                async: 'true',
+
+                success: function(response) {
+                    console.log(response);
+                    if(response.search.length == 0){
+                        console.log("Tag could not be found in wikidata.");
+                        $("#warningId").replaceWith("<p class=\"form-control\" id=\"warningId\">Tag could not be found in wikidata.</p>");
+                        $("#tagListId").replaceWith("<ul class=\"dropdown-menu\" id=\"tagListId\"><li>None</li></ul>");
+                        $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" disabled>");
+                        $("#tagDescriptionId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"description\" id=\"tagDescriptionId\" disabled>");
+                        $("#tagURLId").replaceWith("<input type=\"hidden\" class=\"form-control\" name=\"URL\" id=\"tagURLId\">");
+                    }else{
+                        $("#warningId").replaceWith("<p id=\"warningId\"></p>");
+                        labels = [];
+                        descriptions = [];
+                        //str = "";
+                        str = "<ul class=\"dropdown-menu\" id=\"tagListId\">";
+                        for (var i in response.search){
+                            if(response.search[i].description) {
+                                tags.push(response.search[i]);
+                                labels[i] = response.search[i].label;
+                                descriptions[i] = response.search[i].description;
+                                str += "<li onclick=\"pickTag(this.id)\" id=\"" + i + "\">" + labels[i]+ " (" + descriptions[i] + ")</li>";
+                            }else{
+                                console.log("There is a tag without description.");
+                            }
+                        }
+                        str += "</ul>";
+                        $("#tagListId").replaceWith(str);
+                    }
+                },
+                error:function(response){
+                    console.log("Error!");
+                    console.log(response);
+                }
+            });
+
+        });
+    });
+
+    $(document).ready(function () {
+        $('#submitId').on('click', function(event){
+            event.preventDefault();
+            console.log("form submission requested...");  // sanity check
+            serializedData = $("#addTopicId").serialize();
+            console.log("post data: " + serializedData);
+            console.log("form submitted!");  // sanity check
+            if($("#topicNameId").val().length == 0){
+                console.log("Empty label name!");
+                $("#warningId").replaceWith("<p class=\"form-control\" id=\"warningId\">Please enter a topic name.</p>");
+                return;
+            }
+            if($("#tagLabelId").val().length == 0){
+                console.log("Empty tag field!");
+                $("#warningId").replaceWith("<p class=\"form-control\" id=\"warningId\">Please pick a tag.</p>");
+                return;
+            }
+            $.ajax({
+                url: "API/AddTopic",
+                type: "post",
+                data: serializedData,
+                cache: 'false',
+                dataType: "json",
+                async: 'true',
+
+                success: function(response) {
+                    console.log(response);
+                    if(response.Topic){
+                        console.log("Topic exists now.");
+                        location.reload();
+                    }else{
+                        console.log("Topic cannot be created.");
+                        $("#warningId").replaceWith("<p class=\"form-control\" id=\"warningId\">Topic cannot be created.</p>");
+                    }
+                },
+                error: function(response){
+                    console.log(response);
+                    console.log("Error during topic creation.");
+                    console.log(response.responseText);
+                    if(response.responseText == "Tag creation error"){
+                        console.log("Topic is OK. Tag is NOK.");
+                        window.location = "/";
+                    }
+                }
+            });
+
+        });
+    });
+</script>
+
 {% comment %}
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">

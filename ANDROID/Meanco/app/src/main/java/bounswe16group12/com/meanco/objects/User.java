@@ -9,11 +9,16 @@ public class User {
     public String username;
     public String password;
 
-    public User(){
+    public User(){}//Empty constructor to define
 
+    public User(int userId, String username, String password){
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
     }
 
-    public User( String username, String password){
+    public User(String username, String password){
+        //this.userId = userId;
         this.username = username;
         this.password = password;
     }
