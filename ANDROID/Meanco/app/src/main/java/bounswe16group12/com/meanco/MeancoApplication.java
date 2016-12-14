@@ -2,6 +2,9 @@ package bounswe16group12.com.meanco;
 
 import android.app.Application;
 
+import java.util.List;
+
+import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
 
 /**
@@ -19,6 +22,8 @@ public class MeancoApplication extends Application {
     public static final String SEARCH_URL = "http://46.101.253.73:8000/API/SearchTopic?search=";
     public static final String REGISTER_URL = "http://46.101.253.73:8000/API/Register";
     public static final String LOGIN_URL = "http://46.101.253.73:8000/API/Login";
+    public static final String VOTE_COMMENT_URL = "http://46.101.253.73:8000/API/RateComment";
+
 
     public MeancoApplication() {
         // this method fires only once per application start.

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +12,13 @@
     tools:context="bounswe16group12.com.meanco.activities.LoginActivity">
 
     <!-- Login progress -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/logomakr"
+        android:id="@+id/imageView" />
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="android:attr/progressBarStyleLarge"
@@ -74,8 +82,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/tagbg"
+                    android:textColor="#ffffff"
                     android:text="@string/action_sign_up"
                     android:textStyle="bold"
+                    android:layout_margin="10dp"
                     android:layout_weight="1" />
 
                 <Button
@@ -84,10 +95,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/tagbg"
+                    android:textColor="#ffffff"
                     android:text="@string/action_sign_in"
                     android:textStyle="bold"
+                    android:layout_margin="10dp"
                     android:layout_weight="1" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/continue_without"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/goon"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18dp"
+
+                android:layout_gravity="center"/>
 
         </LinearLayout>
     </ScrollView>

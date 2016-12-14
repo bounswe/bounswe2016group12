@@ -11,6 +11,7 @@ import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
+import bounswe16group12.com.meanco.adapters.CommentAdapter;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
@@ -36,7 +38,7 @@ import bounswe16group12.com.meanco.objects.Topic;
  * A placeholder fragment containing a simple view.
  */
 public class TopicDetailActivityFragment extends Fragment {
-    public static ArrayAdapter<String> mCommentsAdapter;
+    public static CommentAdapter mCommentsAdapter;
     public static ArrayAdapter<SpannableStringBuilder> mTagsAdapter;
 
     public TopicDetailActivityFragment() {
@@ -74,42 +76,24 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView tagListView = (ListView) rootView.findViewById(R.id.listView_tags);
         tagListView.setAdapter(mTagsAdapter);
 
-        //comments
-        List<Comment> comments = databaseHelper.getAllComments(topic.topicId);
-        List<String> contents = new ArrayList<String>();
-
-       for(Comment c : comments){
-           contents.add(c.content);
-       }
-
-        mCommentsAdapter = new ArrayAdapter<String>(
+        mCommentsAdapter = new CommentAdapter(
                 getActivity(), // The current context (this activity)
-                R.layout.list_item_detail_comment, // The name of the layout ID.
-                R.id.list_item_detail_comment_textview, // The ID of the textview to populate.
-                contents);
+                R.layout.comment_listitem, // The name of the layout ID.
+                topicId);
 
         ListView listView = (ListView) rootView.findViewById(R.id.listView_topic_comments);
         listView.setAdapter(mCommentsAdapter);
 
-        /*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(getActivity(), "Comment is Upvoted.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
         return rootView;
     }
 
     public static void updateAdapters(DatabaseHelper databaseHelper, int topicId){
         mCommentsAdapter.clear();
+        mCommentsAdapter.comments.clear();
         mTagsAdapter.clear();
         List<Comment> comments = databaseHelper.getAllComments(topicId);
         List<Tag> tags = databaseHelper.getTopic(topicId).tags;
-        for(Comment c : comments){
-            mCommentsAdapter.add(c.content);
-        }
+        mCommentsAdapter.comments.addAll(comments);
         for(Tag t: tags){
             String text = t.tagName + ": " + t.context;
             mTagsAdapter.add(beautifyString(text));

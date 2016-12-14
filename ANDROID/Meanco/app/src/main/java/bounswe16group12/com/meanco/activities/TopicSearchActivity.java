@@ -1,6 +1,5 @@
 package bounswe16group12.com.meanco.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,26 +10,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.adapters.TopicSearchAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Relation;
-import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
-import bounswe16group12.com.meanco.tasks.GetWikiData;
 import bounswe16group12.com.meanco.tasks.PostRelation;
-import bounswe16group12.com.meanco.tasks.PostTag;
-import bounswe16group12.com.meanco.tasks.PostTopic;
-import bounswe16group12.com.meanco.tasks.SearchTask;
+import bounswe16group12.com.meanco.utils.Functions;
 
 public class TopicSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
@@ -60,8 +54,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
         adapter = new TopicSearchAdapter(TopicSearchActivity.this, R.layout.activity_tag_search);
         listView.setAdapter(adapter);
 
-
-
         Button addRelationButton = (Button) findViewById(R.id.add_topic_button);
         if(fromOrTo.equals("from")){
             addRelationButton.setText("Next");
@@ -71,7 +63,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
             addRelationButton.setText("Add relation");
 
         }
-
         addRelationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,10 +75,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
                     adapter.clear();
                     finish();
                 }else{
-
-
-
-
                     Intent intent = new Intent(TopicSearchActivity.this, TopicSearchActivity.class);
                     intent.putExtra("relationName", relationName);
                     intent.putExtra("isBidirectional", isBidirectional);
@@ -95,10 +82,8 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
                     startActivity(intent);
                     finish();
                 }
-
             }
         });
-
 
         Button cancelButton = (Button) findViewById(R.id.cancel_button);
 
@@ -113,7 +98,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
 
                 }
             });
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -132,14 +116,8 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
                     oldPosition=i;
                 }
                 view.setBackgroundColor(0x2F00FF00);
-
-
-
             }
         });
-
-
-
     }
 
 
@@ -175,9 +153,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
-
     @Override
     public boolean onQueryTextSubmit(String s) {
         searchView.clearFocus();
@@ -186,12 +161,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            ;
-        } else {
-            new SearchTask(MeancoApplication.SEARCH_URL+newText, TopicSearchActivity.this).execute();
-
-        }
-        return true;
+        return Functions.filterData(newText, adapter, adapter.relationTopics, getApplicationContext());
     }
 }

@@ -13,12 +13,12 @@ import bounswe16group12.com.meanco.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BioFragment.OnFragmentInteractionListener} interface
+ * {@link FollowFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BioFragment#newInstance} factory method to
+ * Use the {@link FollowFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BioFragment extends Fragment {
+public class FollowFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class BioFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public BioFragment() {
+    public FollowFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class BioFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BioFragment.
+     * @return A new instance of fragment FollowFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BioFragment newInstance(String param1, String param2) {
-        BioFragment fragment = new BioFragment();
+    public static FollowFragment newInstance(String param1, String param2) {
+        FollowFragment fragment = new FollowFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

@@ -26,17 +26,15 @@ import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.utils.Functions;
 
-public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterable{
+public class CustomHomeAdapter extends ArrayAdapter<Topic>{
 
-    List<Topic> topicsWithTags;
-    List<Topic> filteredData;
-    private ItemFilter mFilter = new ItemFilter();
+    public static List<Topic> filteredData;
 
     public CustomHomeAdapter(Context context, int resource, List<Topic> topicsWithTags) {
         super(context, resource, topicsWithTags);
         this.filteredData = topicsWithTags;
-        this.topicsWithTags = topicsWithTags;
     }
 
     @Override
@@ -67,15 +65,13 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         TextView topicName = null;
         LinearLayout linearLayout = null;
 
-        if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
-        }
             topicName = (TextView) v.findViewById(R.id.topicitem);
-            topicName.setText(getItem(position).topicName);
+            topicName.setText(t.topicName);
 
-            ArrayList<Tag> tg = getItem(position).tags;
+            ArrayList<Tag> tg = t.tags;
             linearLayout = (LinearLayout) v.findViewById(R.id.linearlayout);
             linearLayout.removeAllViews();
 
@@ -86,7 +82,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
             if(tg!=null) {
                 for (int i = 0; i < tg.size(); i++) {
                     String text = tg.get(i).tagName + ": " + tg.get(i).context;
-                    TextView tagView = beautifyTagView(text, getContext());
+                    TextView tagView = Functions.beautifyTagView(text, getContext());
 
                     linearLayout.addView(tagView);
                 }
@@ -95,108 +91,14 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic> implements  Filterabl
         return v;
     }
 
-    // Filter Class
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        topicsWithTags.clear();
-        if (charText.length() == 0) {
-            topicsWithTags.addAll(filteredData);
-        } else {
-            for (Topic topic : filteredData) {
-                if (topic.topicName.toLowerCase(Locale.getDefault())
-                        .contains(charText)) {
-                    topicsWithTags.add(topic);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-
-    public Filter getFilter() {
-        return mFilter;
-    }
-
-    private class ItemFilter extends Filter {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            String filterString = constraint.toString().toLowerCase();
-
-            FilterResults results = new FilterResults();
-
-            final List<Topic> list = topicsWithTags;
-
-            int count = list.size();
-            final ArrayList<Topic> nlist = new ArrayList<>(count);
-
-            String filterableString ;
-
-            for (int i = 0; i < count; i++) {
-                Topic temp = list.get(i);
-                filterableString = temp.topicName;
-                if(temp.tags!=null) {
-                    for (int j = 0; j < temp.tags.size(); j++) {
-                        filterableString += temp.tags.get(j);
-                    }
-
-                }
-                if (filterableString.toLowerCase().contains(filterString)) {
-                    nlist.add(list.get(i));
-                }
-            }
-
-            results.values = nlist;
-            results.count = nlist.size();
-
-            return results;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            filteredData = (ArrayList<Topic>) results.values;
-            if (results.count > 0)
-            {
-                notifyDataSetChanged();
-            }
-            else
-            {
-                notifyDataSetInvalidated();
-            }
-
-        }
-    }
     public void updateArray(){
-        topicsWithTags = DatabaseHelper.getInstance(getContext()).getAllTopics();
-        for(Topic t:topicsWithTags)
+        filteredData = DatabaseHelper.getInstance(getContext()).getAllTopics();
+        for(Topic t:filteredData)
             this.add(t);
 
     }
 
-    public static TextView beautifyTagView(String text, Context context){
-        TextView tagView = new TextView(context);
-        final SpannableStringBuilder str = new SpannableStringBuilder(text);
-        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        str.setSpan(new RelativeSizeSpan(1.25f), 0, text.indexOf(":")+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        str.setSpan(new ForegroundColorSpan(Color.LTGRAY), text.indexOf(":")+2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-
-        tagView.setText(str);
-        tagView.setTextSize(12.0f);
-        tagView.setBackgroundResource(R.drawable.tagbg);
-        tagView.setTextColor(Color.WHITE);
-        tagView.setGravity(Gravity.CENTER);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(2,0,0,3);
-
-        tagView.setLayoutParams(lp);
-
-        tagView.setPadding(15, 0, 15, 0);
-        return tagView;
-    }
 }
 
 
