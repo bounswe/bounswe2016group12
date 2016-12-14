@@ -234,6 +234,10 @@ public class LoginActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+    @Override
+    public void onBackPressed() {
+        //Blocks  return action of back button to prevent user go back to login page.
+    }
 
     public class AuthenticationTask extends AsyncTask<Void, Void, Connect.APIResult> {
         private String email;

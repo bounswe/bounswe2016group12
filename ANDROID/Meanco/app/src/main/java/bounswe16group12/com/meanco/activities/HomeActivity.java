@@ -34,21 +34,19 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
 
-        if(Functions.getUserId(HomeActivity.this) != -1) {
-            menu.add("Logout").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        String menuItemText =  (Functions.getUserId(HomeActivity.this) == -1) ? "Login":"Logout";
+
+        menu.add(menuItemText).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     Functions.clearUserPreferences(getApplicationContext());
-
                     Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
 
-
                     return true;
                 }
             });
-        }
 
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
