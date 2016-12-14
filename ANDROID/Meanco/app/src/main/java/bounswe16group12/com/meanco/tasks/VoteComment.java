@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,52 +24,54 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
- * Created by Ezgi on 12/5/2016.
+ * Created by feper on 12/14/2016.
  */
 
-public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
+public class VoteComment extends AsyncTask<Void,Void,Connect.APIResult> {
     private Comment comment;
     private Context context;
     private int userId;
+    private boolean isUp;
     private String url;
 
 
-    public PostComment(String url,Comment comment , Context context){
+    public VoteComment(String url,Comment comment ,boolean isUp, Context context){
         this.url = url;
         this.comment = comment;
         this.userId = Functions.getUserId(context);
         this.context = context;
+        this.isUp = isUp;
     }
 
 
     @Override
     protected void onPostExecute(Connect.APIResult response) {
         super.onPostExecute(response);
-
-        try {
-            JSONObject jsonObject=new JSONObject(response.getData());
-            if (jsonObject != null) {
-                if (response.getResponseCode() == 200) {
-                    new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,context).execute();
+         if(response != null) {
+                String responseStr = response.getData();
+                if (responseStr != null) {
+                    if (response.getResponseCode() == 200) {
+                        Log.i("VOTE_COMMENT",responseStr);
+                        new GetTopicDetail(MeancoApplication.SITE_URL, comment.topicId, context).execute();
+                    } else {
+                        Log.i("VOTE_COMMENT", "FAILED");
+                    }
                 }
             }
-        } catch (JSONException e) {
 
-            e.printStackTrace();
-        }
     }
 
     protected Connect.APIResult doInBackground(Void... voids) {
 
         String data = null;
         try {
-            data = URLEncoder.encode("topicId", "UTF-8")
-                    + "=" + URLEncoder.encode("" + comment.topicId, "UTF-8");
+            data = URLEncoder.encode("comment", "UTF-8")
+                    + "=" + URLEncoder.encode("" + comment.commentId, "UTF-8");
             data += "&" + URLEncoder.encode("userId", "UTF-8") + "="
                     + URLEncoder.encode("" + userId, "UTF-8");
 
-            data += "&" + URLEncoder.encode("text", "UTF-8")
-                    + "=" + URLEncoder.encode(comment.content,"UTF-8");
+            data += "&" + URLEncoder.encode("direction", "UTF-8")
+                    + "=" + URLEncoder.encode((isUp ? "upvote":"downvote"),"UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

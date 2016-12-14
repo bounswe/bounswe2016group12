@@ -68,10 +68,9 @@ public class TopicDetailActivity extends AppCompatActivity {
                                 .setView(customView)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
-                                        int userId = preferences.getInt("UserId", -1);
+
                                         Comment c = new Comment(-1,topic.topicId,content.getText().toString());
-                                        new PostComment(MeancoApplication.POST_COMMENT_URL,c,userId,getApplicationContext()).execute();
+                                        new PostComment(MeancoApplication.POST_COMMENT_URL,c,getApplicationContext()).execute();
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

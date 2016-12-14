@@ -43,6 +43,7 @@ import java.net.URLEncoder;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.utils.Connect;
+import bounswe16group12.com.meanco.utils.Functions;
 
 /**
  * A login screen that offers login via email/password.
@@ -251,11 +252,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.getResponseCode() == 200) {
                         int userId = jsonObject.getInt("UserId");
 
-                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.clear();
-                        editor.putInt("UserId", userId);
-                        editor.commit();
+                        Functions.setUserId(userId,getApplicationContext());
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -56,10 +56,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         menu.add("Logout").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
+                Functions.clearUserPreferences(getApplicationContext());
 
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(intent);

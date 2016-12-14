@@ -17,12 +17,14 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.VoteComment;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
@@ -56,7 +58,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
         Comment c = getItem(position);
@@ -80,21 +82,38 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         usernameTextView.setText("username");
 
         final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
+        final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
+
         downvoteBtn.setSelected(false);
+        upvoteBtn.setSelected(false);
 
         downvoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downvoteBtn.setSelected(!downvoteBtn.isSelected());
+                if(downvoteBtn.isSelected()){
+                    downvoteBtn.setSelected(false);
+                    new VoteComment(MeancoApplication.VOTE_COMMENT_URL,getItem(position),false,getContext()).execute();
+                }
+                else{
+                    downvoteBtn.setSelected(true);
+                    upvoteBtn.setSelected(false);
+                    new VoteComment(MeancoApplication.VOTE_COMMENT_URL,getItem(position),false,getContext()).execute();
+                }
             }
         });
-        final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
-        upvoteBtn.setSelected(false);
 
         upvoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                upvoteBtn.setSelected(!upvoteBtn.isSelected());
+                if(upvoteBtn.isSelected()){
+                    upvoteBtn.setSelected(false);
+                    new VoteComment(MeancoApplication.VOTE_COMMENT_URL,getItem(position),true,getContext()).execute();
+                }
+                else{
+                    upvoteBtn.setSelected(true);
+                    downvoteBtn.setSelected(false);
+                    new VoteComment(MeancoApplication.VOTE_COMMENT_URL,getItem(position),true,getContext()).execute();
+                }
             }
         });
         

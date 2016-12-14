@@ -1,6 +1,7 @@
 package bounswe16group12.com.meanco.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -62,5 +63,25 @@ public class Functions {
 
         tagView.setPadding(15, 0, 15, 0);
         return tagView;
+    }
+
+    public static int getUserId(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        return preferences.getInt("UserId", -1);
+    }
+
+    public static void setUserId(int userId,Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.putInt("UserId", userId);
+        editor.commit();
+    }
+
+    public static void clearUserPreferences(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
     }
 }
