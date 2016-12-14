@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import bounswe16group12.com.meanco.R;
@@ -25,7 +27,8 @@ import bounswe16group12.com.meanco.objects.Topic;
 
 public class Functions {
 
-    public static boolean filterData(String newText, ArrayAdapter adapter, List<Topic> adapterTopics, Context context){
+
+    public static boolean filterData(final String newText, ArrayAdapter adapter, List<Topic> adapterTopics, Context context){
 
         DatabaseHelper db = DatabaseHelper.getInstance(context);
         List<Topic> topics;
@@ -36,6 +39,19 @@ public class Functions {
         } else {
             topics = db.getTopicsContainsText(newText);
         }
+
+        Collections.sort(topics, new Comparator() {
+
+            @Override
+            public int compare(Object o, Object t1) {
+                return ((Topic) o).topicName.indexOf(newText) - ((Topic) t1).topicName.indexOf(newText);
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                return false;
+            }
+        });
         adapterTopics.clear();
         adapterTopics.addAll(topics);
         adapter.notifyDataSetChanged();
