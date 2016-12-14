@@ -1,7 +1,5 @@
 from django.db.models import Model, IntegerField, DateTimeField, ForeignKey, CharField, CASCADE, SET_DEFAULT
 from django.contrib.auth.models import User
-from .profile import Profile
-
 ### topic.Topic
 
 class Topic(Model):
@@ -21,12 +19,12 @@ class Topic(Model):
         return self.names.first()
 
     def viewed(self):
-        self.view_count.value += 1
+        self.view_count += 1
         self.save()
     def commented(self):
-        self.comment_count.value += 1
+        self.comment_count += 1
         self.save()
 
     def comment_removed(self):
-        self.comment_count.value -= 1
+        self.comment_count -= 1
         self.save()

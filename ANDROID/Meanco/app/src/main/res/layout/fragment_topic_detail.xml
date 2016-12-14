@@ -11,20 +11,39 @@
     tools:context="bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment"
     tools:showIn="@layout/activity_topic_detail">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tags"
+        android:id="@+id/tagtext"/>
 
-    <LinearLayout
-        android:id="@+id/linearlayout_detail"
-        android:orientation="horizontal"
+
+    <ListView
+        android:id="@+id/listView_tags"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></LinearLayout>
+        android:layout_height="100dip"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="3dp"
+        android:layout_below="@+id/tagtext"
+        android:fadeScrollbars="false"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comments"
+        android:id="@+id/commenttext"
+        android:layout_below="@+id/listView_tags"/>
 
     <ListView
         android:id="@+id/listView_topic_comments"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linearlayout_detail"
+        android:layout_height="300dip"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/commenttext"
         android:divider="@color/colorPrimaryDark"
-        android:dividerHeight="4px"/>
+        android:dividerHeight="4px"
+        android:fadeScrollbars="false"
+         />
 </RelativeLayout>

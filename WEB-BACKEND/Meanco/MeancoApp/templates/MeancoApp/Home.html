@@ -19,6 +19,9 @@
     <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'vis-4.17.0/dist/vis.js' %}"></script>
     <link href="{% static 'vis-4.17.0/dist/vis-network.min.css' %}" rel="stylesheet" type="text/css" />
 
@@ -33,7 +36,7 @@
 
     <div id="page-content-wrapper">
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top:50px">
 
         {% block content %}
 
@@ -46,9 +49,6 @@
 
   </div>
     <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="{% static 'js/jquery.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
