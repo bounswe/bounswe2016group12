@@ -1,30 +1,19 @@
 package bounswe16group12.com.meanco.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.activities.TopicDetailActivity;
-import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Comment;
-import bounswe16group12.com.meanco.objects.Tag;
-import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.VoteComment;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -94,7 +83,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
             @Override
             public void onClick(View v) {
                 if (Functions.getUserId(getContext()) == -1) {
-                    Functions.notLoggedInAlert(getContext());
+                    Functions.showNotLoggedInAlert(getContext());
                 }else {
 
                     if (downvoteBtn.isSelected()) {
@@ -113,7 +102,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
             @Override
             public void onClick(View v) {
                 if (Functions.getUserId(getContext()) == -1) {
-                    Functions.notLoggedInAlert(getContext());
+                    Functions.showNotLoggedInAlert(getContext());
                 }else {
                     if (upvoteBtn.isSelected()) {
                         upvoteBtn.setSelected(false);

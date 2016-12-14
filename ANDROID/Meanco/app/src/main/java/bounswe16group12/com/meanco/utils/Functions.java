@@ -89,7 +89,7 @@ public class Functions {
         return tagView;
     }
 
-    public static void notLoggedInAlert(final Context context){
+    public static void showNotLoggedInAlert(final Context context){
 
         final TextView alert = new TextView(context);
         alert.setText("You have to login to complete this action.");

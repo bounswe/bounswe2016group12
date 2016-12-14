@@ -1,45 +1,26 @@
 package bounswe16group12.com.meanco.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
-import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
-import bounswe16group12.com.meanco.objects.Topic;
-import bounswe16group12.com.meanco.tasks.PostRelation;
 import bounswe16group12.com.meanco.utils.Functions;
 
 
@@ -53,19 +34,21 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
 
-        menu.add("Logout").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Functions.clearUserPreferences(getApplicationContext());
+        if(Functions.getUserId(HomeActivity.this) != -1) {
+            menu.add("Logout").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Functions.clearUserPreferences(getApplicationContext());
 
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
 
 
-                return true;
-            }
-        });
+                    return true;
+                }
+            });
+        }
 
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -110,7 +93,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                         if (Functions.getUserId(HomeActivity.this) == -1) {
 
-                            Functions.notLoggedInAlert(HomeActivity.this);
+                            Functions.showNotLoggedInAlert(HomeActivity.this);
 
                         } else {
                             tagsOfTopic = new ArrayList<>();
@@ -157,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
                 if (Functions.getUserId(HomeActivity.this) == -1) {
 
-                    Functions.notLoggedInAlert(HomeActivity.this);
+                    Functions.showNotLoggedInAlert(HomeActivity.this);
 
                 } else {
 
