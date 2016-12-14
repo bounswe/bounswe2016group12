@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
@@ -113,6 +115,17 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        final TextView continueWithout = (TextView) findViewById(R.id.continue_without);
+        continueWithout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                continueWithout.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorAccent));
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
