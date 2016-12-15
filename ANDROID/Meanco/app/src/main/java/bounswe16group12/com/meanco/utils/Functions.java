@@ -1,5 +1,6 @@
 package bounswe16group12.com.meanco.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +13,12 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.wooplr.spotlight.SpotlightView;
 
 import org.w3c.dom.Text;
 
@@ -28,6 +32,8 @@ import bounswe16group12.com.meanco.activities.LoginActivity;
 import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Topic;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ezgi on 12/13/2016.
@@ -112,12 +118,12 @@ public class Functions {
     }
 
     public static int getUserId(Context context){
-        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         return preferences.getInt("UserId", -1);
     }
 
     public static void setUserId(int userId,Context context){
-        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.putInt("UserId", userId);
@@ -125,9 +131,46 @@ public class Functions {
     }
 
     public static void clearUserPreferences(Context context){
-        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
     }
+
+    public static void showSpotlight(String tvText, String subheadingTvText, View view, Activity activity, String usageId){
+        new SpotlightView.Builder(activity)
+                .introAnimationDuration(400)
+                .performClick(true)
+                .fadeinTextDuration(400)
+                .headingTvColor(Color.parseColor("#eb273f"))
+                .headingTvSize(32)
+                .headingTvText(tvText)
+                .subHeadingTvColor(Color.parseColor("#ffffff"))
+                .subHeadingTvSize(16)
+                .subHeadingTvText(subheadingTvText)
+                .maskColor(Color.parseColor("#dc000000"))
+                .target(view)
+                .lineAnimDuration(400)
+                .lineAndArcColor(Color.parseColor("#eb273f"))
+                .dismissOnTouch(true)
+                .dismissOnBackPress(true)
+                .enableDismissAfterShown(true)
+                .usageId(usageId) //UNIQUE ID
+                .show();
+    }
+
+    public static boolean isFirstTimeInApp(Context context)
+    {
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+            // first time
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+        }
+        return !ranBefore;
+    }
+
+
 }

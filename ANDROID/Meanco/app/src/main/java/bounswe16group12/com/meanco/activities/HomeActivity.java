@@ -1,7 +1,11 @@
 package bounswe16group12.com.meanco.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -12,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.wooplr.spotlight.SpotlightView;
 
 import java.util.ArrayList;
 
@@ -34,8 +40,13 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
 
-        if(Functions.getUserId(HomeActivity.this) != -1) {
-            menu.add("Logout").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        String logStringOnMenu = "Log";
+        if(Functions.getUserId(HomeActivity.this) == -1)
+            logStringOnMenu+="in";
+        else
+            logStringOnMenu+="out";
+
+            menu.add(logStringOnMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     Functions.clearUserPreferences(getApplicationContext());
@@ -48,7 +59,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                     return true;
                 }
             });
-        }
 
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -81,6 +91,13 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.rsz_meanco_logo);
         setTitle("  Meanco");
+
+        if(Functions.isFirstTimeInApp(HomeActivity.this)){
+
+            Functions.showSpotlight("See relations", "Long press on a topic to see its relations.",
+                    findViewById(R.id.content_home), this, "Relations");
+
+        }
 
 
 
@@ -195,4 +212,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onBackPressed() {
         //Blocks  return action of back button to prevent user go back to login page.
     }
+
+
+
 }
