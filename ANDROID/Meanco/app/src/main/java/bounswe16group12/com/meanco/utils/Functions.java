@@ -124,6 +124,19 @@ public class Functions {
         editor.commit();
     }
 
+    public static String getUsername(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        return preferences.getString("Username",null);
+    }
+
+    public static void setUsername(String username,Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.putString("Username", username);
+        editor.commit();
+    }
+
     public static void clearUserPreferences(Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

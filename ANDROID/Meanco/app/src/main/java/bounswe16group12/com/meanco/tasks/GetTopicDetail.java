@@ -12,6 +12,7 @@ import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
+import bounswe16group12.com.meanco.utils.Functions;
 
 /**
  * Created by Ezgi on 12/2/2016.
@@ -47,7 +48,10 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         JSONArray versions = topicObject.getJSONArray("versions");
                         JSONObject contentObject = versions.getJSONObject(0);
                         String content = contentObject.getString("content");
-                        Comment c = new Comment(commentId, topicId, content);
+                        int userId = contentObject.getInt("profile");
+                        String username = contentObject.getString("username");//TODO: Change it after deploy.
+
+                        Comment c = new Comment(commentId, topicId, content,userId,username);
                         databaseHelper.addComment(c);
                     }
                 }

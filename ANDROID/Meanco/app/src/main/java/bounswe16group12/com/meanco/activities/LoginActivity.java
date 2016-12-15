@@ -281,6 +281,7 @@ public class LoginActivity extends AppCompatActivity {
                         int userId = jsonObject.getInt("UserId");
 
                         Functions.setUserId(userId,getApplicationContext());
+                        Functions.setUsername(username,getApplicationContext());
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

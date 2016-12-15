@@ -70,7 +70,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString());
+                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString(),Functions.getUserId(getApplicationContext()),Functions.getUsername(getApplicationContext()));
                                             new PostComment(MeancoApplication.POST_COMMENT_URL, c, getApplicationContext()).execute();
                                         }
                                     })
@@ -84,8 +84,6 @@ public class TopicDetailActivity extends AppCompatActivity {
                     }
                 }
         );
-
-
         FloatingActionButton tag_fab = (FloatingActionButton) findViewById(R.id.fabTag);
         tag_fab.setOnClickListener(
                 new View.OnClickListener() {
