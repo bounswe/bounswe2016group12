@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'^$', Home.get_page, name='home'),
     url(r'^Comment$', Comment.get_page),
     url(r'^Comment$', Comment.get_page),
-    url(r'^Search$', SearchList.get_page),
+    url(r'^Search/$', SearchList.get_page),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^API/AddTopic', ApiTopic.addTopic),
     url(r'^API/SearchTopic', ApiTopic.searchTopic),
