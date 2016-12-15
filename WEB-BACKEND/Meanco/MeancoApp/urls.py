@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^API/GetCommentedTopic', ApiTopic.getCommentedTopics),
     url(r'^API/TopicLister', ApiTopic.topicListerGet),
     url(r'^API/AddComment', ApiComment.addComment, name="addComment"),
+    url(r'^API/GetCommentVoters', ApiComment.getUsersVotes),
     url(r'^API/EditComment', ApiComment.editComment),
     url(r'^API/RateComment', ApiComment.rateComment, name="rate"),
     url(r'^API/AddRelation', ApiRelation.addRelation),

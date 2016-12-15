@@ -1,24 +1,30 @@
 from rest_framework import serializers
 from MeancoApp.models import *
 
+
 class CommentVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Version
         fields = ('id','content','timestamp')
+
 class CommentSerializer(serializers.ModelSerializer):
     versions= CommentVersionSerializer(many=True,read_only=True)
+    profile  = serializers.ReadOnlyField(source='profile.user.username')
     class Meta:
         model = Comment
         fields = ('id','profile','vote_count','versions')
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model= Tag
         fields= ('id','label','description','URL')
+
 class TagOfTopicSerializer(serializers.ModelSerializer):
     tag= TagSerializer(read_only=True)
     class Meta:
         model =OfTopic
         fields = ('tag',)
+
 class RelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Relation
