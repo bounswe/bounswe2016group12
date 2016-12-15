@@ -29,6 +29,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +55,7 @@ import bounswe16group12.com.meanco.utils.Functions;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+    private Tracker mTracker;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -74,6 +78,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
+
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("LOGIN_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         int userId = preferences.getInt("UserId", -1);

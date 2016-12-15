@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
@@ -29,10 +31,16 @@ public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
     public static CustomTopicDetailAdapter adapter;
     public static ListView listView;
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
+
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("TOPIC_DETAIL_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         int topicId = getIntent().getIntExtra("topicId",-1);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());

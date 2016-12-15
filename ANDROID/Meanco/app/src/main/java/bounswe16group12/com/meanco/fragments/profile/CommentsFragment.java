@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 
 /**
@@ -27,6 +31,8 @@ public class CommentsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Tracker mTracker;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,6 +61,11 @@ public class CommentsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
+        mTracker.setScreenName("COMMENT_FRAGMENT");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);

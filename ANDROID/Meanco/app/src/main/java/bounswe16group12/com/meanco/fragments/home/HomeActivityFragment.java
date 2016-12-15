@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +43,14 @@ public class HomeActivityFragment extends Fragment{
     public static ListView relationsListView;
     public static CustomTopicDetailAdapter relationAdapter;
     public static List<Relation> relations;
-
+    private Tracker mTracker;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
+        mTracker.setScreenName("HOME_FRAGMENT");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
 

@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
@@ -33,6 +36,7 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
     ListView listView;
     public static String fromOrTo;
     public static Topic checkedTopic;
+    private Tracker mTracker;
 
     int oldId = 0;
     int oldPosition=0;
@@ -42,6 +46,10 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_search);
+
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("TOPIC_SEARCH_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         final String relationName = getIntent().getStringExtra("relationName").toString();
         final boolean isBidirectional = getIntent().getBooleanExtra("isBidirectional", false);

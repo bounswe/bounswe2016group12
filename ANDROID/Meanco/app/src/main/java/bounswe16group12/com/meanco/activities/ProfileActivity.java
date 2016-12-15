@@ -16,11 +16,15 @@ import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.profile.CommentsFragment;
 
 public class ProfileActivity {//extends AppCompatActivity implements CommentsFragment.OnFragmentInteractionListener, FollowFragment.OnFragmentInteractionListener {
-/*
+/*    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("PROFILE_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         setContentView(R.layout.activity_profile);
 

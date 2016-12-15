@@ -15,9 +15,12 @@ import android.widget.EditText;
 import android.widget.SearchView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -27,12 +30,17 @@ import bounswe16group12.com.meanco.utils.Functions;
 public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     static ArrayList<Tag> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
+    private Tracker mTracker;
 
     //Home activity has search functionality, so changing the default menu is needed.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
+
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("HOME_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         String menuItemText =  (Functions.getUserId(HomeActivity.this) == -1) ? "Login":"Logout";
 

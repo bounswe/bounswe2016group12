@@ -21,9 +21,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CommentAdapter;
@@ -40,13 +44,17 @@ import bounswe16group12.com.meanco.objects.Topic;
 public class TopicDetailActivityFragment extends Fragment {
     public static CommentAdapter mCommentsAdapter;
     public static ArrayAdapter<SpannableStringBuilder> mTagsAdapter;
-
+    private Tracker mTracker;
     public TopicDetailActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
+        mTracker.setScreenName("TOPIC_DETAIL_FRAGMENT");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 
