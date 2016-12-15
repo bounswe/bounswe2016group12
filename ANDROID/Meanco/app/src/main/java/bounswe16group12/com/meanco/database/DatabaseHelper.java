@@ -49,7 +49,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMMENT_ID = "id";
     private static final String KEY_COMMENT_TOPIC_ID = "topicId";
     private static final String KEY_COMMENT_CONTENT = "content";
-    private static final String KEY_COMMENT_USER_ID = "userId";
     private static final String KEY_COMMENT_USERNAME = "username";
 
     //RELATION
@@ -124,7 +123,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 KEY_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_COMMENT_TOPIC_ID + " INTEGER," +
                 KEY_COMMENT_CONTENT + " TEXT," +
-                KEY_COMMENT_USER_ID + " INTEGER," +
                 KEY_COMMENT_USERNAME + " TEXT" +
                 ")";
 
@@ -462,7 +460,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                values.put(KEY_COMMENT_ID, comment.commentId);
                values.put(KEY_COMMENT_TOPIC_ID, comment.topicId);
                values.put(KEY_COMMENT_CONTENT, comment.content);
-               values.put(KEY_COMMENT_USER_ID,comment.userId);
                values.put(KEY_COMMENT_USERNAME,comment.username);
 
                db.insert(KEY_COMMENT_TABLE, null, values);
@@ -484,7 +481,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_COMMENT_ID, comment.commentId );
             values.put(KEY_COMMENT_TOPIC_ID, comment.topicId );
             values.put(KEY_COMMENT_CONTENT,comment.content);
-            values.put(KEY_COMMENT_USER_ID,comment.userId);
             values.put(KEY_COMMENT_USERNAME,comment.username);
 
             db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_ID + "= ?", new String[]{""+comment.commentId});
@@ -509,7 +505,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
                 comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                 comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
-                comment.userId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_USER_ID));
                 comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
             }
         } finally {
@@ -531,7 +526,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
                     comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
-                    comment.userId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_USER_ID));
                     comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
 
                     comments.add(comment);

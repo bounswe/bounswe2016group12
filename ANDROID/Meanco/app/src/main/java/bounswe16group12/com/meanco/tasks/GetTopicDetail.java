@@ -48,10 +48,9 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         JSONArray versions = topicObject.getJSONArray("versions");
                         JSONObject contentObject = versions.getJSONObject(0);
                         String content = contentObject.getString("content");
-                        int userId = contentObject.getInt("profile");
-                        String username = contentObject.getString("username");//TODO: Change it after deploy.
+                        String username = contentObject.getString("profile");
 
-                        Comment c = new Comment(commentId, topicId, content,userId,username);
+                        Comment c = new Comment(commentId, topicId, content,username);
                         databaseHelper.addComment(c);
                     }
                 }

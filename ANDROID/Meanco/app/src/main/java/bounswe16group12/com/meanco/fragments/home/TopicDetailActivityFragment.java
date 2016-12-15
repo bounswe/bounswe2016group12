@@ -110,7 +110,7 @@ public class TopicDetailActivityFragment extends Fragment {
                 temp.setText(c.content);
                 final EditText commentEditInput = temp;
 
-                if(c.userId == Functions.getUserId(getContext())){
+                if(c.username.equals(Functions.getUsername(getContext()))){
                     new AlertDialog.Builder(getContext())
                             .setTitle("Edit Comment")
                             .setView(commentEditInput)
