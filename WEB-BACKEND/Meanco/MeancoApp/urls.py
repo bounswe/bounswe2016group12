@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^API/RateComment', ApiComment.rateComment),
     url(r'^API/AddRelation', ApiRelation.addRelation),
     url(r'^API/RateRelation', ApiRelation.rateRelation),
-    url(r'^API/AddTag', ApiTag.addTag),
+    url(r'^API/AddTag', ApiTag.addTag, name="addTag"),
     url(r'^API/SearchTag', ApiTag.searchTag),
     url(r'^API/Register', ApiAuthentication.register),
     url(r'^API/Login', ApiAuthentication.login),
