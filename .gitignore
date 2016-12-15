@@ -126,6 +126,7 @@ proguard/
 
 # Android Studio captures folder
 captures/
+google_services.json
 
 # Intellij
 #*.iml
