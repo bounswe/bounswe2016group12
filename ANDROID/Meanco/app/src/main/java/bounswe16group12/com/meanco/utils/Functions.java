@@ -81,7 +81,7 @@ public class Functions {
         tagView.setGravity(Gravity.CENTER);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(2,0,0,3);
+        lp.setMargins(2,0,0,11);
 
         tagView.setLayoutParams(lp);
 

@@ -76,7 +76,7 @@ public class CustomHomeAdapter extends ArrayAdapter<Topic>{
             linearLayout.removeAllViews();
 
             LinearLayout.LayoutParams layparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layparam.setMargins(0,0,0,1);
+            layparam.setMargins(0,0,0,2);
             linearLayout.setLayoutParams(layparam);
 
             if(tg!=null) {
