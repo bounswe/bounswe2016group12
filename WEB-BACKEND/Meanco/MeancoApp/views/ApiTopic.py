@@ -128,11 +128,61 @@ def topicListerGet(request):
     topics = Topic.objects.filter(label__startswith=searchParam)
     return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
 
+# (Android)UserId:5
+def getFollowedTopics(request):
+    if (request.method=="GET"):
+        if 'UserId' not in request.POST:
+            UserId = request.user.id
+        else:
+            UserId = request.GET.get("UserId")
+        if Profile.objects.filter(user_id=UserId).exists():
+            ft = FollowedTopic.objects.filter(profile_id=Profile.objects.get(user_id=UserId).id).values_list("topic_id",flat=True).distinct()
+            topics=list(Topic.objects.filter(id__in=ft))
+            return HttpResponse(django.core.serializers.serialize('json',topics ), content_type='json',status=200)
+        else:
+            return HttpResponse("No user found",status=400)
+
+# (Android)UserId:5
+# TopicCount:10
+def getViewedTopics(request):
+    TopicCount=int(request.GET.get("TopicCount"))
+    if (request.method=="GET"):
+        if 'UserId' not in request.POST:
+            UserId = request.user.id
+        else:
+            UserId = request.GET.get("UserId")
+        if Profile.objects.filter(user_id=UserId).exists():
+            vt = ViewedTopic.objects.filter(profile_id=Profile.objects.get(user_id=UserId).id).values_list("topic_id",flat=True).distinct()
+            topics=list(Topic.objects.filter(id__in=vt))
+            topics = sorted(topics, key=lambda topic: ViewedTopic.objects.get(profile_id=Profile.objects.get(user_id=UserId).id, topic_id=topic.id).visited_last, reverse=True)[:TopicCount]
+            return HttpResponse(django.core.serializers.serialize('json',topics ), content_type='json',status=200)
+        else:
+            return HttpResponse("No user found",status=400)
+
+# (Android)UserId:5
+# TopicCount:10
+def getCommentedTopics(request):
+    TopicCount=int(request.GET.get("TopicCount"))
+    if (request.method=="GET"):
+        if 'UserId' not in request.POST:
+            UserId = request.user.id
+        else:
+            UserId = request.GET.get("UserId")
+        if Profile.objects.filter(user_id=UserId).exists():
+            ct = CommentedTopic.objects.filter(profile_id=Profile.objects.get(user_id=UserId).id).values_list("topic_id",flat=True).distinct()
+            topics=list(Topic.objects.filter(id__in=ct))
+            print(topics)
+            topics= sorted(topics,key=lambda topic:CommentedTopic.objects.get(profile_id=Profile.objects.get(user_id=UserId).id,topic_id=topic.id).commented_last ,reverse=True)
+            return HttpResponse(django.core.serializers.serialize('json',topics[:TopicCount] ), content_type='json',status=200)
+        else:
+            return HttpResponse("No user found",status=400)
+
 class TopicList(generics.ListCreateAPIView):
     queryset = Topic.objects.all()
     serializer_class= TopicListSerializer
 
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
+
 
     queryset = Topic.objects.all()
     serializer_class= TopicSerializer
