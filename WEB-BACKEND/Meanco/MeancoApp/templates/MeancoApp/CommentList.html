@@ -64,7 +64,7 @@
     function pickTag(id, label, description, url){
         console.log("Topic is picked.");
         $('#label').replaceWith("<input type=\"text\" class=\"form-control\" id=\"label\" name=\"newTagName\" onkeyup=\"showTags(this.id, this.value)\" value=\"" + label + "\">");
-        $('#description').replaceWith("<input type=\"text\" class=\"form-control\" id=\"description\" value=\"" + description + "\" disabled>");
+        $('#description').replaceWith("<textarea class=\"form-control\" id=\"description\" value=\"" + description + "\" disabled>" + description + "</textarea>");
         $('#URL').replaceWith("<input type=\"hidden\" class=\"form-control\" id=\"URL\" value=\"" + url + "\">");
         $('#tag-id').val(id);
         $('#livesearch-tag').replaceWith('<ul id="livesearch-tag"><ul>');
@@ -90,7 +90,7 @@
                         console.log("Tag could not be found in wikidata.");
                         $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag could not be found in wikidata.</p>");
                         $("#label").replaceWith('<input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">');
-                        $("#description").replaceWith('<input type="text" class="form-control input-lg" id="description" disabled>');
+                        $("#description").replaceWith('<textarea class="form-control" id="description" disabled></textarea>');
                         $("#url").replaceWith('<input type="hidden" class="form-control" id="URL">');
                     }else{
                         $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
@@ -187,7 +187,6 @@
     </div>
 
         {% endif %}
-
     <div class="col-md-8">
         <div class="row" style="background-color:#C2FABC;">
             <div class="col-md-2" >
@@ -204,6 +203,7 @@
         </div>
         <p></p>
         <hr>
+
         {% for comment in comments %}
             <div class="row">
                 <div class="col-md-2">
@@ -213,29 +213,89 @@
                     <p> {{ comment.content }}</p>
                     <p>{{ comment.current.timestamp }} {{ comment.profile.user.username }}</p>
                 </div>
-                <div class="col-md-2">
-                    <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-                    <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-down"></span></a>
-                </div>
+                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-down"></span></a>
             </div>
             <hr>
         {% endfor %}
 
         {% if user.is_authenticated %}
-            <div class="form-group" style="position:fixed; bottom: 0; width: 700px">
-                <label for="comment">Comment:</label>
-                <form action="/API/AddComment" method="post"> {% csrf_token %}
-                    <input type="hidden" name="topicId" value="{{ topic.id }}"><br>
-                    <input type="text" class="form-control" rows="5" name="text"><br>
-                    <button type="submit" class="btn btn-success">Add Comment</button>
+
+            <form class="form-horizontal" id="addCommentId" method="post">
+                <form class="form-horizontal">
+                    <p id="cWarningId"></p>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <input type="hidden" class="form-control" name="topicId" value="{{ topic.id }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Comment:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" rows="5" id="newCommentId" name="text" placeholder="Make a comment..."></textarea>
+                        </div>
+                    </div>
                 </form>
-            </div>
+                <div>
+                    <button type="submit" id="cSubmitId" class="btn btn-success">Add Comment</button>
+                </div>
+            </form>
+
         {% endif %}
 
     </div>
 
-{% endblock %}
+<script>
+    $(document).ready(function () {
+        $('#cSubmitId').on('click', function (event) {
+            event.preventDefault();
+            console.log("form submission requested...");  // sanity check
+            serializedData = $("#addCommentId").serialize();
+            console.log("post data: " + serializedData);
+            console.log("form submitted!");  // sanity check
+            if ($("#newCommentId").val().length == 0) {
+                console.log("Empty comment!");
+                $("#cWarningId").replaceWith("<p class=\"form-control\" id=\"commentWarningId\">Comment is empty.</p>");
+                return;
+            }
 
+            $.ajax({
+                url: "{% url 'addComment'%}",
+                type: "post",
+                data: serializedData,
+                cache: 'false',
+                dataType: "json",
+                async: 'true',
+
+                success: function (response) {
+                    console.log(response);
+                    if (response.commentId) {
+                        console.log("Comment exists now.");
+                        location.reload();
+                    } else {
+                        console.log("Comment cannot be created.");
+                        $("#cWarningId").replaceWith("<p class=\"form-control\" id=\"topicWarningId\">Comment cannot be created.</p>");
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                    console.log("Error during topic creation.");
+                    console.log(response.responseText);
+                    if (response.responseText == "Comment Creation Error") {
+                        console.log("Comment Creation Error");
+                        $("#cWarningId").replaceWith("<p class=\"form-control\" id=\"topicWarningId\">Comment cannot be created.</p>");
+                    } else if (response.responseText == "Comment linking Error") {
+                        console.log("Comment linking Error");
+                        $("#cWarningId").replaceWith("<p class=\"form-control\" id=\"topicWarningId\">Comment cannot be created.</p>");
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
+{% endblock %}
 
 {% comment %}
 
