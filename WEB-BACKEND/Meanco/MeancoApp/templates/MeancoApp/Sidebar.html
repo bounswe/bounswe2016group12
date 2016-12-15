@@ -381,14 +381,14 @@
             event.preventDefault();
             console.log("new relations are submitted.");  // sanity check
             direction = 0;
-            if($("#isBidirectionalId")){
+            if($("#isBidirectionalId").prop('checked')){
                 direction = 1;
             }
             var serializedData = {
                 topic1: $('#id1').val(),
                 topic2: $('#id2').val(),
                 label: $("#relationLabelId").val(),
-                isBidirectionalId: direction
+                isBidirectional: direction
             };
             console.log("post data: " + serializedData);
             console.log("form submitted!");  // sanity check

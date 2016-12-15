@@ -2,6 +2,7 @@ from MeancoApp.models import *
 from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import django.core.serializers
 import json
 # example:
 # topicId: 1
@@ -66,9 +67,22 @@ def editComment(request):
             return HttpResponse("Comment linking Error", status=400)
         return HttpResponse("Comment Edited", status=200)
 
-
-def deleteComment():
-    return
+#
+# TopicId=5
+# [Android] UserId=1
+@csrf_exempt
+def getUsersVotes(request):
+    if 'userId' not in request.GET:
+        userId = request.user.id
+    else:
+        userId = request.GET.get("UserId")
+    profileId=Profile.objects.get(user_id=userId).id
+    TopicId=int(request.GET.get('TopicId'))
+    Comments=Comment.objects.filter(topic_id=TopicId)
+    votes= list(Voter.objects.filter(comment__in=Comments,profile_id=profileId))
+    return HttpResponse(django.core.serializers.serialize('json',votes ),
+        status=200,
+        content_type="application/json")
 
 
 #
