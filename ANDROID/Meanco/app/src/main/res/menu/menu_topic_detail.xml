@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="bounswe16group12.com.meanco.activities.TopicDetailActivity">
     <item
-        android:id="@+id/action_relation"
-        android:icon="@drawable/two_arrow"
+        android:id="@+id/action_follow"
+        android:icon="@drawable/follow"
         android:title="Relations"
         app:showAsAction="always"
         android:orderInCategory="0"/>

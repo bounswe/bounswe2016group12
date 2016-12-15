@@ -2,7 +2,9 @@ package bounswe16group12.com.meanco.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -27,8 +29,6 @@ import bounswe16group12.com.meanco.utils.Functions;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
-    public static CustomTopicDetailAdapter adapter;
-    public static ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,32 +120,12 @@ public class TopicDetailActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-        List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
-        adapter=new CustomTopicDetailAdapter(getApplicationContext(), R.layout.relation_dialog_view, relations, topic.topicId);
-
-        final View customView = getLayoutInflater().inflate(R.layout.relation_dialog_view, null, false);
-
-
-        listView = (ListView) customView.findViewById(R.id.relations_list);
-        listView.setAdapter(adapter);
-
-
-
-        if (id == R.id.action_relation) {
-            new AlertDialog.Builder(TopicDetailActivity.this)
-                    .setTitle(topic.topicName + "'s Relations")
-                    .setView(customView)
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .show();
-
-            return true;
+        if(id==R.id.action_follow){
+            //TODO: send task here.
+            //if(notFollowed)
+            item.setIcon(R.drawable.followed);
+            //else
+            //item.setIcon(R.drawable.follow);
         }
 
         return super.onOptionsItemSelected(item);
