@@ -9,13 +9,17 @@ public class Comment {
     public int commentId;
     public int topicId;
     public String content;
+    public int userId;
+    public String username;
 
     public Comment(){}//Empty constructor to define
 
-    public Comment(int commentId, int topicId, String content) {
+    public Comment(int commentId, int topicId, String content, int userId, String username) {
         this.commentId = commentId;
         this.topicId = topicId;
         this.content = content;
+        this.userId = userId;
+        this.username = username;
     }
 
 }

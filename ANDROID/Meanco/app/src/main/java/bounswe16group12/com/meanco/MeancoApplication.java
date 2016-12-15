@@ -26,7 +26,10 @@ public class MeancoApplication extends Application {
     public static final String REGISTER_URL = "http://46.101.253.73:8000/API/Register";
     public static final String LOGIN_URL = "http://46.101.253.73:8000/API/Login";
     public static final String VOTE_COMMENT_URL = "http://46.101.253.73:8000/API/RateComment";
+    public static final String EDIT_COMMENT_URL ="http://46.101.253.73:8000/API/EditComment/";
+
     private static final String GOOGLE_ANALYTICS_KEY = "UA-39760660-5";
+
 
     public MeancoApplication() {
         // this method fires only once per application start.

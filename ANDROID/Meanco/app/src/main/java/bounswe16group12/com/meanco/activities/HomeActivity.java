@@ -155,7 +155,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                     final EditText topicNameInput = temp;
 
 
-                    //TODO: next goes to intent
                     new AlertDialog.Builder(HomeActivity.this)
                             .setTitle("Add topic")
                             .setView(topicNameInput)

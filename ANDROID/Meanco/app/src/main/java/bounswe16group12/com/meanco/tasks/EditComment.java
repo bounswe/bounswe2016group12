@@ -23,21 +23,20 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
- * Created by Ezgi on 12/5/2016.
+ * Created by feper on 12/15/2016.
  */
 
-public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
+public class EditComment extends AsyncTask<Void,Void,Connect.APIResult> {
+
     private Comment comment;
     private Context context;
-    private int userId;
     private String url;
 
 
 
-    public PostComment(String url,Comment comment , Context context){
+    public EditComment(String url,Comment comment , Context context){
         this.url = url;
         this.comment = comment;
-        this.userId = Functions.getUserId(context);
         this.context = context;
     }
 
@@ -45,17 +44,11 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
     @Override
     protected void onPostExecute(Connect.APIResult response) {
         super.onPostExecute(response);
-
-        try {
-            JSONObject jsonObject=new JSONObject(response.getData());
-            if (jsonObject != null) {
-                if (response.getResponseCode() == 200) {
-                    new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,context).execute();
-                }
+         String responseStr = response.getData();
+        if (responseStr != null) {
+            if (response.getResponseCode() == 200) {
+                new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,context).execute();
             }
-        } catch (JSONException e) {
-
-            e.printStackTrace();
         }
     }
 
@@ -63,10 +56,8 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
 
         String data = null;
         try {
-            data = URLEncoder.encode("topicId", "UTF-8")
-                    + "=" + URLEncoder.encode("" + comment.topicId, "UTF-8");
-            data += "&" + URLEncoder.encode("userId", "UTF-8") + "="
-                    + URLEncoder.encode("" + userId, "UTF-8");
+            data = URLEncoder.encode("commentId", "UTF-8")
+                    + "=" + URLEncoder.encode("" + comment.commentId, "UTF-8");
 
             data += "&" + URLEncoder.encode("text", "UTF-8")
                     + "=" + URLEncoder.encode(comment.content,"UTF-8");
