@@ -39,6 +39,13 @@ public class TopicDetailActivity extends AppCompatActivity {
         topic = db.getTopic(topicId);
         setTitle(topic.topicName);
 
+        if(Functions.isFirstTimeInApp(TopicDetailActivity.this)){
+
+            Functions.showSpotlight("Edit", "Long press on a comment to edit.",
+                    findViewById(R.id.listView_topic_comments), this, "Comment");
+
+        }
+
 
 
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);

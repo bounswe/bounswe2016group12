@@ -29,6 +29,7 @@ import java.util.List;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.activities.HomeActivity;
 import bounswe16group12.com.meanco.activities.LoginActivity;
+import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Topic;
@@ -146,7 +147,7 @@ public class Functions {
                 .headingTvSize(32)
                 .headingTvText(tvText)
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
-                .subHeadingTvSize(16)
+                .subHeadingTvSize(14)
                 .subHeadingTvText(subheadingTvText)
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(view)
@@ -163,7 +164,7 @@ public class Functions {
     {
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
+        if (!ranBefore&&context.equals(TopicDetailActivity.class)) {
             // first time
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("RanBefore", true);

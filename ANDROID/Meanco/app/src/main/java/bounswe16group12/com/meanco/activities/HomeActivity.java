@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
         if(Functions.isFirstTimeInApp(HomeActivity.this)){
 
-            Functions.showSpotlight("See relations", "Long press on a topic to see its relations.",
+            Functions.showSpotlight("See", "Long press on a topic to see its relations.",
                     findViewById(R.id.content_home), this, "Relations");
 
         }
