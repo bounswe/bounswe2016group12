@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("LOGIN_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         int userId = preferences.getInt("UserId", -1);
@@ -279,7 +280,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (jsonObject != null) {
                     if (response.getResponseCode() == 200) {
                         int userId = jsonObject.getInt("UserId");
-
+                        Functions.clearUserPreferences(getApplicationContext());
                         Functions.setUserId(userId,getApplicationContext());
                         Functions.setUsername(username,getApplicationContext());
 

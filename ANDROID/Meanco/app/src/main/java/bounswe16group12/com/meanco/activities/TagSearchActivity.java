@@ -54,6 +54,7 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("TAG_SEARCH_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         setContentView(R.layout.activity_tag_search);
 

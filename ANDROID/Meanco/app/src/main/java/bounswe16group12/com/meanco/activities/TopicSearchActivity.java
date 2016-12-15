@@ -50,6 +50,7 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
         mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_SEARCH_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         final String relationName = getIntent().getStringExtra("relationName").toString();
         final boolean isBidirectional = getIntent().getBooleanExtra("isBidirectional", false);

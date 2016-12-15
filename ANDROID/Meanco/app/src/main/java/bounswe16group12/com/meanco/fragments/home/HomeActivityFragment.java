@@ -51,6 +51,7 @@ public class HomeActivityFragment extends Fragment{
         mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
         mTracker.setScreenName("HOME_FRAGMENT");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
 

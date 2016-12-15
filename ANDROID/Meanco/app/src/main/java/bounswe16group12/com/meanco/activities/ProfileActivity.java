@@ -25,6 +25,7 @@ public class ProfileActivity {//extends AppCompatActivity implements CommentsFra
         mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("PROFILE_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         setContentView(R.layout.activity_profile);
 

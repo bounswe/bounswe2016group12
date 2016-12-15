@@ -41,6 +41,7 @@ public class TopicDetailActivity extends AppCompatActivity {
         mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_DETAIL_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         int topicId = getIntent().getIntExtra("topicId",-1);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());

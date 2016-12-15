@@ -63,6 +63,7 @@ public class TopicDetailActivityFragment extends Fragment {
         mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_DETAIL_FRAGMENT");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 

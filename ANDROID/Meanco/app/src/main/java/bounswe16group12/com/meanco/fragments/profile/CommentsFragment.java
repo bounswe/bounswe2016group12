@@ -65,6 +65,7 @@ public class CommentsFragment extends Fragment {
         mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
         mTracker.setScreenName("COMMENT_FRAGMENT");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);

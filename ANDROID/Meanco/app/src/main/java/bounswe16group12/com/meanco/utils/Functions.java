@@ -119,7 +119,7 @@ public class Functions {
     public static void setUserId(int userId,Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+       // editor.clear();
         editor.putInt("UserId", userId);
         editor.commit();
     }
@@ -132,7 +132,7 @@ public class Functions {
     public static void setUsername(String username,Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+       // editor.clear();
         editor.putString("Username", username);
         editor.commit();
     }
