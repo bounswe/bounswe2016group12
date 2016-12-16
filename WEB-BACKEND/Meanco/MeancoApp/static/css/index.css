@@ -46,11 +46,20 @@
 	margin-bottom: 15px;
 }
 
-
-span.label:hover + span.description {
-	display: block;
+ul.tag-list:hover li {
+	opacity: 0.5;
 }
 
-span.description {
+ul.tag-list li:hover {
+	opacity: 1;
+}
+
+span.label:hover + span.label-desc {
+	display: block;
+	position: absolute;
+	z-index: +1;
+}
+
+span.label-desc {
 	display: none;
 }
