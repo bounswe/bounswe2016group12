@@ -153,7 +153,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 KEY_VOTE_IS_DOWNVOTED + " INTEGER" +
                 ")";
         db.execSQL(CREATE_VOTE_TABLE);
-
     }
 
     // Called when the database needs to be upgraded.
@@ -803,5 +802,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return votes;
     }
-
 }

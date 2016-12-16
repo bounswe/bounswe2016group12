@@ -15,6 +15,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -47,7 +48,7 @@ public class FollowTopic extends AsyncTask<Void,Void,Connect.APIResult> {
         if (responseStr != null) {
             if (response.getResponseCode() == 200) {
                 Log.i("FOLLOW_TOPIC",responseStr);
-                    //TODO: Add it into db as followed topic.
+                new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context).execute();
             }
         }
 

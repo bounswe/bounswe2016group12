@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
@@ -52,6 +53,7 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         Comment c = new Comment(commentId, topicId, content,username);
                         databaseHelper.addComment(c);
                     }
+                    new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL,topicId,context).execute();
                 }
                 TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
             }

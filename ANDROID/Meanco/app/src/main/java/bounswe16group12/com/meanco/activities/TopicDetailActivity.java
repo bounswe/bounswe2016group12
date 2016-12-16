@@ -120,6 +120,15 @@ public class TopicDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_topic_detail, menu);
+        MenuItem item = menu.getItem(R.id.action_follow);
+
+        if(MeancoApplication.followedTopicList.contains(topic.topicId)){
+            item.setChecked(true);
+        }
+        else{
+            item.setChecked(false);
+        }
+
         return true;
     }
 

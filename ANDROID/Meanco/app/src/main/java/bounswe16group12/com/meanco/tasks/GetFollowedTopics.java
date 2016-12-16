@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
@@ -25,12 +26,10 @@ public class GetFollowedTopics extends AsyncTask<Void,Void,Connect.APIResult> {
 
     private Context context;
     private String url;
-    private int topicId;
 
-    public GetFollowedTopics(String url, int topicId, Context context){
+    public GetFollowedTopics(String url, Context context){
         this.context = context;
         this.url = url + "?TopicCount=10" + "&UserId=" + Functions.getUserId(context);
-        this.topicId = topicId;
     }
 
     @Override
@@ -42,19 +41,17 @@ public class GetFollowedTopics extends AsyncTask<Void,Void,Connect.APIResult> {
 
             if (jsonArray != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-                List<Topic> topics = new ArrayList<Topic>();
+                List<Integer> topics = new ArrayList<>();
                 if (response.getResponseCode() == 200) {
                     for(int i=0;i<jsonArray.length();i++){
                         JSONObject topicObject = jsonArray.getJSONObject(i);
 
                         int topicId = topicObject.getInt("pk");
-                        topics.add(databaseHelper.getTopic(topicId));
-
-                        //TODO: Add topics into adapter
-
+                        topics.add(topicId);
                     }
                 }
-                TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
+                MeancoApplication.followedTopicList.clear();
+                MeancoApplication.followedTopicList.addAll(topics);
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -53,6 +53,7 @@ public class TopicDetailActivityFragment extends Fragment {
     public static CommentAdapter mCommentsAdapter;
     public static ArrayAdapter<SpannableStringBuilder> mTagsAdapter;
     private Tracker mTracker;
+
     public TopicDetailActivityFragment() {
     }
 
@@ -152,7 +153,6 @@ public class TopicDetailActivityFragment extends Fragment {
         mTagsAdapter.notifyDataSetChanged();
 
     }
-
 
     public static SpannableStringBuilder beautifyString(String text){
 

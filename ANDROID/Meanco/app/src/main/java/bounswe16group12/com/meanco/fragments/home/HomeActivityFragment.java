@@ -31,6 +31,7 @@ import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.GetCommentVotes;
 import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
 
@@ -58,7 +59,7 @@ public class HomeActivityFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity().getApplicationContext());
-        List<Topic> topics = databaseHelper.getAllTopics();
+        final List<Topic> topics = databaseHelper.getAllTopics();
 
 
         adapter = new CustomHomeAdapter(getContext(), R.layout.fragment_home, topics);

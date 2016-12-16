@@ -4,6 +4,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import android.app.Application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.database.DatabaseHelper;
@@ -34,6 +35,8 @@ public class MeancoApplication extends Application {
     public static final String GET_COMMENT_VOTES_URL = BASE_URL + "GetCommentVoters";
     public static final String GET_USER_COMMENTS_URL = BASE_URL + "GetCommentedTopic";
     public static final String GET_FOLLOWED_TOPICS_URL = BASE_URL + "GetFollowedTopic";
+
+    public static List<Integer> followedTopicList = new ArrayList<>();
 
     private static final String GOOGLE_ANALYTICS_KEY = "UA-39760660-5";
 
