@@ -90,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
                     return "FOLLOWED TOPICS";
                 case 1:
                 default:
-                    return "CONTRIBUTED TOPICS";
+                    return "CONTRIBUTIONS";
             }
         }
 

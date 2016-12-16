@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.adapters.CommentAdapter;
 
 /**
  * Fragment that will populate tab layout of profile activity.
@@ -18,7 +20,7 @@ import bounswe16group12.com.meanco.R;
 
 public class CommentsFragment extends Fragment {
     private Tracker mTracker;
-
+    public static CommentAdapter mCommentsAdapter;
 
     public CommentsFragment() {
         // Required empty public constructor
@@ -37,8 +39,16 @@ public class CommentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comments, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
+        mCommentsAdapter = new CommentAdapter(
+                getActivity(), // The current context (this activity)
+                R.layout.comment_listitem, // The name of the layout ID.
+                -100);
+
+        ListView listView = (ListView) rootView.findViewById(R.id.list_profile_comments);
+        listView.setAdapter(mCommentsAdapter);
+        return rootView;
     }
 
 

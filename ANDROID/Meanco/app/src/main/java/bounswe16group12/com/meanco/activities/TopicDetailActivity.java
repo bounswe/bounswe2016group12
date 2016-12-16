@@ -159,7 +159,7 @@ public class TopicDetailActivity extends AppCompatActivity {
             if(Functions.getUserId(TopicDetailActivity.this)==-1)
                 Functions.showNotLoggedInAlert(TopicDetailActivity.this);
             else {
-                new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL, topic.topicId, getApplicationContext());
+                new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL, topic.topicId, getApplicationContext()).execute();
                 if (!item.isChecked()) {
                     item.setIcon(R.drawable.followed);
                     item.setChecked(true);
