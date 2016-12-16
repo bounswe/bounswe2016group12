@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,7 @@ public class GetFollowedTopics extends AsyncTask<Void,Void,Connect.APIResult> {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
                 List<Integer> topics = new ArrayList<>();
                 if (response.getResponseCode() == 200) {
+                    Log.i("FOLLOWED_TOPICS",response.getData());
                     for(int i=0;i<jsonArray.length();i++){
                         JSONObject topicObject = jsonArray.getJSONObject(i);
 
@@ -50,8 +52,7 @@ public class GetFollowedTopics extends AsyncTask<Void,Void,Connect.APIResult> {
                         topics.add(topicId);
                     }
                 }
-                MeancoApplication.followedTopicList.clear();
-                MeancoApplication.followedTopicList.addAll(topics);
+                MeancoApplication.followedTopicList = topics;
             }
         } catch (JSONException e) {
             e.printStackTrace();
