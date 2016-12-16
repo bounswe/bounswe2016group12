@@ -1,6 +1,11 @@
 {% extends 'MeancoApp/Home.html' %}
 
 {% block content %}
+    <style>
+        body {
+            padding-left: 250px;
+        }
+    </style>
 
     <div class="col-md-4">
         <h1> {{ topic_a.label }} </h1>
@@ -12,11 +17,20 @@
     </div>
 
     <div class="col-md-4">
-        <ul>
+        <ul style="list-style-type:none">
             {% for relation in relations %}
                 <li>
-                    ------->
-                    {{ relation.label}}
+                {% if relation.isBidirectional %}
+                    <a href="#" class="label label-success listSpan">
+                        <span class="glyphicon glyphicon-resize-horizontal"></span> {{ relation.label }}
+                    </a>
+                {% else %}
+                    <a href="#" class="label label-success listSpan">
+                        <span class="glyphicon glyphicon-arrow-right"></span> {{ relation.label}}
+                    </a>
+                {% endif %}
+
+
                 </li>
             {% endfor %}
         </ul>
