@@ -11,6 +11,7 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
 
 /**
+ * Contains all constant URLs of the application.
  * Created by Ezgi on 12/2/2016.
  */
 

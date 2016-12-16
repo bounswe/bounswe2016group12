@@ -23,6 +23,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for posting comment to db.
  * Created by Ezgi on 12/5/2016.
  */
 

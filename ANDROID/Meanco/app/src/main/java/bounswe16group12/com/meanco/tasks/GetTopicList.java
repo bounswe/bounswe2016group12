@@ -22,6 +22,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 
 
 /**
+ * Task for getting tags, topic name etc, relations of a topic.
  * Created by Ezgi on 12/2/2016.
  */
 

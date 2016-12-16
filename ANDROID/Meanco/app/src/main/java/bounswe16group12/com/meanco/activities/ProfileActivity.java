@@ -1,16 +1,13 @@
 package bounswe16group12.com.meanco.activities;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -21,22 +18,34 @@ import bounswe16group12.com.meanco.fragments.profile.CommentsFragment;
 import bounswe16group12.com.meanco.fragments.profile.FollowFragment;
 import bounswe16group12.com.meanco.utils.Functions;
 
+/**
+ * Profile page specific to user. User can view her followed topics and the topics that she commented on on
+ * her profile page.
+ */
 public class ProfileActivity extends AppCompatActivity {
-    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        /**
+         * Google analytics data.
+         */
+        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("PROFILE_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         mTracker.enableAutoActivityTracking(true);
 
+        /**
+         * Set title to username.
+         */
         setTitle(Functions.getUsername(ProfileActivity.this));
 
         setContentView(R.layout.activity_profile);
 
+        /**
+         * Set tab layout for two pages (Comments and followed topics).
+         */
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(new ProfileAdapter(getSupportFragmentManager()));
@@ -44,11 +53,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
 
-        // Enable the Up button
+        //Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
 
+    /**
+     * Set fragments on tab layout.
+     */
     public class ProfileAdapter extends FragmentPagerAdapter {
 
         public ProfileAdapter(FragmentManager fm) {
@@ -78,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
                     return "FOLLOWED TOPICS";
                 case 1:
                 default:
-                    return "CONTRIBUTIONS";
+                    return "CONTRIBUTED TOPICS";
             }
         }
 

@@ -26,6 +26,12 @@ public class Topic {
 
     public Topic(){}//Empty constructor to define
 
+    /**
+     *
+     * @param topicId Unique topic ID which will be received by post request.
+     * @param topicName Label of topic.
+     * @param tags List of tags that are bound to a topic.
+     */
     public Topic (int topicId, String topicName, ArrayList<Tag> tags){
         this.topicId = topicId;
         this.topicName = topicName;

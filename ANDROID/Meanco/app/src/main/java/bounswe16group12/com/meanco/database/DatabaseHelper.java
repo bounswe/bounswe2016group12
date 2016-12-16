@@ -61,14 +61,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_RELATION_IS_BIDIRECTIONAL = "isbidirectional";
 
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //CONSTRUCTOR
-    /////////////////////////////////////////////////////////////////////////////////
-
+    /**
+     * Use the application context, which will ensure that you
+     * don't accidentally leak an Activity's context.
+      */
     public static synchronized DatabaseHelper getInstance(Context context) {
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
+
         if (sInstance == null) {
             sInstance = new DatabaseHelper(context.getApplicationContext());
         }
@@ -83,20 +81,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Called when the database connection is being configured.
-    // Configure database settings for things like foreign key support, write-ahead logging, etc.
+    /**
+     * Called when the database connection is being configured.
+     * Configure database settings for things like foreign key support, write-ahead logging, etc.
+     * @param db
+     */
     @Override
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //LIFECYCLE
-    /////////////////////////////////////////////////////////////////////////////////
 
-    // Called when the database is created for the FIRST time.
-    // If a database already exists on disk with the same DATABASE_NAME, this method will NOT be called.
+    /**
+     * Called when the database is created for the FIRST time.
+     * If a database already exists on disk with the same DATABASE_NAME, this method will NOT be called.
+      */
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TOPIC_TABLE = "CREATE TABLE " + KEY_TOPIC_TABLE +
@@ -142,9 +143,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // Called when the database needs to be upgraded.
-    // This method will only be called if a database already exists on disk with the same DATABASE_NAME,
-    // but the DATABASE_VERSION is different than the version of the database that exists on disk.
+    /**
+     * Called when the database needs to be upgraded.
+     * This method will only be called if a database already exists on disk with the same DATABASE_NAME,
+     * but the DATABASE_VERSION is different than the version of the database that exists on disk.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
@@ -157,48 +163,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    /*
+
+    /**
      * 0 : TOPIC
      * 1 : TAG
      * 2 : COMMENT
      * 3 : RELATION
+     * @param tableId Clear table with given id.
      */
     public void clearTable(int tableId){
         String tableName = "";
         switch(tableId) {
             case 0 :
                 tableName = KEY_TOPIC_TABLE;
-                break; // optional
+                break;
             case 1 :
                 tableName = KEY_TAG_TABLE;
-                break; // optional
+                break;
             case 2 :
                 tableName = KEY_COMMENT_TABLE;
-                break; // optional
+                break;
             case 3 :
                 tableName = KEY_RELATION_TABLE;
-                break; // optional
-            // You can have any number of case statements.
-            default : // Optional
-                // Statements
+                break;
+            default :
         }
 
         getWritableDatabase().execSQL("DELETE FROM " + tableName);
     }
 
-    /*
-     * Clear all tables
+    /**
+     * Clear all tables.
      */
     public void clearAll(){
         for(int i=0;i<4;i++)
             clearTable(i);
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //TOPIC
-    /////////////////////////////////////////////////////////////////////////////////
-
-    //Adds topic
+    /**
+     * Add topic to local db.
+     * @param topic Topic to be added.
+     */
     public void addTopic(Topic topic){
         if(getTopic(topic.topicId) != null){
             updateTopic(topic);
@@ -230,7 +235,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //If returns null, no such topic.
+    /**
+     * Get topic from local db with given topic id.
+     * Useful for getting topic of a comment, relation etc.
+     * If returns null, to such topic.
+     * @param topicId
+     * @return topic
+     */
     public Topic getTopic(int topicId){
         SQLiteDatabase db = getReadableDatabase();
 
@@ -263,7 +274,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topic;
     }
 
-    //Update topic
+    /**
+     * Update a topic.
+     * @param topic Topic to be updated.
+     */
     public void updateTopic(Topic topic) {
 
         SQLiteDatabase db = getWritableDatabase();
@@ -291,7 +305,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //Returns all topics.
+    /**
+     * Useful for list views that require seeing all topics at once (homepage, search topic etc.)
+     * @return all topics
+     */
     public List<Topic> getAllTopics() {
         List<Topic> topics = new ArrayList<>();
 
@@ -338,7 +355,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topics;
     }
 
-    //Returns all topics.
+    //TODO: What is this?
     public List<Topic> getTopicsContainsText(String text) {
         List<Topic> topics = new ArrayList<>();
 
@@ -385,7 +402,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topics;
     }
 
-    //HELPER FOR ARRAYLIST TO STRING
+    /**
+     * Helper method: arraylist to string
+     * @param s
+     * @return output string
+     */
     private ArrayList<String> stringToList(String s){
         ArrayList<String> output = null;
         s = s.replaceAll(" ", "");
@@ -397,9 +418,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return output;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //TAG
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add tag to local db.
+     * @param tag
+     */
 
     public void addTag(Tag tag){
         SQLiteDatabase db = getWritableDatabase();
@@ -420,6 +442,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get tag from db with given tag id.
+     * Useful for getting tag from topic.
+     * @param tagId
+     * @return tag
+     */
     public Tag getTag(int tagId){
         SQLiteDatabase db = getReadableDatabase();
         String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM tags WHERE id = '" + tagId + "'";
@@ -440,6 +468,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return tag;
     }
 
+    /**
+     * Get all tags used by topics (not whole wikidata ofc).
+     * @param topicId
+     * @return
+     */
     public List<Tag> getAllTags(int topicId){
         Topic topic = getTopic(topicId);
 
@@ -480,9 +513,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return tags;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //COMMENT
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add comment to local db.
+     * @param comment
+     */
 
    public void addComment(Comment comment){
        if(getComment(comment.commentId) != null){
@@ -509,6 +543,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        }
    }
 
+    /**
+     * Method for editing a comment in topic detail page.
+     * @param comment
+     */
+
     public void updateComment(Comment comment){
         SQLiteDatabase db = getWritableDatabase();
 
@@ -530,6 +569,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get comment from local db with given comment id.
+     * @param commentId
+     * @return
+     */
     public Comment getComment(int commentId){
         SQLiteDatabase db = getReadableDatabase();
         String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
@@ -550,6 +594,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return comment;
     }
 
+    /**
+     * Get all comments of a topic.
+     * Useful for list view of comments in topic detail.
+     * @param topicId
+     * @return
+     */
     public List<Comment> getAllComments(int topicId){
         String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE " + KEY_COMMENT_TOPIC_ID + " = '" + topicId + "'";
 
@@ -578,9 +628,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return comments;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //RELATION
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add relation to local db.
+     * @param relation
+     */
 
     public void addRelation(Relation relation){
         if(getRelation(relation.relationId) != null){
@@ -607,6 +658,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //TODO: Why?
     public void updateRelation(Relation relation){
         SQLiteDatabase db = getWritableDatabase();
 
@@ -629,6 +681,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get relation with given relation id.
+     * Useful for getting relation from given topic.
+     * @param relationId
+     * @return
+     */
     public Relation getRelation(int relationId){
         SQLiteDatabase db = getReadableDatabase();
         String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM relations WHERE id = '" + relationId + "'";
@@ -651,6 +709,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return relation;
     }
 
+    /**
+     * Get all relations of a topic.
+     * Useful for listing all relations on relations dialog created on long press on an item in homepage.
+     * @param topicId
+     * @return relations of topic
+     */
     public List<Relation> getAllRelations(int topicId){
         String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId +
                                         "' OR " + KEY_RELATION_SECOND_TOPIC_ID + " = '" + topicId + "'";

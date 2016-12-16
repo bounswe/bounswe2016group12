@@ -13,6 +13,13 @@ public class Comment {
 
     public Comment(){}//Empty constructor to define
 
+    /**
+     *
+     * @param commentId Comment's unique id which will be received by a post request.
+     * @param topicId The topic that the comment has been made to.
+     * @param content Content of the topic.
+     * @param username The user that made the comment.
+     */
     public Comment(int commentId, int topicId, String content, String username) {
         this.commentId = commentId;
         this.topicId = topicId;

@@ -38,6 +38,7 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ * Task for posting topic to db.
  * Created by Ezgi on 12/5/2016.
  */
 

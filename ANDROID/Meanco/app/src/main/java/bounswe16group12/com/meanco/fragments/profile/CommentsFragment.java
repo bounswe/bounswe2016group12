@@ -12,6 +12,10 @@ import com.google.android.gms.analytics.Tracker;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 
+/**
+ * Fragment that will populate tab layout of profile activity.
+ */
+
 public class CommentsFragment extends Fragment {
     private Tracker mTracker;
 

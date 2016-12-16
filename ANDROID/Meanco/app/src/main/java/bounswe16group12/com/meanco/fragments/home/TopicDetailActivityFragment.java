@@ -60,6 +60,9 @@ public class TopicDetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        /**
+         * Google data analytics.
+         */
         mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_DETAIL_FRAGMENT");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
@@ -81,7 +84,9 @@ public class TopicDetailActivityFragment extends Fragment {
 
             texts.add(beautifyString(text));
         }
-
+/**
+ * Populate tag list view.
+ */
         mTagsAdapter = new ArrayAdapter<>(
                 getActivity(), // The current context (this activity)
                 R.layout.list_item_detail_tag, // The name of the layout ID.
@@ -93,6 +98,9 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView tagListView = (ListView) rootView.findViewById(R.id.listView_tags);
         tagListView.setAdapter(mTagsAdapter);
 
+        /**
+         * Populate comment list view.
+         */
         mCommentsAdapter = new CommentAdapter(
                 getActivity(), // The current context (this activity)
                 R.layout.comment_listitem, // The name of the layout ID.
@@ -101,6 +109,9 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listView_topic_comments);
         listView.setAdapter(mCommentsAdapter);
 
+        /**
+         * Edit comment on long click.
+         */
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -114,7 +125,7 @@ public class TopicDetailActivityFragment extends Fragment {
                     new AlertDialog.Builder(getContext())
                             .setTitle("Edit Comment")
                             .setView(commentEditInput)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     c.content = commentEditInput.getText().toString();
@@ -137,6 +148,11 @@ public class TopicDetailActivityFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Update adapters whenever data is changed.
+     * @param databaseHelper
+     * @param topicId
+     */
     public static void updateAdapters(DatabaseHelper databaseHelper, int topicId){
         mCommentsAdapter.clear();
         mCommentsAdapter.comments.clear();

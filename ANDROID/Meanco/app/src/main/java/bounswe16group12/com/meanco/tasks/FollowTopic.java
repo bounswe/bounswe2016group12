@@ -19,6 +19,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for following a topic.
  * Created by feper on 12/16/2016.
  */
 

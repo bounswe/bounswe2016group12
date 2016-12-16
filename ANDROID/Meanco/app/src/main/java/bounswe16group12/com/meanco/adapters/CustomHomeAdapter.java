@@ -28,6 +28,11 @@ import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Functions;
 
+/**
+ * An adapter which populates topics list view on home page.
+ * Created by Ezgi on 12/10/2016.
+ */
+
 public class CustomHomeAdapter extends ArrayAdapter<Topic>{
 
     public static List<Topic> filteredData;

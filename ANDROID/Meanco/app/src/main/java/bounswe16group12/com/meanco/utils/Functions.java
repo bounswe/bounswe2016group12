@@ -22,6 +22,10 @@ import com.wooplr.spotlight.SpotlightView;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -43,6 +47,14 @@ import static android.content.Context.MODE_PRIVATE;
 public class Functions {
 
 
+    /**
+     * Sort topics on search.
+     * @param newText
+     * @param adapter
+     * @param adapterTopics
+     * @param context
+     * @return
+     */
     public static boolean filterData(final String newText, ArrayAdapter adapter, List<Topic> adapterTopics, Context context){
 
         DatabaseHelper db = DatabaseHelper.getInstance(context);
@@ -55,6 +67,10 @@ public class Functions {
             topics = db.getTopicsContainsText(newText);
         }
 
+        /**
+         * Sorts topics according to index occurrance of a string inside topicnames.
+         * Ex: search ay with topics {selenay, ayben, onat}, result is {ayben, selenay}
+         */
         Collections.sort(topics, new Comparator() {
 
             @Override
@@ -73,6 +89,12 @@ public class Functions {
         return true;
     }
 
+    /**
+     * Makes textview of a tag seem like a tag on github.
+     * @param text Text to be beautified.
+     * @param context
+     * @return beautified textview
+     */
     public static TextView beautifyTagView(String text, Context context){
         TextView tagView = new TextView(context);
         final SpannableStringBuilder str = new SpannableStringBuilder(text);
@@ -96,6 +118,10 @@ public class Functions {
         return tagView;
     }
 
+    /**
+     * If user is not logged in, this alert is shown whenever she tries to create content.
+     * @param context
+     */
     public static void showNotLoggedInAlert(final Context context){
 
         final TextView alert = new TextView(context);
@@ -118,6 +144,10 @@ public class Functions {
                 }).show();
     }
 
+    /**
+     * @param context
+     * @return user id if user is logged in, -1 if not
+     */
     public static int getUserId(Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         return preferences.getInt("UserId", -1);
@@ -139,11 +169,14 @@ public class Functions {
     public static void setUsername(String username,Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-       // editor.clear();
         editor.putString("Username", username);
         editor.commit();
     }
 
+    /**
+     * Clear user preferences if user logs out.
+     * @param context
+     */
     public static void clearUserPreferences(Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -151,6 +184,14 @@ public class Functions {
         editor.commit();
     }
 
+    /**
+     * Show spotlight if user enters the app for the first time.
+     * @param tvText title
+     * @param subheadingTvText explanation
+     * @param view View to be spotlighted
+     * @param activity
+     * @param usageId Unique for every spotlight.
+     */
     public static void showSpotlight(String tvText, String subheadingTvText, View view, Activity activity, String usageId){
         new SpotlightView.Builder(activity)
                 .introAnimationDuration(400)
@@ -173,6 +214,11 @@ public class Functions {
                 .show();
     }
 
+    /**
+     * Checks if user has user id saved before.
+     * @param context
+     * @return
+     */
     public static boolean isFirstTimeInApp(Context context)
     {
         SharedPreferences preferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
@@ -184,6 +230,32 @@ public class Functions {
             editor.commit();
         }
         return !ranBefore;
+    }
+
+    /**
+     * Helper method for converting JSON input stream to string.
+     * @param is
+     * @return
+     * @throws IOException
+     */
+    public static String streamToString(InputStream is) throws IOException {
+        String str = "";
+        if (is != null) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            try {
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(is));
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+            } finally {
+                is.close();
+            }
+            str = sb.toString();
+        }
+        return str;
     }
 
 
