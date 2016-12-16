@@ -3,18 +3,11 @@
 
 {% block content %}
 
-    <style>
-        body {
-            padding-left: 250px;
-        }
-    </style>
-
-
     <div class="col-md-4">
         <h1> {{ topic_a.label }} </h1>
         <ul style="list-style-type:none">
             {% for tag in topic_a.tags.all %}
-                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}({{ tag.tag.description}})</span> </h3></li>
+                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}</span> </h3></li>
             {% endfor %}
         </ul>
     </div>
@@ -28,9 +21,13 @@
                             <a href="#" class="label label-success listSpan">
                                 <span class="glyphicon glyphicon-resize-horizontal"></span> {{ relation.label }}
                             </a>
-                        {% else %}
+                        {% elif relation.topic_a.id == topic_a.id %}
                             <a href="#" class="label label-success listSpan">
                                 <span class="glyphicon glyphicon-arrow-right"></span> {{ relation.label}}
+                            </a>
+                        {% else %}
+                            <a href="#" class="label label-success listSpan">
+                                <span class="glyphicon glyphicon-arrow-left"></span> {{ relation.label}}
                             </a>
                         {% endif %}
                     </h2>
@@ -43,7 +40,7 @@
         <h1> {{ topic_b.label }} </h1>
         <ul style="list-style-type:none">
             {% for tag in topic_b.tags.all %}
-                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}({{ tag.tag.description}})</span> </h3></li>
+                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}</span> </h3></li>
             {% endfor %}
         </ul>
     </div>

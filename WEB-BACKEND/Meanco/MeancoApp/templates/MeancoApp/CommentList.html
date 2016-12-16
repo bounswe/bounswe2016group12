@@ -201,7 +201,12 @@
         </div>
         <hr>
 
-        <div style="overflow-y: scroll; max-height: 440px">
+        {% if user.is_authenticated %}
+            <div style="overflow-y: scroll; max-height: 340px">
+        {% else %}
+            <div style="overflow-y: scroll; max-height: 440px">
+        {% endif %}
+
         {% for comment in comments %}
             <div class="row">
                 <div class="col-md-2">
@@ -221,7 +226,7 @@
 
         {% if user.is_authenticated %}
 
-            <form class="form-horizontal" style="position: fixed; bottom: 20px; width: 700px"
+            <form class="form-horizontal" style="position: fixed; bottom: 20px; width: 700px; float: right "
                   id="addCommentId" method="post">
                 <form class="form-horizontal">
                     <p id="cWarningId"></p>
@@ -237,7 +242,9 @@
                         </div>
                     </div>
                     <div>
-                    <button type="submit" id="cSubmitId" class="btn btn-success">Add Comment</button>
+                        <button type="submit" id="cSubmitId" class="btn btn-success" style="float: right">
+                            Add Comment
+                        </button>
                     </div>
                 </form>
             </form>
