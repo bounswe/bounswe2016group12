@@ -20,11 +20,11 @@ import bounswe16group12.com.meanco.tasks.VoteComment;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * An adapter which populates comments list view on topic detail page.
  * Created by Ezgi on 12/10/2016.
  */
 
 public class CommentAdapter extends ArrayAdapter <Comment> {
-    private int topicId;
     public static List<Comment> comments;
     public CommentAdapter(Context context, int resource, int topicId) {
         super(context, resource);
@@ -55,11 +55,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         View v = convertView;
         Comment c = getItem(position);
 
-       // LinearLayout usernameLayout = null;
-        TextView contentTextView = null;
-        TextView usernameTextView = null;
-       // final ImageButton downvoteBtn = null;
-        //final ImageButton upvoteBtn = null;
+        TextView contentTextView;
+        TextView usernameTextView;
+
 
         if(v == null) {
             LayoutInflater vi;
@@ -69,7 +67,6 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
 
         contentTextView = (TextView) v.findViewById(R.id.comment_item);
         contentTextView.setText(c.content);
-        //usernameLayout = (LinearLayout) v.findViewById(R.id.username_linearlayout);
         usernameTextView = (TextView) v.findViewById(R.id.username_item);
         usernameTextView.setText(c.username);
 

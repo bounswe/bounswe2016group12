@@ -24,6 +24,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for sending the vote of a user with user id to db.
  * Created by feper on 12/14/2016.
  */
 

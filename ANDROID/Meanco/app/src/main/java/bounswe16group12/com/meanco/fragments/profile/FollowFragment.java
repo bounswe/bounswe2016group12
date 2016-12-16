@@ -1,7 +1,5 @@
 package bounswe16group12.com.meanco.fragments.profile;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,13 +13,9 @@ import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FollowFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FollowFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment that will populate tab layout of profile activity.
  */
+
 public class FollowFragment extends Fragment {
 
     private Tracker mTracker;

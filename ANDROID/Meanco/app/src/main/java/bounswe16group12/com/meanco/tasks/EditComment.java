@@ -23,6 +23,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for updating comment on db.
  * Created by feper on 12/15/2016.
  */
 

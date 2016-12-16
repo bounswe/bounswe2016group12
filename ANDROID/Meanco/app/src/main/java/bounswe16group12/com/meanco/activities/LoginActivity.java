@@ -7,15 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.AsyncTask;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
@@ -55,7 +53,6 @@ import bounswe16group12.com.meanco.utils.Functions;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-    private Tracker mTracker;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -76,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
         DatabaseHelper.getInstance(getApplicationContext()).clearAll();
 
-        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("LOGIN_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         mTracker.enableAutoActivityTracking(true);
@@ -240,25 +237,38 @@ public class LoginActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+    /**
+     * Blocks  return action of back button to prevent user go back to login page.
+     */
     @Override
     public void onBackPressed() {
-        //Blocks  return action of back button to prevent user go back to login page.
     }
 
+    /**
+     * Posts either login or register credentials and gets user id from server (to store in shared preferences).
+     * If login credentials are not correct, shows "wrong credentials".
+     *
+     */
     public class AuthenticationTask extends AsyncTask<Void, Void, Connect.APIResult> {
         private String email;
         private String username;
         private String password;
         private String url;
 
-        //LOGIN CONSTRUCTOR
+        /**
+         * Login constructor.
+         */
+
         public AuthenticationTask(String url, String username, String password){
             this.url = url;
             this.username = username;
             this.password = password;
         }
 
-        //REGISTER CONSTRUCTOR
+        /**
+         * Register constructor.
+         */
         public AuthenticationTask(String url,String email, String username, String password){
             this.url = url;
             this.email = email;

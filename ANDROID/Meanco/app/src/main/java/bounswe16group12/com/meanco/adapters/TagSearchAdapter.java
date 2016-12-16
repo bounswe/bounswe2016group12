@@ -25,12 +25,12 @@ import bounswe16group12.com.meanco.activities.TagSearchActivity;
 import bounswe16group12.com.meanco.objects.Tag;
 
 /**
+ * An adapter which populates tags list view with Wikidata tags when user wants to add tags to a topic.
  * Created by Ezgi on 12/7/2016.
  */
 
 public class TagSearchAdapter extends ArrayAdapter<Tag>{
     public static List <Tag> wikiTags = new ArrayList<>();
-   // static List <Tag> checked = new ArrayList<>();
 
     public TagSearchAdapter(Context context, int resource) {
         super(context, resource);
@@ -60,7 +60,6 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
         final Tag t = getItem(position);
         final CheckedTextView checkedTextView;
 
-       // if (v == null) {
 
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());

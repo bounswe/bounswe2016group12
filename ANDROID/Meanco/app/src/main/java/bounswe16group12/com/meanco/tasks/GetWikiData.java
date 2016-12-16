@@ -20,6 +20,7 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ * Task for getting wikidata results from wikidata API.
  * Created by Ezgi on 12/7/2016.
  */
 
