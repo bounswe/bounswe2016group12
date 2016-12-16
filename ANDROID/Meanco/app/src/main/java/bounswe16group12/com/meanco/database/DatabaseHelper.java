@@ -760,9 +760,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Vote getVote(int commentId){
         SQLiteDatabase db = getReadableDatabase();
-        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
+        String VOTE_SELECT_WITH_ID_QUERY = "SELECT * FROM "+ KEY_VOTE_TABLE +" WHERE "+ KEY_VOTE_COMMENT_ID +" = '" + commentId + "'";
 
-        Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
+        Cursor cursor = db.rawQuery(VOTE_SELECT_WITH_ID_QUERY,null);
         Vote vote = null;
         try {
             if (cursor.moveToFirst()) {
@@ -778,7 +778,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Vote> getAllVotes(int commentId){
-        String VOTES_SELECT_QUERY = "SELECT * FROM comments WHERE " + KEY_VOTE_COMMENT_ID + " = '" + commentId + "'";
+        String VOTES_SELECT_QUERY = "SELECT * FROM "+ KEY_VOTE_TABLE +" WHERE " + KEY_VOTE_COMMENT_ID + " = '" + commentId + "'";
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(VOTES_SELECT_QUERY, null);

@@ -1,6 +1,7 @@
 package bounswe16group12.com.meanco.adapters;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Comment;
+import bounswe16group12.com.meanco.objects.Vote;
 import bounswe16group12.com.meanco.tasks.VoteComment;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -74,10 +76,18 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
         final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
 
-       // downvoteBtn.setSelected(false);
-       // upvoteBtn.setSelected(false);
-        //TODO: Get voted comment data from server
+        downvoteBtn.setSelected(false);
+        upvoteBtn.setSelected(false);
 
+        if(DatabaseHelper.getInstance(getContext()).getVote(c.commentId) != null){
+            Vote vote = DatabaseHelper.getInstance(getContext()).getVote(c.commentId);
+            if(vote.isUpvoted){
+                upvoteBtn.setSelected(true);
+            }
+            else if(vote.isDownvoted){
+                downvoteBtn.setSelected(true);
+            }
+        }
 
         downvoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

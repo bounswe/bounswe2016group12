@@ -31,6 +31,9 @@ public class MeancoApplication extends Application {
     public static final String VOTE_COMMENT_URL = BASE_URL + "RateComment";
     public static final String EDIT_COMMENT_URL =BASE_URL + "EditComment";
     public static final String FOLLOW_TOPIC_URL = BASE_URL + "FollowTopic";
+    public static final String GET_COMMENT_VOTES_URL = BASE_URL + "GetCommentVoters";
+    public static final String GET_USER_COMMENTS_URL = BASE_URL + "GetCommentedTopic";
+    public static final String GET_FOLLOWED_TOPICS_URL = BASE_URL + "GetFollowedTopic";
 
     private static final String GOOGLE_ANALYTICS_KEY = "UA-39760660-5";
 

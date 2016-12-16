@@ -29,7 +29,7 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
 
     public GetUserComments(String url, int topicId, Context context){
         this.context = context;
-        this.url = url + "&TopicCount=10" + "&UserId=" + Functions.getUserId(context);
+        this.url = url + "?TopicCount=10" + "&UserId=" + Functions.getUserId(context);
         this.topicId = topicId;
     }
 

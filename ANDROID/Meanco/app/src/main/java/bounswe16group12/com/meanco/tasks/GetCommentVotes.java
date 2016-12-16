@@ -26,7 +26,7 @@ public class GetCommentVotes extends AsyncTask<Void,Void,Connect.APIResult>{
 
     public GetCommentVotes(String url, int topicId, Context context){
         this.context = context;
-        this.url = url + "&UserId=" + Functions.getUserId(context) + "&TopicId=" + topicId;
+        this.url = url + "?UserId=" + Functions.getUserId(context) + "&TopicId=" + topicId;
         this.topicId = topicId;
     }
 
