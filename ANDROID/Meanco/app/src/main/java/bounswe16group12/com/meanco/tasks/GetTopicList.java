@@ -96,6 +96,8 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 HomeActivityFragment.adapter.clear();
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
+
+                new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context);
             }
         } catch (JSONException e) {
 
