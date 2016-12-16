@@ -47,6 +47,7 @@ import java.net.URLEncoder;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -72,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
+
+        DatabaseHelper.getInstance(getApplicationContext()).clearAll();
 
         mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("LOGIN_ACTIVITY");
