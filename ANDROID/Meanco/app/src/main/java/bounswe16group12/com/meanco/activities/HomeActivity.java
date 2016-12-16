@@ -16,14 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.wooplr.spotlight.SpotlightView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Tag;
@@ -33,6 +34,7 @@ import bounswe16group12.com.meanco.utils.Functions;
 public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     static ArrayList<Tag> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
+    private Tracker mTracker;
 
     //Home activity has search functionality, so changing the default menu is needed.
     @Override
@@ -40,25 +42,27 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
 
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("HOME_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         String logStringOnMenu = "Log";
         if(Functions.getUserId(HomeActivity.this) == -1)
             logStringOnMenu+="in";
         else
             logStringOnMenu+="out";
 
-            menu.add(logStringOnMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    Functions.clearUserPreferences(getApplicationContext());
+        menu.add(logStringOnMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Functions.clearUserPreferences(getApplicationContext());
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
 
-                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-
-
-                    return true;
-                }
-            });
+                return true;
+            }
+        });
 
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -166,7 +170,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
                     final EditText topicNameInput = temp;
 
 
-                    //TODO: next goes to intent
                     new AlertDialog.Builder(HomeActivity.this)
                             .setTitle("Add topic")
                             .setView(topicNameInput)

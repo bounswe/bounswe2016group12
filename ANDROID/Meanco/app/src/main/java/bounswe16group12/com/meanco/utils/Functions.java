@@ -88,7 +88,7 @@ public class Functions {
         tagView.setGravity(Gravity.CENTER);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(2,0,0,3);
+        lp.setMargins(2,0,0,11);
 
         tagView.setLayoutParams(lp);
 
@@ -126,8 +126,21 @@ public class Functions {
     public static void setUserId(int userId,Context context){
         SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+       // editor.clear();
         editor.putInt("UserId", userId);
+        editor.commit();
+    }
+
+    public static String getUsername(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        return preferences.getString("Username",null);
+    }
+
+    public static void setUsername(String username,Context context){
+        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+       // editor.clear();
+        editor.putString("Username", username);
         editor.commit();
     }
 

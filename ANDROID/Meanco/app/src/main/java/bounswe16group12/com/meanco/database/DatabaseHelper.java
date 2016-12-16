@@ -28,13 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "meancoDB";
     private static final int DATABASE_VERSION = 3;
 
-    //USER
-    private static final String KEY_USER_TABLE = "users";
-
-    private static final String KEY_USER_ID = "id";
-    private static final String KEY_USER_NAME = "userName";
-    private static final String KEY_USER_PASSWORD = "password";
-
     //TOPIC
     private static final String KEY_TOPIC_TABLE = "topics";
 
@@ -56,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMMENT_ID = "id";
     private static final String KEY_COMMENT_TOPIC_ID = "topicId";
     private static final String KEY_COMMENT_CONTENT = "content";
+    private static final String KEY_COMMENT_USERNAME = "username";
 
     //RELATION
     private static final String KEY_RELATION_TABLE = "relations";
@@ -105,15 +99,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // If a database already exists on disk with the same DATABASE_NAME, this method will NOT be called.
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USERS_TABLE = "CREATE TABLE " + KEY_USER_TABLE +
-                "(" +
-                KEY_USER_ID + " INTEGER PRIMARY KEY," + // Define a primary key
-                KEY_USER_NAME + " TEXT," + // Define a foreign key
-                KEY_USER_PASSWORD + " TEXT" +
-                ")";
-
-        db.execSQL(CREATE_USERS_TABLE);
-
         String CREATE_TOPIC_TABLE = "CREATE TABLE " + KEY_TOPIC_TABLE +
                 "(" +
                 KEY_TOPIC_ID + " INTEGER PRIMARY KEY," + // Define a primary key
@@ -137,7 +122,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_COMMENT_TOPIC_ID + " INTEGER," +
-                KEY_COMMENT_CONTENT + " TEXT" +
+                KEY_COMMENT_CONTENT + " TEXT," +
+                KEY_COMMENT_USERNAME + " TEXT" +
                 ")";
 
         db.execSQL(CREATE_COMMENT_TABLE);
@@ -163,7 +149,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
             // Simplest implementation is to drop all old tables and recreate them
-            db.execSQL("DROP TABLE IF EXISTS " + KEY_USER_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_TOPIC_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_COMMENT_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_RELATION_TABLE);
@@ -475,6 +460,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                values.put(KEY_COMMENT_ID, comment.commentId);
                values.put(KEY_COMMENT_TOPIC_ID, comment.topicId);
                values.put(KEY_COMMENT_CONTENT, comment.content);
+               values.put(KEY_COMMENT_USERNAME,comment.username);
 
                db.insert(KEY_COMMENT_TABLE, null, values);
                db.setTransactionSuccessful();
@@ -495,6 +481,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_COMMENT_ID, comment.commentId );
             values.put(KEY_COMMENT_TOPIC_ID, comment.topicId );
             values.put(KEY_COMMENT_CONTENT,comment.content);
+            values.put(KEY_COMMENT_USERNAME,comment.username);
 
             db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_ID + "= ?", new String[]{""+comment.commentId});
             db.setTransactionSuccessful();
@@ -518,6 +505,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
                 comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                 comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+                comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
             }
         } finally {
             cursor.close();
@@ -538,6 +526,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
                     comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+                    comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
 
                     comments.add(comment);
                 } while(cursor.moveToNext());
@@ -663,89 +652,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return relations;
     }
-
-
-
-    //////////////////////////////////////////////////////////////////////////////////
-    //USER
-    /////////////////////////////////////////////////////////////////////////////////
-
-    //TODO: Add login methods and alter user part
-    public long addOrUpdateUser(User user) {
-        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
-        SQLiteDatabase db = getWritableDatabase();
-        long userId = -1;
-
-        db.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-
-            values.put(KEY_USER_ID, user.userId);
-            values.put(KEY_USER_NAME, user.username);
-            values.put(KEY_USER_PASSWORD, user.password);
-
-            // First try to update the user in case the user already exists in the database
-            // This assumes userNames are unique
-            int rows = db.update(KEY_USER_TABLE, values, KEY_USER_ID + "="+user.userId,null);
-
-            // Check if update succeeded
-            if (rows == 1) {
-                // Get the primary key of the user we just updated
-                String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
-                        KEY_USER_ID, KEY_USER_TABLE, KEY_USER_NAME);
-                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(user.userId)});
-                try {
-                    if (cursor.moveToFirst()) {
-                        userId = cursor.getInt(0);
-                        db.setTransactionSuccessful();
-                    }
-                } finally {
-                    if (cursor != null && !cursor.isClosed()) {
-                        cursor.close();
-                    }
-                }
-            } else {
-                // user with this userName did not already exist, so insert new user
-                userId = db.insertOrThrow(KEY_USER_TABLE, null, values);
-                db.setTransactionSuccessful();
-            }
-        } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to add or update user");
-        } finally {
-            db.endTransaction();
-        }
-        return userId;
-    }
-
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-
-        // SELECT * FROM POSTS
-        String USERS_SELECT_QUERY = "SELECT * FROM users";
-
-        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
-        // disk space scenarios)
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(USERS_SELECT_QUERY, null);
-        try {
-            if (cursor.moveToFirst()) {
-                do {
-                    User newUser = new User();
-                    newUser.username = cursor.getString(cursor.getColumnIndex(KEY_USER_NAME));
-                    newUser.password = cursor.getString(cursor.getColumnIndex(KEY_USER_PASSWORD));
-
-
-                    users.add(newUser);
-                } while(cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to get posts from database");
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
-        }
-        return users;
-    }
-
 }

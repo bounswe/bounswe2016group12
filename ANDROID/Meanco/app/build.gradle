@@ -30,7 +30,13 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.github.qiugang:EditTag:v1.2.3'
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+
     compile 'com.github.wooplr:Spotlight:1.2.2'
 
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'
+
+
+

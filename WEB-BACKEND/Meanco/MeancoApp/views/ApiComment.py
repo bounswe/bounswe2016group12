@@ -2,6 +2,8 @@ from MeancoApp.models import *
 from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import django.core.serializers
+import json
 # example:
 # topicId: 1
 # userId: 1
@@ -18,24 +20,31 @@ def addComment(request):
             userId= request.POST.get("userId")
 
         text= request.POST.get('text')
+        profileId=Profile.objects.get(user_id=userId).id
         try:
             print(topicId,profile)
-            Com=Comment(topic_id=topicId,profile_id=userId)
+            Com=Comment(topic_id=topicId,profile_id=profileId)
             Com.save()
             Com.edit(text)
         except:
-            return HttpResponse("Comment Creation Error")
+            return HttpResponse("Comment Creation Error", status=400)
+        topic=Topic.objects.get(id=topicId)
+        topic.commented()
+        topic.save()
         try:
-            if(CommentedTopic.objects.filter(topic_id=topicId,user_id=userId).exists()):
-                ct=CommentedTopic.objects.get(topic_id=topicId,user_id=userId)
+            if(CommentedTopic.objects.filter(topic_id=topicId, profile_id=profileId).exists()):
+                ct=CommentedTopic.objects.get(topic_id=topicId, profile_id=profileId)
                 ct.visited()
                 ct.save()
             else:
-                ct=CommentedTopic(topic_id=topicId,user_id=userId)
+                ct=CommentedTopic(topic_id=topicId, profile_id=profileId)
                 ct.save()
         except:
-            return HttpResponse("Comment linking Error")
-        return HttpResponse("Comment Created")
+            return HttpResponse("Comment linking Error", status=400)
+        return HttpResponse(json.dumps({
+            "commentId": Com.id}),
+            status=200,
+            content_type="application/json")
 # example:
 # commentId: 1
 # text: HELP
@@ -48,19 +57,32 @@ def editComment(request):
         try:
             Com.edit(text)
         except:
-            HttpResponse("Comment Edit Error")
+            HttpResponse("Comment Edit Error", status=400)
 
         try:
-            ct = CommentedTopic.objects.get(topic_id=Com.topic,user_id=Com.profile)
+            ct = CommentedTopic.objects.get(topic_id=Com.topic,profile_id=Com.profile )
             ct.visited()
             ct.save()
         except:
-            return HttpResponse("Comment linking Error")
-        return HttpResponse("Comment Edited")
+            return HttpResponse("Comment linking Error", status=400)
+        return HttpResponse("Comment Edited", status=200)
 
-
-def deleteComment():
-    return
+#
+# TopicId=5
+# [Android] UserId=1
+@csrf_exempt
+def getUsersVotes(request):
+    if 'userId' not in request.GET:
+        userId = request.user.id
+    else:
+        userId = request.GET.get("UserId")
+    profileId=Profile.objects.get(user_id=userId).id
+    TopicId=int(request.GET.get('TopicId'))
+    Comments=Comment.objects.filter(topic_id=TopicId)
+    votes= list(Voter.objects.filter(comment__in=Comments,profile_id=profileId))
+    return HttpResponse(django.core.serializers.serialize('json',votes ),
+        status=200,
+        content_type="application/json")
 
 
 #
@@ -75,14 +97,14 @@ def rateComment(request):
         userId = request.user.id
     else:
         userId = request.POST.get("userId")
-
+    profileId=Profile.objects.get(user_id=userId).id
     direction = request.POST.get("direction")
-    if Voter.objects.filter(comment_id=comment, profile_id=userId):
-        voter = Voter.objects.get(comment_id=comment, profile_id=userId)
+    if Voter.objects.filter(comment_id=comment, profile_id=profileId):
+        voter = Voter.objects.get(comment_id=comment, profile_id=profileId)
         voter.toggle(direction)
         voter.save()
     else:
-        voter = Voter(comment_id=comment, profile_id=userId)
+        voter = Voter(comment_id=comment, profile_id=profileId)
         voter.toggle(direction)
         voter.save()
     return HttpResponse("Rated", status=200);

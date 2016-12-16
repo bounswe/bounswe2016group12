@@ -8,8 +8,8 @@ from .topic import Topic
 ### tag.Tag
 
 class Tag(Model):
-    label = CharField(max_length=20)
-    description = CharField(max_length=20)
+    label = CharField(max_length=30)
+    description = CharField(max_length=100)
     URL = URLField(default=None,blank=True,null=True)
 
     view_count = IntegerField(default=0)
@@ -34,7 +34,7 @@ class Tag(Model):
         self.save()
 
     class Meta:
-        unique_together = (('URL', ), ('label', 'description'))
+        unique_together = (('URL','label', 'description'))
 
 ### tag.OfTopic
 

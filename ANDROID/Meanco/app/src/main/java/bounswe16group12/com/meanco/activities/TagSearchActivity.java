@@ -17,6 +17,9 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,8 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
     //String title;
     SearchView searchView;
     ListView listView;
+    private Tracker mTracker;
+
     public static ArrayList<Tag> checkedTags = new ArrayList<>();
 
     public static TagSearchAdapter adapter;
@@ -45,6 +50,11 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         super.onCreate(savedInstanceState);
 
         final String intentFromDetail = getIntent().getStringExtra("ifDetail");
+
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("TAG_SEARCH_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         setContentView(R.layout.activity_tag_search);
 

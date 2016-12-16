@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
@@ -29,10 +31,19 @@ import bounswe16group12.com.meanco.utils.Functions;
 
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
+    public static CustomTopicDetailAdapter adapter;
+    public static ListView listView;
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
+
+        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        mTracker.setScreenName("TOPIC_DETAIL_ACTIVITY");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         int topicId = getIntent().getIntExtra("topicId",-1);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
@@ -45,8 +56,6 @@ public class TopicDetailActivity extends AppCompatActivity {
                     findViewById(R.id.listView_topic_comments), this, "Comment");
 
         }
-
-
 
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
@@ -69,7 +78,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString());
+                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString(),Functions.getUsername(getApplicationContext()));
                                             new PostComment(MeancoApplication.POST_COMMENT_URL, c, getApplicationContext()).execute();
                                         }
                                     })
@@ -83,8 +92,6 @@ public class TopicDetailActivity extends AppCompatActivity {
                     }
                 }
         );
-
-
         FloatingActionButton tag_fab = (FloatingActionButton) findViewById(R.id.fabTag);
         tag_fab.setOnClickListener(
                 new View.OnClickListener() {
