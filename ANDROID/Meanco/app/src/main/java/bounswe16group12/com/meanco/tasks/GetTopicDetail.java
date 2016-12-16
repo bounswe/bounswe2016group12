@@ -42,13 +42,12 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                 if (response.getResponseCode() == 200) {
                     JSONArray commentsObject = jsonObject.getJSONArray("comments");
                     for(int i=0;i<commentsObject.length();i++){
-
                         JSONObject topicObject = commentsObject.getJSONObject(i);
                         int commentId = topicObject.getInt("id");
+                        String username = topicObject.getString("profile");
                         JSONArray versions = topicObject.getJSONArray("versions");
                         JSONObject contentObject = versions.getJSONObject(0);
                         String content = contentObject.getString("content");
-                        String username = contentObject.getString("profile");
 
                         Comment c = new Comment(commentId, topicId, content,username);
                         databaseHelper.addComment(c);

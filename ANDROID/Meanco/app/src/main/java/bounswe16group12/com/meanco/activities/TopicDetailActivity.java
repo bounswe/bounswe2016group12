@@ -26,6 +26,7 @@ import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.FollowTopic;
 import bounswe16group12.com.meanco.tasks.PostComment;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -128,11 +129,11 @@ public class TopicDetailActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id==R.id.action_follow){
-            //TODO: send task here.
-            //if(notFollowed)
-            item.setIcon(R.drawable.followed);
-            //else
-            //item.setIcon(R.drawable.follow);
+            new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL,topic.topicId,getApplicationContext());
+            if(!item.isChecked())
+                item.setIcon(R.drawable.followed);
+            else
+                item.setIcon(R.drawable.follow);
         }
 
         return super.onOptionsItemSelected(item);

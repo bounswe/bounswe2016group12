@@ -69,7 +69,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         contentTextView.setText(c.content);
         //usernameLayout = (LinearLayout) v.findViewById(R.id.username_linearlayout);
         usernameTextView = (TextView) v.findViewById(R.id.username_item);
-        usernameTextView.setText("username");
+        usernameTextView.setText(c.username);
 
         final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
         final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
