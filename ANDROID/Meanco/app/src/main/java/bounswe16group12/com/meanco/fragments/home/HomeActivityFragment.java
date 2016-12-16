@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +33,6 @@ import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
-import rm.com.longpresspopup.LongPressPopup;
-import rm.com.longpresspopup.LongPressPopupBuilder;
-import rm.com.longpresspopup.PopupInflaterListener;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -43,12 +43,14 @@ public class HomeActivityFragment extends Fragment{
     public static ListView relationsListView;
     public static CustomTopicDetailAdapter relationAdapter;
     public static List<Relation> relations;
-
+    private Tracker mTracker;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
+        mTracker.setScreenName("HOME_FRAGMENT");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
 

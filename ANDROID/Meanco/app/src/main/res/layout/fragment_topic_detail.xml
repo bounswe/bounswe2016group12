@@ -43,7 +43,7 @@
         android:layout_marginBottom="10dp"
         android:layout_below="@+id/commenttext"
         android:divider="@color/colorPrimaryDark"
-        android:dividerHeight="4px"
+        android:dividerHeight="2dp"
         android:fadeScrollbars="false"
          />
 </RelativeLayout>

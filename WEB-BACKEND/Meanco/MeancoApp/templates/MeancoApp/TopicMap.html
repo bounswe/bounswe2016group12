@@ -15,7 +15,7 @@
             {% for topic in topics %}
                 {% for relation in topic.relations_a.all %}
                     {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
-                        arrows: 'from', label: '{{ relation.label }}', font: {align: 'top'}},
+                        arrows: 'to', label: '{{ relation.label }}', font: {align: 'top'}},
                 {% endfor %}
             {% endfor %}
         ]);
