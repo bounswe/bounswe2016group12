@@ -128,7 +128,7 @@
     var tags = [];
 
     function pickTag(id){
-        console.log("a tag is picked!");
+        console.log("Tag is picked!");
         console.log("Tag label: " + tags[id].label);
         $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\" readonly=\"readonly\">");
         console.log("Tag description: " + tags[id].description);
@@ -211,7 +211,7 @@
                 return;
             }
             $.ajax({
-                url: "API/AddTopic",
+                url: "{% url 'addTopic' %}",
                 type: "post",
                 data: serializedData,
                 cache: 'false',
@@ -339,7 +339,7 @@
             }
 
             $.ajax({
-                url: "API/TopicLister",
+                url: "{% url 'listTopic' %}",
                 type: "get",
                 data: "search=" + str,
                 cache: 'false',
@@ -410,7 +410,7 @@
                 return;
             }
             $.ajax({
-                url: "API/AddRelation",
+                url: "{% url 'addRelation' %}",
                 type: "post",
                 data: serializedData,
                 cache: 'false',
