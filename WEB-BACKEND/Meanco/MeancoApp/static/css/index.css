@@ -45,3 +45,26 @@
 .resultbottom {
 	margin-bottom: 15px;
 }
+
+ul.tag-list:hover li {
+	opacity: 0.5;
+}
+
+ul.tag-list li:hover {
+	opacity: 1;
+}
+
+span.label:hover + span.label-desc {
+	display: block;
+	position: absolute;
+	z-index: +1;
+	background-color: whitesmoke;
+	font-size: medium;
+	font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-style: italic;
+	text-align: center;
+}
+
+span.label-desc {
+	display: none;
+}

@@ -6,12 +6,13 @@
 
     <div class="col-md-4">
         <h1> {{ topic.label }} </h1>
-        <ul style="list-style-type:none">
+        <ul style="list-style-type:none" class="tag-list">
             {% for of in oftopic %}
                 <li>
                     <h3>
-                        <span class="label label-default" style="width: 10px; overflow-x: scroll">
+                        <span class="label label-default">
                             {{ of.tag.label }} </span>
+                        <span class="label-desc">{{ of.tag.description }}</span>
                     </h3>
                 </li>
             {% endfor %}
