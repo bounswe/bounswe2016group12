@@ -65,33 +65,9 @@ public class DbUnitTests {
         assertThat(newTopics.get(0).topicId, is(Integer.MIN_VALUE));
     }
 
-    @Test
-    public void test3UpdateTagsOfTopic() {
-
-        ArrayList<Tag> tagList = new ArrayList<>();
-        tagList.add(new Tag(-5, "context of test", "tag of test", "www.google.com"));
-        Topic t = new Topic(Integer.MIN_VALUE, "deneme", tagList);
-        DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addTopic(t);
-
-        t = DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).getAllTopics().get(0);
-
-        Log.i("tag", t.topicName);
-        List<Tag> tags = DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).getAllTags(Integer.MIN_VALUE);
-
-        //Log.i("tag", tags.get(0).tagName);
-        tags.add(new Tag(-6, "context of test", "tag of test", "www.google2.com"));
-        DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addTopic(t);
-
-        t = DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).getTopic(Integer.MIN_VALUE);
-
-        assertThat(t.tags.get(0).tagId, is(-5));
-        assertThat(t.tags.get(1).tagId, is(-6));
-
-
-    }
 
     @Test
-    public void test4EditComment() {
+    public void test3EditComment() {
 
         DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addComment(new Comment(-10, Integer.MIN_VALUE, "deneme", "ezgi"));
 
@@ -107,7 +83,7 @@ public class DbUnitTests {
     }
 
     @Test
-    public void test5DeleteAllComments() {
+    public void test4DeleteAllComments() {
         DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).clearTable(2);
         List<Comment> newComments = DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).getAllComments(Integer.MIN_VALUE);
 

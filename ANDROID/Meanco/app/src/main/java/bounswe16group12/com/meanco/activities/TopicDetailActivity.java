@@ -156,18 +156,21 @@ public class TopicDetailActivity extends AppCompatActivity {
          */
         int id = item.getItemId();
         if(id==R.id.action_follow){
-            new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL,topic.topicId,getApplicationContext()).execute();
-            if(!item.isChecked()) {
-                item.setIcon(R.drawable.followed);
-                item.setChecked(true);
-                Toast.makeText(getApplicationContext(), "Topic Followed.",
-                        Toast.LENGTH_SHORT).show();
-            }
+            if(Functions.getUserId(TopicDetailActivity.this)==-1)
+                Functions.showNotLoggedInAlert(TopicDetailActivity.this);
             else {
-                item.setIcon(R.drawable.follow);
-                item.setChecked(false);
-                Toast.makeText(getApplicationContext(), "Topic Unfollowed.",
-                        Toast.LENGTH_SHORT).show();
+                new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL, topic.topicId, getApplicationContext());
+                if (!item.isChecked()) {
+                    item.setIcon(R.drawable.followed);
+                    item.setChecked(true);
+                    Toast.makeText(getApplicationContext(), "Topic Followed.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    item.setIcon(R.drawable.follow);
+                    item.setChecked(false);
+                    Toast.makeText(getApplicationContext(), "Topic Unfollowed.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
