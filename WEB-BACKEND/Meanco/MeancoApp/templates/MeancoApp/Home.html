@@ -12,6 +12,12 @@
 
     <title>MeanCo</title>
 
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -37,10 +43,49 @@
     <div id="page-content-wrapper">
 
         <div class="container-fluid" style="margin-top:50px">
+            {% block content %}
+            {% endblock %}
+            {% comment %}
+            <div class="row">
+            <div class="col-lg-9">
+                    {% block content %}
+                {% endblock %}
+            </div>
 
-        {% block content %}
 
-        {% endblock %}
+                <div class="col-lg-3">
+                      <ul class="sidebar-nav affix" >
+                          <li>
+                            <div class="Followed">
+                              <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>Followed Topics</th>
+                                  </tr>
+                                </thead>
+                                  <tbody>
+
+                                  </tbody>
+                              </table>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="Followed">
+                              <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>Followed Users</th>
+                                  </tr>
+                                </thead>
+                                  <tbody>
+                                  </tbody>
+                              </table>
+                            </div>
+                          </li>
+                      </ul>
+                </div>
+            </div>
+            {% endcomment %}
 
 
         </div>
@@ -50,8 +95,6 @@
   </div>
     <!-- /#wrapper -->
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 </body>
 </html>

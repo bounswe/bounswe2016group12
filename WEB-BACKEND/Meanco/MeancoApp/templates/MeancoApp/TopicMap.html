@@ -40,7 +40,7 @@
         network.on("doubleClick", function (params) {
             if (params.nodes[0] != null) {
                 location.href = "topic/" + params.nodes[0];
-            } else {
+            } else if(params.edges[0] != null){
                 location.href = "relation/" + params.edges[0];
             }
         });
