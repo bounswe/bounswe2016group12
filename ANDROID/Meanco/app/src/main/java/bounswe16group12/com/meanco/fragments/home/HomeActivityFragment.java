@@ -25,7 +25,6 @@ import bounswe16group12.com.meanco.adapters.RelationsAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
-import bounswe16group12.com.meanco.tasks.GetCommentVotes;
 import bounswe16group12.com.meanco.tasks.GetTopicDetail;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
 

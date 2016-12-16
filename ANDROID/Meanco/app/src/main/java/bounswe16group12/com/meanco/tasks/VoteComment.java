@@ -53,7 +53,8 @@ public class VoteComment extends AsyncTask<Void,Void,Connect.APIResult> {
                 if (responseStr != null) {
                     if (response.getResponseCode() == 200) {
                         Log.i("VOTE_COMMENT",responseStr);
-                        new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL,comment.topicId,context).execute();
+                        if(Functions.getUserId(context)!=-1)
+                            new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL,comment.topicId,context).execute();
                     } else {
                         Log.i("VOTE_COMMENT", "FAILED");
                     }
