@@ -47,6 +47,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 if (response.getResponseCode() == 200) {
+                    Log.i("GET_LIST",response.getData());
                     for(int i=0;i<jsonArray.length();i++){
 
                         ArrayList<Tag> tagsArray = new ArrayList<>();
@@ -97,7 +98,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
 
-                new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context);
+                new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context).execute();
             }
         } catch (JSONException e) {
 
