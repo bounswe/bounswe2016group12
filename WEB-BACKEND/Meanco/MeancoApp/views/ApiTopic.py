@@ -101,14 +101,13 @@ def searchTopic(request):
 @csrf_exempt
 def followTopic(request):
     if (request.method=="POST"):
-        TopicId = request.POST.get('TopicId')
+        TopicId = int(request.POST.get('TopicId'))
 
         if 'UserId' not in request.POST:
             UserId = request.user.id
         else:
-            UserId = request.POST.get("UserId")
-        profileId=Profile.objects.get(user_id=UserId)
-
+            UserId = int(request.POST.get("UserId"))
+        profileId=Profile.objects.get(user_id=UserId).id
         try:
             if(FollowedTopic.objects.filter(profile_id=profileId, topic_id=TopicId).exists()):
                 ft=FollowedTopic.objects.get(profile_id=profileId, topic_id=TopicId)
@@ -131,7 +130,7 @@ def topicListerGet(request):
 # (Android)UserId:5
 def getFollowedTopics(request):
     if (request.method=="GET"):
-        if 'UserId' not in request.POST:
+        if 'UserId' not in request.GET:
             UserId = request.user.id
         else:
             UserId = request.GET.get("UserId")
@@ -147,7 +146,7 @@ def getFollowedTopics(request):
 def getViewedTopics(request):
     TopicCount=int(request.GET.get("TopicCount"))
     if (request.method=="GET"):
-        if 'UserId' not in request.POST:
+        if 'UserId' not in request.GET:
             UserId = request.user.id
         else:
             UserId = request.GET.get("UserId")
@@ -164,7 +163,7 @@ def getViewedTopics(request):
 def getCommentedTopics(request):
     TopicCount=int(request.GET.get("TopicCount"))
     if (request.method=="GET"):
-        if 'UserId' not in request.POST:
+        if 'UserId' not in request.GET:
             UserId = request.user.id
         else:
             UserId = request.GET.get("UserId")
