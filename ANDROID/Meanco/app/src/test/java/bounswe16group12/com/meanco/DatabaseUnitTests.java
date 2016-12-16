@@ -1,6 +1,13 @@
 package bounswe16group12.com.meanco;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
+import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.objects.Topic;
 
 import static org.junit.Assert.*;
 
@@ -9,9 +16,12 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
+public class DatabaseUnitTests {
+
+
+
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void getAllTopicsFromDb() throws Exception {
+
     }
 }

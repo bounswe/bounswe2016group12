@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,10 +29,11 @@ import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Tag;
+import bounswe16group12.com.meanco.tasks.GetTopicList;
 import bounswe16group12.com.meanco.utils.Functions;
 
 
-public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     static ArrayList<Tag> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
     private Tracker mTracker;
@@ -49,8 +51,21 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         String logStringOnMenu = "Log";
         if(Functions.getUserId(HomeActivity.this) == -1)
             logStringOnMenu+="in";
-        else
-            logStringOnMenu+="out";
+        else {
+
+            menu.add("Profile").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+            logStringOnMenu += "out";
+
+        }
+
+
 
         menu.add(logStringOnMenu).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -64,6 +79,8 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
             }
         });
 
+
+
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchView != null) {
@@ -73,15 +90,24 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
         }
 
+
+
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 searchView.clearFocus(); //to close soft keyboard when collapsed
+
+
                 return true;  // Return true to collapse action view
             }
 
             @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {return true;}
+            public boolean onMenuItemActionExpand(MenuItem item) {
+
+
+
+                return true;
+            }
         });
 
         return super.onCreateOptionsMenu(menu);
@@ -215,7 +241,4 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onBackPressed() {
         //Blocks  return action of back button to prevent user go back to login page.
     }
-
-
-
 }

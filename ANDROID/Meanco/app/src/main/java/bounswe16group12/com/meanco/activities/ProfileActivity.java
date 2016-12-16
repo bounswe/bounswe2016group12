@@ -12,11 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.fragments.profile.CommentsFragment;
+import bounswe16group12.com.meanco.fragments.profile.FollowFragment;
+import bounswe16group12.com.meanco.utils.Functions;
 
-public class ProfileActivity {//extends AppCompatActivity implements CommentsFragment.OnFragmentInteractionListener, FollowFragment.OnFragmentInteractionListener {
-/*    private Tracker mTracker;
+public class ProfileActivity extends AppCompatActivity {
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,8 @@ public class ProfileActivity {//extends AppCompatActivity implements CommentsFra
         mTracker.setScreenName("PROFILE_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         mTracker.enableAutoActivityTracking(true);
+
+        setTitle(Functions.getUsername(ProfileActivity.this));
 
         setContentView(R.layout.activity_profile);
 
@@ -40,10 +48,6 @@ public class ProfileActivity {//extends AppCompatActivity implements CommentsFra
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     public class ProfileAdapter extends FragmentPagerAdapter {
 
@@ -55,10 +59,10 @@ public class ProfileActivity {//extends AppCompatActivity implements CommentsFra
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new BioFragment();
+                    return new FollowFragment();
                 case 1:
                 default:
-                    return new NotificationsFragment();
+                    return new CommentsFragment();
             }
         }
 
@@ -71,13 +75,13 @@ public class ProfileActivity {//extends AppCompatActivity implements CommentsFra
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "BIO";
+                    return "FOLLOWED TOPICS";
                 case 1:
                 default:
-                    return "NOTIFICATIONS";
+                    return "CONTRIBUTIONS";
             }
         }
 
 
-    }*/
+    }
 }

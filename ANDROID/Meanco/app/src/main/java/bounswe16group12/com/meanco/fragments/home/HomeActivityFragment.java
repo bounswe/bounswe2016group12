@@ -130,6 +130,7 @@ public class HomeActivityFragment extends Fragment{
                     public void onRefresh() {
                         // This method performs the actual data-refresh operation.
                         // The method calls setRefreshing(false) when it's finished.
+
                         new GetTopicList(MeancoApplication.SITE_URL, getContext()).execute();
                         refreshLayout.setRefreshing(false);
                     }
