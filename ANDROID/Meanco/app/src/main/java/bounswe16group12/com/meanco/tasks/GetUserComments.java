@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
@@ -42,7 +43,7 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
 
             if (jsonArray != null) {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-                List<Comment> comments = new ArrayList<Comment>();
+                List<Comment> comments = new ArrayList<>();
                 if (response.getResponseCode() == 200) {
                     for(int i=0;i<jsonArray.length();i++){
                         JSONObject topicObject = jsonArray.getJSONObject(i);
@@ -54,11 +55,9 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
                                 comments.add(c);
                             }
                         }
-                        //TODO: Add comments into adapter
-
                     }
+                    MeancoApplication.topicCommentIds = comments;
                 }
-                TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
             }
         } catch (JSONException e) {
             e.printStackTrace();

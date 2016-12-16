@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetTopicList;
 
@@ -39,6 +40,7 @@ public class MeancoApplication extends Application {
     public static final String GET_FOLLOWED_TOPICS_URL = BASE_URL + "GetFollowedTopic";
 
     public static List<Integer> followedTopicList;
+    public static List<Comment> topicCommentIds;
 
     private static final String GOOGLE_ANALYTICS_KEY = "UA-39760660-5";
 
