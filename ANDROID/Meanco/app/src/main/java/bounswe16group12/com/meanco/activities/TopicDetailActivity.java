@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.analytics.HitBuilders;
@@ -130,10 +131,18 @@ public class TopicDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id==R.id.action_follow){
             new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL,topic.topicId,getApplicationContext());
-            if(!item.isChecked())
+            if(!item.isChecked()) {
                 item.setIcon(R.drawable.followed);
-            else
+                item.setChecked(true);
+                Toast.makeText(getApplicationContext(), "Topic Followed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else {
                 item.setIcon(R.drawable.follow);
+                item.setChecked(false);
+                Toast.makeText(getApplicationContext(), "Topic Unfollowed.",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
