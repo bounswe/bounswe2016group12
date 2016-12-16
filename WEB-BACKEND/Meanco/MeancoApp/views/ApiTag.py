@@ -25,7 +25,7 @@ def addTag(request):
             else:
                 tt = OfTopic(topic_id=topicId, tag_id=tagModel.id)
                 tt.save()
-            #tagModel.topic_tagged()
+                tagModel.topic_tagged()
         except:
             return HttpResponse("Tag Linking Error:", status=400)
     else:
@@ -37,7 +37,7 @@ def addTag(request):
         try:
             tt = OfTopic(topic_id=topicId, tag_id=tagModel.id)
             tt.save()
-            #tagModel.topic_tagged()
+            tagModel.topic_tagged()
         except:
             return HttpResponse("Tag Linking error", status=400)
     return HttpResponse(json.dumps({

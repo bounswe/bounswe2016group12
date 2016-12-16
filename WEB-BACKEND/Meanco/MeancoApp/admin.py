@@ -8,6 +8,7 @@ admin.site.register(profile.ViewedTopic)
 admin.site.register(profile.CommentedTopic)
 
 admin.site.register(topic.Topic)
+admin.site.register(topic.TopicRef)
 
 admin.site.register(tag.Tag)
 admin.site.register(tag.OfTopic)

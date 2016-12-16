@@ -7,6 +7,7 @@ import django.core.serializers
 from django.conf.urls import  url
 from rest_framework import generics
 from MeancoApp.serializers import *
+from MeancoApp.functions.search import *
 # Example Post Request to addTopic
 #
 # topicName="Donald Trump"
@@ -17,7 +18,7 @@ from MeancoApp.serializers import *
 @csrf_exempt
 def addTopic(request):
     if request.method== 'POST':
-        topicName=request.POST.get('topicName')
+        topicName=request.POST.get('topicName').capitalize()
         tag = request.POST.get('tag')
         description =request.POST.get('description')
         URL = request.POST.get('URL')
@@ -26,6 +27,10 @@ def addTopic(request):
             t.save()
         except:
             return HttpResponse("Topic Couldn't be created:", status=400)
+        try:
+            getRefOfTopic(topicName,t.id)
+        except:
+            print("refError")
         if Tag.objects.filter(URL = URL).exists():
             try:
                 tagModel=Tag.objects.get(URL = URL)
@@ -34,7 +39,7 @@ def addTopic(request):
                 else:
                     tt=OfTopic(topic_id=t.id,tag_id=tagModel.id)
                     tt.save()
-                #tagModel.topic_tagged()
+                    tagModel.topic_tagged()
             except:
                 return HttpResponse("Tag Linking Error:", status=400)
         else :
@@ -46,7 +51,7 @@ def addTopic(request):
             try:
                 tt = OfTopic(topic_id=t.id, tag_id=tagModel.id)
                 tt.save()
-                #tagModel.topic_tagged()
+                tagModel.topic_tagged()
             except:
                 return HttpResponse("Tag Linking error", status=400)
         return HttpResponse(json.dumps({
@@ -63,36 +68,21 @@ def addTopic(request):
 def searchTopic(request):
     if request.method== 'GET':
         searchParam=request.GET.get("search")
-        topics= Topic.objects.filter(label__startswith=searchParam)
-
-        if(topics.count()!=1):
-            return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
-        else:
-            TopicTags=OfTopic.objects.filter(topic_id=topics.values('id'))
-            tagsOfTopic=list(TopicTags.values_list('tag_id'))
-            tagsOfTopic=list(topicTag[0] for topicTag in tagsOfTopic)
-            topicsWithCountOfTags={}
-            for t in OfTopic.objects.all():
-                if not t.topic_id in topicsWithCountOfTags:
-                    topicsWithCountOfTags[t.topic_id]={
-                        'count':0
-                    }
-                print(t.tag_id)
-                if t.tag_id in tagsOfTopic:
-                    print("here")
-                    topicsWithCountOfTags[t.topic_id]['count']+=1
-            print(topicsWithCountOfTags)
-            topicsToRemove=list()
-            for t in topicsWithCountOfTags.keys():
-                if topicsWithCountOfTags[t]['count']==0:
-                    topicsToRemove.append(t)
-            for t in topicsToRemove:
-                topicsWithCountOfTags.pop(t)
-            topicData = list(Topic.objects.filter(id__in=topicsWithCountOfTags.keys()))
-            print(topicData)
-            topicData= sorted(topicData, key=lambda obj:topicsWithCountOfTags[obj.id]['count'],reverse=True)[0:3]
-            print(topicData)
+        try:
+            topics1 = findStringMatchedTopics(searchParam)
+            topics2= findMutuallyTaggedTopics(searchParam)
+            topics3 =findRefTopics(searchParam)
+            topics=topics1
+            for i in topics2:
+                if i not in topics:
+                    topics.append(i)
+            for i in topics3:
+                if i not in topics:
+                    topics.append(i)
+            topicData=Topic.objects.filter(id__in=topics).order_by("-view_count")
             return HttpResponse(django.core.serializers.serialize('json',topicData), content_type='json')
+        except:
+            return HttpResponse("Error",status=400)
     else:
         return HttpResponse("Wrong Request", status=400)
 
@@ -101,14 +91,13 @@ def searchTopic(request):
 @csrf_exempt
 def followTopic(request):
     if (request.method=="POST"):
-        TopicId = request.POST.get('TopicId')
+        TopicId = int(request.POST.get('TopicId'))
 
         if 'UserId' not in request.POST:
             UserId = request.user.id
         else:
-            UserId = request.POST.get("UserId")
-        profileId=Profile.objects.get(user_id=UserId)
-
+            UserId = int(request.POST.get("UserId"))
+        profileId=Profile.objects.get(user_id=UserId).id
         try:
             if(FollowedTopic.objects.filter(profile_id=profileId, topic_id=TopicId).exists()):
                 ft=FollowedTopic.objects.get(profile_id=profileId, topic_id=TopicId)
@@ -124,14 +113,14 @@ def followTopic(request):
 # search= Donald
 
 def topicListerGet(request):
-    searchParam = request.GET.get("search")
+    searchParam = request.GET.get("search").capitalize()
     topics = Topic.objects.filter(label__startswith=searchParam)
     return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
 
 # (Android)UserId:5
 def getFollowedTopics(request):
     if (request.method=="GET"):
-        if 'UserId' not in request.POST:
+        if 'UserId' not in request.GET:
             UserId = request.user.id
         else:
             UserId = request.GET.get("UserId")
@@ -147,7 +136,7 @@ def getFollowedTopics(request):
 def getViewedTopics(request):
     TopicCount=int(request.GET.get("TopicCount"))
     if (request.method=="GET"):
-        if 'UserId' not in request.POST:
+        if 'UserId' not in request.GET:
             UserId = request.user.id
         else:
             UserId = request.GET.get("UserId")
@@ -164,7 +153,7 @@ def getViewedTopics(request):
 def getCommentedTopics(request):
     TopicCount=int(request.GET.get("TopicCount"))
     if (request.method=="GET"):
-        if 'UserId' not in request.POST:
+        if 'UserId' not in request.GET:
             UserId = request.user.id
         else:
             UserId = request.GET.get("UserId")

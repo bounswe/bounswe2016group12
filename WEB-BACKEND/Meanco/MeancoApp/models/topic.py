@@ -28,3 +28,7 @@ class Topic(Model):
     def comment_removed(self):
         self.comment_count -= 1
         self.save()
+
+class TopicRef(Model):
+    topic= ForeignKey(Topic, on_delete=CASCADE, related_name='references')
+    qId = CharField(max_length=20)

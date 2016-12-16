@@ -14,6 +14,8 @@ def get_page(request,id):
         topic_a=topic_b
         topic_b=temp
     relations= Relation.objects.filter(Q(topic_a_id=topic_a,topic_b_id=topic_b) | Q(topic_a_id=topic_b,topic_b_id=topic_a,isBidirectional=False)).order_by("-vote_count")
+    topic_a=Topic.objects.get(id=topic_a)
+    topic_b=Topic.objects.get(id=topic_b)
     if _platform == "win32":
         return render(request, 'MeancoApp\RelationView.html' , {'relations': relations, 'id': id,'topic_a':topic_a,'topic_b':topic_b})
     else:

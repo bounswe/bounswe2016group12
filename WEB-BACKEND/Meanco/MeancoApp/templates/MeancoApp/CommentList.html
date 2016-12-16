@@ -49,12 +49,12 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3">Description:</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="description" disabled>
+                        <input type="text" class="form-control" id="cDescription" disabled>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-8">
-                        <input type="hidden" class="form-control" id="URL">
+                        <input type="hidden" class="form-control" id="cURL">
                     </div>
                 </div>
             </form>
@@ -66,11 +66,11 @@
         </form>
 
             <script>
-    function pickTag(id, label, description, url){
-        console.log("Topic is picked.");
+    function pickATag(id, label, description, url){
+        console.log("A tag is picked.");
         $('#label').replaceWith("<input type=\"text\" class=\"form-control\" id=\"label\" name=\"newTagName\" onkeyup=\"showTags(this.id, this.value)\" value=\"" + label + "\">");
-        $('#description').replaceWith("<textarea class=\"form-control\" id=\"description\" value=\"" + description + "\" disabled>" + description + "</textarea>");
-        $('#URL').replaceWith("<input type=\"hidden\" class=\"form-control\" id=\"URL\" value=\"" + url + "\">");
+        $('#cDescription').replaceWith("<textarea class=\"form-control\" id=\"cDescription\" value=\"" + description + "\" disabled>" + description + "</textarea>");
+        $('#cURL').replaceWith("<input type=\"hidden\" class=\"form-control\" id=\"cURL\" value=\"" + url + "\">");
         $('#tag-id').val(id);
         $('#livesearch-tag').replaceWith('<ul id="livesearch-tag"><ul>');
     }
@@ -95,8 +95,8 @@
                         console.log("Tag could not be found in wikidata.");
                         $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag could not be found in wikidata.</p>");
                         $("#label").replaceWith('<input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">');
-                        $("#description").replaceWith('<textarea class="form-control" id="description" disabled></textarea>');
-                        $("#url").replaceWith('<input type="hidden" class="form-control" id="URL">');
+                        $("#cDescription").replaceWith('<textarea class="form-control" id="cDescription" disabled></textarea>');
+                        $("#cURL").replaceWith('<input type="hidden" class="form-control" id="cURL">');
                     }else{
                         $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
 
@@ -107,7 +107,7 @@
                                     label = response.search[i].label;
                                     description = response.search[i].description;
                                     url = response.search[i].concepturi;
-                                    result += '<li id=' + i + ' onclick="pickTag(' + i + ',\'' + label + '\', \'' + description + '\', \'' + url + '\')">' + label + ' (' + description + ')</li>';
+                                    result += '<li id=' + i + ' onclick="pickATag(' + i + ',\'' + label + '\', \'' + description + '\', \'' + url + '\')">' + label + ' (' + description + ')</li>';
                                 }else{
                                     console.log("There is a tag with disambiguous description.");
                                 }
@@ -135,8 +135,8 @@
             var serializedData = {
                 topicId: {{ topic.id }},
                 label: $('#label').val(),
-                description: $('#description').val(),
-                URL: $('#URL').val()
+                description: $('#cDescription').val(),
+                URL: $('#cURL').val()
             };
             console.log("post data: " + serializedData);
             console.log("form submitted!");  // sanity check

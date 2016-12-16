@@ -22,15 +22,15 @@ class Tag(Model):
         return str(self.pk)
 
     def viewed(self):
-        self.view_count.value += 1
+        self.view_count += 1
         self.save()
 
     def topic_tagged(self):
-        self.topic_count.value += 1
+        self.topic_count += 1
         self.save()
 
     def topic_tag_removed(self):
-        self.topic_count.value -= 1
+        self.topic_count -= 1
         self.save()
 
     class Meta:
