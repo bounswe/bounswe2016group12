@@ -10,8 +10,9 @@
             {% for of in oftopic %}
                 <li>
                     <h3>
-                        <span class="label label-default" style="width: 10px; overflow-x: scroll">
+                        <span class="label label-default">
                             {{ of.tag.label }} </span>
+                        <span class="description">{{ of.tag.description }}</span>
                     </h3>
                 </li>
             {% endfor %}

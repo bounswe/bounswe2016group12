@@ -45,3 +45,12 @@
 .resultbottom {
 	margin-bottom: 15px;
 }
+
+
+span.label:hover + span.description {
+	display: block;
+}
+
+span.description {
+	display: none;
+}
