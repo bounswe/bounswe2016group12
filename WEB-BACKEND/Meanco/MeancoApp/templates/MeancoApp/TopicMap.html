@@ -7,15 +7,23 @@
 
         var nodes = new vis.DataSet([
             {% for topic in topics %}
-                {id: {{ topic.id }}, label: '{{ topic.label }}', color:'#C2FABC'},
+                {id: {{ topic.id }}, label: '{{ topic.label }}', group: {{ topic.view_count }},
+                    value: {{ topic.comment_count }} ,shadow:{color:'rgb(0,0,0)'}},
             {% endfor %}
         ]);
 
         var edges = new vis.DataSet([
             {% for topic in topics %}
                 {% for relation in topic.relations_a.all %}
-                    {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
-                        arrows: 'to', label: '{{ relation.label }}', font: {align: 'top'}},
+                    {% if relation.isBidirectional %}
+                        {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
+                            arrows: 'to, from', label: '{{ relation.label }}', font: {align: 'top'},
+                                shadow:{color:'rgb(0,100,0)'}},
+                    {% else %}
+                        {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
+                            arrows: 'to', label: '{{ relation.label }}', font: {align: 'top'},
+                                shadow:{color:'rgb(0,100,0)'}},
+                    {% endif %}
                 {% endfor %}
             {% endfor %}
         ]);
