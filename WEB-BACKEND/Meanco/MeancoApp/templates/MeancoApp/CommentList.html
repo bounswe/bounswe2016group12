@@ -4,195 +4,188 @@
 
     {% csrf_token %}
 
-    <style>
-        body {
-            padding-left: 250px;
-        }
-    </style>
-
     <div class="col-md-4">
         <h1> {{ topic.label }} </h1>
         <ul style="list-style-type:none">
             {% for of in oftopic %}
                 <li>
-                    <h4>
+                    <h3>
                         <span class="label label-default" style="width: 10px; overflow-x: scroll">
-                            {{ of.tag.label }} ({{ of.tag.description }})</span>
-                    </h4>
+                            {{ of.tag.label }} </span>
+                    </h3>
                 </li>
             {% endfor %}
         </ul>
 
         {% if user.is_authenticated %}
 
-        <form class="form-horizontal" id="addTagId" method="post">
-            <form class="form-horizontal">
-                <div class="form-group">
+            <form class="form-horizontal" id="addTagId" method="post">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div>
+                            <input type="hidden" class="form-control" id="topicId" value="{{ topic.id }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <input type="hidden" class="form-control" id="tag-id" value="-1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Tag:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">
+                        </div>
+                    </div>
                     <div>
-                        <input type="hidden" class="form-control" id="topicId" value="{{ topic.id }}">
+                        <ul id="livesearch-tag"></ul>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-9">
-                        <input type="hidden" class="form-control" id="tag-id" value="-1">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Description:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="cDescription" disabled>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Tag:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <input type="hidden" class="form-control" id="cURL">
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div>
-                    <ul id="livesearch-tag"></ul>
+                    <button type="submit" id="tagSubmitId" class="btn btn-success">Add Tag</button>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Description:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="cDescription" disabled>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-8">
-                        <input type="hidden" class="form-control" id="cURL">
-                    </div>
-                </div>
+                <p id="tagWarningId"></p>
             </form>
-            <div>
-                <button type="submit" id="tagSubmitId" class="btn btn-success">Add Tag</button>
-            </div>
-            <p id="tagWarningId"></p>
+        {% endif %}
 
-        </form>
-
-            <script>
-    function pickATag(id, label, description, url){
-        console.log("A tag is picked.");
-        $('#label').replaceWith("<input type=\"text\" class=\"form-control\" id=\"label\" name=\"newTagName\" onkeyup=\"showTags(this.id, this.value)\" value=\"" + label + "\">");
-        $('#cDescription').replaceWith("<textarea class=\"form-control\" id=\"cDescription\" value=\"" + description + "\" disabled>" + description + "</textarea>");
-        $('#cURL').replaceWith("<input type=\"hidden\" class=\"form-control\" id=\"cURL\" value=\"" + url + "\">");
-        $('#tag-id').val(id);
-        $('#livesearch-tag').replaceWith('<ul id="livesearch-tag"><ul>');
-    }
-
-    function showTags(id, str) {
-
-        if (str.length != 0) {
-
-            $('#tag-id').val(-1);
-
-            $.ajax({
-                url: "https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+$('#label').val()+"&language=en&format=json",
-                type: "get",
-                cache: 'false',
-                dataType: "jsonp",
-                async: 'true',
-
-                success: function(response) {
-                    console.log(response);
-
-                    if(response.search.length == 0){
-                        console.log("Tag could not be found in wikidata.");
-                        $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag could not be found in wikidata.</p>");
-                        $("#label").replaceWith('<input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">');
-                        $("#cDescription").replaceWith('<textarea class="form-control" id="cDescription" disabled></textarea>');
-                        $("#cURL").replaceWith('<input type="hidden" class="form-control" id="cURL">');
-                    }else{
-                        $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
-
-                        result = '<ul class="result" id="livesearch-tag">';
-                        for (var i in response.search) {
-                            if (response.search[i].description) {
-                                if(!response.search[i].description.includes("disambiguation") && response.search[i].description.length <= 100 && response.search[i].label.length <= 30){
-                                    label = response.search[i].label;
-                                    description = response.search[i].description;
-                                    url = response.search[i].concepturi;
-                                    result += '<li id=' + i + ' onclick="pickATag(' + i + ',\'' + label + '\', \'' + description + '\', \'' + url + '\')">' + label + ' (' + description + ')</li>';
-                                }else{
-                                    console.log("There is a tag with disambiguous description.");
-                                }
-                            }else{
-                                console.log("There is a tag without description.");
-                            }
-                        }
-                        result += '</ul>';
-                        $('#livesearch-tag').replaceWith(result);
-                    }
-
-                },
-                error: function(response){
-                    console.log("Error!");
-                    console.log(response);
-                }
-            });
-        }
-    }
-
-    $(document).ready(function () {
-        $('#tagSubmitId').on('click', function(event){
-            event.preventDefault();
-            console.log("new tag is submitted.");  // sanity check
-            var serializedData = {
-                topicId: {{ topic.id }},
-                label: $('#label').val(),
-                description: $('#cDescription').val(),
-                URL: $('#cURL').val()
-            };
-            console.log("post data: " + serializedData);
-            console.log("form submitted!");  // sanity check
-
-            $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
-            if($("#label").val().length == 0 || $('#tag-id').val() == -1){
-                console.log("Empty tag field!");
-                $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Please choose a tag to add.</p>");
-                return;
+        <script>
+            function pickATag(id, label, description, url){
+                console.log("A tag is picked.");
+                $('#label').replaceWith("<input type=\"text\" class=\"form-control\" id=\"label\" name=\"newTagName\" onkeyup=\"showTags(this.id, this.value)\" value=\"" + label + "\">");
+                $('#cDescription').replaceWith("<textarea class=\"form-control\" id=\"cDescription\" value=\"" + description + "\" disabled>" + description + "</textarea>");
+                $('#cURL').replaceWith("<input type=\"hidden\" class=\"form-control\" id=\"cURL\" value=\"" + url + "\">");
+                $('#tag-id').val(id);
+                $('#livesearch-tag').replaceWith('<ul id="livesearch-tag"><ul>');
             }
-            $.ajax({
-                url: "{% url 'addTag'%}",
-                type: "post",
-                data: serializedData,
-                cache: 'false',
-                async: 'true',
 
-                success: function(response) {
-                    console.log("No error.");
-                    console.log(response);
-                    if(response.tagId){
-                        console.log("Tag exists now.");
-                        location.reload();
-                    }else if(response == "Already Tagged"){
-                        console.log("Tag is already linked.");
-                        $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag is already linked.</p>");
-                    }else{
-                        console.log("Tag cannot be created.");
-                        $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag cannot be created.</p>");
-                    }
-                },
-                error: function(response){
-                    console.log("Error: AddTag!");
-                    if(response == "Tag Linking Error:"){
-                        console.log("Tag Linking Error:");
-                    }else if(response == "Tag creation error"){
-                        console.log("Tag is already linked.");
-                    }else if(response == "Tag Linking error"){
-                        console.log("Tag Linking error");
-                    }else{
-                        console.log("Tag cannot be created.");
-                    }
-                    $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag cannot be created.</p>");
-                    console.log(response);
+            function showTags(id, str) {
+
+                if (str.length != 0) {
+
+                    $('#tag-id').val(-1);
+
+                    $.ajax({
+                        url: "https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+$('#label').val()+"&language=en&format=json",
+                        type: "get",
+                        cache: 'false',
+                        dataType: "jsonp",
+                        async: 'true',
+
+                        success: function(response) {
+                            console.log(response);
+
+                            if(response.search.length == 0){
+                                console.log("Tag could not be found in wikidata.");
+                                $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag could not be found in wikidata.</p>");
+                                $("#label").replaceWith('<input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">');
+                                $("#cDescription").replaceWith('<textarea class="form-control" id="cDescription" disabled></textarea>');
+                                $("#cURL").replaceWith('<input type="hidden" class="form-control" id="cURL">');
+                            }else{
+                                $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
+
+                                result = '<ul class="result" id="livesearch-tag">';
+                                for (var i in response.search) {
+                                    if (response.search[i].description) {
+                                        if(!response.search[i].description.includes("disambiguation") && response.search[i].description.length <= 100 && response.search[i].label.length <= 30){
+                                            label = response.search[i].label;
+                                            description = response.search[i].description;
+                                            url = response.search[i].concepturi;
+                                            result += '<li id=' + i + ' onclick="pickATag(' + i + ',\'' + label + '\', \'' + description + '\', \'' + url + '\')">' + label + ' (' + description + ')</li>';
+                                        }else{
+                                            console.log("There is a tag with disambiguous description.");
+                                        }
+                                    }else{
+                                        console.log("There is a tag without description.");
+                                    }
+                                }
+                                result += '</ul>';
+                                $('#livesearch-tag').replaceWith(result);
+                            }
+
+                        },
+                        error: function(response){
+                            console.log("Error!");
+                            console.log(response);
+                        }
+                    });
                 }
+            }
+
+            $(document).ready(function () {
+                $('#tagSubmitId').on('click', function(event){
+                    event.preventDefault();
+                    console.log("new tag is submitted.");  // sanity check
+                    var serializedData = {
+                        topicId: {{ topic.id }},
+                        label: $('#label').val(),
+                        description: $('#cDescription').val(),
+                        URL: $('#cURL').val()
+                    };
+                    console.log("post data: " + serializedData);
+                    console.log("form submitted!");  // sanity check
+
+                    $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
+                    if($("#label").val().length == 0 || $('#tag-id').val() == -1){
+                        console.log("Empty tag field!");
+                        $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Please choose a tag to add.</p>");
+                        return;
+                    }
+                    $.ajax({
+                        url: "{% url 'addTag'%}",
+                        type: "post",
+                        data: serializedData,
+                        cache: 'false',
+                        async: 'true',
+
+                        success: function(response) {
+                            console.log("No error.");
+                            console.log(response);
+                            if(response.tagId){
+                                console.log("Tag exists now.");
+                                location.reload();
+                            }else if(response == "Already Tagged"){
+                                console.log("Tag is already linked.");
+                                $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag is already linked.</p>");
+                            }else{
+                                console.log("Tag cannot be created.");
+                                $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag cannot be created.</p>");
+                            }
+                        },
+                        error: function(response){
+                            console.log("Error: AddTag!");
+                            if(response == "Tag Linking Error:"){
+                                console.log("Tag Linking Error:");
+                            }else if(response == "Tag creation error"){
+                                console.log("Tag is already linked.");
+                            }else if(response == "Tag Linking error"){
+                                console.log("Tag Linking error");
+                            }else{
+                                console.log("Tag cannot be created.");
+                            }
+                            $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag cannot be created.</p>");
+                            console.log(response);
+                        }
+                    });
+
+                });
             });
 
-        });
-    });
-
-</script>
+        </script>
 
     </div>
 
-        {% endif %}
-    <div class="col-md-8" style="max-height: 440px ; overflow: scroll">
+    <div class="col-md-8">
         <div class="row" style="background-color:#C2FABC;">
             <div class="col-md-2" >
                 <h4> Votes </h4>
@@ -206,9 +199,9 @@
                 <h4> Up/Down Vote </h4>
             </div>
         </div>
-        <p></p>
         <hr>
 
+        <div style="overflow-y: scroll; max-height: 440px">
         {% for comment in comments %}
             <div class="row">
                 <div class="col-md-2">
@@ -250,6 +243,7 @@
             </form>
 
         {% endif %}
+        </div>
 
     </div>
 

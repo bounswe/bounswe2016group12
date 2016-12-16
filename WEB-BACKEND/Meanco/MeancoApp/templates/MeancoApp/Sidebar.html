@@ -10,7 +10,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for topic in popularTopics %}
+                    {% for topic in trendingTopics %}
                         <tr>
                             <td>{{ topic.label }}</td>
                         </tr>
@@ -29,9 +29,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for tag in popularTags %}
+                    {% for tag in trendingTags %}
                         <tr>
-                            <td>{{ tag.label }}</td>
+                            <td>{{ tag.tag.label }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
