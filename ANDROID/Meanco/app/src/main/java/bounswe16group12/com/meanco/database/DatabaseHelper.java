@@ -157,6 +157,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /*
+     * 0 : TOPIC
+     * 1 : TAG
+     * 2 : COMMENT
+     * 3 : RELATION
+     */
+    public void clearTable(int tableId){
+        String tableName = "";
+        switch(tableId) {
+            case 0 :
+                tableName = KEY_TOPIC_TABLE;
+                break; // optional
+            case 1 :
+                tableName = KEY_TAG_TABLE;
+                break; // optional
+            case 2 :
+                tableName = KEY_COMMENT_TABLE;
+                break; // optional
+            case 3 :
+                tableName = KEY_RELATION_TABLE;
+                break; // optional
+            // You can have any number of case statements.
+            default : // Optional
+                // Statements
+        }
+
+        getWritableDatabase().execSQL("DELETE FROM " + tableName);
+    }
+
+    /*
+     * Clear all tables
+     */
+    public void clearAll(){
+        for(int i=0;i<4;i++)
+            clearTable(i);
+    }
+
     //////////////////////////////////////////////////////////////////////////////////
     //TOPIC
     /////////////////////////////////////////////////////////////////////////////////

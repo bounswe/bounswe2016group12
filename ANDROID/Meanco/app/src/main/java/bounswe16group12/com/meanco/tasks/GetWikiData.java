@@ -55,7 +55,7 @@ public class GetWikiData extends AsyncTask<Void, Void, Connect.APIResult > {
                         if(!obj.has("description") || obj.getString("description").equals("Wikipedia disambiguation page")
                                 || obj.getString("description").equals("Wikimedia disambiguation page"))
                             continue;
-                        String url = obj.getString("url");
+                        String url = obj.getString("concepturi");
                         String label = obj.getString("label");
                         String description = obj.getString("description");
 

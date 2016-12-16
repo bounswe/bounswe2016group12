@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.utils.Functions;

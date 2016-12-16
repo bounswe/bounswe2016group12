@@ -175,7 +175,7 @@ public class Functions {
 
     public static boolean isFirstTimeInApp(Context context)
     {
-        SharedPreferences preferences = context.getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("AppPreferences", MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
         if (!ranBefore&&context.equals(TopicDetailActivity.class)) {
             // first time
