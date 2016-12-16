@@ -72,14 +72,14 @@ def editComment(request):
 # [Android] UserId=1
 @csrf_exempt
 def getUsersVotes(request):
-    if 'userId' not in request.GET:
+    if 'UserId' not in request.GET:
         userId = request.user.id
     else:
         userId = request.GET.get("UserId")
     profileId=Profile.objects.get(user_id=userId).id
     TopicId=int(request.GET.get('TopicId'))
-    Comments=Comment.objects.filter(topic_id=TopicId)
-    votes= list(Voter.objects.filter(comment__in=Comments,profile_id=profileId))
+    Comments=Comment.objects.filter(topic_id=TopicId).values_list('id')
+    votes= list(Voter.objects.filter(comment_id__in=Comments,profile_id=profileId))
     return HttpResponse(django.core.serializers.serialize('json',votes ),
         status=200,
         content_type="application/json")
