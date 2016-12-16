@@ -14,7 +14,12 @@
         <h1> {{ topic.label }} </h1>
         <ul style="list-style-type:none">
             {% for of in oftopic %}
-                <li> <h3> <span class="label label-default listSpan">{{ of.tag.label }} ({{ of.tag.description }})</span> </h3></li>
+                <li>
+                    <h4>
+                        <span class="label label-default" style="width: 10px; overflow-x: scroll">
+                            {{ of.tag.label }} ({{ of.tag.description }})</span>
+                    </h4>
+                </li>
             {% endfor %}
         </ul>
 
@@ -187,7 +192,7 @@
     </div>
 
         {% endif %}
-    <div class="col-md-8">
+    <div class="col-md-8" style="max-height: 440px ; overflow: scroll">
         <div class="row" style="background-color:#C2FABC;">
             <div class="col-md-2" >
                 <h4> Votes </h4>
@@ -223,7 +228,8 @@
 
         {% if user.is_authenticated %}
 
-            <form class="form-horizontal" id="addCommentId" method="post">
+            <form class="form-horizontal" style="position: fixed; bottom: 20px; width: 700px"
+                  id="addCommentId" method="post">
                 <form class="form-horizontal">
                     <p id="cWarningId"></p>
                     <div class="form-group">
@@ -237,10 +243,10 @@
                             <textarea class="form-control" rows="5" id="newCommentId" name="text" placeholder="Make a comment..."></textarea>
                         </div>
                     </div>
-                </form>
-                <div>
+                    <div>
                     <button type="submit" id="cSubmitId" class="btn btn-success">Add Comment</button>
-                </div>
+                    </div>
+                </form>
             </form>
 
         {% endif %}
