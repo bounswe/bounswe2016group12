@@ -774,9 +774,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return relations;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //VOTE
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add vote of a comment to local db.
+     * @param vote
+     */
 
     public void addVote(Vote vote){
         if(getVote(vote.commentId) != null){
@@ -802,6 +803,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Useful function to toggle comment.
+     * @param vote
+     */
+
     public void updateVote (Vote vote){
         SQLiteDatabase db = getWritableDatabase();
 
@@ -822,6 +828,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get vote of a comment.
+     * Useful for profile page.
+     * @param commentId
+     * @return
+     */
     public Vote getVote(int commentId){
         SQLiteDatabase db = getReadableDatabase();
         String VOTE_SELECT_WITH_ID_QUERY = "SELECT * FROM "+ KEY_VOTE_TABLE +" WHERE "+ KEY_VOTE_COMMENT_ID +" = '" + commentId + "'";
@@ -840,6 +852,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return vote;
     }
+
 
     public List<Vote> getAllVotes(int commentId){
         String VOTES_SELECT_QUERY = "SELECT * FROM "+ KEY_VOTE_TABLE +" WHERE " + KEY_VOTE_COMMENT_ID + " = '" + commentId + "'";
