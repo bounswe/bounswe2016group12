@@ -375,10 +375,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topics;
     }
 
-    //TODO: What is this?
+    /**
+     * Makes search with
+     * @param text Query string
+     * @return list of topics
+     */
+
+
     public List<Topic> getTopicsContainsText(String text) {
         List<Topic> topics = new ArrayList<>();
 
+        /*
         String TOPICS_SELECT_QUERY = "SELECT * FROM topics WHERE " + KEY_TOPIC_NAME + " LIKE '%" + text + "%'";
 
         SQLiteDatabase db = getReadableDatabase();
@@ -419,6 +426,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+
+*/
+
+        List<Topic> temp = getAllTopics();
+
+        for(Topic t: temp){
+            boolean add = false;
+            if(t.topicName.toLowerCase().contains(text)) {
+                add = true;
+            }
+            for(Tag tag: t.tags){
+                if(tag.tagName.toLowerCase().contains(text) || tag.context.toLowerCase().contains(text)) {
+                    add = true;
+                    break;
+                }
+            }
+            if(add)
+                topics.add(t);
+        }
+
         return topics;
     }
 
