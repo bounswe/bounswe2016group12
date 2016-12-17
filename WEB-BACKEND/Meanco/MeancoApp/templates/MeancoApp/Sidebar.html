@@ -12,7 +12,7 @@
                     <tbody>
                     {% for topic in TrendingTopics %}
                         <tr>
-                            <td>{{ topic.label }}</td>
+                            <td><a href="/topic/{{ topic.id }}">{{ topic.label }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -31,7 +31,7 @@
                     <tbody>
                     {% for tag in TrendingTags %}
                         <tr>
-                            <td>{{ tag.label }}</td>
+                            <td><a href="/">#{{ tag.label }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

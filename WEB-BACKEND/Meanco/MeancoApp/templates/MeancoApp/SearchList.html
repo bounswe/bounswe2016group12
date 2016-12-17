@@ -8,18 +8,18 @@
     </style>
     <div class="col-md-8">
         <div class="row" style="background-color:#C2FABC;">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h4> Hot {{ action }}</h4>
             </div>
-            <div class="col-md-2" >
+            <div class="col-md-3" >
                 {% if action == "topic" %}
-                    <h4># Comments</h4>
+                    <h4>#Comments</h4>
                 {% else %}
-                    <h4># Topics</h4>
+                    <h4>#Topics</h4>
                 {% endif %}
             </div>
-            <div class="col-md-2" >
-                <h4># Views</h4>
+            <div class="col-md-3" >
+                <h4>#Views</h4>
             </div>
         </div>
         <p></p>
@@ -27,17 +27,17 @@
 
         {% for result in results %}
             <div class="row">
-                <div class="col-md-8">
-                    <p> {{ result.label }}</p>
+                <div class="col-md-6">
+                    <p><a href="/topic/{{ result.id }}">{{ result.label }}</a></p>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     {% if action == "topic" %}
                         <h4> {{ result.comment_count }} </h4>
                     {% else %}
                         <h4> {{ result.topic_count }} </h4>
                     {% endif %}
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h4> {{ result.view_count }} </h4>
                 </div>
             </div>
