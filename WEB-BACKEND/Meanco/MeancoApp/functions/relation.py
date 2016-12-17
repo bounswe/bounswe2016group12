@@ -9,12 +9,11 @@ def getRelations(count):
     topicIds.sort()
     relations=list()
 
-    for firstId in range(0,len(topicIdQuery)+1):
-        for secondId in range(firstId+1,len(topicIdQuery)+1):
+    for firstId in range(0,len(topicIdQuery)):
+        for secondId in range(firstId+1,len(topicIdQuery)):
             relation = list(Relation.objects.filter(
-                Q(topic_a_id=firstId, topic_b_id=secondId) | Q(topic_a_id=secondId, topic_b_id=firstId,
+                Q(topic_a_id=topicIds[firstId], topic_b_id=topicIds[secondId]) | Q(topic_a_id=topicIds[secondId], topic_b_id=topicIds[firstId],
                                                               isBidirectional=False)).order_by("-vote_count"))
-            #Make it possible to set more than 1 relation
             relationCount=count;
             if relationCount>len(relation):
                 relationCount=len(relation)
