@@ -126,13 +126,9 @@ public class Functions {
      */
     public static void showNotLoggedInAlert(final Context context){
 
-        final TextView alert = new TextView(context);
-        alert.setText("You have to login to complete this action.");
-        alert.setPadding(30,30,30,30);
-
         new AlertDialog.Builder(context)
                 .setTitle("Not logged in!")
-                .setView(alert)
+                .setMessage("You have to login to complete this action.")
                 .setPositiveButton("Login", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
