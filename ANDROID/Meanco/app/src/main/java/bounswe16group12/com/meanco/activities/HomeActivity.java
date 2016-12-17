@@ -38,6 +38,12 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     static ArrayList<Tag> tagsOfTopic; //tags that are bound to topics
     SearchView searchView;
 
+    @Override
+    protected void onDestroy() {
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+    }
+
     /**
      * Home activity has search functionality, so menu is populated with search menu.
      *
@@ -130,6 +136,18 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if(!Functions.networkIsAvailable(getApplicationContext())){
+            new AlertDialog.Builder(this)
+                    .setMessage("Please open your internet and try again.")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
 
         /**
          * Set icon and name of app.

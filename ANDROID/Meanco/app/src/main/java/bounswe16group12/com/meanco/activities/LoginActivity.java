@@ -68,10 +68,29 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
 
     @Override
+    protected void onDestroy() {
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
+
+        if(!Functions.networkIsAvailable(getApplicationContext())){
+            new AlertDialog.Builder(this)
+                    .setMessage("Please open your internet and try again.")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
+
 
         DatabaseHelper.getInstance(getApplicationContext()).clearAll();
 
@@ -165,13 +184,10 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 
-            //if(Functions.networkIsAvailable(LoginActivity.this)) {
-                showProgress(true);
+            showProgress(true);
 
-                new AuthenticationTask(MeancoApplication.LOGIN_URL, username, password).execute();
-            //}else{
-              //  Toast.makeText(LoginActivity.this, "No network available", Toast.LENGTH_LONG).show();
-            //}
+            new AuthenticationTask(MeancoApplication.LOGIN_URL, username, password).execute();
+
         }
     }
 
