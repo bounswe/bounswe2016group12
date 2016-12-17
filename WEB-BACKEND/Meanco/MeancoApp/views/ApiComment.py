@@ -18,8 +18,9 @@ def addComment(request):
             userId = request.user.id
         else:
             userId= request.POST.get("userId")
-
-        text= request.POST.get('text')
+        text="";
+        if 'text' in request.POST:
+            text= request.POST.get('text')
         profileId=Profile.objects.get(user_id=userId).id
         try:
             print(topicId,profile)
