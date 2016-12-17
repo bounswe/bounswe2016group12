@@ -24,6 +24,14 @@ public class Relation {
 
     public Relation(){} //Empty constructor to define
 
+    /**
+     *
+     * @param relationId Unique relation id which will be received by post request.
+     * @param relationName Label of the relation.
+     * @param topicFrom Starting point of arrow.
+     * @param topicTo Endpoint of the arrow.
+     * @param isBidirectional If arrow is bidirectional, topicFrom <-->topicTo. Else, topicFrom --> topicTo
+     */
     public Relation(int relationId,String relationName, int topicFrom, int topicTo, boolean isBidirectional) {
         this.isBidirectional = isBidirectional;
         this.topicFrom = topicFrom;

@@ -32,6 +32,7 @@ dependencies {
     compile 'com.github.qiugang:EditTag:v1.2.3'
     compile 'com.google.android.gms:play-services-analytics:9.2.0'
 
+    compile 'com.github.wooplr:Spotlight:1.2.2'
 
     testCompile 'junit:junit:4.12'
 }

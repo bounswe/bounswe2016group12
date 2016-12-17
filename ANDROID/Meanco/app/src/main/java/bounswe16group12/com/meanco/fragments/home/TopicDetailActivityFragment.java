@@ -1,9 +1,12 @@
 package bounswe16group12.com.meanco.fragments.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +33,8 @@ import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.activities.HomeActivity;
+import bounswe16group12.com.meanco.activities.TagSearchActivity;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.adapters.CommentAdapter;
 import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
@@ -37,6 +43,8 @@ import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.EditComment;
+import bounswe16group12.com.meanco.utils.Functions;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -45,6 +53,7 @@ public class TopicDetailActivityFragment extends Fragment {
     public static CommentAdapter mCommentsAdapter;
     public static ArrayAdapter<SpannableStringBuilder> mTagsAdapter;
     private Tracker mTracker;
+
     public TopicDetailActivityFragment() {
     }
 
@@ -52,9 +61,13 @@ public class TopicDetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        /**
+         * Google data analytics.
+         */
         mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_DETAIL_FRAGMENT");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
 
@@ -72,7 +85,9 @@ public class TopicDetailActivityFragment extends Fragment {
 
             texts.add(beautifyString(text));
         }
-
+/**
+ * Populate tag list view.
+ */
         mTagsAdapter = new ArrayAdapter<>(
                 getActivity(), // The current context (this activity)
                 R.layout.list_item_detail_tag, // The name of the layout ID.
@@ -84,6 +99,9 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView tagListView = (ListView) rootView.findViewById(R.id.listView_tags);
         tagListView.setAdapter(mTagsAdapter);
 
+        /**
+         * Populate comment list view.
+         */
         mCommentsAdapter = new CommentAdapter(
                 getActivity(), // The current context (this activity)
                 R.layout.comment_listitem, // The name of the layout ID.
@@ -92,9 +110,50 @@ public class TopicDetailActivityFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listView_topic_comments);
         listView.setAdapter(mCommentsAdapter);
 
+        /**
+         * Edit comment on long click.
+         */
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Comment c = mCommentsAdapter.getItem(position);
+
+                EditText temp = new EditText(getContext());
+                temp.setText(c.content);
+                final EditText commentEditInput = temp;
+
+                if(c.username.equals(Functions.getUsername(getContext()))){
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Edit Comment")
+                            .setView(commentEditInput)
+                            .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    c.content = commentEditInput.getText().toString();
+
+                                    new EditComment(MeancoApplication.EDIT_COMMENT_URL,c,getContext()).execute();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         return rootView;
     }
 
+    /**
+     * Update adapters whenever data is changed.
+     * @param databaseHelper
+     * @param topicId
+     */
     public static void updateAdapters(DatabaseHelper databaseHelper, int topicId){
         mCommentsAdapter.clear();
         mCommentsAdapter.comments.clear();
@@ -110,7 +169,6 @@ public class TopicDetailActivityFragment extends Fragment {
         mTagsAdapter.notifyDataSetChanged();
 
     }
-
 
     public static SpannableStringBuilder beautifyString(String text){
 

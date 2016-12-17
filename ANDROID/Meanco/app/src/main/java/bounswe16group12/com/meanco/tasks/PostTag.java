@@ -26,6 +26,8 @@ import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ *  * Task for posting tag of a topic to db.
+* Tags are posted one at a time.
  * Created by Ezgi on 12/5/2016.
  */
 

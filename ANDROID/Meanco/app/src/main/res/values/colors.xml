@@ -5,4 +5,5 @@
     <color name="colorAccent">#ff4081</color>
     <color name="colorDownvote">#bc0e05</color>
     <color name="colorUpvote">#2aa50b</color>
+    <color name="colorSelectedTopic">#2F00FF00</color>
 </resources>

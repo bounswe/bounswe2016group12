@@ -23,6 +23,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for posting comment to db.
  * Created by Ezgi on 12/5/2016.
  */
 
@@ -31,6 +32,7 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
     private Context context;
     private int userId;
     private String url;
+
 
 
     public PostComment(String url,Comment comment , Context context){
