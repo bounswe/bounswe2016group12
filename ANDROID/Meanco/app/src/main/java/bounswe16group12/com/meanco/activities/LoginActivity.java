@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -163,9 +164,14 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
 
-            new AuthenticationTask(MeancoApplication.LOGIN_URL,username,password).execute();
+            //if(Functions.networkIsAvailable(LoginActivity.this)) {
+                showProgress(true);
+
+                new AuthenticationTask(MeancoApplication.LOGIN_URL, username, password).execute();
+            //}else{
+              //  Toast.makeText(LoginActivity.this, "No network available", Toast.LENGTH_LONG).show();
+            //}
         }
     }
 
@@ -186,8 +192,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         String userEmail = emailInput.getText().toString();
                         if(userEmail.contains("@")) {
-                            showProgress(true);
-                            new AuthenticationTask(MeancoApplication.REGISTER_URL, userEmail, username, password).execute();
+                            //if(Functions.networkIsAvailable(LoginActivity.this)) {
+                                showProgress(true);
+                                new AuthenticationTask(MeancoApplication.REGISTER_URL, userEmail, username, password).execute();
+                            //}else{
+                               // Toast.makeText(LoginActivity.this, "No network available", Toast.LENGTH_LONG).show();
+                            //}
                         }
                         else{
                             Toast.makeText(getApplicationContext(),"Please enter a valid email.",

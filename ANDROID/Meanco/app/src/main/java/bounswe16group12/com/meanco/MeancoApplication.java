@@ -3,6 +3,7 @@ package bounswe16group12.com.meanco;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import android.app.Application;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
