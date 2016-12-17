@@ -5,12 +5,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.adapters.ProfileTopicAdapter;
+import bounswe16group12.com.meanco.adapters.TopicSearchAdapter;
 
 /**
  * Fragment that will populate tab layout of profile activity.
@@ -19,26 +23,29 @@ import bounswe16group12.com.meanco.R;
 public class FollowFragment extends Fragment {
 
     private Tracker mTracker;
+    public static ProfileTopicAdapter mTopicsAdapter;
 
-    public FollowFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
-        mTracker.setScreenName("FOLLOW_FRAGMENT");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        mTracker.enableAutoActivityTracking(true);
+    public static final FollowFragment newInstance()
+    {
+        FollowFragment sInstance = new FollowFragment();
+        return sInstance;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_followed, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_followed, container, false);
+        mTracker = ((MeancoApplication) getActivity().getApplication()).getDefaultTracker();
+        mTracker.setScreenName("FOLLOW_FRAGMENT");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
+
+        mTopicsAdapter = new ProfileTopicAdapter(getActivity(),R.id.list_profile_followed);
+
+        ListView listView = (ListView) rootView.findViewById(R.id.list_profile_followed);
+        listView.setAdapter(mTopicsAdapter);
+
+        return rootView;
     }
 
 }

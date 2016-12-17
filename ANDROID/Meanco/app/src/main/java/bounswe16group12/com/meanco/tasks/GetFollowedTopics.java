@@ -53,6 +53,7 @@ public class GetFollowedTopics extends AsyncTask<Void,Void,Connect.APIResult> {
                     }
                 }
                 MeancoApplication.followedTopicList = topics;
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

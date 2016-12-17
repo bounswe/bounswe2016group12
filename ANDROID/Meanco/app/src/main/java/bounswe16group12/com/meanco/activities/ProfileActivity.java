@@ -3,6 +3,7 @@ package bounswe16group12.com.meanco.activities;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -71,10 +72,11 @@ public class ProfileActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FollowFragment();
+                    return FollowFragment.newInstance();
                 case 1:
+                    return CommentsFragment.newInstance();
                 default:
-                    return new CommentsFragment();
+                    return FollowFragment.newInstance();
             }
         }
 

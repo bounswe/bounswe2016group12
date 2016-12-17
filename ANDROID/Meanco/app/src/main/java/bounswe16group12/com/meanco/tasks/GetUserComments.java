@@ -2,6 +2,7 @@ package bounswe16group12.com.meanco.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,24 +42,12 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
             JSONArray jsonArray=new JSONArray(response.getData());
 
             if (jsonArray != null) {
-                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
-                List<Comment> comments = new ArrayList<>();
                 if (response.getResponseCode() == 200) {
                     for(int i=0;i<jsonArray.length();i++){
                         JSONObject topicObject = jsonArray.getJSONObject(i);
-
                         int topicId = topicObject.getInt("pk");
-                        List<Comment> topicComments = databaseHelper.getAllComments(topicId);
-                        for(Comment c : topicComments){
-                            if(c.username.equals(Functions.getUsername(context))){
-                                comments.add(c);
-                            }
-                        }
-                    }
-                    if(CommentsFragment.mCommentsAdapter != null) {
-                        CommentsFragment.mCommentsAdapter.clear();
-                        CommentsFragment.mCommentsAdapter.addAll(comments);
-                        CommentsFragment.mCommentsAdapter.notifyDataSetChanged();
+                        Log.i("USER_COMMENTS", " = " + topicId);
+                        new GetTopicDetail(MeancoApplication.SITE_URL,topicId,context).execute();
                     }
                 }
             }

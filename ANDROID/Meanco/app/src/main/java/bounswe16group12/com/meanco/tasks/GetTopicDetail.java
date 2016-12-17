@@ -59,7 +59,8 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL, topicId, context).execute();
                     }
                 }
-                TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
+                if(TopicDetailActivityFragment.mCommentsAdapter != null)
+                  TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
             }
         } catch (JSONException e) {
             e.printStackTrace();

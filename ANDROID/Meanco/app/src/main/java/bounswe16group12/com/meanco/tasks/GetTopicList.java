@@ -99,6 +99,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 HomeActivityFragment.adapter.notifyDataSetChanged();
 
                 new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context).execute();
+                new GetUserComments(MeancoApplication.GET_USER_COMMENTS_URL,context).execute();
             }
         } catch (JSONException e) {
 

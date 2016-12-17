@@ -7,9 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
+import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.objects.Vote;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
@@ -52,7 +54,8 @@ public class GetCommentVotes extends AsyncTask<Void,Void,Connect.APIResult>{
                         databaseHelper.addVote(v);
                     }
                 }
-                TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
+                if(TopicDetailActivityFragment.mCommentsAdapter != null)
+                   TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
             }
         } catch (JSONException e) {
             e.printStackTrace();
