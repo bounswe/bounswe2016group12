@@ -137,18 +137,6 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if(!Functions.networkIsAvailable(getApplicationContext())){
-            new AlertDialog.Builder(this)
-                    .setMessage("Please open your internet and try again.")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                        }
-                    })
-                    .show();
-        }
-
         /**
          * Set icon and name of app.
          */
