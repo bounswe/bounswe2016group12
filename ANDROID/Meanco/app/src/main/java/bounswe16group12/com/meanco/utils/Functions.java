@@ -14,6 +14,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,6 +39,7 @@ import bounswe16group12.com.meanco.activities.LoginActivity;
 import bounswe16group12.com.meanco.activities.TopicDetailActivity;
 import bounswe16group12.com.meanco.activities.TopicSearchActivity;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -51,33 +53,56 @@ public class Functions {
 
     /**
      * Sort topics on search.
-     * @param newText
+     * @param text
      * @param adapter
      * @param adapterTopics
      * @param context
      * @return
      */
-    public static boolean filterData(final String newText, ArrayAdapter adapter, List<Topic> adapterTopics, Context context){
+    public static boolean filterData(final String text, ArrayAdapter adapter, List<Topic> adapterTopics, final Context context){
 
         DatabaseHelper db = DatabaseHelper.getInstance(context);
         List<Topic> topics;
-        if (TextUtils.isEmpty(newText)) {
+        if (TextUtils.isEmpty(text)) {
             topics = db.getAllTopics();
             if(adapterTopics.size() == topics.size())
                 return true;
         } else {
-            topics = db.getTopicsContainsText(newText);
+            topics = db.getTopicsContainsText(text);
         }
 
         /**
-         * Sorts topics according to index occurrance of a string inside topicnames.
-         * Ex: search ay with topics {selenay, ayben, onat}, result is {ayben, selenay}
+         * Sorts topics according to index occurrance of a string inside topicnames,tagnames and context.
+         * If query exists in a topicname or context of a tag or name of a tag, it is on the upper levels of the list.
+         * Topicname has priority over a tag name, which has priority over tag context.
+         * If query exists in two topicnames, the one with lower indice is prioritized. Same thing with context and tag name.
          */
         Collections.sort(topics, new Comparator() {
 
             @Override
             public int compare(Object o, Object t1) {
-                return ((Topic) o).topicName.indexOf(newText) - ((Topic) t1).topicName.indexOf(newText);
+                int index1=0, index2=0;
+                for(Tag t: ((Topic) o).tags) {
+                    int i = t.context.toLowerCase().indexOf(text);
+                    int j = t.tagName.toLowerCase().indexOf(text);
+                    if(i!=-1) index1 += (50 - i);
+                    if(j!=-1) index1 += (100 - i);
+                }
+                for(Tag t: ((Topic) t1).tags) {
+                    int i = t.context.toLowerCase().indexOf(text);
+                    int j = t.tagName.toLowerCase().indexOf(text);
+                    if(i!=-1) index2 += (50 - i);
+                    if(j!=-1) index2 += (100 - i);
+                }
+
+                int i1 = ((Topic) o).topicName.toLowerCase().indexOf(text);
+                int i2 = ((Topic) t1).topicName.toLowerCase().indexOf(text);
+
+                if(i1!=-1) index1 += (5000 - i1);
+                if(i2!=-1) index2 += (5000 - i2);
+
+                //Order of importance in search: topic name > tag name > tag context
+                return index2 - index1;
             }
 
             @Override

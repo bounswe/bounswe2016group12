@@ -283,7 +283,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
 
-        return Functions.filterData(newText, HomeActivityFragment.adapter, CustomHomeAdapter.filteredData, getApplicationContext());
+        return Functions.filterData(newText.toLowerCase(), HomeActivityFragment.adapter, CustomHomeAdapter.filteredData, getApplicationContext());
     }
 
     /**

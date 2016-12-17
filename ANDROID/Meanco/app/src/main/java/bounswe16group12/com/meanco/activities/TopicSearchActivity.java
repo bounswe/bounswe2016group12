@@ -202,6 +202,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
      */
     @Override
     public boolean onQueryTextChange(String newText) {
-        return Functions.filterData(newText, adapter, adapter.relationTopics, getApplicationContext());
+        return Functions.filterData(newText.toLowerCase(), adapter, adapter.relationTopics, getApplicationContext());
     }
 }
