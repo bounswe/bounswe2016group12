@@ -13,6 +13,7 @@ import java.util.List;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
+import bounswe16group12.com.meanco.fragments.profile.CommentsFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.objects.Vote;
 import bounswe16group12.com.meanco.utils.Connect;
@@ -26,12 +27,10 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
 
     private Context context;
     private String url;
-    private int topicId;
 
-    public GetUserComments(String url, int topicId, Context context){
+    public GetUserComments(String url, Context context){
         this.context = context;
         this.url = url + "?TopicCount=10" + "&UserId=" + Functions.getUserId(context);
-        this.topicId = topicId;
     }
 
     @Override
@@ -56,7 +55,11 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
                             }
                         }
                     }
-                    MeancoApplication.topicCommentIds = comments;
+                    if(CommentsFragment.mCommentsAdapter != null) {
+                        CommentsFragment.mCommentsAdapter.clear();
+                        CommentsFragment.mCommentsAdapter.addAll(comments);
+                        CommentsFragment.mCommentsAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         } catch (JSONException e) {

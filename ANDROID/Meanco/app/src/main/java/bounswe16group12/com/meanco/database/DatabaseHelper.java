@@ -596,9 +596,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Comment getComment(int commentId){
         SQLiteDatabase db = getReadableDatabase();
-        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
+        String COMMENT_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
 
-        Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
+        Cursor cursor = db.rawQuery(COMMENT_SELECT_WITH_ID_QUERY,null);
        Comment comment = null;
         try {
             if (cursor.moveToFirst()) {
@@ -614,6 +614,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return comment;
     }
 
+    public List<Comment> getComments(String username){
+        SQLiteDatabase db = getReadableDatabase();
+        String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE "+ KEY_COMMENT_USERNAME +" = '" + username + "'";
+
+        Cursor cursor = db.rawQuery(COMMENTS_SELECT_QUERY, null);
+        List<Comment> comments = new ArrayList<>();
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Comment comment = new Comment();
+                    comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
+                    comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
+                    comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+                    comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+
+                    comments.add(comment);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return comments;
+    }
     /**
      * Get all comments of a topic.
      * Useful for list view of comments in topic detail.

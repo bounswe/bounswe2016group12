@@ -39,7 +39,6 @@ public class MeancoApplication extends Application {
     public static final String GET_FOLLOWED_TOPICS_URL = BASE_URL + "GetFollowedTopic";
 
     public static List<Integer> followedTopicList;
-    public static List<Comment> topicCommentIds;
 
     private static final String GOOGLE_ANALYTICS_KEY = "UA-39760660-5";
 

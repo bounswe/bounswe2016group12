@@ -13,6 +13,7 @@ import com.google.android.gms.analytics.Tracker;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.adapters.CommentAdapter;
+import bounswe16group12.com.meanco.tasks.GetUserComments;
 
 /**
  * Fragment that will populate tab layout of profile activity.
@@ -34,13 +35,16 @@ public class CommentsFragment extends Fragment {
         mTracker.setScreenName("COMMENT_FRAGMENT");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         mTracker.enableAutoActivityTracking(true);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_topic_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
+        //new GetUserComments(MeancoApplication.GET_USER_COMMENTS_URL,getContext()).execute();
+
         mCommentsAdapter = new CommentAdapter(
                 getActivity(), // The current context (this activity)
                 R.layout.comment_listitem, // The name of the layout ID.

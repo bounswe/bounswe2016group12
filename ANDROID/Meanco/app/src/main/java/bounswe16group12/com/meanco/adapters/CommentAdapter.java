@@ -32,7 +32,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         super(context, resource);
         this.topicId = topicId;
         if(topicId == -100)
-            comments = MeancoApplication.topicCommentIds;
+            comments = DatabaseHelper.getInstance(context).getComments(Functions.getUsername(context));
          else
             comments = DatabaseHelper.getInstance(context).getAllComments(topicId);
     }
