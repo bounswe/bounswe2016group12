@@ -68,3 +68,11 @@ span.label:hover + span.label-desc {
 span.label-desc {
 	display: none;
 }
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 8px;
+  width: auto;
+}
