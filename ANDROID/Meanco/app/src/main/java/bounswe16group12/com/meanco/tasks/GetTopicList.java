@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.activities.HomeActivity;
@@ -19,6 +20,7 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
+import bounswe16group12.com.meanco.utils.Functions;
 
 
 /**
@@ -98,8 +100,10 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
 
-                new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context).execute();
-                new GetUserComments(MeancoApplication.GET_USER_COMMENTS_URL,context).execute();
+                if(Functions.getUserId(context)!=-1) {
+                    new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL, context).execute();
+                    new GetUserComments(MeancoApplication.GET_USER_COMMENTS_URL, context).execute();
+                }
             }
         } catch (JSONException e) {
 

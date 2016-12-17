@@ -47,7 +47,6 @@ import java.net.URLEncoder;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
-import bounswe16group12.com.meanco.tasks.GetFollowedTopics;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -76,8 +75,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getSupportActionBar().hide();
 
         if(!Functions.networkIsAvailable(getApplicationContext())){
             new AlertDialog.Builder(this)
@@ -90,69 +87,73 @@ public class LoginActivity extends AppCompatActivity {
                     })
                     .show();
         }
+        else {
+            getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+            getSupportActionBar().hide();
 
 
-        DatabaseHelper.getInstance(getApplicationContext()).clearAll();
+            DatabaseHelper.getInstance(getApplicationContext()).clearAll();
 
-        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
-        mTracker.setScreenName("LOGIN_ACTIVITY");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        mTracker.enableAutoActivityTracking(true);
+            Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+            mTracker.setScreenName("LOGIN_ACTIVITY");
+            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+            mTracker.enableAutoActivityTracking(true);
 
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
-        int userId = preferences.getInt("UserId", -1);
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+            int userId = preferences.getInt("UserId", -1);
 
-        if(userId != -1){
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
-        }
-
-        setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.email);
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        Button mEmailSignUpButton = (Button) findViewById(R.id.signup_button);
-        mEmailSignUpButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               attemptRegister();
-
-            }
-        });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-
-
-        final TextView continueWithout = (TextView) findViewById(R.id.continue_without);
-        continueWithout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                continueWithout.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorAccent));
+            if (userId != -1) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
             }
-        });
+
+            setContentView(R.layout.activity_login);
+            // Set up the login form.
+            mUsernameView = (AutoCompleteTextView) findViewById(R.id.email);
+
+            mPasswordView = (EditText) findViewById(R.id.password);
+            mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                        attemptLogin();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            Button mEmailSignUpButton = (Button) findViewById(R.id.signup_button);
+            mEmailSignUpButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptRegister();
+
+                }
+            });
+
+            Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
+            mEmailSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
+
+            mLoginFormView = findViewById(R.id.login_form);
+            mProgressView = findViewById(R.id.login_progress);
+
+
+            final TextView continueWithout = (TextView) findViewById(R.id.continue_without);
+            continueWithout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    continueWithout.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.colorAccent));
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     /**
