@@ -12,6 +12,13 @@ public class Tag {
 
     public Tag(){}//Empty constructor to define
 
+    /**
+     *
+     * @param tagId Unique tag id which will be received by post request.
+     * @param context Description of the tag (ex. for Python: snake, python = tagName, snake = context
+     * @param tagName Label of the tag.
+     * @param URL Unique wikidata URL of the tag.
+     */
     public Tag(int tagId,String context,String tagName,String URL){
         this.tagName = tagName;
         this.context = context;

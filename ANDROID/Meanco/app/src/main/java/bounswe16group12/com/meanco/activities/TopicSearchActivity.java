@@ -1,6 +1,8 @@
 package bounswe16group12.com.meanco.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +31,11 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.PostRelation;
 import bounswe16group12.com.meanco.utils.Functions;
 
+/**
+ * Topic search activity searches local db and then populates the listview.
+ * User reaches this activity when she wants to add a relation between existing topics.
+ * User can choose only one topic per activity instance.
+ */
 public class TopicSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     String title;
@@ -36,7 +43,6 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
     ListView listView;
     public static String fromOrTo;
     public static Topic checkedTopic;
-    private Tracker mTracker;
 
     int oldId = 0;
     int oldPosition=0;
@@ -47,21 +53,27 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_search);
 
-        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_SEARCH_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
+        /**
+         * Get intent values from "Add relation" dialog.
+         */
         final String relationName = getIntent().getStringExtra("relationName").toString();
         final boolean isBidirectional = getIntent().getBooleanExtra("isBidirectional", false);
         fromOrTo = getIntent().getStringExtra("fromOrTo").toString();
 
-        title = "Add " + relationName + " (" + (isBidirectional ? "bidirectional":"one way") + ")";
-        setTitle(title);
 
         listView = (ListView) findViewById(R.id.tag_search_listview);
         adapter = new TopicSearchAdapter(TopicSearchActivity.this, R.layout.activity_tag_search);
         listView.setAdapter(adapter);
 
+        /**
+         * Check if this instance of the activity is the first or not
+         * (are we choosing first topic or second topic).
+         */
         Button addRelationButton = (Button) findViewById(R.id.add_topic_button);
         if(fromOrTo.equals("from")){
             addRelationButton.setText("Next");
@@ -75,6 +87,9 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
             @Override
             public void onClick(View view) {
 
+                /**
+                 * If it is the second instance, post relation with two topics, clear and close.
+                 */
                 if(fromOrTo.equals("to")) {
                     Relation r = new Relation(-1, relationName, TopicSearchAdapter.idFrom, TopicSearchAdapter.idTo, isBidirectional);
                     new PostRelation(MeancoApplication.POST_RELATION_URL, r, TopicSearchActivity.this).execute();
@@ -82,17 +97,26 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
                     TopicSearchAdapter.relationTopics.clear();
                     adapter.clear();
                     finish();
-                }else{
+                }
+                /**
+                 * If it is the first instance, go to next page and open this activity again with same intent
+                 * extras.
+                 */
+                else
+                {
                     Intent intent = new Intent(TopicSearchActivity.this, TopicSearchActivity.class);
                     intent.putExtra("relationName", relationName);
                     intent.putExtra("isBidirectional", isBidirectional);
                     intent.putExtra("fromOrTo", "to");
                     startActivity(intent);
-                    finish();
+                   // finish();
                 }
             }
         });
 
+        /**
+         * Clear everything and go back if user cancels.
+         */
         Button cancelButton = (Button) findViewById(R.id.cancel_button);
 
             cancelButton.setText("Cancel");
@@ -107,14 +131,18 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
                 }
             });
 
+        /**
+         * Set background color to green when an item is selected.
+         * If user decides to choose another topic, new item is colored
+         * and previously colored item has transparent background again.
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 int newId = adapter.getItem(i).topicId;
                 if(oldId!=newId){
-                    listView.getChildAt(oldPosition).setBackgroundColor(0x00000000);
-                    //TopicSearchAdapter.relationTopics.remove(adapter.getItem(i));
+                    listView.getChildAt(oldPosition).setBackgroundColor(Color.TRANSPARENT);
                     if(fromOrTo.equals("from")) {
                         TopicSearchAdapter.idFrom = newId;
                     }else {
@@ -123,7 +151,7 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
                     oldId=newId;
                     oldPosition=i;
                 }
-                view.setBackgroundColor(0x2F00FF00);
+                view.setBackgroundColor(ContextCompat.getColor(TopicSearchActivity.this, R.color.colorSelectedTopic));
             }
         });
     }
@@ -167,6 +195,11 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
         return true;
     }
 
+    /**
+     * On every keyboard input, topics are filtered according to query.
+     * @param newText
+     * @return true
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         return Functions.filterData(newText, adapter, adapter.relationTopics, getApplicationContext());

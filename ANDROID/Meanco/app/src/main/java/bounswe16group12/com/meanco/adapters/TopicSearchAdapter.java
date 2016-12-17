@@ -20,6 +20,7 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * An adapter which populates topic list view while choosing two topics in creating a relation.
  * Created by Ezgi on 12/10/2016.
  */
 
@@ -30,6 +31,11 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
     public TopicSearchAdapter(Context context, int resource) {
         super(context, resource);
         relationTopics = DatabaseHelper.getInstance(context).getAllTopics();
+
+        /**
+         * If user chose first topic, do not show that topic in the second list of topics
+         * for the second topic (a topic cannot have a relation to itself).
+         */
         if(!TopicSearchActivity.fromOrTo.equals("from")){
             for(int i=0; i<relationTopics.size(); i++){
                 if(relationTopics.get(i).topicId==idFrom) {

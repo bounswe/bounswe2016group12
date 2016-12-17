@@ -24,6 +24,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for sending the vote of a user with user id to db.
  * Created by feper on 12/14/2016.
  */
 
@@ -52,7 +53,8 @@ public class VoteComment extends AsyncTask<Void,Void,Connect.APIResult> {
                 if (responseStr != null) {
                     if (response.getResponseCode() == 200) {
                         Log.i("VOTE_COMMENT",responseStr);
-                        new GetTopicDetail(MeancoApplication.SITE_URL, comment.topicId, context).execute();
+                        if(Functions.getUserId(context)!=-1)
+                            new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL,comment.topicId,context).execute();
                     } else {
                         Log.i("VOTE_COMMENT", "FAILED");
                     }

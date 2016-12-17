@@ -7,17 +7,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.AsyncTask;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +46,8 @@ import java.net.URLEncoder;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
+import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.tasks.GetFollowedTopics;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -55,12 +55,6 @@ import bounswe16group12.com.meanco.utils.Functions;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-    private Tracker mTracker;
-
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -74,14 +68,36 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
 
     @Override
+    protected void onDestroy() {
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
 
-        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        if(!Functions.networkIsAvailable(getApplicationContext())){
+            new AlertDialog.Builder(this)
+                    .setMessage("Please open your internet and try again.")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
+
+
+        DatabaseHelper.getInstance(getApplicationContext()).clearAll();
+
+        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("LOGIN_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
         int userId = preferences.getInt("UserId", -1);
@@ -167,9 +183,11 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+
             showProgress(true);
 
-            new AuthenticationTask(MeancoApplication.LOGIN_URL,username,password).execute();
+            new AuthenticationTask(MeancoApplication.LOGIN_URL, username, password).execute();
+
         }
     }
 
@@ -190,8 +208,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         String userEmail = emailInput.getText().toString();
                         if(userEmail.contains("@")) {
-                            showProgress(true);
-                            new AuthenticationTask(MeancoApplication.REGISTER_URL, userEmail, username, password).execute();
+                            //if(Functions.networkIsAvailable(LoginActivity.this)) {
+                                showProgress(true);
+                                new AuthenticationTask(MeancoApplication.REGISTER_URL, userEmail, username, password).execute();
+                            //}else{
+                               // Toast.makeText(LoginActivity.this, "No network available", Toast.LENGTH_LONG).show();
+                            //}
                         }
                         else{
                             Toast.makeText(getApplicationContext(),"Please enter a valid email.",
@@ -242,25 +264,38 @@ public class LoginActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+    /**
+     * Blocks  return action of back button to prevent user go back to login page.
+     */
     @Override
     public void onBackPressed() {
-        //Blocks  return action of back button to prevent user go back to login page.
     }
 
+    /**
+     * Posts either login or register credentials and gets user id from server (to store in shared preferences).
+     * If login credentials are not correct, shows "wrong credentials".
+     *
+     */
     public class AuthenticationTask extends AsyncTask<Void, Void, Connect.APIResult> {
         private String email;
         private String username;
         private String password;
         private String url;
 
-        //LOGIN CONSTRUCTOR
+        /**
+         * Login constructor.
+         */
+
         public AuthenticationTask(String url, String username, String password){
             this.url = url;
             this.username = username;
             this.password = password;
         }
 
-        //REGISTER CONSTRUCTOR
+        /**
+         * Register constructor.
+         */
         public AuthenticationTask(String url,String email, String username, String password){
             this.url = url;
             this.email = email;
@@ -279,8 +314,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (jsonObject != null) {
                     if (response.getResponseCode() == 200) {
                         int userId = jsonObject.getInt("UserId");
-
+                        Functions.clearUserPreferences(getApplicationContext());
                         Functions.setUserId(userId,getApplicationContext());
+                        Functions.setUsername(username,getApplicationContext());
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -1,18 +1,15 @@
 package bounswe16group12.com.meanco.activities;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -21,25 +18,26 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.adapters.CustomHomeAdapter;
 import bounswe16group12.com.meanco.adapters.TagSearchAdapter;
-import bounswe16group12.com.meanco.database.DatabaseHelper;
-import bounswe16group12.com.meanco.fragments.home.HomeActivityFragment;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.tasks.GetWikiData;
 import bounswe16group12.com.meanco.tasks.PostTag;
 import bounswe16group12.com.meanco.tasks.PostTopic;
 
+/**
+ * Tag search activity gets search results from WikiData by sending get requests to wikidata.org
+ * and then populated on a listview.
+ * User reaches this activity when she wants to add a topic or add tag(s) to existing topic.
+ * User can choose multiple tags to add to a topic.
+ */
+
 public class TagSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
-    //String title;
     SearchView searchView;
     ListView listView;
-    private Tracker mTracker;
 
     public static ArrayList<Tag> checkedTags = new ArrayList<>();
 
@@ -49,23 +47,26 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /**
+         * Check where the intent comes from.
+         * Two options:
+         * "true" = intent comes from topic detail.
+         * "false" = intent comes from add topic (home page alert dialog).
+         */
         final String intentFromDetail = getIntent().getStringExtra("ifDetail");
 
-        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        /**
+         * Google analytics data.
+         */
+        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("TAG_SEARCH_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
         setContentView(R.layout.activity_tag_search);
 
 
         final String topicName = getIntent().getStringExtra("topicName").toString();
-
-        /*
-        if(intentFromDetail.equals("false"))
-            title = "Add topic - " + topicName;
-        else
-            title = "Add tag(s) for " + topicName;
-        setTitle(title);*/
 
 
         listView = (ListView) findViewById(R.id.tag_search_listview);
@@ -76,10 +77,20 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         addTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                /**
+                 * User adds new topic to system, post topic to db.
+                 */
                 if(intentFromDetail.equals("false")) {
                     Topic topic = new Topic(-1, topicName, checkedTags);
                     new PostTopic(topic, TagSearchActivity.this,MeancoApplication.POST_TOPIC_URL).execute();
-                }else{
+                }
+
+                /**
+                 * User adds new tags to existing topics, post tags (with topic id) to db.
+                 */
+                else
+                {
                     boolean isLast = false;
                     int index = 0;
                     for(Tag t: checkedTags){
@@ -99,6 +110,9 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             }
         });
 
+        /**
+         * Clear everything and go back to the activity that gave intent.
+         */
         Button cancelButton = (Button) findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +126,9 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
             }
         });
 
+        /**
+         * Toggle checkbox and remove/add tag from/to checked array.
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -132,6 +149,11 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
 
     }
 
+    /**
+     * Search functionality for searching tags of a topic.
+     * @param menu
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -171,6 +193,11 @@ public class TagSearchActivity extends AppCompatActivity implements SearchView.O
         return true;
     }
 
+    /**
+     * Whenever user types a letter, a wikidata request is made. This enables autocomplete.
+     * @param newText
+     * @return true
+     */
     @Override
     public boolean onQueryTextChange(String newText) {
         if (!TextUtils.isEmpty(newText)) {

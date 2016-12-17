@@ -9,46 +9,63 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.List;
-
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.R;
-import bounswe16group12.com.meanco.adapters.CustomTopicDetailAdapter;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
 import bounswe16group12.com.meanco.objects.Comment;
-import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Topic;
+import bounswe16group12.com.meanco.tasks.FollowTopic;
 import bounswe16group12.com.meanco.tasks.PostComment;
 import bounswe16group12.com.meanco.utils.Functions;
 
+/**
+ * Topic detail activity has comments and tags of a topic.
+ * User can add a tag, a comment, vote on a comment, edit her previously added comment and follow the topic.
+ */
 public class TopicDetailActivity extends AppCompatActivity {
     Topic topic;
-    public static CustomTopicDetailAdapter adapter;
-    public static ListView listView;
-    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_detail);
 
-        mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
+        /**
+         * Google analytics data.
+         */
+        Tracker mTracker = ((MeancoApplication) getApplication()).getDefaultTracker();
         mTracker.setScreenName("TOPIC_DETAIL_ACTIVITY");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.enableAutoActivityTracking(true);
 
+        /**
+         * Topic detail page has topic name as the title.
+         */
         int topicId = getIntent().getIntExtra("topicId",-1);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
         topic = db.getTopic(topicId);
         setTitle(topic.topicName);
 
+        /**
+         * If it is user's first time in application, a spotlight that teaches the user the long press feature
+         * is shown.
+         */
+        if(Functions.isFirstTimeInApp(TopicDetailActivity.this)){
 
+            Functions.showSpotlight("Edit", "Long press on a comment to edit.",
+                    findViewById(R.id.listView_topic_comments), this, "Comment");
 
+        }
+
+        /**
+         * Add relation button is populated here.
+         */
         FloatingActionButton comment_fab = (FloatingActionButton) findViewById(R.id.fabComment);
         comment_fab.setOnClickListener(
                 new View.OnClickListener() {
@@ -56,6 +73,9 @@ public class TopicDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        /**
+                         * Guests do not have right to add comment.
+                         */
                         if (Functions.getUserId(TopicDetailActivity.this) == -1) {
                             Functions.showNotLoggedInAlert(TopicDetailActivity.this);
 
@@ -70,7 +90,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString());
+                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString(),Functions.getUsername(getApplicationContext()));
                                             new PostComment(MeancoApplication.POST_COMMENT_URL, c, getApplicationContext()).execute();
                                         }
                                     })
@@ -84,14 +104,15 @@ public class TopicDetailActivity extends AppCompatActivity {
                     }
                 }
         );
-
-
         FloatingActionButton tag_fab = (FloatingActionButton) findViewById(R.id.fabTag);
         tag_fab.setOnClickListener(
                 new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
+                        /**
+                         * Guests do not have right to add tag.
+                         */
                         if (Functions.getUserId(TopicDetailActivity.this) == -1) {
                             Functions.showNotLoggedInAlert(TopicDetailActivity.this);
 
@@ -112,41 +133,45 @@ public class TopicDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_topic_detail, menu);
+        MenuItem item = menu.findItem(R.id.action_follow);
+
+        if(MeancoApplication.followedTopicList.contains(topic.topicId)){
+            item.setIcon(R.drawable.followed);
+            item.setChecked(true);
+        }
+        else{
+            item.setIcon(R.drawable.follow);
+            item.setChecked(false);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        /**
+         *
+         * If follow topic item is selected, user follows the topic and the topic is added on her profile.
+         * If it was already selected, user unfollows the topic and it is removed from her profile.
+         */
         int id = item.getItemId();
-
-
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
-        List<Relation> relations = databaseHelper.getAllRelations(topic.topicId);
-        adapter=new CustomTopicDetailAdapter(getApplicationContext(), R.layout.relation_dialog_view, relations, topic.topicId);
-
-        final View customView = getLayoutInflater().inflate(R.layout.relation_dialog_view, null, false);
-
-
-        listView = (ListView) customView.findViewById(R.id.relations_list);
-        listView.setAdapter(adapter);
-
-
-
-        if (id == R.id.action_relation) {
-            new AlertDialog.Builder(TopicDetailActivity.this)
-                    .setTitle(topic.topicName + "'s Relations")
-                    .setView(customView)
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .show();
-
-            return true;
+        if(id==R.id.action_follow){
+            if(Functions.getUserId(TopicDetailActivity.this)==-1)
+                Functions.showNotLoggedInAlert(TopicDetailActivity.this);
+            else {
+                new FollowTopic(MeancoApplication.FOLLOW_TOPIC_URL, topic.topicId, getApplicationContext()).execute();
+                if (!item.isChecked()) {
+                    item.setIcon(R.drawable.followed);
+                    item.setChecked(true);
+                    Toast.makeText(getApplicationContext(), "Topic Followed.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    item.setIcon(R.drawable.follow);
+                    item.setChecked(false);
+                    Toast.makeText(getApplicationContext(), "Topic Unfollowed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item);

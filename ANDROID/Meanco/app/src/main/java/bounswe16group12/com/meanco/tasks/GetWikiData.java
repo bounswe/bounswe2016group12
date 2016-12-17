@@ -20,6 +20,7 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ * Task for getting wikidata results from wikidata API.
  * Created by Ezgi on 12/7/2016.
  */
 
@@ -55,7 +56,7 @@ public class GetWikiData extends AsyncTask<Void, Void, Connect.APIResult > {
                         if(!obj.has("description") || obj.getString("description").equals("Wikipedia disambiguation page")
                                 || obj.getString("description").equals("Wikimedia disambiguation page"))
                             continue;
-                        String url = obj.getString("url");
+                        String url = obj.getString("concepturi");
                         String label = obj.getString("label");
                         String description = obj.getString("description");
 

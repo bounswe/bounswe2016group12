@@ -22,6 +22,7 @@ import bounswe16group12.com.meanco.utils.Connect;
 
 
 /**
+ * Task for getting tags, topic name etc, relations of a topic.
  * Created by Ezgi on 12/2/2016.
  */
 
@@ -46,6 +47,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 if (response.getResponseCode() == 200) {
+                    Log.i("GET_LIST",response.getData());
                     for(int i=0;i<jsonArray.length();i++){
 
                         ArrayList<Tag> tagsArray = new ArrayList<>();
@@ -95,6 +97,9 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 HomeActivityFragment.adapter.clear();
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
+
+                new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL,context).execute();
+                new GetUserComments(MeancoApplication.GET_USER_COMMENTS_URL,context).execute();
             }
         } catch (JSONException e) {
 
