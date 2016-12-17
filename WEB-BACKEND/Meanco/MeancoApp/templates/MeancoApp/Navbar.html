@@ -28,11 +28,11 @@
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
           <li><a >{{ user.get_username }}<span class="sr-only">(current)</span></a></li>
-          <div class="btn-group btn-group-lg">
-            <a href="/" class="btn btn-default btn-xs" role="button" >
+          <div class="btn-group navbar-btn">
+            <a href="/" class="btn btn-default" role="button" >
               <span class="glyphicon glyphicon-wrench"></span>
             </a>
-            <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-danger btn-xs" role="button">
+            <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-danger" role="button">
               <span class="glyphicon glyphicon-off" ></span>
             </a>
           </div>
@@ -115,7 +115,7 @@
     var tags = [];
 
     function pickTag(id){
-        console.log("a tag is picked!");
+        console.log("Tag is picked!");
         console.log("Tag label: " + tags[id].label);
         $("#tagLabelId").replaceWith("<input type=\"text\" class=\"form-control\" name=\"tag\" id=\"tagLabelId\" value=\"" + tags[id].label + "\" readonly=\"readonly\">");
         console.log("Tag description: " + tags[id].description);
@@ -198,7 +198,7 @@
                 return;
             }
             $.ajax({
-                url: "API/AddTopic",
+                url: "/API/AddTopic",
                 type: "post",
                 data: serializedData,
                 cache: 'false',
@@ -326,7 +326,7 @@
             }
 
             $.ajax({
-                url: "API/TopicLister",
+                url: "/API/TopicLister",
                 type: "get",
                 data: "search=" + str,
                 cache: 'false',
@@ -397,7 +397,7 @@
                 return;
             }
             $.ajax({
-                url: "API/AddRelation",
+                url: "/API/AddRelation",
                 type: "post",
                 data: serializedData,
                 cache: 'false',
