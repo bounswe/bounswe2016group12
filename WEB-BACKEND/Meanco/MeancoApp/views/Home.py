@@ -10,8 +10,8 @@ def get_page(request):
     FollowedTopics=()
     CommentedTopics=()
     ViewedTopics=()
-    TrendingTopics=Topic.objects.order_by("-view_count")[:5]
-    TrendingTags = Tag.objects.order_by("-topic_count")[:5]
+    TrendingTopics=Topic.objects.order_by("-view_count")[:7]
+    TrendingTags = Tag.objects.order_by("-topic_count")[:7]
     Relations=getRelations(1)
     if request.user.is_authenticated:
         profileId = Profile.objects.get(user_id=id).id

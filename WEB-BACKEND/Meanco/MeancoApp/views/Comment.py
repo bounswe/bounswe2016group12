@@ -14,7 +14,8 @@ def get_page(request, id):
         else:
             vt=ViewedTopic(profile_id=profileId,topic_id=topicId)
             vt.save()
-
+    TrendingTopics=Topic.objects.order_by("-view_count")[:7]
+    TrendingTags = Tag.objects.order_by("-topic_count")[:7]
     topic = Topic.objects.get(id=topicId )
     topic.viewed()
     topic.save()
@@ -22,6 +23,6 @@ def get_page(request, id):
     oftopic = OfTopic.objects.filter(topic=topicId)
 
     if _platform=="win32":
-        return render(request, 'MeancoApp\CommentList.html', {'topic':topic, 'comments':comments, 'oftopic':oftopic})
+        return render(request, 'MeancoApp\CommentList.html', {'topic':topic,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'comments':comments, 'oftopic':oftopic})
     else:
-        return render(request, 'MeancoApp/CommentList.html', {'topic':topic, 'comments':comments, 'oftopic':oftopic})
+        return render(request, 'MeancoApp/CommentList.html', {'topic':topic,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'comments':comments, 'oftopic':oftopic})

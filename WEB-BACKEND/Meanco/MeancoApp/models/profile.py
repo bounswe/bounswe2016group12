@@ -13,6 +13,7 @@ class Profile(Model):
     def __str__(self):
         return str(self.pk)
 
+#To find out users followed topics
 class FollowedTopic(Model):
     profile =  ForeignKey(Profile, on_delete=CASCADE, related_name='followedTopics')
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='followers')
@@ -22,6 +23,7 @@ class FollowedTopic(Model):
     def __str__(self):
         return str(self.pk)
 
+#To find out users viewed topics
 class ViewedTopic(Model):
     profile =  ForeignKey(Profile, on_delete=CASCADE, related_name='viewedTopics')
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='viewers')
@@ -33,6 +35,8 @@ class ViewedTopic(Model):
         return str(self.pk)
     def __str__(self):
         return str(self.pk)
+
+#To find out users Commented topics.
 class CommentedTopic(Model):
     profile =  ForeignKey(Profile, on_delete=CASCADE, related_name='commentedTopics')
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='commenters')

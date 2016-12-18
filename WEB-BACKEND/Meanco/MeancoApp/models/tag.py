@@ -36,7 +36,7 @@ class Tag(Model):
     class Meta:
         unique_together = (('URL','label', 'description'))
 
-### tag.OfTopic
+### To see which topics are tagged with which tags.
 
 class OfTopic(Model):
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='tags')
