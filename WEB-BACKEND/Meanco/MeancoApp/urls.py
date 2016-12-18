@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^API/T/$', ApiTopic.TopicList.as_view()),
     url(r'^API/T/(?P<pk>[0-9]+)/$', ApiTopic.TopicDetail.as_view()),
     url(r'signup$', Home.get_signup_page, name="signup"),
+    url(r'^Profile$', Profile.get_page)
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

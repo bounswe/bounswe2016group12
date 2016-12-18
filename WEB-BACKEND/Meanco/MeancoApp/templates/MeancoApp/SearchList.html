@@ -34,7 +34,7 @@
         {% for result in results %}
             <div class="row">
                 <div class="col-md-8">
-                    <h4> {{ result.label }}</h4>
+                    <a href="/topic/{{ result.id }}" style="color:deeppink" id="nVoteId"><span style="font-size:1.3em">{{ result.label }}</span></a>
                 </div>
                 <div class="col-md-2">
                     {% if action == "topic" %}
