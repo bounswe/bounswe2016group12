@@ -2,16 +2,19 @@ package bounswe16group12.com.meanco.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
-import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
-import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
 
@@ -25,10 +28,13 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
     private Context context;
     private String url;
     private int topicId;
-    public GetTopicDetail(String url, int topicId, Context context){
+    private boolean isUserCommentTask;
+
+    public GetTopicDetail(String url, int topicId,boolean isUserCommentTask, Context context){
         this.context = context;
         this.url = url + topicId;
         this.topicId = topicId;
+        this.isUserCommentTask = isUserCommentTask;
     }
 
     @Override
@@ -50,17 +56,25 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         JSONArray versions = topicObject.getJSONArray("versions");
                         JSONObject contentObject = versions.getJSONObject(0);
                         String content = contentObject.getString("content");
+                        String dateStr = contentObject.getString("timestamp");
+                        try{
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                            Date date = dateFormat.parse(dateStr);
+                            long time = date.getTime();
 
-                        Comment c = new Comment(commentId, topicId, content,username);
-                        databaseHelper.addComment(c);
+                            Comment c = new Comment(commentId, topicId, content,username,time);
+                            databaseHelper.addComment(c);
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
                     }
 
-                    if(Functions.getUserId(context)!=-1) {
+                    if(Functions.getUserId(context)!=-1 || !isUserCommentTask) {
                         new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL, topicId, context).execute();
                     }
                 }
-                if(TopicDetailActivityFragment.mCommentsAdapter != null)
-                  TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
+               // if(TopicDetailActivityFragment.mCommentsAdapter != null)
+                //  TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
             }
         } catch (JSONException e) {
             e.printStackTrace();

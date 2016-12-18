@@ -47,7 +47,7 @@ public class GetUserComments extends AsyncTask<Void,Void,Connect.APIResult> {
                         JSONObject topicObject = jsonArray.getJSONObject(i);
                         int topicId = topicObject.getInt("pk");
                         Log.i("USER_COMMENTS", " = " + topicId);
-                        new GetTopicDetail(MeancoApplication.SITE_URL,topicId,context).execute();
+                        new GetTopicDetail(MeancoApplication.SITE_URL,topicId,true,context).execute();
                     }
                 }
             }

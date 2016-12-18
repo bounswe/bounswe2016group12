@@ -92,6 +92,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         else {
             usernameTextView.setText(c.username);
 
+            downvoteBtn.setVisibility(View.VISIBLE);
+            upvoteBtn.setVisibility(View.VISIBLE);
+
             downvoteBtn.setSelected(false);
             upvoteBtn.setSelected(false);
 

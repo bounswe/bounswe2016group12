@@ -48,7 +48,7 @@ public class EditComment extends AsyncTask<Void,Void,Connect.APIResult> {
          String responseStr = response.getData();
         if (responseStr != null) {
             if (response.getResponseCode() == 200) {
-                new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,context).execute();
+                new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,false,context).execute();
             }
         }
     }

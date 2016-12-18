@@ -9,6 +9,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import bounswe16group12.com.meanco.objects.Comment;
@@ -27,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper sInstance;
 
     private static final String DATABASE_NAME = "meancoDB";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     //TOPIC
     private static final String KEY_TOPIC_TABLE = "topics";
@@ -51,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMMENT_TOPIC_ID = "topicId";
     private static final String KEY_COMMENT_CONTENT = "content";
     private static final String KEY_COMMENT_USERNAME = "username";
-
+    private static final String KEY_COMMENT_TIMESTAMP = "timestamp";
     //RELATION
     private static final String KEY_RELATION_TABLE = "relations";
 
@@ -131,7 +134,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 KEY_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_COMMENT_TOPIC_ID + " INTEGER," +
                 KEY_COMMENT_CONTENT + " TEXT," +
-                KEY_COMMENT_USERNAME + " TEXT" +
+                KEY_COMMENT_USERNAME + " TEXT," +
+                KEY_COMMENT_TIMESTAMP + " INTEGER" +
                 ")";
 
         db.execSQL(CREATE_COMMENT_TABLE);
@@ -579,6 +583,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                values.put(KEY_COMMENT_TOPIC_ID, comment.topicId);
                values.put(KEY_COMMENT_CONTENT, comment.content);
                values.put(KEY_COMMENT_USERNAME,comment.username);
+               values.put(KEY_COMMENT_TIMESTAMP,comment.time);
 
                db.insert(KEY_COMMENT_TABLE, null, values);
                db.setTransactionSuccessful();
@@ -605,6 +610,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_COMMENT_TOPIC_ID, comment.topicId );
             values.put(KEY_COMMENT_CONTENT,comment.content);
             values.put(KEY_COMMENT_USERNAME,comment.username);
+            values.put(KEY_COMMENT_TIMESTAMP,comment.time);
 
             db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_ID + "= ?", new String[]{""+comment.commentId});
             db.setTransactionSuccessful();
@@ -634,6 +640,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                 comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
                 comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+                comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
             }
         } finally {
             cursor.close();
@@ -655,17 +662,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
                     comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+                    comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
 
                     comments.add(comment);
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.d("USER DB HELPER", "Error while trying to get posts from database");
+            Log.i("USER DB HELPER", "Error while trying to get posts from database");
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
             }
         }
+        Collections.sort(comments, new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                if(o1.time > o2.time){return -1;}
+                else if(o1.time < o2.time){return 1;}
+                else{return 0;}
+            }
+        });
         return comments;
     }
     /**
@@ -688,6 +704,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
                     comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+                    comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
 
                     comments.add(comment);
                 } while(cursor.moveToNext());
@@ -699,8 +716,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        return comments;
-    }
+        Collections.sort(comments, new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                if(o1.time > o2.time){return -1;}
+                else if(o1.time < o2.time){return 1;}
+                else{return 0;}
+            }
+        });
+        return comments;    }
 
     /**
      * Add relation to local db.

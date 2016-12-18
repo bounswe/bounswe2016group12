@@ -70,7 +70,6 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
         View v = convertView;
         Topic t = getItem(position);
 
-
         TextView topicName = null;
         LinearLayout linearLayout = null;
         ArrayList<Tag> tg;
@@ -79,8 +78,6 @@ public class TopicSearchAdapter extends ArrayAdapter <Topic> {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.fragment_listitem, null);
-
-
 
             topicName = (TextView) v.findViewById(R.id.topicitem);
             topicName.setText(t.topicName);
