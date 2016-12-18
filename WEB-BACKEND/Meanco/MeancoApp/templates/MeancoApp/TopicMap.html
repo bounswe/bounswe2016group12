@@ -5,6 +5,7 @@
     <div id="mynetwork" style="height: 1500px"></div>
     <script type="text/javascript">
 
+        //Topics are created according to its #view (determining its color) and #comment (determining its size)
         var nodes = new vis.DataSet([
             {% for topic in topics %}
                 {id: {{ topic.id }}, label: '{{ topic.label }}', group: {{ topic.view_count }},
@@ -12,19 +13,18 @@
             {% endfor %}
         ]);
 
+        //Relations are created
         var edges = new vis.DataSet([
-            {% for topic in topics %}
-                {% for relation in topic.relations_a.all %}
-                    {% if relation.isBidirectional %}
-                        {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
-                            arrows: 'to, from', label: '{{ relation.label }}', font: {align: 'top'},
-                                shadow:{color:'rgb(0,100,0)'}},
-                    {% else %}
-                        {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
-                            arrows: 'to', label: '{{ relation.label }}', font: {align: 'top'},
-                                shadow:{color:'rgb(0,100,0)'}},
-                    {% endif %}
-                {% endfor %}
+            {% for relation in Relations %}
+                {% if relation.isBidirectional %}
+                    {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
+                        arrows: 'to, from', label: '{{ relation.label }}', font: {align: 'top'},
+                        shadow:{color:'rgb(0,100,0)'}},
+                {% else %}
+                    {from: {{ relation.topic_a.id }}, to: {{ relation.topic_b.id }}, id: {{ relation.id }},
+                        arrows: 'to', label: '{{ relation.label }}', font: {align: 'top'},
+                        shadow:{color:'rgb(0,100,0)'}},
+                {% endif %}
             {% endfor %}
         ]);
 
@@ -34,6 +34,8 @@
             nodes: nodes,
             edges: edges
         };
+
+        //Graph nodes are shaped as circles
         var options = {
                 nodes: {
                     shape: 'dot',
@@ -54,6 +56,8 @@
             };
         var network = new vis.Network(container, data, options);
 
+        //When double clicked to a topic, redirects to its page
+        //When double clicked to a relation, redirects to list of all relations between these two topics
         network.on("doubleClick", function (params) {
             if (params.nodes[0] != null) {
                 location.href = "topic/" + params.nodes[0];

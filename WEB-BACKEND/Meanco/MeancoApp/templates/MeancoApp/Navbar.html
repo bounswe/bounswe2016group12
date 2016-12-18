@@ -1,18 +1,21 @@
 {% load staticfiles %}
 
+<!-- Navigation Bar-->
 <nav class="navbar navbar-inverse navbar-fixed-top" >
 
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="/"><img src="{% static 'image/logomakr.png' %}"></a>
+      <a class="navbar-brand"  style="margin-left: 10px" href="/"><img src="{% static 'image/logomakr.png' %}"></a>
     </div>
 
+    <!-- Logo -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li ><a >Let's Connect! <span class="sr-only">(current)</span></a></li>
       </ul>
 
+    <!-- Search Topic and Tag -->
      <form class="navbar-form navbar-left search-form" method="get" action="/Search/" role="search">
           <div class="form-group">
               <input type="text" class="form-control" name="param" placeholder="Search">
@@ -20,26 +23,28 @@
           <button type="submit" name="action" value="topic" class="btn btn-default">Topic</button>
           <button type="submit" name="action" value="tag" class="btn btn-default">Tag</button>
       </form>
+
+    <!-- Create Topic and Add Relation Buttons -->
     {% if user.is_authenticated %}
-        <div class="btn-group navbar-btn">
+        <div class="btn-group navbar-btn"  style="margin-left: 30px">
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Create Topic</button>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#relationModal">Add Relation</button>
         </div>
     {% endif %}
       <ul class="nav navbar-nav navbar-right">
+
+        <!-- Username, Profile and Logout -->
         {% if user.is_authenticated %}
           <li><a >{{ user.get_username }}<span class="sr-only">(current)</span></a></li>
-          <div class="btn-group navbar-btn">
+          <div class="btn-group navbar-btn" style="margin-right: 30px">
             <a href="/Profile" class="btn btn-default" role="button">
               <span class="glyphicon glyphicon-user" ></span>
-            </a>
-            <a href="/" class="btn btn-default" role="button" >
-              <span class="glyphicon glyphicon-wrench"></span>
             </a>
             <a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-danger" role="button">
               <span class="glyphicon glyphicon-off" ></span>
             </a>
           </div>
+        <!-- Login and Signup -->
         {% else %}
           <li><a href="{% url 'login'%}?next={{request.path}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <li><a href="{% url 'signup'%}?next={{request.path}}"><span class="glyphicon glyphicon-user"></span> SignUp</a></li>
@@ -53,6 +58,7 @@
 
 {% csrf_token %}
 
+<!-- Create Topic Modal -->
 <form class="form-horizontal" id="addTopicId" method="post">
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -234,6 +240,8 @@
     });
 </script>
 
+
+<!-- Add Relation Modal -->
 <form class="form-horizontal" method="post" id="addRelationId">
     {% csrf_token %}
     <div class="modal fade" id="relationModal" role="dialog">

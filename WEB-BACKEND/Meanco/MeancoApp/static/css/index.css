@@ -20,6 +20,7 @@
 	margin: 20px 20px 20px 20px;
 	height: 300px;
 	width: 200px;
+
 }
 .Followed {
 	background-color:paleturquoise;
@@ -68,6 +69,10 @@ span.label:hover + span.label-desc {
 span.label-desc {
 	display: none;
 }
+.nav {
+	font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
 .navbar-brand {
   padding: 0px;
 }
