@@ -30,6 +30,8 @@
                                 <span class="glyphicon glyphicon-arrow-left"></span> {{ relation.label}}
                             </a>
                         {% endif %}
+                        <button type="submit" class="btn btn-default" id="upVId{{ relation.id }}" style="color:pink" onclick="upvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-up"></span></button>
+                        <button type="submit" class="btn btn-default" id="downVId{{ relation.id }}" style="color:gray" onclick="downvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-down"></span></button>
                     </h2>
                 </li>
             {% endfor %}
@@ -44,4 +46,76 @@
             {% endfor %}
         </ul>
     </div>
+
+    <script>
+    function upvoteRelation (id, relationId) {
+        event.preventDefault();
+        console.log("form submission requested...");  // sanity check
+        console.log("RelationId: " + relationId);
+        var serializedData = {
+            relation: relationId,
+            direction: "upvote"
+        };
+        console.log("post data: " + serializedData);
+        console.log("form submitted!");  // sanity check
+
+        $.ajax({
+            url: "/API/RateRelation",
+            type: "post",
+            data: serializedData,
+            cache: 'false',
+            async: 'true',
+
+            success: function (response) {
+                console.log(response);
+                if (response.responseText="Rated") {
+                    console.log("Relation is upvoted now.");
+                    location.reload();
+                } else {
+                    console.log("Relation cannot be upvoted.");
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                console.log("Error during upvote!");
+            }
+        });
+    }
+
+    function downvoteRelation (id, relationId) {
+        event.preventDefault();
+        console.log("form submission requested...");  // sanity check
+        console.log("RelationId: " + relationId);
+        var serializedData = {
+            relation: relationId,
+            direction: "downvote"
+        };
+        console.log("post data: " + serializedData);
+        console.log("form submitted!");  // sanity check
+
+        $.ajax({
+            url: "/API/RateRelation",
+            type: "post",
+            data: serializedData,
+            cache: 'false',
+            async: 'true',
+
+            success: function (response) {
+                console.log(response);
+                if (response.responseText="Rated") {
+                    console.log("Relation is downvoted now.");
+                    location.reload();
+                } else {
+                    console.log("Relation cannot be downvoted.");
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                console.log("Error during downvote!");
+            }
+        });
+    }
+
+    </script>
+
 {% endblock %}
