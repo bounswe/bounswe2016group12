@@ -20,12 +20,14 @@ class Comment(Model):
     def __str__(self):
         return str(self.pk)
 
+    #get latest version of users comment
     def current(self):
         return self.versions.first()
-
+    #get latest version of users comments content.
     def content(self):
         return self.current().content
 
+    #edits uses comment.
     def edit(self, newcontent):
         version = Version(
             comment=self,
@@ -52,7 +54,6 @@ class Version(Model):
         unique_together = (('timestamp', ), )
 
 ### comment.Voter
-
 class Voter(Model):
     profile = ForeignKey(Profile, on_delete=CASCADE, related_name='commentvoters')
     comment = ForeignKey(Comment, on_delete=CASCADE, related_name='voters')
@@ -66,6 +67,7 @@ class Voter(Model):
     def __str__(self):
         return str(self.pk)
 
+    #All in one function for user to upvote,downvote.
     def toggle(self,direction):
         comment = Comment.objects.get(id=self.comment_id)
 

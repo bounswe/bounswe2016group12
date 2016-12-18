@@ -7,6 +7,8 @@ def get_page(request):
 
     param = request.GET.get('param')
     action = request.GET.get('action')
+    TrendingTopics=Topic.objects.order_by("-view_count")[:7]
+    TrendingTags = Tag.objects.order_by("-topic_count")[:7]
     if action == "topic":
         topics1 = findStringMatchedTopics(param)
         topics2 = findMutuallyTaggedTopics(param)
@@ -23,6 +25,6 @@ def get_page(request):
         results = Tag.objects.filter(label__startswith=param).order_by('-view_count', '-topic_count')
 
     if _platform=="win32":
-        return render(request, 'MeancoApp\SearchList.html', {'results': results, 'action': action})
+        return render(request, 'MeancoApp\SearchList.html', {'results': results,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'action': action})
     else:
-        return render(request, 'MeancoApp/SearchList.html' , {'results': results, 'action': action})
+        return render(request, 'MeancoApp/SearchList.html' , {'results': results,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'action': action})

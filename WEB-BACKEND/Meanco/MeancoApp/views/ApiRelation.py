@@ -3,7 +3,8 @@ from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-#
+# Adds relation between given 2 topics. API call.
+# Example API request:
 # topic1 : 1
 # topic2 : 2
 # label : "asd"
@@ -39,7 +40,7 @@ def addRelation(request):
             status=200,
             content_type="application/json")
 
-
+# Rates given relation.
 #   userId : 1
 #   relation : 5
 #   direction : "upvote"
