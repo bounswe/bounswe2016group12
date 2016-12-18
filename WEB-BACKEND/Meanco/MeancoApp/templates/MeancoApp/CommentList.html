@@ -1,5 +1,5 @@
 {% extends 'MeancoApp/Home.html' %}
-
+{% load staticfiles %}
 {% block content %}
 
     {% csrf_token %}
@@ -214,12 +214,16 @@
                     <h4> {{ comment.vote_count }} </h4>
                 </div>
                 <div class="col-md-8">
-                    <p> {{ comment.content }}</p>
+                    <p id="content{{ comment.id }}"> {{ comment.content }}</p>
+                    <p id="changeComm{{ comment.id }}"></p>
                     <p>{{ comment.current.timestamp }} {{ comment.profile.user.username }}</p>
+                    {% if user.is_authenticated and comment.profile.id == user.profile.id %}
+                        <p id="cEdit{{ comment.id }}"><button type="submit" class="btn btn-default" style="color:forestgreen" onclick='editComment(this.id, {{ comment.id }}, "{{ comment.content }}")'><span id="edit{{ comment.id }}" class="glyphicon glyphicon-pencil"></span></button></p>
+                    {% endif %}
                 </div>
                 {% if user.is_authenticated %}
-                    <button type="submit" class="btn btn-default" id="upvoteId" style="color:pink" onclick="upvote(this.id, {{ comment.id }})"><span id="up{{ comment.id }}" class="glyphicon glyphicon-thumbs-up"></span></button>
-                    <button type="submit" class="btn btn-default" id="downvoteId" onclick="downvote(this.id, {{ comment.id }})"><span id="down{{ comment.id }}" class="glyphicon glyphicon-thumbs-down"></span></button>
+                    <button type="submit" class="btn btn-default" id="upvoteId" style="color:pink" onclick="upvote(this.id, {{ comment.id }})"><span id="up{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_upvote_empty.png" %}"></span></button>
+                    <button type="submit" class="btn btn-default" id="downvoteId" onclick="downvote(this.id, {{ comment.id }})"><span id="down{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_downvote_empty.png" %}"></span></button>
                 {% endif %}
             </div>
             <hr>
@@ -272,20 +276,19 @@
                         commentId = response[c].fields.comment;
                         if(!response[c].fields.upvoted && !response[c].fields.downvoted){
                             console.log("Comment is neither upvoted not downvoted.");
-                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}" class="glyphicon glyphicon-thumbs-up" style="color:pink"></span>');
-                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}" class="glyphicon glyphicon-thumbs-down"></span>');
+                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_upvote_empty.png" %}"></span>');
+                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_downvote_empty.png" %}"></span>');
                         }else if(response[c].fields.upvoted){
                             console.log("Comment is upvoted.");
-                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}" class="glyphicon glyphicon-hand-up" style="color:pink"></span>');
+                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_upvote_filled.png" %}"></span>');
                         }else if(response[c].fields.downvoted){
                             console.log("Comment is downvoted.");
-                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}" class="glyphicon glyphicon-hand-down"></span>');
+                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_downvote_filled.png" %}"></span>');
                         }else{
                             console.log("Something wrong with voting system.")
                         }
 
                     }
-                    //location.reload();
 
                 },
                 error: function (response) {
@@ -415,6 +418,53 @@
             }
         });
     }
+
+    function editComment(id, commentId, content){
+
+        $('#content'+commentId).replaceWith('<textarea class="form-control" rows="5" id="content'+commentId+'" name="text">' + content + '</textarea>');
+        $('#changeComm'+commentId).replaceWith('<p id="changeComm' + commentId + '"><button type="submit" class="btn btn-default" style="color:forestgreen" onclick="changeComment(' + commentId + ')">Submit</button></p>');
+        $('#cEdit'+commentId).replaceWith('');
+
+    }
+
+    function changeComment(commentId){
+        console.log("Edit comment.");
+        console.log(commentId);
+        content = $('#content'+commentId).val();
+        console.log(content);
+        var serializedData = {
+            commentId: commentId,
+            text: content
+        };
+        $.ajax({
+            url: "/API/EditComment",
+            type: "post",
+            data: serializedData,
+            cache: 'false',
+            async: 'true',
+
+            success: function (response) {
+                console.log(response);
+                if (response="Comment Edited") {
+                    console.log("Comment is edited now.");
+                    location.reload();
+                } else {
+                    console.log("Comment cannot be edited.");
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                console.log("Error during downvote.");
+                if(response == "Comment Edit Error"){
+
+                }else if(response == "Comment linking Error"){
+
+                }
+            }
+        });
+
+    }
+
 
 </script>
 
