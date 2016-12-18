@@ -21,6 +21,11 @@
             <div class="col-md-3" >
                 <h4>#Views</h4>
             </div>
+            <div class="col-md-2">
+                {% if action == "topic" %}
+                    <h4>Follow</h4>
+                {% endif %}
+            </div>
         </div>
         <p></p>
         <hr>
@@ -39,6 +44,11 @@
                 </div>
                 <div class="col-md-3">
                     <h4> {{ result.view_count }} </h4>
+                </div>
+                <div class="col-md-2">
+                {%  if action == "topic" %}
+                    <button type="submit" class="btn btn-default" id="nVoteId" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart"></span></button>
+                {% endif %}
                 </div>
             </div>
             <hr>
