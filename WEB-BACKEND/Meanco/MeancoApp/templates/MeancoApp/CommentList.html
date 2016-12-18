@@ -209,7 +209,7 @@
         {% endif %}
 
         {% for comment in comments %}
-            <div class="row">
+            <div class="row" id="cRow">
                 <div class="col-md-2">
                     <h4> {{ comment.vote_count }} </h4>
                 </div>
@@ -218,8 +218,8 @@
                     <p>{{ comment.current.timestamp }} {{ comment.profile.user.username }}</p>
                 </div>
                 {% if user.is_authenticated %}
-                    <button type="submit" class="btn btn-default" id="upvoteId" onclick="upvote(this.id, {{ comment.id }})"><span id="{{ comment.id }}" class="glyphicon glyphicon-thumbs-up"></span></button>
-                    <button type="submit" class="btn btn-default" id="downvoteId" onclick="downvote(this.id, {{ comment.id }})"><span id="{{ comment.id }}" class="glyphicon glyphicon-thumbs-down"></span></button>
+                    <button type="submit" class="btn btn-default" id="upvoteId" style="color:pink" onclick="upvote(this.id, {{ comment.id }})"><span id="up{{ comment.id }}" class="glyphicon glyphicon-thumbs-up"></span></button>
+                    <button type="submit" class="btn btn-default" id="downvoteId" onclick="downvote(this.id, {{ comment.id }})"><span id="down{{ comment.id }}" class="glyphicon glyphicon-thumbs-down"></span></button>
                 {% endif %}
             </div>
             <hr>
@@ -256,6 +256,49 @@
     </div>
 
 <script>
+    $(document).ready(function () {
+        $('#cRow').each(function(){
+            $.ajax({
+                url: "/API/GetCommentVoters",
+                type: "get",
+                data: "TopicId="+{{ topic.id }},
+                cache: 'false',
+                dataType: "json",
+                async: 'true',
+
+                success: function (response) {
+                    console.log(response);
+                    for(c in response){
+                        commentId = response[c].fields.comment;
+                        if(!response[c].fields.upvoted && !response[c].fields.downvoted){
+                            console.log("Comment is neither upvoted not downvoted.");
+                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}" class="glyphicon glyphicon-thumbs-up" style="color:pink"></span>');
+                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}" class="glyphicon glyphicon-thumbs-down"></span>');
+                        }else if(response[c].fields.upvoted){
+                            console.log("Comment is upvoted.");
+                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}" class="glyphicon glyphicon-hand-up" style="color:pink"></span>');
+                        }else if(response[c].fields.downvoted){
+                            console.log("Comment is downvoted.");
+                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}" class="glyphicon glyphicon-hand-down"></span>');
+                        }else{
+                            console.log("Something wrong with voting system.")
+                        }
+
+                    }
+                    //location.reload();
+
+                },
+                error: function (response) {
+                    console.log(response);
+                    console.log("Error during vote assessment.");
+
+                }
+
+            });
+        });
+
+    });
+
     $(document).ready(function () {
         $('#cSubmitId').on('click', function (event) {
             event.preventDefault();
