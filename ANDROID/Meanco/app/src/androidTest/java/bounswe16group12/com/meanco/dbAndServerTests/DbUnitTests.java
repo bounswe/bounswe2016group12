@@ -69,11 +69,11 @@ public class DbUnitTests {
     @Test
     public void test3EditComment() {
 
-        DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addComment(new Comment(-10, Integer.MIN_VALUE, "deneme", "ezgi",-1));
+        DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addComment(new Comment(-10, Integer.MIN_VALUE, "deneme", "ezgi",-1,-1));
 
         Comment c = DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).getAllComments(Integer.MIN_VALUE)
                 .get(0);
-        DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addComment(new Comment(c.commentId, c.topicId, "changed", "ezgi",-1));
+        DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).addComment(new Comment(c.commentId, c.topicId, "changed", "ezgi",-1,-1));
         Comment cNew = DatabaseHelper.getInstance(InstrumentationRegistry.getTargetContext()).getComment(c.commentId);
 
         assertThat(c.content, not(cNew.content));

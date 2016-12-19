@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper sInstance;
 
     private static final String DATABASE_NAME = "meancoDB";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     //TOPIC
     private static final String KEY_TOPIC_TABLE = "topics";
@@ -55,6 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMMENT_CONTENT = "content";
     private static final String KEY_COMMENT_USERNAME = "username";
     private static final String KEY_COMMENT_TIMESTAMP = "timestamp";
+    private static final String KEY_COMMENT_VOTE_COUNT ="voteCount";
+
     //RELATION
     private static final String KEY_RELATION_TABLE = "relations";
 
@@ -135,7 +137,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 KEY_COMMENT_TOPIC_ID + " INTEGER," +
                 KEY_COMMENT_CONTENT + " TEXT," +
                 KEY_COMMENT_USERNAME + " TEXT," +
-                KEY_COMMENT_TIMESTAMP + " INTEGER" +
+                KEY_COMMENT_TIMESTAMP + " INTEGER," +
+                KEY_COMMENT_VOTE_COUNT + " INTEGER" +
                 ")";
 
         db.execSQL(CREATE_COMMENT_TABLE);
@@ -584,6 +587,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                values.put(KEY_COMMENT_CONTENT, comment.content);
                values.put(KEY_COMMENT_USERNAME,comment.username);
                values.put(KEY_COMMENT_TIMESTAMP,comment.time);
+               values.put(KEY_COMMENT_VOTE_COUNT,comment.voteCount);
 
                db.insert(KEY_COMMENT_TABLE, null, values);
                db.setTransactionSuccessful();
@@ -611,6 +615,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_COMMENT_CONTENT,comment.content);
             values.put(KEY_COMMENT_USERNAME,comment.username);
             values.put(KEY_COMMENT_TIMESTAMP,comment.time);
+            values.put(KEY_COMMENT_VOTE_COUNT,comment.voteCount);
 
             db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_ID + "= ?", new String[]{""+comment.commentId});
             db.setTransactionSuccessful();
@@ -641,6 +646,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
                 comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
                 comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
+                comment.voteCount = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_VOTE_COUNT));
             }
         } finally {
             cursor.close();
@@ -663,6 +669,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
                     comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
                     comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
+                    comment.voteCount = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_VOTE_COUNT));
 
                     comments.add(comment);
                 } while(cursor.moveToNext());
@@ -705,6 +712,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
                     comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
                     comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
+                    comment.voteCount = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_VOTE_COUNT));
 
                     comments.add(comment);
                 } while(cursor.moveToNext());

@@ -14,6 +14,7 @@ import java.util.Date;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.database.DatabaseHelper;
+import bounswe16group12.com.meanco.fragments.home.TopicDetailActivityFragment;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.utils.Connect;
 import bounswe16group12.com.meanco.utils.Functions;
@@ -53,6 +54,7 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                         JSONObject topicObject = commentsObject.getJSONObject(i);
                         int commentId = topicObject.getInt("id");
                         String username = topicObject.getString("profile");
+                        int voteCount = topicObject.getInt("vote_count");
                         JSONArray versions = topicObject.getJSONArray("versions");
                         JSONObject contentObject = versions.getJSONObject(0);
                         String content = contentObject.getString("content");
@@ -62,19 +64,20 @@ public class GetTopicDetail extends AsyncTask<Void, Void, Connect.APIResult> {
                             Date date = dateFormat.parse(dateStr);
                             long time = date.getTime();
 
-                            Comment c = new Comment(commentId, topicId, content,username,time);
+                            Comment c = new Comment(commentId, topicId, content,username,time,voteCount);
                             databaseHelper.addComment(c);
                        } catch (ParseException e) {
                            e.printStackTrace();
                        }
                     }
 
-                    if(Functions.getUserId(context)!=-1 || !isUserCommentTask) {
-                        new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL, topicId, context).execute();
+                    if(Functions.getUserId(context)!=-1) {
+                        if(!isUserCommentTask)
+                            new GetCommentVotes(MeancoApplication.GET_COMMENT_VOTES_URL, topicId, context).execute();
                     }
                 }
-               // if(TopicDetailActivityFragment.mCommentsAdapter != null)
-                //  TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
+                if(TopicDetailActivityFragment.mCommentsAdapter != null)
+                  TopicDetailActivityFragment.updateAdapters(databaseHelper, topicId);
             }
         } catch (JSONException e) {
             e.printStackTrace();

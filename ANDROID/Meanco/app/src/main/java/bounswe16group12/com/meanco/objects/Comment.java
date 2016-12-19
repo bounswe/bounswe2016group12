@@ -13,6 +13,7 @@ public class Comment {
     public String content;
     public String username;
     public long time;
+    public int voteCount;
 
     public Comment(){}//Empty constructor to define
 
@@ -23,12 +24,13 @@ public class Comment {
      * @param content Content of the topic.
      * @param username The user that made the comment.
      */
-    public Comment(int commentId, int topicId, String content, String username,long time) {
+    public Comment(int commentId, int topicId, String content, String username,long time,int voteCount) {
         this.commentId = commentId;
         this.topicId = topicId;
         this.content = content;
         this.username = username;
         this.time = time;
+        this.voteCount = voteCount;
     }
 
 }
