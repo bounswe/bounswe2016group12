@@ -70,6 +70,8 @@ public class TagSearchAdapter extends ArrayAdapter<Tag>{
 
             if(TagSearchActivity.checkedTags.indexOf(t) != -1)
                 checkedTextView.setChecked(true);
+            else
+                checkedTextView.setChecked(false);
 
             String text = t.tagName + ": " + t.context;
 

@@ -96,6 +96,8 @@ public class TopicSearchActivity extends AppCompatActivity implements SearchView
 
                     TopicSearchAdapter.relationTopics.clear();
                     adapter.clear();
+                    Intent intent = new Intent(TopicSearchActivity.this, HomeActivity.class);
+                    startActivity(intent);
                     finish();
                 }
                 /**

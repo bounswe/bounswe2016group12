@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import bounswe16group12.com.meanco.activities.TagSearchActivity;
@@ -30,7 +32,7 @@ public class GetWikiData extends AsyncTask<Void, Void, Connect.APIResult > {
     private Context context;
 
     public GetWikiData(String url, Context context) {
-        this.url = url;
+        this.url = url.replace(" ","%20");
         this.context = context;
     }
 
