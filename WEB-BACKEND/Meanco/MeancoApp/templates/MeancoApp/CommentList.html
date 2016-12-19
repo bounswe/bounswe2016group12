@@ -5,7 +5,11 @@
     {% csrf_token %}
 
     <div class="col-md-4">
-        <h1> {{ topic.label }} </h1>
+        <h1> {{ topic.label }}
+            {%  if user.is_authenticated %}
+                <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})"><span id="{{ topic.id }}" class="glyphicon glyphicon-heart"></span></button>
+            {% endif %}
+        </h1>
         <ul style="list-style-type:none" class="tag-list">
             {% for of in oftopic %}
                 <li>
