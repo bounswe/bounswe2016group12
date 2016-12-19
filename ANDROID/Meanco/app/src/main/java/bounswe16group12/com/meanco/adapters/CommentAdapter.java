@@ -61,11 +61,11 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-        Comment c = getItem(position);
+        final Comment c = getItem(position);
 
         TextView contentTextView;
         TextView usernameTextView;
-        TextView voteCountTextView;
+        final TextView voteCountTextView;
 
         if(v == null) {
             LayoutInflater vi;
@@ -77,7 +77,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         contentTextView.setText(c.content);
 
         voteCountTextView = (TextView) v.findViewById(R.id.textView_voteCount);
-        voteCountTextView.setText(c.voteCount +"");
+        voteCountTextView.setText(Integer.toString(c.voteCount));
 
         final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
         final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
@@ -124,7 +124,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
                         if (downvoteBtn.isSelected()) {
                             downvoteBtn.setSelected(false);
                             new VoteComment(MeancoApplication.VOTE_COMMENT_URL, getItem(position), false, getContext()).execute();
+                            voteCountTextView.setText(Integer.toString(c.voteCount+=1));
                         } else {
+                            voteCountTextView.setText(Integer.toString(c.voteCount -= (upvoteBtn.isSelected() ? 2:1)));
                             downvoteBtn.setSelected(true);
                             upvoteBtn.setSelected(false);
                             new VoteComment(MeancoApplication.VOTE_COMMENT_URL, getItem(position), false, getContext()).execute();
@@ -142,7 +144,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
                         if (upvoteBtn.isSelected()) {
                             upvoteBtn.setSelected(false);
                             new VoteComment(MeancoApplication.VOTE_COMMENT_URL, getItem(position), true, getContext()).execute();
+                            voteCountTextView.setText(Integer.toString(c.voteCount-=1));
                         } else {
+                            voteCountTextView.setText(Integer.toString(c.voteCount += (downvoteBtn.isSelected() ? 2:1)));
                             upvoteBtn.setSelected(true);
                             downvoteBtn.setSelected(false);
                             new VoteComment(MeancoApplication.VOTE_COMMENT_URL, getItem(position), true, getContext()).execute();

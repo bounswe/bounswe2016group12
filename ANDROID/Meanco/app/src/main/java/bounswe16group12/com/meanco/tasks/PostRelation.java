@@ -49,7 +49,6 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
                 if (jsonObject != null) {
                     if (response.getResponseCode() == 200) {
                         new GetTopicList(MeancoApplication.SITE_URL,context).execute();
-
                     }
                 }
             } catch (JSONException e) {
