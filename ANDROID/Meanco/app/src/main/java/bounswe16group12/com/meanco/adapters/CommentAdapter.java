@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import bounswe16group12.com.meanco.MeancoApplication;
@@ -63,6 +65,7 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
 
         TextView contentTextView;
         TextView usernameTextView;
+        TextView voteCountTextView;
 
         if(v == null) {
             LayoutInflater vi;
@@ -72,6 +75,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
 
         contentTextView = (TextView) v.findViewById(R.id.comment_item);
         contentTextView.setText(c.content);
+
+        voteCountTextView = (TextView) v.findViewById(R.id.textView_voteCount);
+        voteCountTextView.setText(c.voteCount +"");
 
         final ImageButton downvoteBtn = (ImageButton) v.findViewById(R.id.downvote_button);
         final ImageButton upvoteBtn = (ImageButton) v.findViewById(R.id.upvote_button);
@@ -91,6 +97,9 @@ public class CommentAdapter extends ArrayAdapter <Comment> {
         }
         else {
             usernameTextView.setText(c.username);
+
+            downvoteBtn.setVisibility(View.VISIBLE);
+            upvoteBtn.setVisibility(View.VISIBLE);
 
             downvoteBtn.setSelected(false);
             upvoteBtn.setSelected(false);

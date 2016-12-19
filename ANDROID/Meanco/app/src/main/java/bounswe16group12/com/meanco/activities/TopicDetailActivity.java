@@ -90,7 +90,7 @@ public class TopicDetailActivity extends AppCompatActivity {
                                     .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString(),Functions.getUsername(getApplicationContext()));
+                                            Comment c = new Comment(-1, topic.topicId, content.getText().toString(),Functions.getUsername(getApplicationContext()),-1,-1);
                                             new PostComment(MeancoApplication.POST_COMMENT_URL, c, getApplicationContext()).execute();
                                         }
                                     })

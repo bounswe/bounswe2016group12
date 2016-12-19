@@ -51,7 +51,7 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
             JSONObject jsonObject=new JSONObject(response.getData());
             if (jsonObject != null) {
                 if (response.getResponseCode() == 200) {
-                    new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,context).execute();
+                    new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,false,context).execute();
                 }
             }
         } catch (JSONException e) {

@@ -73,7 +73,7 @@ public class HomeActivityFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 //Task before intent fires
-                new GetTopicDetail(MeancoApplication.SITE_URL,adapter.getItem(position).topicId, getContext()).execute();
+                new GetTopicDetail(MeancoApplication.SITE_URL,adapter.getItem(position).topicId,false, getContext()).execute();
                 int topicId = adapter.getItem(position).topicId;
                 Intent intent = new Intent(getActivity(), TopicDetailActivity.class);
                 intent.putExtra("topicId", topicId);
