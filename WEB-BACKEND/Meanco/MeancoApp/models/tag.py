@@ -8,8 +8,8 @@ from .topic import Topic
 ### tag.Tag
 
 class Tag(Model):
-    label = CharField(max_length=30)
-    description = CharField(max_length=100)
+    label = CharField(max_length=50)
+    description = CharField(max_length=200)
     URL = URLField(default=None,blank=True,null=True)
 
     view_count = IntegerField(default=0)
