@@ -64,31 +64,13 @@
 
         </div>
         <!--/span-->
-        <div class="col-md-10" style="margin-top: 55px; margin-right: 40px; margin-left: 20px">
+        <div class="container-fluid col-md-11" style="margin-top: 70px; margin-left: 150px; margin-bottom: 20px">
 
             {% block content %}
             {% endblock %}
 
         </div>
-        <div class="col-md-1">
 
-            <div class="Followed" style="position:fixed; top: 50px; right: 0px;">
-                <table class="table" style="overflow: scroll">
-                    <thead>
-                    <tr>
-                        <th>Timeline</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for topic in FollowedTopics %}
-                            <tr>
-                               <td><a href="/topic/{{ topic.id }}">{{ topic.label }}</a></td>
-                            </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
         <!--/span-->
     </div>
     <!--/row-->
