@@ -35,6 +35,9 @@
             <div class="col-md-2">
                 <h4>Follow</h4>
             </div>
+            <div class="col-md-8">
+                <h4>My Comments</h4>
+            </div>
         </div>
         <hr>
         {% for c in commented %}
@@ -44,6 +47,15 @@
                 </div>
                 <div class="col-md-2">
                     <h4><button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ c.topic.id }})"><span id="{{ c.topic.id }}" class="glyphicon glyphicon-heart"></span></button></h4>
+                </div>
+                <div class="col-md-8">
+                {% for comment in comments %}
+                    {% ifequal comment.topic.id c.topic.id %}
+                        <i>{{ comment.current.timestamp }}:</i>
+                        <p>{{ comment.content }}</p>
+                        <br>
+                    {% endifequal %}
+                {% endfor %}
                 </div>
             </div>
             <hr>
