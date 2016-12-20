@@ -8,8 +8,8 @@ from .topic import Topic
 ### tag.Tag
 
 class Tag(Model):
-    label = CharField(max_length=20)
-    description = CharField(max_length=50)
+    label = CharField(max_length=50)
+    description = CharField(max_length=200)
     URL = URLField(default=None,blank=True,null=True)
 
     view_count = IntegerField(default=0)
@@ -22,21 +22,21 @@ class Tag(Model):
         return str(self.pk)
 
     def viewed(self):
-        self.view_count.value += 1
+        self.view_count += 1
         self.save()
 
     def topic_tagged(self):
-        self.topic_count.value += 1
+        self.topic_count += 1
         self.save()
 
     def topic_tag_removed(self):
-        self.topic_count.value -= 1
+        self.topic_count -= 1
         self.save()
 
     class Meta:
         unique_together = (('URL','label', 'description'))
 
-### tag.OfTopic
+### To see which topics are tagged with which tags.
 
 class OfTopic(Model):
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='tags')

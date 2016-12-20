@@ -38,6 +38,7 @@ import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ * Task for posting topic to db.
  * Created by Ezgi on 12/5/2016.
  */
 
@@ -86,18 +87,34 @@ public class PostTopic extends AsyncTask<Void, Void, Connect.APIResult> {
 
     protected Connect.APIResult doInBackground(Void... voids) {
 
+        //Shorten de description
+        Tag tagToPost = topic.tags.get(0);
+        if(tagToPost.context.length() > 100){
+            int indexOfPoint = tagToPost.context.indexOf(".");
+            int indexOfComma = tagToPost.context.indexOf(",");
+            if(indexOfPoint != -1){
+                tagToPost.context = tagToPost.context.substring(0,indexOfPoint);
+            }
+            else if(indexOfComma != -1){
+                tagToPost.context = tagToPost.context.substring(0,indexOfComma);
+            }
+            else{
+                tagToPost.context = tagToPost.context.substring(0,98);
+            }
+        }
+
         String data = null;
         try {
             data = URLEncoder.encode("topicName", "UTF-8")
                     + "=" + URLEncoder.encode(topic.topicName, "UTF-8");
             data += "&" + URLEncoder.encode("tag", "UTF-8") + "="
-            + URLEncoder.encode(topic.tags.get(0).tagName, "UTF-8");
+            + URLEncoder.encode(tagToPost.tagName, "UTF-8");
 
             data += "&" + URLEncoder.encode("description", "UTF-8")
-                + "=" + URLEncoder.encode(topic.tags.get(0).context, "UTF-8");
+                + "=" + URLEncoder.encode(tagToPost.context, "UTF-8");
 
             data += "&" + URLEncoder.encode("URL", "UTF-8")
-                + "=" + URLEncoder.encode(topic.tags.get(0).URL, "UTF-8");
+                + "=" + URLEncoder.encode(tagToPost.URL, "UTF-8");
 
             Log.i("TOPIC_DATA", data);
         } catch (UnsupportedEncodingException e) {

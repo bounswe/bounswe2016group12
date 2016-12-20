@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .forms import UserCreateForm
 from MeancoApp.models import Profile
+
+
+#Register user, and create a profile.
 @csrf_exempt
 def register(request):
     if request.method == "POST":
@@ -25,10 +28,11 @@ def register(request):
         return JsonResponse(form.errors)
     return HttpResponse("Wrong Request!",status=400)
 
-#
+
+# login Request API function.
+# Example Login Request:
 # username= John
 # password = secret
-
 @csrf_exempt
 def login(request):
     if request.method == "POST":

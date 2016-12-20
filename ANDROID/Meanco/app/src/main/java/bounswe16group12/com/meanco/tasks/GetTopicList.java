@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.activities.HomeActivity;
@@ -19,9 +20,11 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.utils.Connect;
+import bounswe16group12.com.meanco.utils.Functions;
 
 
 /**
+ * Task for getting tags, topic name etc, relations of a topic.
  * Created by Ezgi on 12/2/2016.
  */
 
@@ -46,6 +49,7 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
 
                 if (response.getResponseCode() == 200) {
+                    Log.i("GET_LIST",response.getData());
                     for(int i=0;i<jsonArray.length();i++){
 
                         ArrayList<Tag> tagsArray = new ArrayList<>();
@@ -95,6 +99,11 @@ public class GetTopicList extends AsyncTask<Void, Void, Connect.APIResult> {
                 HomeActivityFragment.adapter.clear();
                 HomeActivityFragment.adapter.updateArray();
                 HomeActivityFragment.adapter.notifyDataSetChanged();
+
+                if(Functions.getUserId(context)!=-1) {
+                    new GetFollowedTopics(MeancoApplication.GET_FOLLOWED_TOPICS_URL, context).execute();
+                    new GetUserComments(MeancoApplication.GET_USER_COMMENTS_URL, context).execute();
+                }
             }
         } catch (JSONException e) {
 

@@ -20,8 +20,10 @@ import java.net.URLEncoder;
 import bounswe16group12.com.meanco.MeancoApplication;
 import bounswe16group12.com.meanco.objects.Comment;
 import bounswe16group12.com.meanco.utils.Connect;
+import bounswe16group12.com.meanco.utils.Functions;
 
 /**
+ * Task for posting comment to db.
  * Created by Ezgi on 12/5/2016.
  */
 
@@ -32,10 +34,11 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
     private String url;
 
 
-    public PostComment(String url,Comment comment, int userId , Context context){
+
+    public PostComment(String url,Comment comment , Context context){
         this.url = url;
         this.comment = comment;
-        this.userId = userId;
+        this.userId = Functions.getUserId(context);
         this.context = context;
     }
 
@@ -48,7 +51,7 @@ public class PostComment extends AsyncTask<Void,Void,Connect.APIResult>{
             JSONObject jsonObject=new JSONObject(response.getData());
             if (jsonObject != null) {
                 if (response.getResponseCode() == 200) {
-                    new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,context).execute();
+                    new GetTopicDetail(MeancoApplication.SITE_URL,comment.topicId,false,context).execute();
                 }
             }
         } catch (JSONException e) {

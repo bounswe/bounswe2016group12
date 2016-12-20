@@ -26,6 +26,8 @@ import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ *  * Task for posting tag of a topic to db.
+* Tags are posted one at a time.
  * Created by Ezgi on 12/5/2016.
  */
 
@@ -54,8 +56,11 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
         }
         if(isLast){
             Log.i("TAG_POST","FINISHED");
-            //new GetTopicDetail(MeancoApplication.SITE_URL,topicId,context).execute();
+            new GetTopicList(MeancoApplication.SITE_URL,context).execute();
+            new GetTopicDetail(MeancoApplication.SITE_URL,topicId,false,context).execute();
             TagSearchActivity.checkedTags.clear();
+            TagSearchActivity.adapter.clear();
+            TagSearchActivity.adapter.notifyDataSetChanged();
         }
 
 
@@ -66,17 +71,17 @@ public class PostTag extends AsyncTask<Void, Void, Connect.APIResult> {
     protected Connect.APIResult doInBackground(Void... voids) {
 
         //TODO: 50 will be 100 after backend update
-        if(tagToPost.context.length() > 50){
+        if(tagToPost.context.length() > 200){
             int indexOfPoint = tagToPost.context.indexOf(".");
             int indexOfComma = tagToPost.context.indexOf(",");
             if(indexOfPoint != -1){
-                tagToPost.context.substring(0,indexOfPoint);
+                tagToPost.context = tagToPost.context.substring(0,indexOfPoint);
             }
             else if(indexOfComma != -1){
-                tagToPost.context.substring(0,indexOfComma);
+                tagToPost.context = tagToPost.context.substring(0,indexOfComma);
             }
             else{
-                tagToPost.context.substring(0,48);
+                tagToPost.context = tagToPost.context.substring(0,198);
             }
         }
 

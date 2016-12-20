@@ -1,3 +1,4 @@
+
 {% extends 'MeancoApp/Home.html' %}
 
 {% block content %}
@@ -6,17 +7,32 @@
         <h1> {{ topic_a.label }} </h1>
         <ul style="list-style-type:none">
             {% for tag in topic_a.tags.all %}
-                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}({{ tag.tag.description}})</span> </h3></li>
+                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}</span> </h3></li>
             {% endfor %}
         </ul>
     </div>
 
     <div class="col-md-4">
-        <ul>
+        <ul style="list-style-type:none">
             {% for relation in relations %}
                 <li>
-                    ------->
-                    {{ relation.label}}
+                    <h2>
+                        {% if relation.isBidirectional %}
+                            <a href="#" class="label label-success listSpan">
+                                <span class="glyphicon glyphicon-resize-horizontal"></span> {{ relation.label }}
+                            </a>
+                        {% elif relation.topic_a.id == topic_a.id %}
+                            <a href="#" class="label label-success listSpan">
+                                <span class="glyphicon glyphicon-arrow-right"></span> {{ relation.label}}
+                            </a>
+                        {% else %}
+                            <a href="#" class="label label-success listSpan">
+                                <span class="glyphicon glyphicon-arrow-left"></span> {{ relation.label}}
+                            </a>
+                        {% endif %}
+                        <button type="submit" class="btn btn-default" id="upVId{{ relation.id }}" style="color:pink" onclick="upvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-up"></span></button>
+                        <button type="submit" class="btn btn-default" id="downVId{{ relation.id }}" style="color:gray" onclick="downvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-down"></span></button>
+                    </h2>
                 </li>
             {% endfor %}
         </ul>
@@ -26,8 +42,80 @@
         <h1> {{ topic_b.label }} </h1>
         <ul style="list-style-type:none">
             {% for tag in topic_b.tags.all %}
-                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}({{ tag.tag.description}})</span> </h3></li>
+                <li> <h3> <span class="label label-default listSpan">{{ tag.tag.label }}</span> </h3></li>
             {% endfor %}
         </ul>
     </div>
+
+    <script>
+    function upvoteRelation (id, relationId) {
+        event.preventDefault();
+        console.log("form submission requested...");  // sanity check
+        console.log("RelationId: " + relationId);
+        var serializedData = {
+            relation: relationId,
+            direction: "upvote"
+        };
+        console.log("post data: " + serializedData);
+        console.log("form submitted!");  // sanity check
+
+        $.ajax({
+            url: "/API/RateRelation",
+            type: "post",
+            data: serializedData,
+            cache: 'false',
+            async: 'true',
+
+            success: function (response) {
+                console.log(response);
+                if (response.responseText="Rated") {
+                    console.log("Relation is upvoted now.");
+                    location.reload();
+                } else {
+                    console.log("Relation cannot be upvoted.");
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                console.log("Error during upvote!");
+            }
+        });
+    }
+
+    function downvoteRelation (id, relationId) {
+        event.preventDefault();
+        console.log("form submission requested...");  // sanity check
+        console.log("RelationId: " + relationId);
+        var serializedData = {
+            relation: relationId,
+            direction: "downvote"
+        };
+        console.log("post data: " + serializedData);
+        console.log("form submitted!");  // sanity check
+
+        $.ajax({
+            url: "/API/RateRelation",
+            type: "post",
+            data: serializedData,
+            cache: 'false',
+            async: 'true',
+
+            success: function (response) {
+                console.log(response);
+                if (response.responseText="Rated") {
+                    console.log("Relation is downvoted now.");
+                    location.reload();
+                } else {
+                    console.log("Relation cannot be downvoted.");
+                }
+            },
+            error: function (response) {
+                console.log(response);
+                console.log("Error during downvote!");
+            }
+        });
+    }
+
+    </script>
+
 {% endblock %}

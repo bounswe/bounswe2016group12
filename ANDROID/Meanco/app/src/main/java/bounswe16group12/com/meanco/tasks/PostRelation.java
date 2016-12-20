@@ -23,6 +23,8 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.utils.Connect;
 
 /**
+ *  * Task for posting relation to db.
+
  * Created by Ezgi on 12/5/2016.
  */
 
@@ -46,9 +48,7 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
                 JSONObject jsonObject=new JSONObject(response.getData());
                 if (jsonObject != null) {
                     if (response.getResponseCode() == 200) {
-                       // new GetTopicDetail(MeancoApplication.SITE_URL,relation.topicFrom,context).execute();
-                       // new GetTopicDetail(MeancoApplication.SITE_URL,relation.topicTo,context).execute();
-
+                        new GetTopicList(MeancoApplication.SITE_URL,context).execute();
                     }
                 }
             } catch (JSONException e) {
@@ -68,7 +68,7 @@ public class PostRelation extends AsyncTask<Void,Void,Connect.APIResult> {
 
                 data += "&" + URLEncoder.encode("label", "UTF-8")
                         + "=" + URLEncoder.encode(relation.relationName,"UTF-8");
-                data += "&" + URLEncoder.encode("isBiDirectional", "UTF-8")
+                data += "&" + URLEncoder.encode("isBidirectional", "UTF-8")
                         + "=" + URLEncoder.encode("" + (relation.isBidirectional ? 1:0),"UTF-8");
                 Log.i("data",data);
 

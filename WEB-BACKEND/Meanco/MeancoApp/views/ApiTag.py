@@ -4,11 +4,12 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import django.core.serializers
 import json
-#
+# Add tags to a topic. API call.
+# Example API request:
 # topicId : 1
 # label : "asd"
 # description : "dsa"
-# URL
+# URL : "www.asd.com"
 #
 @csrf_exempt
 def addTag(request):
@@ -25,7 +26,7 @@ def addTag(request):
             else:
                 tt = OfTopic(topic_id=topicId, tag_id=tagModel.id)
                 tt.save()
-            #tagModel.topic_tagged()
+                tagModel.topic_tagged()
         except:
             return HttpResponse("Tag Linking Error:", status=400)
     else:
@@ -37,7 +38,7 @@ def addTag(request):
         try:
             tt = OfTopic(topic_id=topicId, tag_id=tagModel.id)
             tt.save()
-            #tagModel.topic_tagged()
+            tagModel.topic_tagged()
         except:
             return HttpResponse("Tag Linking error", status=400)
     return HttpResponse(json.dumps({
@@ -45,7 +46,8 @@ def addTag(request):
             status=200,
             content_type="application/json")
 
-#
+# Searches for a tag in db.
+# Example API request:
 # URL: www.asd.com
 #
 def searchTag(request):
@@ -60,4 +62,3 @@ def searchTag(request):
         return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json',status=200)
     else:
         return HttpResponse("No topic tagged with that tag",status=400)
-

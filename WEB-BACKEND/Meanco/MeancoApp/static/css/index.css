@@ -16,12 +16,68 @@
 }
 
 .Trendings {
-	background-color: rgb(234, 255, 255);
+	background-color:paleturquoise;
+	margin: 20px 20px 20px 20px;
+	height: 300px;
+	width: 200px;
+
+}
+.Followed {
+	background-color:paleturquoise;
 	margin: 20px 20px 20px 20px;
 	height: 300px;
 	width: 200px;
 }
 
+
 .ordered li {
 	margin: 1px 1px 1px 1px;
+}
+
+.result {
+	margin-left: 150px;
+	border: 1px solid #ddd;
+}
+
+.result li {
+	list-style-type: none;
+}
+
+.resultbottom {
+	margin-bottom: 15px;
+}
+
+ul.tag-list:hover li {
+	opacity: 0.5;
+}
+
+ul.tag-list li:hover {
+	opacity: 1;
+}
+
+span.label:hover + span.label-desc {
+	display: block;
+	position: absolute;
+	z-index: +1;
+	background-color: whitesmoke;
+	font-size: medium;
+	font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-style: italic;
+	text-align: center;
+}
+
+span.label-desc {
+	display: none;
+}
+.nav {
+	font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 8px;
+  width: auto;
 }

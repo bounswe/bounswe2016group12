@@ -9,6 +9,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import bounswe16group12.com.meanco.objects.Comment;
@@ -16,6 +19,7 @@ import bounswe16group12.com.meanco.objects.Relation;
 import bounswe16group12.com.meanco.objects.Tag;
 import bounswe16group12.com.meanco.objects.Topic;
 import bounswe16group12.com.meanco.objects.User;
+import bounswe16group12.com.meanco.objects.Vote;
 
 /**
  * Created by feper on 11/17/2016.
@@ -26,14 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper sInstance;
 
     private static final String DATABASE_NAME = "meancoDB";
-    private static final int DATABASE_VERSION = 3;
-
-    //USER
-    private static final String KEY_USER_TABLE = "users";
-
-    private static final String KEY_USER_ID = "id";
-    private static final String KEY_USER_NAME = "userName";
-    private static final String KEY_USER_PASSWORD = "password";
+    private static final int DATABASE_VERSION = 7;
 
     //TOPIC
     private static final String KEY_TOPIC_TABLE = "topics";
@@ -56,6 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMMENT_ID = "id";
     private static final String KEY_COMMENT_TOPIC_ID = "topicId";
     private static final String KEY_COMMENT_CONTENT = "content";
+    private static final String KEY_COMMENT_USERNAME = "username";
+    private static final String KEY_COMMENT_TIMESTAMP = "timestamp";
+    private static final String KEY_COMMENT_VOTE_COUNT ="voteCount";
 
     //RELATION
     private static final String KEY_RELATION_TABLE = "relations";
@@ -66,15 +66,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_RELATION_SECOND_TOPIC_ID = "secondTopicId";
     private static final String KEY_RELATION_IS_BIDIRECTIONAL = "isbidirectional";
 
+    //VOTE
+    private static final String KEY_VOTE_TABLE = "vote";
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //CONSTRUCTOR
-    /////////////////////////////////////////////////////////////////////////////////
+    private static final String KEY_VOTE_COMMENT_ID = "commentId";
+    private static final String KEY_VOTE_IS_UPVOTED = "isUpvoted";
+    private static final String KEY_VOTE_IS_DOWNVOTED = "isDownvoted";
 
+    /**
+     * Use the application context, which will ensure that you
+     * don't accidentally leak an Activity's context.
+      */
     public static synchronized DatabaseHelper getInstance(Context context) {
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
+
         if (sInstance == null) {
             sInstance = new DatabaseHelper(context.getApplicationContext());
         }
@@ -89,31 +93,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Called when the database connection is being configured.
-    // Configure database settings for things like foreign key support, write-ahead logging, etc.
+    /**
+     * Called when the database connection is being configured.
+     * Configure database settings for things like foreign key support, write-ahead logging, etc.
+     * @param db
+     */
     @Override
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //LIFECYCLE
-    /////////////////////////////////////////////////////////////////////////////////
 
-    // Called when the database is created for the FIRST time.
-    // If a database already exists on disk with the same DATABASE_NAME, this method will NOT be called.
+    /**
+     * Called when the database is created for the FIRST time.
+     * If a database already exists on disk with the same DATABASE_NAME, this method will NOT be called.
+      */
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USERS_TABLE = "CREATE TABLE " + KEY_USER_TABLE +
-                "(" +
-                KEY_USER_ID + " INTEGER PRIMARY KEY," + // Define a primary key
-                KEY_USER_NAME + " TEXT," + // Define a foreign key
-                KEY_USER_PASSWORD + " TEXT" +
-                ")";
-
-        db.execSQL(CREATE_USERS_TABLE);
-
         String CREATE_TOPIC_TABLE = "CREATE TABLE " + KEY_TOPIC_TABLE +
                 "(" +
                 KEY_TOPIC_ID + " INTEGER PRIMARY KEY," + // Define a primary key
@@ -137,7 +135,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
                 KEY_COMMENT_TOPIC_ID + " INTEGER," +
-                KEY_COMMENT_CONTENT + " TEXT" +
+                KEY_COMMENT_CONTENT + " TEXT," +
+                KEY_COMMENT_USERNAME + " TEXT," +
+                KEY_COMMENT_TIMESTAMP + " INTEGER," +
+                KEY_COMMENT_VOTE_COUNT + " INTEGER" +
                 ")";
 
         db.execSQL(CREATE_COMMENT_TABLE);
@@ -149,34 +150,87 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 KEY_RELATION_FIRST_TOPIC_ID + " INTEGER," +
                 KEY_RELATION_SECOND_TOPIC_ID + " INTEGER," +
                 KEY_RELATION_IS_BIDIRECTIONAL + " INTEGER" + // 0 or 1 (boolean)
-
                 ")";
 
         db.execSQL(CREATE_RELATION_TABLE);
 
+        String CREATE_VOTE_TABLE ="CREATE TABLE " + KEY_VOTE_TABLE +
+                "(" +
+                KEY_VOTE_COMMENT_ID + " INTEGER PRIMARY KEY," + // Define a primary key
+                KEY_VOTE_IS_UPVOTED + " INTEGER," +
+                KEY_VOTE_IS_DOWNVOTED + " INTEGER" +
+                ")";
+        db.execSQL(CREATE_VOTE_TABLE);
     }
 
-    // Called when the database needs to be upgraded.
-    // This method will only be called if a database already exists on disk with the same DATABASE_NAME,
-    // but the DATABASE_VERSION is different than the version of the database that exists on disk.
+    /**
+     * Called when the database needs to be upgraded.
+     * This method will only be called if a database already exists on disk with the same DATABASE_NAME,
+     * but the DATABASE_VERSION is different than the version of the database that exists on disk.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
             // Simplest implementation is to drop all old tables and recreate them
-            db.execSQL("DROP TABLE IF EXISTS " + KEY_USER_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_TOPIC_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_COMMENT_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_RELATION_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + KEY_TAG_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + KEY_VOTE_TABLE);
+
             onCreate(db);
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //TOPIC
-    /////////////////////////////////////////////////////////////////////////////////
 
-    //Adds topic
+    /**
+     * 0 : TOPIC
+     * 1 : TAG
+     * 2 : COMMENT
+     * 3 : RELATION
+     * 4 : VOTE
+
+     * @param tableId Clear table with given id.
+     */
+    public void clearTable(int tableId){
+        String tableName = "";
+        switch(tableId) {
+            case 0 :
+                tableName = KEY_TOPIC_TABLE;
+                break;
+            case 1 :
+                tableName = KEY_TAG_TABLE;
+                break;
+            case 2 :
+                tableName = KEY_COMMENT_TABLE;
+                break;
+            case 3 :
+                tableName = KEY_RELATION_TABLE;
+                break; // optional
+            case 4 :
+                tableName = KEY_VOTE_TABLE;
+                break; // optional
+            default :
+        }
+
+        getWritableDatabase().execSQL("DELETE FROM " + tableName);
+    }
+
+    /**
+     * Clear all tables.
+     */
+    public void clearAll(){
+        for(int i=0;i<5;i++)
+            clearTable(i);
+    }
+
+    /**
+     * Add topic to local db.
+     * @param topic Topic to be added.
+     */
     public void addTopic(Topic topic){
         if(getTopic(topic.topicId) != null){
             updateTopic(topic);
@@ -208,7 +262,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //If returns null, no such topic.
+    /**
+     * Get topic from local db with given topic id.
+     * Useful for getting topic of a comment, relation etc.
+     * If returns null, to such topic.
+     * @param topicId
+     * @return topic
+     */
     public Topic getTopic(int topicId){
         SQLiteDatabase db = getReadableDatabase();
 
@@ -241,7 +301,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topic;
     }
 
-    //Update topic
+    /**
+     * Update a topic.
+     * @param topic Topic to be updated.
+     */
     public void updateTopic(Topic topic) {
 
         SQLiteDatabase db = getWritableDatabase();
@@ -269,7 +332,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    //Returns all topics.
+    /**
+     * Useful for list views that require seeing all topics at once (homepage, search topic etc.)
+     * @return all topics
+     */
     public List<Topic> getAllTopics() {
         List<Topic> topics = new ArrayList<>();
 
@@ -316,7 +382,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topics;
     }
 
-    //HELPER FOR ARRAYLIST TO STRING
+    /**
+     * Makes search with
+     * @param text Query string
+     * @return list of topics
+     */
+
+
+    public List<Topic> getTopicsContainsText(String text) {
+        List<Topic> topics = new ArrayList<>();
+
+        /*
+        String TOPICS_SELECT_QUERY = "SELECT * FROM topics WHERE " + KEY_TOPIC_NAME + " LIKE '%" + text + "%'";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(TOPICS_SELECT_QUERY, null);
+        try {
+
+            if (cursor.moveToFirst()) {
+                do {
+
+                    Topic topic = new Topic();
+                    topic.topicId = cursor.getInt(cursor.getColumnIndex(KEY_TOPIC_ID));
+                    topic.topicName = cursor.getString(cursor.getColumnIndex(KEY_TOPIC_NAME));
+                    String tags = cursor.getString(cursor.getColumnIndex(KEY_TAG_LIST));
+
+                    ArrayList<String> tagIdList = stringToList(tags);
+
+                    if(tagIdList!=null) {
+                        ArrayList<Tag> tagList = new ArrayList<Tag>();
+                        for (String s : tagIdList) {
+                            int tagId = Integer.parseInt(s);
+                            Tag t = getTag(tagId);
+                            tagList.add(t);
+                        }
+
+                        topic.tags = tagList;
+                    }else {
+                        topic.tags = null;
+                    }
+                    topics.add(topic);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            //Log.d("USER DB HELPER", "Error while trying to get posts from database");
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+*/
+
+        List<Topic> temp = getAllTopics();
+
+        for(Topic t: temp){
+            boolean add = false;
+            if(t.topicName.toLowerCase().contains(text)) {
+                add = true;
+            }
+            for(Tag tag: t.tags){
+                if(tag.tagName.toLowerCase().contains(text) || tag.context.toLowerCase().contains(text)) {
+                    add = true;
+                    break;
+                }
+            }
+            if(add)
+                topics.add(t);
+        }
+
+        return topics;
+    }
+
+    /**
+     * Helper method: arraylist to string
+     * @param s
+     * @return output string
+     */
     private ArrayList<String> stringToList(String s){
         ArrayList<String> output = null;
         s = s.replaceAll(" ", "");
@@ -328,9 +472,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return output;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //TAG
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add tag to local db.
+     * @param tag
+     */
 
     public void addTag(Tag tag){
         SQLiteDatabase db = getWritableDatabase();
@@ -351,6 +496,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get tag from db with given tag id.
+     * Useful for getting tag from topic.
+     * @param tagId
+     * @return tag
+     */
     public Tag getTag(int tagId){
         SQLiteDatabase db = getReadableDatabase();
         String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM tags WHERE id = '" + tagId + "'";
@@ -371,6 +522,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return tag;
     }
 
+    /**
+     * Get all tags used by topics (not whole wikidata ofc).
+     * @param topicId
+     * @return
+     */
     public List<Tag> getAllTags(int topicId){
         Topic topic = getTopic(topicId);
 
@@ -411,9 +567,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return tags;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //COMMENT
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add comment to local db.
+     * @param comment
+     */
 
    public void addComment(Comment comment){
        if(getComment(comment.commentId) != null){
@@ -428,6 +585,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                values.put(KEY_COMMENT_ID, comment.commentId);
                values.put(KEY_COMMENT_TOPIC_ID, comment.topicId);
                values.put(KEY_COMMENT_CONTENT, comment.content);
+               values.put(KEY_COMMENT_USERNAME,comment.username);
+               values.put(KEY_COMMENT_TIMESTAMP,comment.time);
+               values.put(KEY_COMMENT_VOTE_COUNT,comment.voteCount);
 
                db.insert(KEY_COMMENT_TABLE, null, values);
                db.setTransactionSuccessful();
@@ -439,6 +599,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        }
    }
 
+    /**
+     * Method for editing a comment in topic detail page.
+     * @param comment
+     */
+
     public void updateComment(Comment comment){
         SQLiteDatabase db = getWritableDatabase();
 
@@ -448,6 +613,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_COMMENT_ID, comment.commentId );
             values.put(KEY_COMMENT_TOPIC_ID, comment.topicId );
             values.put(KEY_COMMENT_CONTENT,comment.content);
+            values.put(KEY_COMMENT_USERNAME,comment.username);
+            values.put(KEY_COMMENT_TIMESTAMP,comment.time);
+            values.put(KEY_COMMENT_VOTE_COUNT,comment.voteCount);
 
             db.update(KEY_COMMENT_TABLE, values, KEY_COMMENT_ID + "= ?", new String[]{""+comment.commentId});
             db.setTransactionSuccessful();
@@ -459,11 +627,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get comment from local db with given comment id.
+     * @param commentId
+     * @return
+     */
     public Comment getComment(int commentId){
         SQLiteDatabase db = getReadableDatabase();
-        String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
+        String COMMENT_SELECT_WITH_ID_QUERY = "SELECT * FROM comments WHERE id = '" + commentId + "'";
 
-        Cursor cursor = db.rawQuery(TAG_SELECT_WITH_ID_QUERY,null);
+        Cursor cursor = db.rawQuery(COMMENT_SELECT_WITH_ID_QUERY,null);
        Comment comment = null;
         try {
             if (cursor.moveToFirst()) {
@@ -471,6 +644,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
                 comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                 comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+                comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+                comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
+                comment.voteCount = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_VOTE_COUNT));
             }
         } finally {
             cursor.close();
@@ -478,6 +654,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return comment;
     }
 
+    public List<Comment> getComments(String username){
+        SQLiteDatabase db = getReadableDatabase();
+        String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE "+ KEY_COMMENT_USERNAME +" = '" + username + "'";
+
+        Cursor cursor = db.rawQuery(COMMENTS_SELECT_QUERY, null);
+        List<Comment> comments = new ArrayList<>();
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Comment comment = new Comment();
+                    comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
+                    comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
+                    comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+                    comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+                    comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
+                    comment.voteCount = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_VOTE_COUNT));
+
+                    comments.add(comment);
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.i("USER DB HELPER", "Error while trying to get posts from database");
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        Collections.sort(comments, new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                if(o1.time > o2.time){return -1;}
+                else if(o1.time < o2.time){return 1;}
+                else{return 0;}
+            }
+        });
+        return comments;
+    }
+    /**
+     * Get all comments of a topic.
+     * Useful for list view of comments in topic detail.
+     * @param topicId
+     * @return
+     */
     public List<Comment> getAllComments(int topicId){
         String COMMENTS_SELECT_QUERY = "SELECT * FROM comments WHERE " + KEY_COMMENT_TOPIC_ID + " = '" + topicId + "'";
 
@@ -491,6 +710,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     comment.commentId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_ID));
                     comment.topicId = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TOPIC_ID));
                     comment.content = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_CONTENT));
+                    comment.username = cursor.getString(cursor.getColumnIndex(KEY_COMMENT_USERNAME));
+                    comment.time = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_TIMESTAMP));
+                    comment.voteCount = cursor.getInt(cursor.getColumnIndex(KEY_COMMENT_VOTE_COUNT));
 
                     comments.add(comment);
                 } while(cursor.moveToNext());
@@ -502,12 +724,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        return comments;
-    }
+        Collections.sort(comments, new Comparator<Comment>() {
+            @Override
+            public int compare(Comment o1, Comment o2) {
+                if(o1.time > o2.time){return -1;}
+                else if(o1.time < o2.time){return 1;}
+                else{return 0;}
+            }
+        });
+        return comments;    }
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //RELATION
-    /////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Add relation to local db.
+     * @param relation
+     */
 
     public void addRelation(Relation relation){
         if(getRelation(relation.relationId) != null){
@@ -534,6 +764,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //TODO: Why?
     public void updateRelation(Relation relation){
         SQLiteDatabase db = getWritableDatabase();
 
@@ -556,6 +787,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get relation with given relation id.
+     * Useful for getting relation from given topic.
+     * @param relationId
+     * @return
+     */
     public Relation getRelation(int relationId){
         SQLiteDatabase db = getReadableDatabase();
         String TAG_SELECT_WITH_ID_QUERY = "SELECT * FROM relations WHERE id = '" + relationId + "'";
@@ -578,6 +815,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return relation;
     }
 
+    /**
+     * Get all relations of a topic.
+     * Useful for listing all relations on relations dialog created on long press on an item in homepage.
+     * @param topicId
+     * @return relations of topic
+     */
     public List<Relation> getAllRelations(int topicId){
         String RELATIONS_SELECT_QUERY = "SELECT * FROM relations WHERE " + KEY_RELATION_FIRST_TOPIC_ID + " = '" + topicId +
                                         "' OR " + KEY_RELATION_SECOND_TOPIC_ID + " = '" + topicId + "'";
@@ -617,78 +860,101 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return relations;
     }
 
+    /**
+     * Add vote of a comment to local db.
+     * @param vote
+     */
 
+    public void addVote(Vote vote){
+        if(getVote(vote.commentId) != null){
+            updateVote(vote);
+        }
+        else {
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //USER
-    /////////////////////////////////////////////////////////////////////////////////
+            SQLiteDatabase db = getWritableDatabase();
+            db.beginTransaction();
+            try {
+                ContentValues values = new ContentValues();
+                values.put(KEY_VOTE_COMMENT_ID, vote.commentId);
+                values.put(KEY_VOTE_IS_UPVOTED, vote.isUpvoted ? 1:0);
+                values.put(KEY_VOTE_IS_DOWNVOTED, vote.isDownvoted ? 1:0);
 
-    //TODO: Add login methods and alter user part
-    public long addOrUpdateUser(User user) {
-        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+                db.insert(KEY_VOTE_TABLE, null, values);
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+                Log.d("USER DB HELPER", "Error while trying to add or update user");
+            } finally {
+                db.endTransaction();
+            }
+        }
+    }
+
+    /**
+     * Useful function to toggle comment.
+     * @param vote
+     */
+
+    public void updateVote (Vote vote){
         SQLiteDatabase db = getWritableDatabase();
-        long userId = -1;
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
+            values.put(KEY_VOTE_COMMENT_ID, vote.commentId);
+            values.put(KEY_VOTE_IS_UPVOTED, vote.isUpvoted ? 1:0);
+            values.put(KEY_VOTE_IS_DOWNVOTED, vote.isDownvoted ? 1:0);
 
-            values.put(KEY_USER_ID, user.userId);
-            values.put(KEY_USER_NAME, user.username);
-            values.put(KEY_USER_PASSWORD, user.password);
+            db.update(KEY_VOTE_TABLE, values, KEY_VOTE_COMMENT_ID + "= ?", new String[]{""+vote.commentId});
+            db.setTransactionSuccessful();
 
-            // First try to update the user in case the user already exists in the database
-            // This assumes userNames are unique
-            int rows = db.update(KEY_USER_TABLE, values, KEY_USER_ID + "="+user.userId,null);
-
-            // Check if update succeeded
-            if (rows == 1) {
-                // Get the primary key of the user we just updated
-                String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
-                        KEY_USER_ID, KEY_USER_TABLE, KEY_USER_NAME);
-                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(user.userId)});
-                try {
-                    if (cursor.moveToFirst()) {
-                        userId = cursor.getInt(0);
-                        db.setTransactionSuccessful();
-                    }
-                } finally {
-                    if (cursor != null && !cursor.isClosed()) {
-                        cursor.close();
-                    }
-                }
-            } else {
-                // user with this userName did not already exist, so insert new user
-                userId = db.insertOrThrow(KEY_USER_TABLE, null, values);
-                db.setTransactionSuccessful();
-            }
         } catch (Exception e) {
             Log.d("USER DB HELPER", "Error while trying to add or update user");
         } finally {
             db.endTransaction();
         }
-        return userId;
     }
 
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-
-        // SELECT * FROM POSTS
-        String USERS_SELECT_QUERY = "SELECT * FROM users";
-
-        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
-        // disk space scenarios)
+    /**
+     * Get vote of a comment.
+     * Useful for profile page.
+     * @param commentId
+     * @return
+     */
+    public Vote getVote(int commentId){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(USERS_SELECT_QUERY, null);
+        String VOTE_SELECT_WITH_ID_QUERY = "SELECT * FROM "+ KEY_VOTE_TABLE +" WHERE "+ KEY_VOTE_COMMENT_ID +" = '" + commentId + "'";
+
+        Cursor cursor = db.rawQuery(VOTE_SELECT_WITH_ID_QUERY,null);
+        Vote vote = null;
+        try {
+            if (cursor.moveToFirst()) {
+                vote = new Vote();
+                vote.commentId = cursor.getInt(cursor.getColumnIndex(KEY_VOTE_COMMENT_ID));
+                vote.isDownvoted = cursor.getInt(cursor.getColumnIndex(KEY_VOTE_IS_DOWNVOTED)) == 1;
+                vote.isUpvoted = cursor.getInt(cursor.getColumnIndex(KEY_VOTE_IS_UPVOTED)) == 1;
+            }
+        } finally {
+            cursor.close();
+        }
+        return vote;
+    }
+
+
+    public List<Vote> getAllVotes(int commentId){
+        String VOTES_SELECT_QUERY = "SELECT * FROM "+ KEY_VOTE_TABLE +" WHERE " + KEY_VOTE_COMMENT_ID + " = '" + commentId + "'";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(VOTES_SELECT_QUERY, null);
+        List<Vote> votes = new ArrayList<>();
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    User newUser = new User();
-                    newUser.username = cursor.getString(cursor.getColumnIndex(KEY_USER_NAME));
-                    newUser.password = cursor.getString(cursor.getColumnIndex(KEY_USER_PASSWORD));
+                    Vote vote = new Vote();
+                    vote.commentId = cursor.getInt(cursor.getColumnIndex(KEY_VOTE_COMMENT_ID));
+                    vote.isDownvoted = cursor.getInt(cursor.getColumnIndex(KEY_VOTE_IS_DOWNVOTED)) == 1;
+                    vote.isUpvoted = cursor.getInt(cursor.getColumnIndex(KEY_VOTE_IS_UPVOTED)) == 1;
 
-
-                    users.add(newUser);
+                    votes.add(vote);
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -698,7 +964,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        return users;
+        return votes;
     }
-
 }

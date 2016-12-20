@@ -21,7 +21,7 @@ class Relation(Model):
     def __str__(self):
         return str(self.pk)
 
-### relation.LabelVoter
+### RelationVoter
 
 class RelationVoter(Model):
     profile = ForeignKey(Profile, on_delete=CASCADE)
@@ -34,7 +34,7 @@ class RelationVoter(Model):
 
     def __str__(self):
         return str(self.pk)
-
+    # voting function for relation.
     def toggle(self,direction):
         relation=Relation.objects.get(id=self.relation_id)
         if self.active and self.upvoted and direction =='upvote' :
