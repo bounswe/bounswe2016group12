@@ -16,9 +16,9 @@ function follow(id) {
 
         success: function (response) {
             console.log("No error.");
-            console.log(response);
             if (response == "Success") {
             }
+            location.reload();
         },
         error: function (response) {
             console.log(response);
