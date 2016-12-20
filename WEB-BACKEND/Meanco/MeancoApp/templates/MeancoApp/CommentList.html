@@ -8,13 +8,19 @@
         <h1> {{ topic.label }}
             {%  if user.is_authenticated %}
                 {% if followed %}
-                    <button type="submit" class="btn btn-link" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})"><span id="{{ topic.id }}" class="glyphicon glyphicon-heart"></span></button>
+                    <button type="submit" class="btn btn-lg btn-link" id="nVoteId"
+                            style="color:red" onclick="follow({{ topic.id }})">
+                        <span id="{{ topic.id }}" class="glyphicon glyphicon-heart"></span>
+                    </button>
                 {% else %}
-                    <button type="submit" class="btn btn-link" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})"><span id="{{ topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                    <button type="submit" class="btn btn-lg btn-link" id="nVoteId"
+                            style="color:red" onclick="follow({{ topic.id }})">
+                        <span id="{{ topic.id }}" class="glyphicon glyphicon-heart-empty"></span>
+                    </button>
                 {% endif %}
 
             {% else %}
-                <button type="submit" class="btn btn-link disabled" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})"><span id="{{ topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                <button type="submit" class="btn btn-lg btn-link disabled" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})"><span id="{{ topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
             {% endif %}
         </h1>
         <ul style="list-style-type:none" class="tag-list">
@@ -221,11 +227,7 @@
         </div>
         <hr>
 
-        {% if user.is_authenticated %}
-            <div style="overflow-y: scroll; max-height: 340px">
-        {% else %}
-            <div style="overflow-y: scroll; max-height: 440px">
-        {% endif %}
+        <div style="overflow-y: scroll; max-height: 340px">
 
         {% for comment in comments %}
             <div class="row" id="cRow">
@@ -237,12 +239,40 @@
                     <p id="changeComm{{ comment.id }}"></p>
                     <p>{{ comment.current.timestamp }} {{ comment.profile.user.username }}</p>
                     {% if user.is_authenticated and comment.profile.id == user.profile.id %}
-                        <p id="cEdit{{ comment.id }}"><button type="submit" class="btn btn-link" style="color:forestgreen" onclick='editComment(this.id, {{ comment.id }}, "{{ comment.content }}")'><span id="edit{{ comment.id }}" class="glyphicon glyphicon-pencil"></span></button></p>
+                        <p id="cEdit{{ comment.id }}">
+                            <button type="submit" class="btn btn-link" style="color:forestgreen"
+                                    onclick='editComment(this.id, {{ comment.id }}, "{{ comment.content }}")'>
+                                <span id="edit{{ comment.id }}" class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </p>
                     {% endif %}
                 </div>
                 {% if user.is_authenticated %}
-                    <button type="submit" class="btn btn-link" id="upvoteId" style="color:pink" onclick="upvote(this.id, {{ comment.id }})"><span id="up{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_upvote_empty.png" %}"></span></button>
-                    <button type="submit" class="btn btn-link" id="downvoteId" onclick="downvote(this.id, {{ comment.id }})"><span id="down{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_downvote_empty.png" %}"></span></button>
+                    <button type="submit" class="btn btn-link" id="upvoteId"
+                            style="color:pink" onclick="upvote(this.id, {{ comment.id }})">
+                        <span id="up{{ comment.id }}">
+                            <img width="25px" height="25px" src="{% static "image/ic_upvote_empty.png" %}">
+                        </span>
+                    </button>
+                    <button type="submit" class="btn btn-link" id="downvoteId"
+                            onclick="downvote(this.id, {{ comment.id }})">
+                        <span id="down{{ comment.id }}">
+                            <img width="25px" height="25px" src="{% static "image/ic_downvote_empty.png" %}">
+                        </span>
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn btn-link disabled" id="upvoteId" style="color:pink"
+                            onclick="upvote(this.id, {{ comment.id }})">
+                        <span id="up{{ comment.id }}">
+                            <img width="25px" height="25px" src="{% static "image/ic_upvote_empty.png" %}">
+                        </span>
+                    </button>
+                    <button type="submit" class="btn btn-link disabled" id="downvoteId"
+                            onclick="downvote(this.id, {{ comment.id }})">
+                        <span id="down{{ comment.id }}">
+                            <img width="25px" height="25px" src="{% static "image/ic_downvote_empty.png" %}">
+                        </span>
+                    </button>
                 {% endif %}
             </div>
             <hr>
@@ -300,14 +330,14 @@
                         commentId = response[c].fields.comment;
                         if(!response[c].fields.upvoted && !response[c].fields.downvoted){
                             console.log("Comment is neither upvoted not downvoted.");
-                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_upvote_empty.png" %}"></span>');
-                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_downvote_empty.png" %}"></span>');
+                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_upvote_empty.png" %}"></span>');
+                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_downvote_empty.png" %}"></span>');
                         }else if(response[c].fields.upvoted){
                             console.log("Comment is upvoted.");
-                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_upvote_filled.png" %}"></span>');
+                            $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_upvote_filled.png" %}"></span>');
                         }else if(response[c].fields.downvoted){
                             console.log("Comment is downvoted.");
-                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="15px" height="15px" src="{% static "image/ic_downvote_filled.png" %}"></span>');
+                            $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_downvote_filled.png" %}"></span>');
                         }else{
                             console.log("Something wrong with voting system.")
                         }
