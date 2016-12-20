@@ -37,9 +37,22 @@
             <div class="row">
                 <div class="col-md-6">
                     {% if action == "topic" %}
-                        <a href="/topic/{{ result.id }}" style="color:deeppink" id="nVoteId"><span style="font-size:1.3em">{{ result.label }}</span></a>
+                        <div class="col-md-3 tag-list">
+                            <a href="/topic/{{ result.id }}" style="color:deeppink" id="nVoteId"><span style="font-size:1.3em">{{ result.label }}</span></a>
+                        </div>
+                        <div class="tag-list">
+                            {% for of in oftopics %}
+                                {% if of.0.topic.id == result.id %}
+                                    {% for f in of %}
+                                        <span class="label label-default" style="font-size:1.1em">#{{ f.tag.label }}</span>
+                                        <span class="label-desc">{{ f.tag.description }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     {% else %}
-                        <h4> #{{ result.label }} </h4>
+                        <h4>#{{ result.label }}</h4>
+                        <p class="label-desc">{{ result.description }}</p>
                     {% endif %}
                 </div>
                 <div class="col-md-2">
@@ -52,6 +65,16 @@
                 <div class="col-md-2">
                     {% if action == "topic" %}
                         <h4> {{ result.view_count }} </h4>
+                    {% else %}
+                        <div class="row">
+                            {% for of in oftopics %}
+                                {% if of.0.tag.id == result.id %}
+                                    {% for f in of %}
+                                        <a href="/topic/{{ f.topic.id }}"><button type="submit" class="btn btn-danger" id="nVoteId">{{ f.topic.label }}<span id="{{ f.topic.id }}"></span></button></a>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
                 {%  if user.is_authenticated and action == "topic" %}
