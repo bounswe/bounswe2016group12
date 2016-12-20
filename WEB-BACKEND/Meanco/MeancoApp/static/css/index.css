@@ -20,13 +20,14 @@
 	margin: 20px 20px 20px 20px;
 	height: 300px;
 	width: 200px;
-
+	box-shadow: 1px 1px 5px #888888;
 }
 .Followed {
-	background-color:paleturquoise;
+	background-color: lightgrey;
 	margin: 20px 20px 20px 20px;
-	height: 300px;
-	width: 200px;
+	height: 600px;
+	width: 240px;
+    max-height: 600px;
 }
 
 
