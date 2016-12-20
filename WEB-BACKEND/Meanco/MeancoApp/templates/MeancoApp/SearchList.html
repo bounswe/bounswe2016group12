@@ -10,7 +10,7 @@
 
     <div class="col-md-12">
         <div class="row" style="background-color:lightseagreen">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h4 style="color:whitesmoke"> Hot {{ action }}</h4>
             </div>
             <div class="col-md-2">
@@ -20,21 +20,27 @@
                     <h4 style="color:whitesmoke"># Topics</h4>
                 {% endif %}
             </div>
-            <div class="col-md-2" >
-                <h4 style="color:whitesmoke"># Views</h4>
-            </div>
+            {% if action == "topic" %}
+                <div class="col-md-2" >
+                    <h4 style="color:whitesmoke"># Views</h4>
+                </div>
+            {% endif %}
+            {%  if user.is_authenticated and action == "topic" %}
             <div class="col-md-2">
-                {% if action == "topic" %}
-                    <h4 style="color:whitesmoke">Follow</h4>
-                {% endif %}
+                <h4 style="color:whitesmoke">Follow</h4>
             </div>
+            {% endif %}
         </div>
         <hr>
 
         {% for result in results %}
             <div class="row">
-                <div class="col-md-8">
-                    <a href="/topic/{{ result.id }}" style="color:deeppink" id="nVoteId"><span style="font-size:1.3em">{{ result.label }}</span></a>
+                <div class="col-md-6">
+                    {% if action == "topic" %}
+                        <a href="/topic/{{ result.id }}" style="color:deeppink" id="nVoteId"><span style="font-size:1.3em">{{ result.label }}</span></a>
+                    {% else %}
+                        <h4> #{{ result.label }} </h4>
+                    {% endif %}
                 </div>
                 <div class="col-md-2">
                     {% if action == "topic" %}
@@ -44,13 +50,19 @@
                     {% endif %}
                 </div>
                 <div class="col-md-2">
-                    <h4> {{ result.view_count }} </h4>
+                    {% if action == "topic" %}
+                        <h4> {{ result.view_count }} </h4>
+                    {% endif %}
                 </div>
-                <div class="col-md-2">
-                {%  if action == "topic" %}
-                    <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart"></span></button>
+                {%  if user.is_authenticated and action == "topic" %}
+                    <div class="col-md-2">
+                    {% if result in followedTopics %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart"></span></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                    {% endif %}
+                    </div>
                 {% endif %}
-                </div>
             </div>
             <hr>
         {% endfor %}

@@ -20,7 +20,11 @@
                     <a href="/topic/{{ f.topic.id }}"><button type="submit" class="btn btn-danger" id="nVoteId">{{ f.topic.label }}<span id="{{ f.topic.id }}"></span></button></a>
                 </div>
                 <div class="col-md-2">
-                    <h4><button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ f.topic.id }})"><span id="{{ f.topic.id }}" class="glyphicon glyphicon-heart"></span></button></h4>
+                    {% if f.topic in followedTopics %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ f.topic.id }})"><span id="{{ f.topic.id }}" class="glyphicon glyphicon-heart"></span></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ f.topic.id }})"><span id="{{ f.topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                    {% endif %}
                 </div>
             </div>
         <hr>
@@ -46,7 +50,11 @@
                     <a href="/topic/{{ c.topic.id }}"><button type="submit" class="btn btn-danger" id="nVoteId">{{ c.topic.label }}<span id="{{ c.topic.id }}"></span></button></a>
                 </div>
                 <div class="col-md-2">
-                    <h4><button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ c.topic.id }})"><span id="{{ c.topic.id }}" class="glyphicon glyphicon-heart"></span></button></h4>
+                    {% if c.topic in followedTopics %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ c.topic.id }})"><span id="{{ c.topic.id }}" class="glyphicon glyphicon-heart"></span></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ c.topic.id }})"><span id="{{ c.topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                    {% endif %}
                 </div>
                 <div class="col-md-8">
                 {% for comment in comments %}
@@ -79,7 +87,11 @@
                     <a href="/topic/{{ v.topic.id }}"><button type="submit" class="btn btn-danger" id="nVoteId">{{ v.topic.label }}<span id="{{ v.topic.id }}"></span></button></a>
                 </div>
                 <div class="col-md-2">
-                    <h4><button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ v.topic.id }})"><span id="{{ v.topic.id }}" class="glyphicon glyphicon-heart"></span></button></h4>
+                    {% if v.topic in followedTopics %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ v.topic.id }})"><span id="{{ v.topic.id }}" class="glyphicon glyphicon-heart"></span></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-default" id="nVoteId" style="color:red" onclick="follow({{ v.topic.id }})"><span id="{{ v.topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                    {% endif %}
                 </div>
             </div>
             <hr>

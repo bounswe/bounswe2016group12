@@ -9,7 +9,7 @@ def get_page(request):
     action = request.GET.get('action')
     TrendingTopics=Topic.objects.order_by("-view_count")[:7]
     TrendingTags = Tag.objects.order_by("-topic_count")[:7]
-    if action == "topic":
+    if action == "topic" and param != "":
         topics1 = findStringMatchedTopics(param)
         topics2 = findMutuallyTaggedTopics(param)
         topics3 = findRefTopics(param)
@@ -21,10 +21,19 @@ def get_page(request):
             if i not in topics:
                 topics.append(i)
         results = Topic.objects.filter(id__in=topics).order_by('-comment_count', '-timestamp_last', '-view_count')
-    else:   # Tag
+    elif action == "tag":   # Tag
         results = Tag.objects.filter(label__startswith=param).order_by('-view_count', '-topic_count')
+    else:
+        results = []
+
+    followedTopics = []
+    if request.user.is_authenticated:
+        profileId = Profile.objects.get(user_id=request.user.id).id
+        fTopics = FollowedTopic.objects.filter(profile_id=profileId)
+        for ft in fTopics:
+            followedTopics.append(ft.topic)
 
     if _platform=="win32":
-        return render(request, 'MeancoApp\SearchList.html', {'results': results,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'action': action})
+        return render(request, 'MeancoApp\SearchList.html', {'results': results,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'action': action, 'followedTopics': followedTopics})
     else:
-        return render(request, 'MeancoApp/SearchList.html' , {'results': results,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'action': action})
+        return render(request, 'MeancoApp/SearchList.html' , {'results': results,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags, 'action': action, 'followedTopics': followedTopics})
