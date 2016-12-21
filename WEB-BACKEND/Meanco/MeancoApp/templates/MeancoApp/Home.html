@@ -38,13 +38,15 @@
 
   {% include 'MeancoApp/Navbar.html' %}
 
+  {%comment%}
+
   <div id="wrapper">
 
     {% include 'MeancoApp/Sidebar.html' %}
 
     <div id="page-content-wrapper">
 
-        <div class="container-fluid" style="margin-top:50px">
+        <div class="container-fluid" style="margin-top:50px; align-items: flex-start;">
             {% block content %}
             {% endblock %}
         </div>
@@ -53,6 +55,29 @@
 
   </div>
     <!-- /#wrapper -->
+    {%endcomment%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">
+            {% include 'MeancoApp/Sidebar.html' %}
+
+        </div>
+        <!--/span-->
+        <div class="container-fluid col-md-11" style="margin-top: 70px; margin-left: 150px; margin-bottom: 20px">
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+        <!--/span-->
+    </div>
+    <!--/row-->
+
+
+</div>
+<!--/.fluid-container-->
 
 
 </body>
