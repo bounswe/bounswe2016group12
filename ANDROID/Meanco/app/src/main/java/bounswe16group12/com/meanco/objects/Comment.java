@@ -23,6 +23,8 @@ public class Comment {
      * @param topicId The topic that the comment has been made to.
      * @param content Content of the topic.
      * @param username The user that made the comment.
+     * @param time Generation time of the object. Come from database as timestamp and saved as long(miliseconds).
+     * @param voteCount Vote count of the comment.
      */
     public Comment(int commentId, int topicId, String content, String username,long time,int voteCount) {
         this.commentId = commentId;
