@@ -32,9 +32,11 @@
                                 <span class="glyphicon glyphicon-arrow-left"></span> {{ relation.label}}
                             </a>
                         {% endif %}
-                        <!-- Add upvote/downvote buttons for relations. -->
-                        <button type="submit" class="btn btn-default" id="upVId{{ relation.id }}" style="color:pink" onclick="upvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-up"></span></button>
-                        <button type="submit" class="btn btn-default" id="downVId{{ relation.id }}" style="color:gray" onclick="downvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-down"></span></button>
+                        {%  if user.is_authenticated %}
+                            <!-- Add upvote/downvote buttons for relations. -->
+                            <button type="submit" class="btn btn-default" id="upVId{{ relation.id }}" style="color:pink" onclick="upvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-up"></span></button>
+                            <button type="submit" class="btn btn-default" id="downVId{{ relation.id }}" style="color:gray" onclick="downvoteRelation(this.id, {{ relation.id }})"><span id="up{{ relation.id }}" class="glyphicon glyphicon-menu-down"></span></button>
+                        {% endif %}
                     </h2>
                 </li>
             {% endfor %}
