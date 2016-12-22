@@ -1,0 +1,44 @@
+\hypertarget{namespace_meanco_app_1_1views_1_1_api_comment}{}\section{Meanco\+App.\+views.\+Api\+Comment Namespace Reference}
+\label{namespace_meanco_app_1_1views_1_1_api_comment}\index{Meanco\+App.\+views.\+Api\+Comment@{Meanco\+App.\+views.\+Api\+Comment}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespace_meanco_app_1_1views_1_1_api_comment_a3005a6ae0564f801e722f039634f2465}{}\label{namespace_meanco_app_1_1views_1_1_api_comment_a3005a6ae0564f801e722f039634f2465} 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_comment_a3005a6ae0564f801e722f039634f2465}{add\+Comment} (request)
+\begin{DoxyCompactList}\small\item\em \hyperlink{namespace_meanco_app_1_1views_1_1_comment}{Comment} creation A\+PI Call Example \hyperlink{namespace_meanco_app_1_1views_1_1_comment}{Comment} Creation Request\+: topic\+Id\+: 1 user\+Id\+: 1 text\+: H\+E\+LP. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_comment_a611c3862a4a6724455998ef774e1f615}{edit\+Comment} (request)
+\begin{DoxyCompactList}\small\item\em Editing \hyperlink{namespace_meanco_app_1_1views_1_1_comment}{Comment} A\+PI call. \end{DoxyCompactList}\item 
+\hypertarget{namespace_meanco_app_1_1views_1_1_api_comment_a9395d617b26a517df88d0f36ebc45170}{}\label{namespace_meanco_app_1_1views_1_1_api_comment_a9395d617b26a517df88d0f36ebc45170} 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_comment_a9395d617b26a517df88d0f36ebc45170}{get\+Users\+Votes} (request)
+\begin{DoxyCompactList}\small\item\em A\+PI request to send users votes on comments for a page Example A\+PI request\+: Topic\+Id=5 \mbox{[}Android\mbox{]} User\+Id=1. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_comment_a3126e77b21099a4dd4dea0c7d5370b50}{rate\+Comment} (request)
+\begin{DoxyCompactList}\small\item\em A\+PI request for rating comments. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}@package API
+API documentation\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{namespace_meanco_app_1_1views_1_1_api_comment_a611c3862a4a6724455998ef774e1f615}{}\label{namespace_meanco_app_1_1views_1_1_api_comment_a611c3862a4a6724455998ef774e1f615} 
+\index{Meanco\+App\+::views\+::\+Api\+Comment@{Meanco\+App\+::views\+::\+Api\+Comment}!edit\+Comment@{edit\+Comment}}
+\index{edit\+Comment@{edit\+Comment}!Meanco\+App\+::views\+::\+Api\+Comment@{Meanco\+App\+::views\+::\+Api\+Comment}}
+\subsubsection{\texorpdfstring{edit\+Comment()}{editComment()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Comment.\+edit\+Comment (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+Editing \hyperlink{namespace_meanco_app_1_1views_1_1_comment}{Comment} A\+PI call. 
+
+Example Edit Request\+: comment\+Id\+: 1 text\+: H\+E\+LP \hypertarget{namespace_meanco_app_1_1views_1_1_api_comment_a3126e77b21099a4dd4dea0c7d5370b50}{}\label{namespace_meanco_app_1_1views_1_1_api_comment_a3126e77b21099a4dd4dea0c7d5370b50} 
+\index{Meanco\+App\+::views\+::\+Api\+Comment@{Meanco\+App\+::views\+::\+Api\+Comment}!rate\+Comment@{rate\+Comment}}
+\index{rate\+Comment@{rate\+Comment}!Meanco\+App\+::views\+::\+Api\+Comment@{Meanco\+App\+::views\+::\+Api\+Comment}}
+\subsubsection{\texorpdfstring{rate\+Comment()}{rateComment()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Comment.\+rate\+Comment (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+A\+PI request for rating comments. 
+
+Example A\+PI request\+: user\+Id\+: 1 comment \+: 5 direction \+: \char`\"{}upvote\char`\"{} 

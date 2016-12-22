@@ -1,6 +1,11 @@
+"""@package functions
+View documentation
+
+"""
 import requests
 import re
 from  MeancoApp.models import *
+## Gets reference from wikidata and create reference models.
 def getRefOfTopic(topicName,TopicId):
     payload = {
         'action': 'wbsearchentities',
@@ -27,6 +32,7 @@ def getRefOfTopic(topicName,TopicId):
                 q =re.search("(Q.+)",(i['item']['value']))
                 tr =TopicRef(topic_id=TopicId,qId=q.group(0))
                 tr.save()
+## Finds reference from wikidata and create reference models.
 def findRefTopics(search):
     payload = {
         'action': 'wbsearchentities',
@@ -62,7 +68,7 @@ def findRefTopics(search):
     topicData = list(topicDict.keys())
     topicData = sorted(topicData, key=lambda obj: topicDict[obj], reverse=True)
     return topicData
-
+## Find mutually tagged topics.
 def findMutuallyTaggedTopics(search):
     searchParam = search.capitalize()
     topic = Topic.objects.filter(label__startswith=searchParam)
@@ -88,6 +94,7 @@ def findMutuallyTaggedTopics(search):
     topicData = list(topicsWithCountOfTags.keys())
     topicData = sorted(topicData, key=lambda obj: topicsWithCountOfTags[obj]['count'], reverse=True)
     return topicData
+## Finds string matched topics.
 def findStringMatchedTopics(search):
     searchParam = search.capitalize()
     topicsData = Topic.objects.filter(label__startswith=searchParam)

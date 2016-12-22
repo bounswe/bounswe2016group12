@@ -1,3 +1,7 @@
+"""@package API
+API documentation
+
+"""
 from ..models import *
 from django.http import request
 from django.http import HttpResponse
@@ -8,7 +12,7 @@ from django.conf.urls import  url
 from rest_framework import generics
 from MeancoApp.serializers import *
 from MeancoApp.functions.search import *
-# Adds topic and add one tag to it. Also finds references to topic from wikidata.
+## Adds topic and add one tag to it. Also finds references to topic from wikidata.
 # Example API request:
 # topicName="Donald Trump"
 # tag=Politician
@@ -63,7 +67,7 @@ def addTopic(request):
             content_type="application/json")
     else:
         return HttpResponse("Wrong Request", status=400)
-# search topic by :
+## search topic by :
 # 1) string match.
 # 2) Mutual tags.
 # 3) wikidata references.
@@ -91,10 +95,10 @@ def searchTopic(request):
             return HttpResponse("Error",status=400)
     else:
         return HttpResponse("Wrong Request", status=400)
-# Follows topic for given user.
+## Follows topic for given user.
 # Example API request:
 # (Android)UserId:1
-# TopicId=5
+    # TopicId=5
 @csrf_exempt
 def followTopic(request):
     if (request.method=="POST"):
@@ -117,7 +121,7 @@ def followTopic(request):
         return HttpResponse("Success", status=200)
     else:
         return HttpResponse("Wrong Request", status=400)
-# finds topics starting with given parameter. Used for autocomplete.
+## finds topics starting with given parameter. Used for autocomplete.
 # Example API request:
 # search= Donald
 def topicListerGet(request):
@@ -125,7 +129,7 @@ def topicListerGet(request):
     topics = Topic.objects.filter(label__startswith=searchParam)
     return HttpResponse(django.core.serializers.serialize('json', topics), content_type='json')
 
-# Gives users followed topics.
+## Gives users followed topics.
 # Example API request:
 # (Android)UserId:5
 def getFollowedTopics(request):
@@ -140,7 +144,7 @@ def getFollowedTopics(request):
             return HttpResponse(django.core.serializers.serialize('json',topics ), content_type='json',status=200)
         else:
             return HttpResponse("No user found",status=400)
-# Gives users latest viewed topics.
+## Gives users latest viewed topics.
 # Example API request:
 # (Android)UserId:5
 # TopicCount:10
@@ -158,7 +162,7 @@ def getViewedTopics(request):
             return HttpResponse(django.core.serializers.serialize('json',topics ), content_type='json',status=200)
         else:
             return HttpResponse("No user found",status=400)
-# Gives users latest commented topics.
+## Gives users latest commented topics.
 # Example API request:
 # (Android)UserId:5
 # TopicCount:10
@@ -177,12 +181,12 @@ def getCommentedTopics(request):
             return HttpResponse(django.core.serializers.serialize('json',topics[:TopicCount] ), content_type='json',status=200)
         else:
             return HttpResponse("No user found",status=400)
-# Rest Api for all topic list.
+## Rest Api for all topic list.
 class TopicList(generics.ListCreateAPIView):
     queryset = Topic.objects.all()
     serializer_class= TopicListSerializer
 
-# Rest Api for single topic
+## Rest Api for single topic
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
 
 

@@ -1,3 +1,7 @@
+"""@package API
+API documentation
+
+"""
 from MeancoApp.models import *
 from django.http import request
 from django.http import HttpResponse
@@ -5,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import django.core.serializers
 import json
 
-# Comment creation API Call
+## Comment creation API Call
 # Example Comment Creation Request:
 # topicId: 1
 # userId: 1
@@ -50,7 +54,7 @@ def addComment(request):
             "commentId": Com.id}),
             status=200,
             content_type="application/json")
-# Editing Comment API call.
+## Editing Comment API call.
 # Example Edit Request:
 # commentId: 1
 # text: HELP
@@ -73,7 +77,7 @@ def editComment(request):
             return HttpResponse("Comment linking Error", status=400)
         return HttpResponse("Comment Edited", status=200)
 
-# API request to send users votes on comments for a page
+## API request to send users votes on comments for a page
 # Example API request:
 # TopicId=5
 # [Android] UserId=1
@@ -91,7 +95,7 @@ def getUsersVotes(request):
         status=200,
         content_type="application/json")
 
-# API request for rating comments.
+## API request for rating comments.
 # Example API request:
 # userId: 1
 # comment : 5

@@ -1,0 +1,94 @@
+This document describes how to publish vis.\+js.
+
+\subsection*{Build}
+
+
+\begin{DoxyItemize}
+\item Change the version number of the library in {\ttfamily package.\+json}. \begin{DoxyVerb}  npm version major|minor|patch
+  git commit -m "bumped package.json version to X.XX.X"
+\end{DoxyVerb}
+
+\item Open {\ttfamily H\+I\+S\+T\+O\+R\+Y.\+md}, write down the changes, version number, and release date. (Changes since last release\+: {\ttfamily git log \textbackslash{}}git describe --tags --abbrev=0`..H\+E\+AD --oneline`)
+\item Update external dependencies \begin{DoxyVerb}  npm install -g npm-check-updates
+  npm-check-updates -u
+  git commit -a -m "updated external dependencies"
+\end{DoxyVerb}
+
+\item Build the library by running\+: \begin{DoxyVerb}  npm prune
+  npm update
+  npm run build
+\end{DoxyVerb}
+
+\end{DoxyItemize}
+
+\subsection*{Test}
+
+
+\begin{DoxyItemize}
+\item Test the library\+: \begin{DoxyVerb}  npm test
+\end{DoxyVerb}
+
+\item Open some of the examples in your browser and visually check if it works as expected.
+\end{DoxyItemize}
+
+\subsection*{Commit}
+
+
+\begin{DoxyItemize}
+\item Commit the changes to the {\ttfamily develop} branch.
+\item Merge the {\ttfamily develop} branch into the {\ttfamily master} branch.
+\item Push the branches to github
+\item Create a version tag (with the new version number) and push it to github\+: \begin{DoxyVerb}  git tag v3.1.0
+  git push --tags
+\end{DoxyVerb}
+
+\end{DoxyItemize}
+
+\subsection*{Publish}
+
+
+\begin{DoxyItemize}
+\item Publish at npm\+: \begin{DoxyVerb}  npm publish
+\end{DoxyVerb}
+
+\item Test the published library\+:
+\begin{DoxyItemize}
+\item Go to a temp directory
+\item Install the library from npm\+: \begin{DoxyVerb}  npm install vis
+\end{DoxyVerb}
+
+
+Verify if it installs the just released version, and verify if it works.
+\item Install the library via bower\+: \begin{DoxyVerb}  bower install vis
+\end{DoxyVerb}
+
+
+Verify if it installs the just released version, and verify if it works.
+\item Verify within a day or so whether vis.\+js is updated on \href{http://cdnjs.com/}{\tt http\+://cdnjs.\+com/}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsection*{Update website}
+
+
+\begin{DoxyItemize}
+\item Copy the {\ttfamily dist} folder from the {\ttfamily master} branch to the {\ttfamily github-\/pages} branch.
+\item Copy the {\ttfamily docs} folder from the {\ttfamily master} branch to the {\ttfamily github-\/pages} branch.
+\item Copy the {\ttfamily examples} folder from the {\ttfamily master} branch to the {\ttfamily github-\/pages} branch.
+\item Create a packaged version of vis.\+js. Go to the {\ttfamily master} branch and run\+: \begin{DoxyVerb}  zip vis.zip dist docs examples README.md HISTORY.md CONTRIBUTING.md LICENSE* NOTICE -r
+\end{DoxyVerb}
+
+\item Move the created zip file {\ttfamily vis.\+zip} to the {\ttfamily download} folder in the {\ttfamily github-\/pages} branch. T\+O\+DO\+: this should be automated.
+\item Check if there are new or updated examples, and update the gallery screenshots accordingly.
+\item Update the library version number in the index.\+html page.
+\item Update the C\+DN links at the download section of index.\+html A\+ND the C\+DN link at the top. (replace all)
+\item Commit the changes in the {\ttfamily gh-\/pages} branch.
+\end{DoxyItemize}
+
+\subsection*{Prepare next version}
+
+
+\begin{DoxyItemize}
+\item Switch to the {\ttfamily develop} branch.
+\item Change version numbers in {\ttfamily package.\+json} to a snapshot version like {\ttfamily 0.\+4.\+0-\/\+S\+N\+A\+P\+S\+H\+OT}. 
+\end{DoxyItemize}

@@ -1,0 +1,107 @@
+\hypertarget{namespace_meanco_app_1_1views_1_1_api_topic}{}\section{Meanco\+App.\+views.\+Api\+Topic Namespace Reference}
+\label{namespace_meanco_app_1_1views_1_1_api_topic}\index{Meanco\+App.\+views.\+Api\+Topic@{Meanco\+App.\+views.\+Api\+Topic}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_meanco_app_1_1views_1_1_api_topic_1_1_topic_detail}{Topic\+Detail}
+\begin{DoxyCompactList}\small\item\em Rest Api for single topic. \end{DoxyCompactList}\item 
+class \hyperlink{class_meanco_app_1_1views_1_1_api_topic_1_1_topic_list}{Topic\+List}
+\begin{DoxyCompactList}\small\item\em Rest Api for all topic list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_a049cfbca71b779e10b7142025467e143}{add\+Topic} (request)
+\begin{DoxyCompactList}\small\item\em Adds topic and add one tag to it. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_a7d468b816bae096de9590c7c517eed4c}{search\+Topic} (request)
+\begin{DoxyCompactList}\small\item\em search topic by \+: 1) string match. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_aceb28924ab008fbaa70b78d1b2258d5e}{follow\+Topic} (request)
+\begin{DoxyCompactList}\small\item\em Follows topic for given user. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_ac2330605dba8bd984d16fd10596e1b40}{topic\+Lister\+Get} (request)
+\begin{DoxyCompactList}\small\item\em finds topics starting with given parameter. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_a72ded810f583e39ba21b8bd1b7dbc05e}{get\+Followed\+Topics} (request)
+\begin{DoxyCompactList}\small\item\em Gives users followed topics. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_a467915c3cd43b22d8c3926eb8757e987}{get\+Viewed\+Topics} (request)
+\begin{DoxyCompactList}\small\item\em Gives users latest viewed topics. \end{DoxyCompactList}\item 
+def \hyperlink{namespace_meanco_app_1_1views_1_1_api_topic_ab2f53fc783135ceb0d4ce3ddeca5989c}{get\+Commented\+Topics} (request)
+\begin{DoxyCompactList}\small\item\em Gives users latest commented topics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}@package API
+API documentation\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_a049cfbca71b779e10b7142025467e143}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_a049cfbca71b779e10b7142025467e143} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!add\+Topic@{add\+Topic}}
+\index{add\+Topic@{add\+Topic}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{add\+Topic()}{addTopic()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+add\+Topic (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+Adds topic and add one tag to it. 
+
+Also finds references to topic from wikidata. Example A\+PI request\+: topic\+Name=\char`\"{}\+Donald Trump\char`\"{} tag=Politician description= Occupation U\+RL\+: www.\+wikimedia.\+com/politician T\+O\+DO\+: Add threading for finding references from Wikidita \hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_aceb28924ab008fbaa70b78d1b2258d5e}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_aceb28924ab008fbaa70b78d1b2258d5e} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!follow\+Topic@{follow\+Topic}}
+\index{follow\+Topic@{follow\+Topic}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{follow\+Topic()}{followTopic()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+follow\+Topic (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+Follows topic for given user. 
+
+Example A\+PI request\+: (Android)User\+Id\+:1 Topic\+Id=5 \hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_ab2f53fc783135ceb0d4ce3ddeca5989c}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_ab2f53fc783135ceb0d4ce3ddeca5989c} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!get\+Commented\+Topics@{get\+Commented\+Topics}}
+\index{get\+Commented\+Topics@{get\+Commented\+Topics}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{get\+Commented\+Topics()}{getCommentedTopics()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+get\+Commented\+Topics (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+Gives users latest commented topics. 
+
+Example A\+PI request\+: (Android)User\+Id\+:5 Topic\+Count\+:10 \hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_a72ded810f583e39ba21b8bd1b7dbc05e}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_a72ded810f583e39ba21b8bd1b7dbc05e} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!get\+Followed\+Topics@{get\+Followed\+Topics}}
+\index{get\+Followed\+Topics@{get\+Followed\+Topics}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{get\+Followed\+Topics()}{getFollowedTopics()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+get\+Followed\+Topics (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+Gives users followed topics. 
+
+Example A\+PI request\+: (Android)User\+Id\+:5 \hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_a467915c3cd43b22d8c3926eb8757e987}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_a467915c3cd43b22d8c3926eb8757e987} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!get\+Viewed\+Topics@{get\+Viewed\+Topics}}
+\index{get\+Viewed\+Topics@{get\+Viewed\+Topics}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{get\+Viewed\+Topics()}{getViewedTopics()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+get\+Viewed\+Topics (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+Gives users latest viewed topics. 
+
+Example A\+PI request\+: (Android)User\+Id\+:5 Topic\+Count\+:10 \hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_a7d468b816bae096de9590c7c517eed4c}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_a7d468b816bae096de9590c7c517eed4c} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!search\+Topic@{search\+Topic}}
+\index{search\+Topic@{search\+Topic}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{search\+Topic()}{searchTopic()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+search\+Topic (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+search topic by \+: 1) string match. 
+
+2) Mutual tags. 3) wikidata references. Example A\+PI request\+: search\+: Donald
+
+T\+O\+DO\+: Add more semantic search, check parameters \hypertarget{namespace_meanco_app_1_1views_1_1_api_topic_ac2330605dba8bd984d16fd10596e1b40}{}\label{namespace_meanco_app_1_1views_1_1_api_topic_ac2330605dba8bd984d16fd10596e1b40} 
+\index{Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}!topic\+Lister\+Get@{topic\+Lister\+Get}}
+\index{topic\+Lister\+Get@{topic\+Lister\+Get}!Meanco\+App\+::views\+::\+Api\+Topic@{Meanco\+App\+::views\+::\+Api\+Topic}}
+\subsubsection{\texorpdfstring{topic\+Lister\+Get()}{topicListerGet()}}
+{\footnotesize\ttfamily def Meanco\+App.\+views.\+Api\+Topic.\+topic\+Lister\+Get (\begin{DoxyParamCaption}\item[{}]{request }\end{DoxyParamCaption})}
+
+
+
+finds topics starting with given parameter. 
+
+Used for autocomplete. Example A\+PI request\+: search= Donald 

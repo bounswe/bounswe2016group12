@@ -1,16 +1,23 @@
+"""@package API
+API documentation
+
+"""
 from MeancoApp.models import *
 from django.http import request
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import django.core.serializers
 import json
-# Add tags to a topic. API call.
+
+
+## Add tags to a topic. API call.
+#
 # Example API request:
 # topicId : 1
 # label : "asd"
 # description : "dsa"
 # URL : "www.asd.com"
-#
+
 @csrf_exempt
 def addTag(request):
     topicId=request.POST.get("topicId")
@@ -46,9 +53,9 @@ def addTag(request):
             status=200,
             content_type="application/json")
 
-# Searches for a tag in db.
-# Example API request:
-# URL: www.asd.com
+## Searches for a tag in db.
+## Example API request:
+## URL: www.asd.com
 #
 def searchTag(request):
     URL= request.GET.get('URL')

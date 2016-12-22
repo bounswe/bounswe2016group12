@@ -1,8 +1,13 @@
+"""@package Views
+View documentation
+
+"""
 from django.shortcuts import render
 from sys import platform as _platform
 from MeancoApp.functions.search import *
 from ..models import Topic, Tag
-
+## Gets search page.
+#
 def get_page(request):
     oftopics = []
     param = request.GET.get('param')

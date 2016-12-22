@@ -1,3 +1,7 @@
+"""@package Models
+View documentation
+
+"""
 from django.db.models import Model, IntegerField, DateTimeField, ForeignKey, TextField, BooleanField, CASCADE
 from django.db.models.signals import post_init, pre_delete
 from django.contrib.auth.models import User
@@ -7,8 +11,7 @@ import datetime
 from .profile import Profile
 from .topic import Topic
 
-### comment.Comment
-
+### Comment Model
 class Comment(Model):
     topic = ForeignKey(Topic, on_delete=CASCADE, related_name='comments')
     profile = ForeignKey(Profile, on_delete=CASCADE, related_name='comments') # LATER: make it get set to default = AnonymousUser
@@ -20,14 +23,14 @@ class Comment(Model):
     def __str__(self):
         return str(self.pk)
 
-    #get latest version of users comment
+    ##Get latest version of users comment
     def current(self):
         return self.versions.first()
-    #get latest version of users comments content.
+    ##Get latest version of users comments content.
     def content(self):
         return self.current().content
 
-    #edits uses comment.
+    #Edits comment.
     def edit(self, newcontent):
         version = Version(
             comment=self,
@@ -35,8 +38,8 @@ class Comment(Model):
         )
         version.save()
 
-### comment.Version
-
+## Versions of Comment
+#
 class Version(Model):
     comment = ForeignKey(Comment, on_delete=CASCADE, related_name='versions')
     content = TextField()
@@ -53,7 +56,7 @@ class Version(Model):
         ordering = ['-timestamp']
         unique_together = (('timestamp', ), )
 
-### comment.Voter
+## Voters of comment
 class Voter(Model):
     profile = ForeignKey(Profile, on_delete=CASCADE, related_name='commentvoters')
     comment = ForeignKey(Comment, on_delete=CASCADE, related_name='voters')
@@ -67,7 +70,7 @@ class Voter(Model):
     def __str__(self):
         return str(self.pk)
 
-    #All in one function for user to upvote,downvote.
+    ## All in one function for user to upvote,downvote.
     def toggle(self,direction):
         comment = Comment.objects.get(id=self.comment_id)
 

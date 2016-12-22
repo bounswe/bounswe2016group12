@@ -1,8 +1,14 @@
+"""@package Views
+View documentation
+
+"""
 from django.shortcuts import render
 from sys import platform as _platform
 from MeancoApp.models import *
 from django.db.models import Q
 
+## Gets relation page.
+#
 def get_page(request,id):
     print(id)
     Userid = request.user.id
