@@ -7,6 +7,7 @@
         <div class="col-md-3">
             <form class="form-signin">
                 <h2 class="form-signin-heading">Please Sign-in</h2>
+                <!-- Display sign up errors. -->
                 <ul id="post-form-warning"></ul>
                 {{ form.as_p }}
                 <button type="submit" class="save btn btn-lg btn-primary">Sign up</button>
@@ -16,35 +17,38 @@
     </form>
 
     <script>
+        /**
+         * A POST request is sent via backend API for registration.
+         */
         $(document).ready(function () {
             $('#post-form').on('submit', function(event){
                 event.preventDefault();
-                serializedData = $("#post-form").serialize();
+                serializedData = $("#post-form").serialize();   // post-form fields are POST data.
                 console.log("form submitted!");  // sanity check
                 $.ajax({
                     url: "API/Register",
                     type: "post",
                     data: serializedData,
                     cache: 'false',
-                    dataType: "json",
+                    dataType: "json",   // Response is JSON.
                     async: 'true',
 
                     success: function(response) {
                         console.log(response);
                         result = JSON.stringify(response);
-                        if(response.UserId){
+                        if(response.UserId){    // User is created and an id is returned in response.
                             console.log("User exists now.");
-                            window.location = "accounts/login";
-                        }else{
+                            window.location = "accounts/login"; // Go to login page after signup.
+                        }else{  // User could not be created.
                             console.log("User cannot be created.");
                             str = "";
-                            if(response.username){
+                            if(response.username){  // Problem with username.
                                 str += "<li>"+ response.username[0] + "</li>";
                             }
-                            if(response.email){
+                            if(response.email){ // Problem with email.
                                 str += "<li>" + response.email[0] + "</li>";
                             }
-                            if(response.password2){
+                            if(response.password2){ // Problem with password.
                                 for (var i in response.password2){
                                     str += "<li>" + response.password2[i] + "</li>";
                                 }
@@ -54,7 +58,7 @@
                         console.log(result);
                     },
                     error:function(response){
-                    },
+                    }
                 });
 
             });

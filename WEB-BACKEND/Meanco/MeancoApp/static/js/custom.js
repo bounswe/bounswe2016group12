@@ -1,10 +1,10 @@
 /**
- * Created by esma on 18.12.2016.
+ * Follow topic function. A request is sent to FollowTopic API to follow topics.
  */
 
 function follow(id) {
     console.log("Follow.");  // sanity check
-    var serializedData = {
+    var serializedData = {  // data to be sent with POST request
         TopicId: id
     };
     $.ajax({
@@ -14,13 +14,13 @@ function follow(id) {
         cache: 'false',
         async: 'true',
 
-        success: function (response) {
+        success: function (response) {  // No error.
             console.log("No error.");
             if (response == "Success") {
             }
-            location.reload();
+            location.reload();  // Refresh page.
         },
-        error: function (response) {
+        error: function (response) {    // Error.
             console.log(response);
             if (response == "Wrong Request") {
             } else if (response == "Follow Topic Error") {
