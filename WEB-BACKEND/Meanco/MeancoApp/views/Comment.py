@@ -1,7 +1,12 @@
+"""@package Views
+View documentation
+
+"""
 from django.shortcuts import render
 from sys import platform as _platform
 from MeancoApp.models import Topic, Comment, OfTopic, Relation, ViewedTopic,Profile, Tag, FollowedTopic
-
+## Gets Topic Page
+#
 def get_page(request, id):
     followed = []
     topicId = id

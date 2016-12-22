@@ -1,0 +1,90 @@
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic}{}\section{Meanco\+App.\+models.\+topic.\+Topic Class Reference}
+\label{class_meanco_app_1_1models_1_1topic_1_1_topic}\index{Meanco\+App.\+models.\+topic.\+Topic@{Meanco\+App.\+models.\+topic.\+Topic}}
+
+
+\hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic}{Topic} Model.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+topic.\+Topic\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1topic_1_1_topic}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_ab64735546707fc292be67953e5699cd2}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_ab64735546707fc292be67953e5699cd2} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_ae53f0969297491c4ca769a40789ffe96}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_ae53f0969297491c4ca769a40789ffe96} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_add21bec6175d73eae29b7e766a9d4db8}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_add21bec6175d73eae29b7e766a9d4db8} 
+def {\bfseries name} (self)
+\item 
+def \hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic_a436224fa3327f5cb0436638585aff487}{viewed} (self)
+\begin{DoxyCompactList}\small\item\em Increases view count. \end{DoxyCompactList}\item 
+def \hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic_a9296294fed15990472ff572be0be6d4b}{commented} (self)
+\begin{DoxyCompactList}\small\item\em Increases comment count. \end{DoxyCompactList}\item 
+def \hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic_a595fff7e09861a17981f9c0c7a5c9dfd}{comment\+\_\+removed} (self)
+\begin{DoxyCompactList}\small\item\em Decreases comment count. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_aea39b71d344d289b47525d3198c09921}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_aea39b71d344d289b47525d3198c09921} 
+{\bfseries comment\+\_\+count} = Integer\+Field(default=0)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a0a8a52b8b94a288c0baa17706743f9a4}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a0a8a52b8b94a288c0baa17706743f9a4} 
+{\bfseries view\+\_\+count} = Integer\+Field(default=1)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a96209ea78e5c4cee3cce27c518941647}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a96209ea78e5c4cee3cce27c518941647} 
+{\bfseries label} = Char\+Field(max\+\_\+length=40)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a4b9106978b399304163dad85384f9d97}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a4b9106978b399304163dad85384f9d97} 
+{\bfseries timestamp\+\_\+last} = Date\+Time\+Field(auto\+\_\+now=True)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a3e136e7e2278d349f6ed379dd93962e9}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a3e136e7e2278d349f6ed379dd93962e9} 
+{\bfseries timestamp\+\_\+first} = Date\+Time\+Field(auto\+\_\+now\+\_\+add=True)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic}{Topic} Model. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a595fff7e09861a17981f9c0c7a5c9dfd}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a595fff7e09861a17981f9c0c7a5c9dfd} 
+\index{Meanco\+App\+::models\+::topic\+::\+Topic@{Meanco\+App\+::models\+::topic\+::\+Topic}!comment\+\_\+removed@{comment\+\_\+removed}}
+\index{comment\+\_\+removed@{comment\+\_\+removed}!Meanco\+App\+::models\+::topic\+::\+Topic@{Meanco\+App\+::models\+::topic\+::\+Topic}}
+\subsubsection{\texorpdfstring{comment\+\_\+removed()}{comment\_removed()}}
+{\footnotesize\ttfamily def Meanco\+App.\+models.\+topic.\+Topic.\+comment\+\_\+removed (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Decreases comment count. 
+
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a9296294fed15990472ff572be0be6d4b}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a9296294fed15990472ff572be0be6d4b} 
+\index{Meanco\+App\+::models\+::topic\+::\+Topic@{Meanco\+App\+::models\+::topic\+::\+Topic}!commented@{commented}}
+\index{commented@{commented}!Meanco\+App\+::models\+::topic\+::\+Topic@{Meanco\+App\+::models\+::topic\+::\+Topic}}
+\subsubsection{\texorpdfstring{commented()}{commented()}}
+{\footnotesize\ttfamily def Meanco\+App.\+models.\+topic.\+Topic.\+commented (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Increases comment count. 
+
+\hypertarget{class_meanco_app_1_1models_1_1topic_1_1_topic_a436224fa3327f5cb0436638585aff487}{}\label{class_meanco_app_1_1models_1_1topic_1_1_topic_a436224fa3327f5cb0436638585aff487} 
+\index{Meanco\+App\+::models\+::topic\+::\+Topic@{Meanco\+App\+::models\+::topic\+::\+Topic}!viewed@{viewed}}
+\index{viewed@{viewed}!Meanco\+App\+::models\+::topic\+::\+Topic@{Meanco\+App\+::models\+::topic\+::\+Topic}}
+\subsubsection{\texorpdfstring{viewed()}{viewed()}}
+{\footnotesize\ttfamily def Meanco\+App.\+models.\+topic.\+Topic.\+viewed (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Increases view count. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/topic.\+py\end{DoxyCompactItemize}

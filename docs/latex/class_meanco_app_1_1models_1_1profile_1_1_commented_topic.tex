@@ -1,0 +1,47 @@
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic}{}\section{Meanco\+App.\+models.\+profile.\+Commented\+Topic Class Reference}
+\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic}\index{Meanco\+App.\+models.\+profile.\+Commented\+Topic@{Meanco\+App.\+models.\+profile.\+Commented\+Topic}}
+
+
+To find out users Commented topics.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+profile.\+Commented\+Topic\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1profile_1_1_commented_topic}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a5b301a5803b77b2a5c1574ec1deb9703}{}\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a5b301a5803b77b2a5c1574ec1deb9703} 
+def {\bfseries visited} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_aa41cfa31ae94973eee68792efb0ca0e4}{}\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_aa41cfa31ae94973eee68792efb0ca0e4} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a0629c56954fd970c94fe7e44455c0323}{}\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a0629c56954fd970c94fe7e44455c0323} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a89e87e167714535002b306ac1af27563}{}\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a89e87e167714535002b306ac1af27563} 
+{\bfseries profile} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1profile_1_1_profile}{Profile}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}commented\+Topics\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a4dd43e79d80d48b08d6dad19a7835340}{}\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a4dd43e79d80d48b08d6dad19a7835340} 
+{\bfseries topic} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic}{Topic}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}commenters\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a8e04e242811aa80b61d32c86db50c8a7}{}\label{class_meanco_app_1_1models_1_1profile_1_1_commented_topic_a8e04e242811aa80b61d32c86db50c8a7} 
+{\bfseries commented\+\_\+last} = Date\+Time\+Field(default=timezone.\+now())
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+To find out users Commented topics. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/profile.\+py\end{DoxyCompactItemize}

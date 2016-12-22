@@ -1,6 +1,12 @@
+"""@package functions
+View documentation
+
+"""
 from MeancoApp.models import *
 from django.db.models import Q
 
+## Gets at most <count> number of relation between topics.
+#
 def getRelations(count):
     topicIdQuery=list(Topic.objects.all().values('id'))
     topicIds=list()

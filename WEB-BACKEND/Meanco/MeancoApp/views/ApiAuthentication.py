@@ -1,3 +1,7 @@
+"""@package API
+API documentation
+
+"""
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,7 +10,7 @@ from .forms import UserCreateForm
 from MeancoApp.models import Profile
 
 
-#Register user, and create a profile.
+##Register user, and create a profile.
 @csrf_exempt
 def register(request):
     if request.method == "POST":
@@ -29,7 +33,7 @@ def register(request):
     return HttpResponse("Wrong Request!",status=400)
 
 
-# login Request API function.
+## login Request API function.
 # Example Login Request:
 # username= John
 # password = secret

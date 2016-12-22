@@ -1,9 +1,15 @@
+"""@package Views
+View documentation
+
+"""
 from django.shortcuts import render
 from sys import platform as _platform
 from MeancoApp.functions.relation import *
 from MeancoApp.models import *
 from .forms import UserCreateForm
 
+## Gets Home view with topic map.
+#
 def get_page(request):
     topics = Topic.objects.all()
     id = request.user.id
@@ -30,7 +36,8 @@ def get_page(request):
         return render(request, 'MeancoApp\TopicMap.html' , {'topics': topics,'Relations':Relations,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags,'FollowedTopics':FollowedTopics,'CommentedTopics':CommentedTopics,'ViewedTopics':ViewedTopics, 'id': id})
     else:
         return render(request, 'MeancoApp/TopicMap.html', {'topics': topics,'Relations':Relations,'TrendingTopics':TrendingTopics,'TrendingTags':TrendingTags,'FollowedTopics':FollowedTopics,'CommentedTopics':CommentedTopics,'ViewedTopics':ViewedTopics, 'id': id})
-
+## Gets Sign up page.
+#
 def get_signup_page(request):
     form = UserCreateForm()
     return render(request, 'signup.html', {'form': form})

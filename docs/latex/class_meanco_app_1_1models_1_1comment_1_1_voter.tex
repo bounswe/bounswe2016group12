@@ -1,0 +1,68 @@
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter}{}\section{Meanco\+App.\+models.\+comment.\+Voter Class Reference}
+\label{class_meanco_app_1_1models_1_1comment_1_1_voter}\index{Meanco\+App.\+models.\+comment.\+Voter@{Meanco\+App.\+models.\+comment.\+Voter}}
+
+
+Voters of comment.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+comment.\+Voter\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1comment_1_1_voter}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_meanco_app_1_1models_1_1comment_1_1_voter_1_1_meta}{Meta}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_ac3a21d6618b92bfe36088fbae037b51c}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_ac3a21d6618b92bfe36088fbae037b51c} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_ad62e0ca3c42b7eae14431c536f78e6d0}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_ad62e0ca3c42b7eae14431c536f78e6d0} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\item 
+def \hyperlink{class_meanco_app_1_1models_1_1comment_1_1_voter_a3da7c66cab382373d94f0f28788d07a5}{toggle} (self, direction)
+\begin{DoxyCompactList}\small\item\em All in one function for user to upvote,downvote. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_a20cc8ba1aded9777027b850796955250}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_a20cc8ba1aded9777027b850796955250} 
+{\bfseries profile} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1profile_1_1_profile}{Profile}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}commentvoters\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_adb8a2bf6f1ca71e4f102ed39584c0fb7}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_adb8a2bf6f1ca71e4f102ed39584c0fb7} 
+{\bfseries comment} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1comment_1_1_comment}{Comment}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}voters\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_afbb6d32ab0f4ebe41609c8238163b440}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_afbb6d32ab0f4ebe41609c8238163b440} 
+{\bfseries active} = Boolean\+Field(default=False)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_afc3d6b4106c156e5aa97108603a690b8}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_afc3d6b4106c156e5aa97108603a690b8} 
+{\bfseries upvoted} = Boolean\+Field(default=False)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_a8f4339c618f747bdd7877db78234fca1}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_a8f4339c618f747bdd7877db78234fca1} 
+{\bfseries downvoted} = Boolean\+Field(default=False)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Voters of comment. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_voter_a3da7c66cab382373d94f0f28788d07a5}{}\label{class_meanco_app_1_1models_1_1comment_1_1_voter_a3da7c66cab382373d94f0f28788d07a5} 
+\index{Meanco\+App\+::models\+::comment\+::\+Voter@{Meanco\+App\+::models\+::comment\+::\+Voter}!toggle@{toggle}}
+\index{toggle@{toggle}!Meanco\+App\+::models\+::comment\+::\+Voter@{Meanco\+App\+::models\+::comment\+::\+Voter}}
+\subsubsection{\texorpdfstring{toggle()}{toggle()}}
+{\footnotesize\ttfamily def Meanco\+App.\+models.\+comment.\+Voter.\+toggle (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{direction }\end{DoxyParamCaption})}
+
+
+
+All in one function for user to upvote,downvote. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/comment.\+py\end{DoxyCompactItemize}

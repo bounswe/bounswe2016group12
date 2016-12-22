@@ -1,0 +1,1923 @@
+\href{http://visjs.org}{\tt http\+://visjs.\+org}
+
+\subsection*{2016-\/11-\/05, version 4.\+17.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Generate source-\/maps in develop-\/branch (\#2246)
+\item Implemented \#2181\+: Ignore the \char`\"{}dist\char`\"{} folder in the develop-\/branch (\#2245)
+\item Updates Data\+Set and Data\+View remove event payload (\#2189, \#2264)
+\item Added a Gitter chat badge to R\+E\+A\+D\+M\+E.\+md (\#2179)
+\item Adds {\ttfamily old\+Data} to the update event payload in Data\+View (\#2174)
+\item Prevent moment.\+js deprecation warning (\#2089)
+\item Fixed \#2170\+: Improved the contribution docs (\#1991, \#2158, \#2178, \#2183, \#2213, \#2218, \#2219)
+\item Implemented \#1969\+: generate individual css files for network and timeline (\#1970)
+\item Cleanup bower.\+json (\#1968)
+\item Removed feature-\/request page from website (T\+O\+DO)
+\item Distinguish better between {\ttfamily dev\+Dependencies} and {\ttfamily dependencies} (\#1967)
+\item Typos and minor docs improvements (\#1958, \#2028, \#2050, \#2093, \#2222, \#2223, \#2224)
+\item Replaced {\ttfamily gulp-\/minify-\/css} with {\ttfamily gulp-\/clean-\/css} (\#1953)
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed H\+T\+ML in nodes example to work in Safari (\#2248, \#2260)
+\item Fixed \#2100\+: \char`\"{}zoom\char`\"{} improvements; {\ttfamily cluster\+By\+Connection} bugfix (\#2229)
+\item Implemented \#2073\+: New example to export/import current network as J\+S\+ON (\#2152)
+\item Fixed \#1718, \#2122\+: Fix blur edge for dense networks (\#2124)
+\item Russian, Italian, Brazilian Portuguese locale (\#2111, \#2184, \#2188, \#2052)
+\item Implemented \#1993\+: edge-\/endpoint \textquotesingle{}circle\textquotesingle{} (\#2066)
+\item Implemented \#972, \#1920\+: advanced Clustering (\#2055)
+\item Removed restriction to allow clusters of a single node. (\#2013)
+\item Improved label positioning in ellipses (\#2011)
+\item Fixed \#1857\+: Fixed node positioning with improved Layout\+:true (\#1987)
+\item Fixed issue with selecting edges drawn close to another (\#1922)
+\item Fixed get\+Point for same node edges (\#1907)
+\end{DoxyItemize}
+
+\subsubsection*{Timeline / Graph2D}
+
+
+\begin{DoxyItemize}
+\item Fixed \#2261\+: Bugs with mousewheel events (\#2262)
+\item Implemented \#1506\+: Date-\/\+Time-\/\+Tooltip while item dragging (\#2247)
+\item Fixed background items with no groups (\#2241)
+\item Fixed \#2015\+: Fixes and improvements for data-\/serialization (\#2244)
+\item Implemented \#1881\+: Drag and Drop into a timeline (\#2238)
+\item Implemented \#1955\+: Added zoom\+In and zoom\+Out functions (\#2239)
+\item Implemented \#2027\+: Auto-\/detect Right-\/\+To-\/\+Left orientation from D\+OM attributes (\#2235, \#2237)
+\item German locale (\#2234)
+\item Option {\ttfamily zoom\+Key} added for mouse wheel support (\#2197, \#2216, \#2217)
+\item Implements \#2193\+: Horizontal scrollbar (\#2201)
+\item Implements \#272, \#466, \#1060\+: Vertical scrollbar (\#2196, \#2197, \#2228, \#2231)
+\item Fixed \#2173\+: Italian locale (\#2185)
+\item Example for react.\+js support (\#2153, \#2206, \#2211)
+\item Allow custom label formatting via functions (\#1098, \#2145)
+\item Fix Vertical visibility for all item types (\#2143)
+\item Fixed \#2057\+: Right-\/\+To-\/\+Left orientation docs (\#2141)
+\item Small bugfix to prevent null pointer exception (\#2116)
+\item Add missing require for util module (\#2109)
+\item Fixed \#2092\+: Gaps between timeline items (\#2107)
+\item Fixed \#2064\+: Fixed position of box item (\#2106)
+\item Implemented \#773, \#1367\+: {\ttfamily itemover} and {\ttfamily itemout} events (\#2099)
+\item Fixed \#27023\+: Use {\ttfamily request\+Animation\+Frame} to throttle redraws ()\#2091)
+\item Hide vertically hidden ranged items in groups that are not visible (\#2062)
+\item Fixed \#2032\+: fixes Box\+Item\textquotesingle{}s initial width if content width is dynamic (\#2035)
+\item Use css styles instead of delete image (\#2034)
+\item Implemented \#2014\+: weekday marks in other zoomlevel (\#2016)
+\item Fixed \#1625\+: only use {\ttfamily shape.\+radius} if available (\#2005)
+\item Fixed incorrect documentation U\+RL (\#1998)
+\item Added example for zoom functions (\#1986)
+\item Fixed \#1156\+: Vertical scrolling when dragging (\#1976)
+\item Minor fix in docs (\#1972)
+\item Fixed handlebars example (\#1946)
+\item Fixed \#1723\+: Problems in the time axis bar if using {\ttfamily hidden\+Dates} (\#1944)
+\item Timestep set\+Moment fix (\#1932)
+\item Fixed \#1853\+: Content overflow (\#1862)
+\item Bugfix (\#1822)
+\item Fix right orientation axis for Graph2D (f516cb0)
+\end{DoxyItemize}
+
+\subsubsection*{Graph3D}
+
+
+\begin{DoxyItemize}
+\item Minor improvements and major source restructuring (\#2157, \#2159, \#2160, \#2162, \#2165, \#2166, \#2167, \#2168, \#2171, \#2175, \#2176, \#2182, \#2195, \#2199, \#2200, \#2202, \#2204, \#2208, \#2209, \#2210, \#2212, \#2214, \#2215, \#2227, \#2230)
+\item Improvements for graph3d legend support (\#1940)
+\item Advanced Tooltips (\#1884)
+\end{DoxyItemize}
+
+\subsection*{2016-\/04-\/18, version 4.\+16.\+1}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1786\+: Timeline having zero height on Internet Explorer, regression introduced after fixing \#1697.
+\end{DoxyItemize}
+
+\subsection*{2016-\/04-\/07, version 4.\+16.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented rtl support. Thanks .
+\item Fixed \#1697\+: Timeline not drawn when used within the Angular.\+js directive.
+\item Fixed \#1774\+: Wrong initial scale when Timeline contains a single item.
+\end{DoxyItemize}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Created bundles for individual visualizations\+: {\ttfamily vis-\/graph3d.\+min.\+js}, {\ttfamily vis-\/network.\+min.\+js}, and {\ttfamily vis-\/timeline-\/graph2d.\+min.\+js}.
+\end{DoxyItemize}
+
+\subsection*{2016-\/03-\/08, version 4.\+15.\+1}
+
+\subsection*{General}
+
+
+\begin{DoxyItemize}
+\item Updated all dependencies.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1455\+: allow vertical panning of the web page on touch devices.
+\item Fixed \#1692\+: Error when y-\/axis values are equal.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1455\+: allow vertical panning of the web page on touch devices.
+\item Fixed \#1695\+: Item line and dot not correctly reckoning with the line width when using left or right align.
+\item Fixed \#1697\+: Timeline not drawn when used within the Angular.\+js directive.
+\end{DoxyItemize}
+
+\subsection*{2016-\/02-\/23, version 4.\+15.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented {\ttfamily current\+Time\+Tick} event (see \#1683).
+\item Fixed \#1630\+: method {\ttfamily get\+Item\+Range} missing in docs.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1630\+: method {\ttfamily get\+Data\+Range} was wrongly called {\ttfamily get\+Item\+Range} in docs.
+\item Fixed \#1655\+: use parse\+Float instead of Number.\+parse\+Float, as the latter is not supported in IE. Thanks .
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Changed the built-\/in tooltip to show the provided {\ttfamily x\+Label}, {\ttfamily y\+Label}, and {\ttfamily z\+Label} instead of {\ttfamily \textquotesingle{}x\textquotesingle{}}, {\ttfamily \textquotesingle{}y\textquotesingle{}}, and {\ttfamily \textquotesingle{}z\textquotesingle{}}. Thanks .
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Implemented interpolation option for interpolation of images, default true.
+\item Implemented parent\+Centralization option for hierarchical layout.
+\item Fixed \#1635\+: edges are now referring to the correct points.
+\item Fixed \#1644, \#1631\+: overlapping nodes in hierarchical layout should no longer occur.
+\item Fixed \#1575\+: fixed selection events
+\item Fixed \#1677\+: updating groups through manipulation now works as it should.
+\item Fixed \#1672\+: Implemented stepped scaling for nice interpolation of images.
+\end{DoxyItemize}
+
+\subsection*{2016-\/02-\/04, version 4.\+14.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed a regression\+: Timeline/\+Graph2d constructor throwing an exception when no options are provided via the constructor.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed a regression\+: Timeline/\+Graph2d constructor throwing an exception when no options are provided via the constructor.
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1615\+: implemented new option {\ttfamily dot\+Size\+Ratio}.
+\end{DoxyItemize}
+
+\subsection*{2016-\/02-\/01, version 4.\+13.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added options to customize the hierarchical layout without the use of physics.
+\item Altered edges for arrows and added the arrow\+Strikethrough option.
+\item Improved the hierarchical layout algorithm by adding a condensing method to remove whitespace.
+\item Fixed \#1556\+: Network throwing an error when clicking the \char`\"{}\+Edit\char`\"{} button on the manipulation toolbar.
+\item Fixed \#1334 (again)\+: Network now ignores scroll when interaction\+:zoom\+View is false.
+\item Fixed \#1588\+: destroy now unsubscribed from the dataset.
+\item Fixed \#1584\+: Navigation buttons broken.
+\item Fixed \#1596\+: correct clean up of manipulation dom elements.
+\item Fixed \#1594\+: bug in hierarchical layout.
+\item Fixed \#1597\+: Allow zero borders and addressed scaling artifacts.
+\item Fixed \#1608\+: Fixed wrong variable reference
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Moved initial autoscale/fit method to an handler of the \char`\"{}changed\char`\"{} event.
+\item Fixed \#1580\+: Invisible timeline/graph should not be drawn, as most inputs are invalid
+\item Fixed \#1521\+: Prevent items from staying stuck to the left side of the viewport.
+\item Fixed \#1592\+: Emit a \char`\"{}changed\char`\"{} event after each redraw.
+\item Fixed \#1541\+: Timeline and Graph2d did not load synchronously anymore.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Major redesign of data axis/scales, with large focus on creating a sane slave axis setup
+\item Cleanup of linegraph\textquotesingle{}s event handling.
+\item Fixed \#1585\+: Allow bar groups to exclude from stacking
+\item Fixed \#1580\+: Invisible timeline/graph should not be drawn, as most inputs are invalid
+\item Fixed \#1177\+: Fix custom range of slaved right axis.
+\item Fixed \#1592\+: Emit a \char`\"{}changed\char`\"{} event after each redraw.
+\item Fixed \#1017\+: Fixed min\+Width behavior for bars.
+\item Fixes \#1557\+: Fix default axis formatting function.
+\item Fixed \#1541\+: Timeline and Graph2d did not load synchronously anymore.
+\item Fixed a performance regression
+\end{DoxyItemize}
+
+\subsection*{2016-\/01-\/08, version 4.\+12.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1527\+: error when creating/updating a Timeline without data.
+\item Fixed \#1127\+: {\ttfamily double\+Click} event not being fired.
+\item Fixed \#1554\+: wrong cursor on readonly range items.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1531, \#1335\+: border distances for arrow positioning
+\item Fixed find\+Node method. It now does not return internal objects anymore.
+\item Fixed \#1529, clustering and declustering now respects the original settings of the edges for physics and hidden.
+\item Fixed \#1406, control nodes are now drawn immediately without a second redraw.
+\item Fixed \#1404, made the array returned by find\+Node match the docs.
+\item Added \#1138, enable the user to define the color of the shadows for nodes and edges.
+\item Fixed \#1528, \#1278, avoided ID\textquotesingle{}s being cast to string for methods that return ID\textquotesingle{}s as well as store\+Positions casting to string.
+\item Fixed upscaling when the window size increases.
+\item Accepted pull request \#1544, thanks !
+\item Fixed documented bug in \#1544.
+\end{DoxyItemize}
+
+\subsection*{2015-\/12-\/18, version 4.\+11.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Expose {\ttfamily set\+Selection} method. Thanks .
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1441\+: Height of subgroups not immediately updated after updating data in a Data\+Set or Data\+View.
+\item Fixed \#1491\+: Problem using ctrl+drag in combination with using a {\ttfamily Data\+View}, and an issue with ctrl+drag when using {\ttfamily snap\+: null}.
+\item Fixed \#1486\+: Item range sometimes wrongly calculated on IE in case of old dates.
+\item Fixed \#1523\+: end of data range wrongly determined.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Large refactoring of Graph2d code base\+:
+\begin{DoxyItemize}
+\item Implemented a new option for {\ttfamily shaded.\+orientation} to always shade towards zero.
+\item Implemented a new option for {\ttfamily shaded.\+orientation} to follow another group (fill in between)
+\item Implemented line-\/graph stacking
+\item Fixed support for using a {\ttfamily Data\+View} in Graph2d.
+\item Implemented a new zindex option for controlling svg rendering order.
+\item Performance updates and fixes
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1487\+: Data\+Set cannot remove an item with id {\ttfamily 0} correctly.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+View}
+
+
+\begin{DoxyItemize}
+\item Added the map() function from Data\+Set.
+\end{DoxyItemize}
+
+\subsection*{2015-\/11-\/27, version 4.\+10.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1353\+: Custom bundling with browserify requiring manual installation of {\ttfamily babelify}.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Implemented new method {\ttfamily set\+Selection(\{nodes\+:\mbox{[}...\mbox{]}, edges\+: \mbox{[}...\mbox{]}\})}. Thanks .
+\item Fixed \#1343\+: Connected edges are now deselected too when deselecting a node.
+\item Fixed \#1398\+: Support nodes start with the correct positions.
+\item Fixed \#1324\+: Labels now scale again.
+\item Fixed \#1362\+: Layout of hierarchicaly systems no longer overlaps N\+O\+D\+ES.
+\item Fixed \#1414\+: Fixed color references for nodes and edges.
+\item Fixed \#1408\+: Unclustering without release function respects fixed positions now.
+\item Fixed \#1358\+: Fixed example for clustering on zoom.
+\item Fixed \#1416\+: Fixed error in improved\+Layout.
+\item Improvements on hierarchical layout.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented option {\ttfamily items\+Always\+Draggable}, See \#1395. Thanks .
+\item Implemented option {\ttfamily multiselect\+Per\+Group}. Thanks .
+\item Implemented property {\ttfamily old\+Data} on change events of the Data\+Set, and deprecated the {\ttfamily data} property which wrongly contained new data instead of old data. Thanks .
+\item Implemented option {\ttfamily max\+Minor\+Chars} to customize the width of the grid.
+\item Expose {\ttfamily vis.\+timeline.\+Core} for customization purposes.
+\item Fixed \#1449, \#1393\+: text of minor grids sometimes not being drawn.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1385\+: Draw lines on top of bars.
+\item Fixed \#1461 and \#1345\+: Reset order of S\+VG elements in legend icons.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set/\+Data\+View}
+
+
+\begin{DoxyItemize}
+\item Performance improvements (see \#1381). Thanks .
+\end{DoxyItemize}
+
+\subsection*{2015-\/10-\/01, version 4.\+9.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed bug where an edge that was not connected would crash the layout algorithms.
+\item Fixed bug where a box shape could not be drawn outside of the viewable area.
+\item Fixed bug where dragging a node that is not a control node during edit edge mode would throw an error.
+\item Made auto scaling on container size change pick the lowest between delta height and delta width.
+\item Added images with borders option (use\+Border\+With\+Image)
+\item Updated the manipulation css to fix offset if there is no separator.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1326\+: wrongly positioned dot of Point\+Items.
+\item Fixed \#1249\+: option {\ttfamily hidden\+Dates} not accepting a single hidden date.
+\item Fixed a bug when pinching and using hidden dates. Thanks .
+\end{DoxyItemize}
+
+\subsection*{2015-\/09-\/14, version 4.\+8.\+2}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed Phantom Edges during clustering.
+\item Fixed scaling not doing anything to edges.
+\item Fixed setting font to null so the network won\textquotesingle{}t crash anymore.
+\item Fixed stabilized event not firing if layout algorithm does very well.
+\item Fixed arrows with some shapes when they are selected. \#1292
+\item Fixed deletion of options by settings them to null.
+\end{DoxyItemize}
+
+\subsection*{2015-\/09-\/07, version 4.\+8.\+1}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added German (de) locale. Thanks .
+\item Fixed critical camera zoom bug \#1273.
+\item Fixed unselect\+All method. \#1256
+\item Fixed bug that broke the network if drawn in a hidden div \#1254
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1215\+: inconsistent types of properties {\ttfamily start} and {\ttfamily end} in callback functions {\ttfamily on\+Move}, {\ttfamily on\+Moving}, {\ttfamily on\+Add}.
+\end{DoxyItemize}
+
+\subsection*{2015-\/08-\/28, version 4.\+8.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented reordering groups by dragging them vertically. Thanks .
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added Spanish (es) locale. Thanks .
+\item Added support for labels in edges and titles for both nodes and edges during gephi import.
+\item Added Kamada\+Kawai layout engine for improved initial layout.
+\item Added Adaptive timestep to the physics solvers for increased performance during stabilization.
+\item Added improved\+Layout as experimental option for greatly improved stabilization times.
+\item Added adaptive\+Timestep as experimental option for greatly improved stabilization times.
+\item Added support for Gephi directed edges, edge labels and titles.
+\item Improved the positioning and C\+SS of the configurator and the color picker.
+\item Greatly improved performance in clustering.
+\item Made the network keep its \textquotesingle{}view\textquotesingle{} during a change of the size of the container.
+\item Fixed \#1152, updating images now works.
+\item Fixed cleaning up of nodes.
+\item Fixed dynamic updating of label properties.
+\item Fixed bugs in clustering algorithm.
+\item Fixed find node return types.
+\item Fixed bug where stabilization iterations were counted double. If it looks like the stabilization is slower, its because it is doing twice the amount of steps it did before.
+\item Fixed get\+Positions return values.
+\end{DoxyItemize}
+
+\subsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Implemented configuration option {\ttfamily exclude\+From\+Legend}. Thanks .
+\end{DoxyItemize}
+
+\subsection*{2015-\/07-\/27, version 4.\+7.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#192\+: Items keep their group offset while dragging items located in multiple groups. Thanks .
+\item Fixed \#1118\+: since v4.\+6.\+0, grid of time axis was wrongly positioned on some scales.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added move\+Node method.
+\item Added cubic Bezier curves.
+\end{DoxyItemize}
+
+\subsection*{2015-\/07-\/22, version 4.\+6.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented \#24\+: support for custom timezones, see configuration option {\ttfamily moment}.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Implemented \#24\+: support for custom timezones, see configuration option {\ttfamily moment}.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed \#1111, check if edges exist was not correct on update.
+\item Fixed \#1112, network now works in firefox on unix again.
+\item Added \#931, border\+Radius in shape\+Properties for the box shape.
+\item Added \#936, use\+Image\+Size for images and circular\+Images
+\end{DoxyItemize}
+
+\subsection*{2015-\/07-\/20, version 4.\+5.\+1}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed another clustering bug, phantom edges should be gone now.
+\item Fixed disabling hierarchical layout.
+\item Fixed delete button when using multiple selected items in manipulation system.
+\end{DoxyItemize}
+
+\subsection*{2015-\/07-\/17, version 4.\+5.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Docs have been greatly improved thanks to ! Thanks a lot!
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added shape\+Properties, thanks !
+\item Added config\+Change event.
+\item Properly fixed the \+\_\+locked\+Redraw method.
+\item Fixed node resizing on dragging.
+\item Fixed missing edges during clustering.
+\item Fixed missing refresh of node data when changing hierarchical layout on the fly.
+\item Fixed hover and blur events for edges.
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Fixed not changing {\ttfamily background\+Color} when not provided in options. Thanks .
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented support for group templates (\#996). Thanks .
+\item Implemented option {\ttfamily zoom\+Key} for both Timeline and Graph2d (see \#1082). Thanks .
+\item Fixed \#1076\+: Fixed possible overlap of minor labels text on the Time\+Axis.
+\item Fixed \#1001\+: First element of group style being cut.
+\item Fixed \#1071\+: H\+T\+ML contents of a group not cleared when the contents is updated.
+\item Fixed \#1033\+: Moved item data not updated in Data\+Set when using an asynchronous {\ttfamily on\+Move} handler.
+\item Fixed \#239\+: Do not zoom/move the window when the mouse is on the left panel with group labels.
+\end{DoxyItemize}
+
+\subsection*{2015-\/07-\/03, version 4.\+4.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Documentation now has breadcrums. Thanks !
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Fixed \#970\+: Implemented options {\ttfamily data\+Color}, {\ttfamily axis\+Color}, and {\ttfamily grid\+Color}.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed Hammerjs direction issue.
+\item Fixed recursion error when node is fixed but has no position.
+\item Fixed accidental redrawing during stabilization.
+\item Fixed delete callbacks with null argument not showing toolbar afterwards.
+\item Added zoom events from keyboard and navigation buttons.
+\item No longer start stabilization with an empty node set.
+\item Fixed \#974 connecting static smooth and straight edges.
+\item Improved handling of empty image field.
+\item Fixed \#987 proper cleaning of support nodes.
+\item Fixed static smooth edges not fully working from every angle.
+\item Fixed updating bounding box of nodes without drawing.
+\item Fixed \#1036, bug in locked\+Redraw. Thanks !
+\item Added get\+Dataset to all manipulation functions. Thanks !
+\item Fixed \#1039, icon now returns correct distance to border
+\item Added blur\+Edge and hover\+Edge events.
+\item Added label\+Highlight\+Bold option to edges and nodes.
+\item Added get\+Options\+From\+Configurator method.
+\item Fixed extra edges in clustering.
+\item Fixed cleaning up of clustering edges on declustering.
+\item Made fit() method only look at visible nodes to get the range.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Made graph2d more robust against string values in the y position.
+\item Fixed bug where 0 axis was always in the automatically fitted range.
+\item Added draw\+Points.\+on\+Render. Thanks !
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed cleaning up of items in subgroups, thanks !
+\item Improved error notification with groups, thanks !
+\end{DoxyItemize}
+
+\subsection*{2015-\/06-\/16, version 4.\+3.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Fixed \#950\+: option {\ttfamily locales} broken in {\ttfamily Timeline}, {\ttfamily Graph2d}, and {\ttfamily Network}.
+\item Fixed \#964\+: {\ttfamily Timeline}, {\ttfamily Graph2d}, and {\ttfamily Network} not working on I\+E9.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed \#942, \#966\+: bug when data is empty.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented {\ttfamily editable} option for individual items. Thanks .
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed drag\+Start event to give the correct node information.
+\end{DoxyItemize}
+
+\subsection*{2015-\/06-\/05, version 4.\+2.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Fixed \#893, \#911\+: the {\ttfamily click\+To\+Use} option of Network, Graph2d, and Network was blocking click events in the web page.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Added axis orientation option {\ttfamily \textquotesingle{}none\textquotesingle{}}.
+\item Added a property {\ttfamily event} to the properties emitted with the {\ttfamily select} event (see \#923).
+\item Improved function {\ttfamily fit()} to take into account the actual width of items.
+\item Fixed \#897\+: Timeline option {\ttfamily \{snap\+: null\}} did give a validation error.
+\item Fixed \#925\+: Event {\ttfamily timechanged} did not fire when mouse has been moved outside the timeline.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2D}
+
+
+\begin{DoxyItemize}
+\item Fixed \#892, addressed any case in validator.
+\item Fixed \#898, lines are not taken into account for stacking.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Improved robustness against people molesting the Function.\+prototype.\+bind()
+\item Fixed few functions including store\+Positions().
+\item Added beginnings of unit testing for network.
+\item Fixed \#904, correctly parsing global font options now.
+\item Fixed data\+View support for store\+Positions.
+\item Second click on node is no longer unselect.
+\item Added release\+Function to open\+Cluster.
+\item Fixed bug where the network could flicker when the pixel\+Ratio is not integer.
+\item Added enabled property to physics.
+\item Fixed \#927, drag\+Start event didn\textquotesingle{}t contain node that was being dragged
+\end{DoxyItemize}
+
+\subsection*{2015-\/05-\/28, version 4.\+1.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed \#866, manipulation can now be set to false without crashing.
+\item Fixed \#860, edit node mode now works as it should.
+\item Fixed \#859, images now resize again when they are loaded.
+\item Fixed dynamic edges not correctly handling non-\/existent nodes.
+\item Accepted pull from  for fixing selected and hover colors for edges.
+\item Fixed bug with right mouse button, scroll center and popup positions using the wrong coordinates.
+\item Fixed click to use.
+\item Fixed get\+Connected\+Edges method.
+\item Fixed clustering bug.
+\item Added get\+Nodes\+In\+Cluster method.
+\item Renamed edit\+Node\+Mode to edit\+Node, edit\+Node\+Mode now give a deprecation log message.
+\item Added multiselect to the docs.
+\item Removed deprecated dynamic entree, allow any smooth curve style for hierarchical layout.
+\item Fixed bug with the move\+To and get\+View\+Position methods.
+\item Fixed \#861, broken\+Image only working for one node if nodes have the same image.
+\item Fixed hover\+Node and blur\+Node events and added them to the docs.
+\item Fixed \#884, select\+Node event.
+\item Fixed dynamic setting hidden and physics.
+\item Fixed edit node mode\textquotesingle{}s fallback.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d \& Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed \#858, \#872, fixed usage of deprecated {\ttfamily unsubscribe} from Data\+Set.
+\item Fixed \#869\+: Add class\+Name with id to custom time bars
+\item Fixed \#877\+: Added support for meta\+Key to select multiple items.
+\end{DoxyItemize}
+
+\subsection*{2015-\/05-\/22, version 4.\+0.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Changed the build scripts to include a transpilation of E\+S6 to E\+S5 (using \href{http://babel.org}{\tt http\+://babel.\+org}), so we can use E\+S6 features in the vis.\+js code. When creating a custom bundle using browserify, one now needs to add a transform step using {\ttfamily babelify}, this is described in R\+E\+A\+D\+M\+E.\+md.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Integrated an option configurator and validator.
+\item Implemented option {\ttfamily multiselect}, which is false by default.
+\item Added method {\ttfamily set\+Data(\{groups\+: groups, items\+: items\})}.
+\item Fixed range items not being displayed smaller than 10 pixels (twice the padding). In order to have overflowing text, one should now apply css style {\ttfamily .vis.\+timeline .item.\+range \{ overflow\+: visible; \}} instead of {\ttfamily .vis.\+timeline .item.\+range .content \{ overflow\+: visible; \}}. See example 18\+\_\+range\+\_\+overflow.\+html.
+\item Fixed invalid css names for time axis grid, renamed hours class names from {\ttfamily 4-\/8h} to {\ttfamily h4-\/h8}.
+\item Deprecated option {\ttfamily show\+Custom\+Time}. Use method {\ttfamily add\+Custom\+Time()} instead.
+\item Deprecated event {\ttfamily finished\+Redraw} as it\textquotesingle{}s redundant.
+\item Renamed option {\ttfamily animate} to {\ttfamily animation}, and changed it to be either a boolean or an object {\ttfamily \{duration\+: number, easing\+Function\+: string\}}.
+\item Fixed \#831\+: items losing selection when their type changed.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item New option structure.
+\item Cleaned up docs.
+\item Fixed \#628\+: stacking order.
+\item Fixed \#624\+: sorting order.
+\item Fixed \#616\+: stacking with negative bars.
+\item Fixed \#728\+: alignment issues.
+\item Fixed \#716\+: Height of graph {\ttfamily 2px} too large when configuring a fixed height.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+The network has been completely rewritten. The new modular setup using E\+S6 classes makes it future proof for maintainability, extendability and clarity. A summary of new features\+:
+\begin{DoxyItemize}
+\item New examples, categorized by topic.
+\item New docs.
+\item New option structure, adhering to the modular setup on the backend.
+\item New events for user interaction.
+\item New render events for drawing custom elements on the canvas.
+\item New physics events for making a loading bar during stabilization.
+\item A lot of new methods that make extending easier.
+\item Manipulation system now works without the UI neccesarily.
+\item Nodes and edges can cast shadows.
+\item Configurator system to dynamically change almost all options.
+\item Validator has been created for the network\textquotesingle{}s options, warning you about typo\textquotesingle{}s and suggesting alternatives.
+\item Diamond shape for nodes.
+\item Unified the label code so edges and nodes have the same label settings.
+\item Inherit\+Colors for edges can be set to both, making a gradient fade between two node colors.
+\item Redesigned the clustering system giving full control over it.
+\item Random seed can be saved so the network will be the same every time you start it.
+\item New physics solver based on Force\+Atlas2 as implemented in gephi.\mbox{]}
+\item New avoid\+Overlap option for physics.
+\item Many, many bugfixes.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Dropped support for Google visualization Data\+Table.
+\item Dropped support for appending data returned by {\ttfamily Data\+Set.\+get()} to an existing Array or Data\+Table.
+\end{DoxyItemize}
+
+\subsection*{2015-\/04-\/07, version 3.\+12.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed support for Data\+Set with custom id fields (option {\ttfamily field\+Id}).
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Orientation can now be configured separately for axis and items.
+\item The event handlers {\ttfamily on\+Move} and {\ttfamily on\+Moving} are now invoked with all item properties as argument, and can be used to update all properties (like content, class\+Name, etc) and add new properties as well.
+\item Fixed \#654\+: removed unnecessary minimum height for groups, takes the height of the group label as minimum height now.
+\item Fixed \#708\+: detecting wrong group when page is scrolled.
+\item Fixed \#733\+: background items being selected on shift+click.
+\end{DoxyItemize}
+
+\subsection*{2015-\/03-\/05, version 3.\+11.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item (added gradient coloring for lines, but set for release in 4.\+0 due to required refactoring of options)
+\item Fixed bug where a network that has frozen physics would resume redrawing after set\+Data, set\+Options etc.
+\item Added option to bypass default groups. If more groups are specified in the nodes than there are in the groups, loop over supplied groups instead of default.
+\item Added two new static smooth curves modes\+: curve\+CW and curve C\+CW.
+\item Added request redraw for certain internal processes to reduce number of draw calls (performance improvements!).
+\item Added pull request for usage of Icons. Thanks !
+\item Allow hierarchical view to be set in set\+Options.
+\item Fixed manipulation bar for mobile.
+\item Fixed \#670\+: Bug when updating data in a Data\+Set, when Network is connected to the Data\+Set via a Data\+View.
+\item Fixed \#688\+: Added a css class to be able to distinguish buttons \char`\"{}\+Edit node\char`\"{} and \char`\"{}\+Edit edge\char`\"{}.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented orientation option {\ttfamily \textquotesingle{}both\textquotesingle{}}, displaying a time axis both on top and bottom (\#665).
+\item Implemented creating new range items by dragging in an empty space with the ctrl key down.
+\item Implemented configuration option {\ttfamily order\+: function} to define a custom ordering for the items (see \#538, \#234).
+\item Implemented events {\ttfamily click}, {\ttfamily double\+Click}, and {\ttfamily context\+Menu}.
+\item Implemented method {\ttfamily get\+Event\+Properties(event)}.
+\item Fixed not property initializing with a Data\+View for groups.
+\item Merged add custom timebar functionality, thanks !
+\item Fixed \#664\+: end of item not restored when canceling a move event.
+\item Fixed \#609\+: reduce the left/right dragarea when an item range is very small, so you can still move it as a whole.
+\item Fixed \#676\+: misalignment of background items when using subgroups and the group label\textquotesingle{}s height is larger than the contents.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Implemented events {\ttfamily click}, {\ttfamily double\+Click}, and {\ttfamily context\+Menu}.
+\item Implemented method {\ttfamily get\+Event\+Properties(event)}.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set/\+Data\+View}
+
+
+\begin{DoxyItemize}
+\item Implemented support for mapping field names. Thanks .
+\item Fixed \#670\+: Data\+View not passing a data property on update events (see \#670)
+\end{DoxyItemize}
+
+\subsection*{2015-\/02-\/11, version 3.\+10.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added option bind\+To\+Window (default true) to choose whether the keyboard binds are global or to the network div.
+\item Improved images handling so broken images are shown on all references of images that are broken.
+\item Added get\+Connected\+Nodes method.
+\item Added font\+Size\+Min, font\+Size\+Max, font\+Size\+Max\+Visible, scale\+Font\+With\+Value, font\+Draw\+Threshold to Nodes.
+\item Added fade in of labels (on nodes) near the font\+Draw\+Threshold.
+\item Added nodes option to zoom\+Extent to zoom in on specific set of nodes.
+\item Added stabilization\+Iterations\+Done event which fires at the end of the internal stabilization run. Does not imply that the network is stabilized.
+\item Added freeze\+Simulation method.
+\item Added cluster\+By\+Zoom option.
+\item Added class name \textquotesingle{}network-\/tooltip\textquotesingle{} to the tooltip, allowing custom styling.
+\item Fixed bug when redrawing was not right on zoomed-\/out browsers.
+\item Added opacity option to edges. Opacity is only used for the unselected state.
+\item Fixed bug where selections from removed data elements persisted.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily Timeline.\+redraw()} now also recalculates the size of items.
+\item Implemented option {\ttfamily snap\+: function} to customize snapping to nice dates when dragging items.
+\item Implemented option {\ttfamily time\+Axis\+: \{scale\+: string, step\+: number\}} to set a fixed scale.
+\item Fixed width of range items not always being maintained when moving due to snapping to nice dates.
+\item Fixed not being able to drag items to an other group on mobile devices.
+\item Fixed {\ttfamily set\+Window} not working when applying an interval larger than the configured {\ttfamily zoom\+Max}.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set/\+Data\+View}
+
+
+\begin{DoxyItemize}
+\item Added property {\ttfamily length} holding the total number of items to the {\ttfamily Data\+Set} and {\ttfamily Data\+View}.
+\item Added a method {\ttfamily refresh()} to the {\ttfamily Data\+View}, to update filter results.
+\item Fixed a bug in the {\ttfamily Data\+Set} returning an empty object instead of {\ttfamily null} when no item was found when using both a filter and specifying fields.
+\end{DoxyItemize}
+
+\subsection*{2015-\/01-\/16, version 3.\+9.\+1}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Fixed wrong distribution file deployed on the website and the downloadable zip file.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed bug where opening a cluster with smooth\+Curves off caused one child to go crazy.
+\item Fixed bug where zoom\+Extent does not work as expected.
+\item Fixed nodes color data being overridden when having a group and a dataset update query.
+\item Decoupled animation from physics simulation.
+\item Fixed scroll being blocked if zoomable is false.
+\end{DoxyItemize}
+
+\subsection*{2015-\/01-\/16, version 3.\+9.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Reverted change in image class, fixed bug \#552
+\item Improved (not neccesarily fixed) the font\+Fill offset between different browsers. \#365
+\item Fixed dashed lines on firefox on Unix systems
+\item Altered the Manipulation Mixin to be succesfully destroyed from memory when calling destroy();
+\item Improved drawing of arrowheads on smooth curves. \#349
+\item Caught case where click originated on external D\+OM element and drag progressed to vis.
+\item Added label stroke support to Nodes, Edges \& Groups as per-\/object or global settings. Thank you !
+\item Reverted patch that made nodes return to \textquotesingle{}default\textquotesingle{} setting if no group was assigned to fix issue \#561. The correct way to \textquotesingle{}remove\textquotesingle{} a group from a node is to assign it a different one.
+\item Made the node/edge selected by the popup system the same as selected by the click-\/to-\/select system. Thank you !
+\item Improved edit edge control nodes positions, altered style a little.
+\item Fixed issue \#564 by resetting state to initial when no callback is performed in the return function.
+\item Added condition to Repulsion similar to Barnes\+Hut to ensure nodes do not overlap.
+\item Added label\+Alignment option to edges. Thanks -\/rav!
+\item Close active sessions in data\+Manipulation when calling set\+Data().
+\item Fixed alignment issue with edgelabels
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Added by\+User flag to options of the rangechange and rangechanged event.
+\end{DoxyItemize}
+
+\subsection*{2015-\/01-\/09, version 3.\+8.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Updated to moment.\+js v2.\+9.\+0
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed flipping of hierarchical network on update when using RL and DU.
+\item Added zoom\+Extent\+On\+Stabilize option to network.
+\item Improved destroy function, added them to the examples.
+\item Nodes now have bounding boxes that are used for zoom\+Extent.
+\item Made physics more stable (albeit a little slower).
+\item Added a check so only one \textquotesingle{}activator\textquotesingle{} overlay is created on click\+To\+Use.
+\item Made global color options for edges overrule the inherit\+Colors.
+\item Improved cleaning up of the physics configuration on destroy and in options.
+\item Made nodes who lost their group revert back to default color.
+\item Changed group behaviour, groups now extend the options, not replace. This allows partial defines of color.
+\item Fixed bug where box shaped nodes did not use hover color.
+\item Fixed Locales docs.
+\item When hovering over a node that does not have a title, the title of one of the connected edges that H\+AS a title is no longer shown.
+\item Fixed error in repulsion physics model.
+\item Improved physics handling for smoother network simulation.
+\item Fixed infinite loop when an image can not be found and no broken\+Image is provided.
+\item Added get\+Bounding\+Box method.
+\item Community fix for S\+VG images in I\+E11, thanks !
+\item Fixed repeating stabilized event when the network is already stabilized.
+\item Added circular\+Images, thanks for the contribution !
+\item Stopped infinite loop when broken\+Image is also not available.
+\item Changed util color functions so they don\textquotesingle{}t need eval. Thanks !
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed round-\/off errors of zero on the y-\/axis.
+\item added show major/minor lines options to data\+Axis.
+\item Fixed adapting to width and height changes.
+\item Added a check so only one \textquotesingle{}activator\textquotesingle{} overlay is created on click\+To\+Use.
+\item Data\+Axis width option now draws correctly.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented support for styling of the vertical grid.
+\item Support for custom date formatting of the labels on the time axis.
+\item added show major/minor lines options to timeline.
+\item Added a check so only one \textquotesingle{}activator\textquotesingle{} overlay is created on click\+To\+Use.
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Fixed mouse coordinates for tooltips.
+\end{DoxyItemize}
+
+\subsection*{2014-\/12-\/09, version 3.\+7.\+2}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed zooming issue on mobile devices.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2D}
+
+
+\begin{DoxyItemize}
+\item Fixed infinite loop when clearing Data\+Set
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Sidestepped double touch event from hammer (ugly.. but functional) causing strange behaviour in manipulation mode
+\item Better cleanup after reconnecting edges in manipulation mode
+\item Fixed recursion error with smooth edges that are connected to non-\/existent nodes
+\item Added destroy method.
+\end{DoxyItemize}
+
+\subsection*{2014-\/11-\/28, version 3.\+7.\+1}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented selection of a range of items using Shift+\+Click.
+\item Fixed content in range items may overflow range after zoom.
+\item Fixed on\+Add/on\+Update callbacks when using a Data\+View (thanks ).
+\item Fixed configuring either {\ttfamily start} or {\ttfamily end}.
+\item Fixed Timeline and Graph2d getting stuck in an infinite loop in some circumstances.
+\item Fixed background items being selectable and editable when a height is set.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2D}
+
+
+\begin{DoxyItemize}
+\item Added {\ttfamily align\+Zeros} option to data\+Axis with default value true.
+\item Fixed bug with points drawn on bargraphs
+\item Fixed docs
+\item Fixed height increase on scrolling if only {\ttfamily graph\+Height} is defined.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item drag\+End event now does not give the selected nodes if only the viewport has been dragged \#453
+\item merged high D\+PI fix by , thanks!
+\end{DoxyItemize}
+
+\subsection*{2014-\/11-\/14, version 3.\+7.\+0}
+
+\subsubsection*{Graph2D}
+
+
+\begin{DoxyItemize}
+\item Added points style for scatterplots and pointclouds.
+\item Modularized the Graph2D draw styles.
+\item Added a finished\+Redraw event.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Added pointer properties to the click and the double\+Click events containing the XY coordinates in D\+OM and canvas space.
+\item Removed I\+Ds from navigation so multiple networks can be shown on the same page. (\#438)
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Added a finished\+Redraw event.
+\item Fixed the disappearing item bug.
+\item Fixed keycharm issue.
+\end{DoxyItemize}
+
+\subsection*{2014-\/11-\/07, version 3.\+6.\+4}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Removed mousetrap due to Apache license, created keycharm and implemented it with vis.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed height of background items when having a fixed or max height defined.
+\item Fixed only one item being dragged when multiple items are selected.
+\item Optimised a serious slowdown on performance since hidden dates.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed on\+Release with navigation option.
+\item Fixed arrow heads not being colored.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2D}
+
+
+\begin{DoxyItemize}
+\item Fixed cleaning up of groups.
+\item Throw error message when items are added before groups.
+\item Made graph\+Height automatic if height is defined A\+ND if graph\+Height is smaller than the center panel when height is defined as well.
+\item Added new vertical\+Drag event for internal use, allowing the vertical scrolling of the grid lines on drag.
+\item Fixed moving legend when postioned on the bottom and vertical dragging.
+\item Optimised a serious slowdown on performance since hidden dates.
+\item Accepted a large pull request from  adding the following features (thank you!)\+:
+\item Titles on the Data\+Axis to explain what units you are using.
+\item A style field for groups and datapoints so you can dynamically change styles.
+\item A precision option to manually set the amount of decimals.
+\item Two new examples showing the new features.
+\end{DoxyItemize}
+
+\subsection*{2014-\/10-\/28, version 3.\+6.\+3}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed background items not always be cleared when removing them.
+\item Fixed visible items not always be displayed.
+\item Performance improvements when doing a lot of changes at once in a Data\+Set.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed dashed and arrow lines not using inherit\+Color.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Support for queueing of changes, and flushing them at once.
+\item Implemented {\ttfamily Data\+Set.\+set\+Options}. Only applicable for the {\ttfamily queue} options.
+\end{DoxyItemize}
+
+\subsection*{2014-\/10-\/24, version 3.\+6.\+2}
+
+
+\begin{DoxyItemize}
+\item Vis.\+js is now dual licensed under both Apache 2.\+0 and M\+IT.
+\end{DoxyItemize}
+
+\subsection*{2014-\/10-\/22, version 3.\+6.\+1}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed uneven stepsized with hidden dates.
+\item Fixed multiple bugs with regards to hidden dates.
+\item Fixed subgroups and added subgroup sorting. Subgroup labels will be in future releases.
+\end{DoxyItemize}
+
+\subsection*{2014-\/10-\/21, version 3.\+6.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Title of nodes and edges can now be an H\+T\+ML element too.
+\item Renamed store\+Position to store\+Positions. Added deprecation message and old name still works.
+\item Worked around hammer.\+js bug with multiple release listeners.
+\item Improved cleaning up after manipulation toolbar.
+\item Added get\+Positions() method to get the position of all nodes or some of them if specific Ids are supplied.
+\item Added get\+Center\+Coordinates() method to get the x and y position in canvas space of the center of the view.
+\item Fixed node label becoming undefined.
+\item Fixed cluster fontsize scaling.
+\item Fixed cluster sector scaling.
+\item Added old\+Height and old\+Width to resize event.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented field {\ttfamily style} for both items and groups, to set a custom style for individual items.
+\item Fixed height of Background\+Items not being 100\% when timeline has a fixed height.
+\item Fixed width of Background\+Items not being reduced to 0 when zooming out.
+\item Fixed onclick events in items not working.
+\item Added hidden\+Dates to hide specific times and/or days in the timeline.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Event listeners of {\ttfamily update} now receive an extra property {\ttfamily data}, containing the changed fields of the changed items.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed height of legend when there are many items showing.
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Implemented options {\ttfamily x\+Value\+Label}, {\ttfamily y\+Value\+Label} and {\ttfamily z\+Value\+Label} for custom labels along the x, y, z axis. Thanks .
+\end{DoxyItemize}
+
+\subsection*{2014-\/09-\/16, version 3.\+5.\+0}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed nodes not always being unfixed when using allowed\+To\+Move.
+\item Added drag\+Start and drag\+End events.
+\item Added edge selection on edge labels.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed data\+Axis not showing large numbers correctly.
+\end{DoxyItemize}
+
+\subsection*{2014-\/09-\/12, version 3.\+4.\+2}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Changed timings for zoom\+Extent animation.
+\item Fixed possible cause of freezing graph when animating.
+\item Added locked to focus\+On\+Node and release\+Node().
+\item Fixed minor bug in positioning of font\+Fill of nodes with certain shapes.
+\item Added start\+Stabilization event.
+\end{DoxyItemize}
+
+\subsection*{2014-\/09-\/11, version 3.\+4.\+1}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fix for introduced bug on zoom\+Extent navigation button.
+\item Added animation to zoom\+Extent navigation button.
+\item Improved cleaning of Hammer.\+js bindings.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed a bug in IE freezing when margin.\+item and margin.\+axis where both 0.
+\end{DoxyItemize}
+
+\subsection*{2014-\/09-\/10, version 3.\+4.\+0}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Fixed moment.\+js url in localization example.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed some positioning issues with the close button of the manipulation menu.
+\item Added font\+Fill to Nodes as it is in Edges.
+\item Implemented support for broken image fallback. Thanks .
+\item Added multiline labels to edges as they are implemented in nodes. Updated multiline example to show this.
+\item Added animation and camera controls by the method .move\+To()
+\item Added new event that fires when the animation is finished.
+\item Added new example showing the new features of animation.
+\item Added get\+Scale() method.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented support for templates.
+\item Implemented a new item type\+: {\ttfamily \textquotesingle{}background\textquotesingle{}}. This can be used to mark periods with a background color and label.
+\item Implemented support for attaching H\+T\+ML attributes to items. Thanks .
+\item Fixed moment.\+js url in localization example.
+\item Fixed {\ttfamily class\+Name} of groups not being updated when changed.
+\item Fixed the {\ttfamily id} field of a new item not correctly generated.
+\item Fixed newly added item ignored when returning an other object instance.
+\item Fixed option {\ttfamily auto\+Resize} not working on IE in case of changing visibility of the Timeline container element.
+\item Fixed an overflow issue with the dots of Box\+Items when using groups.
+\item Fixed a horizontal 1-\/pixel offset in the items (border width wasn\textquotesingle{}t taken into account).
+\item Renamed internal items from {\ttfamily Item\+Box}, {\ttfamily Item\+Range}, and {\ttfamily Item\+Point} to respectively {\ttfamily Box\+Item}, {\ttfamily Range\+Item}, and {\ttfamily Point\+Item}.
+\item Fixed an error thrown when calling {\ttfamily destroy()}.
+\end{DoxyItemize}
+
+\subsection*{2014-\/08-\/29, version 3.\+3.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Added localization support.
+\item Implemented option {\ttfamily click\+To\+Use}.
+\item Implemented function {\ttfamily focus(id)} to center a specific item (or multiple items) on screen.
+\item Implemented an option {\ttfamily focus} for {\ttfamily set\+Selection(ids, options)}, to immediately focus selected nodes.
+\item Implemented function {\ttfamily move\+To(time, options)}.
+\item Implemented animated range change for functions {\ttfamily fit}, {\ttfamily focus}, {\ttfamily set\+Selection}, and {\ttfamily set\+Window}.
+\item Implemented functions {\ttfamily set\+Current\+Time(date)} and {\ttfamily get\+Current\+Time()}.
+\item Implemented a new callback function {\ttfamily on\+Moving(item, callback)}.
+\item Implemented support for option {\ttfamily align} for range items.
+\item Fixed the {\ttfamily change} event sometimes being fired twice on I\+E10.
+\item Fixed canceling moving an item to another group did not move the item back to the original group.
+\item Fixed the {\ttfamily change} event sometimes being fired twice on I\+E10.
+\item Fixed canceling moving an item to another group did not move the item back to the original group.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item A fix in reading group properties for a node.
+\item Fixed physics solving stopping when a support node was not moving.
+\item Implemented localization support.
+\item Implemented option {\ttfamily click\+To\+Use}.
+\item Improved the {\ttfamily stabilized} event, it\textquotesingle{}s now firing after every stabilization with iteration count as parameter.
+\item Fixed page scroll event not being blocked when moving around in Network using arrow keys.
+\item Fixed an initial rendering before the graph has been stabilized.
+\item Fixed bug where loading hierarchical data after initialization crashed network.
+\item Added different layout method to the hierarchical system based on the direction of the edges.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Implemented option {\ttfamily handle\+Overlap} to support overlap, side\+By\+Side and stack.
+\item Implemented two examples showing the {\ttfamily handle\+Overlap} functionality.
+\item Implemented {\ttfamily custom\+Range} for the Y axis and an example showing how it works.
+\item Implemented localization support.
+\item Implemented option {\ttfamily click\+To\+Use}.
+\item Implemented functions {\ttfamily set\+Current\+Time(date)} and {\ttfamily get\+Current\+Time()}.
+\item Implemented function {\ttfamily move\+To(time, options)}.
+\item Fixed bugs.
+\item Added groups.\+visibility functionality and an example showing how it works.
+\end{DoxyItemize}
+
+\subsection*{2014-\/08-\/14, version 3.\+2.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Refactored Timeline and Graph2d to use the same core.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Added {\ttfamily visible} property to the groups.
+\item Added {\ttfamily get\+Legend()} method.
+\item Added {\ttfamily is\+Group\+Visible()} method.
+\item Fixed empty group bug.
+\item Added {\ttfamily fit()} and {\ttfamily get\+Item\+Range()} methods.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed items in groups sometimes being displayed but not positioned correctly.
+\item Fixed a group \char`\"{}null\char`\"{} being displayed in IE when not using groups.
+\end{DoxyItemize}
+
+\subsubsection*{Network}
+
+
+\begin{DoxyItemize}
+\item Fixed mass = 0 for nodes.
+\item Revamped the options system. You can globally set options (network.\+set\+Options) to update settings of nodes and edges that have not been specifically defined by the individual nodes and edges.
+\item Disabled inherit\+Color when color information is set on an edge.
+\item Tweaked examples.
+\item Removed the global length property for edges. The edgelength is part of the physics system. Therefore, you have to change the spring\+Length of the physics system to change the edge length. Individual edge lengths can still be defined.
+\item Removed global edge length definition form examples.
+\item Removed onclick and onrelease for navigation and switched to Hammer.\+js (fixing touchscreen interaction with navigation).
+\item Fixed error on adding an edge without having created the nodes it should be connected to (in the case of dynamic smooth curves).
+\end{DoxyItemize}
+
+\subsection*{2014-\/07-\/22, version 3.\+1.\+0}
+
+\subsubsection*{General}
+
+
+\begin{DoxyItemize}
+\item Refactored the code to commonjs modules, which are browserifyable. This allows to create custom builds.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented function {\ttfamily get\+Visible\+Items()}, which returns the items visible in the current window.
+\item Added options {\ttfamily margin.\+item.\+horizontal} and {\ttfamily margin.\+item.\+vertical}, which allows to specify different margins horizontally/vertically.
+\item Removed check for number of arguments in callbacks {\ttfamily on\+Add}, {\ttfamily on\+Update}, {\ttfamily on\+Remove}, and {\ttfamily on\+Move}.
+\item Fixed items in groups sometimes being displayed but not positioned correctly.
+\item Fixed range where the {\ttfamily end} of the first is equal to the {\ttfamily start} of the second sometimes being stacked instead of put besides each other when {\ttfamily item.\+margin=0} due to round-\/off errors.
+\end{DoxyItemize}
+
+\subsubsection*{Network (formerly named Graph)}
+
+
+\begin{DoxyItemize}
+\item Expanded smooth\+Curves options for improved support for large clusters.
+\item Added multiple types of smooth\+Curve drawing for greatly improved performance.
+\item Option for inherited edge colors from connected nodes.
+\item Option to disable the drawing of nodes or edges on drag.
+\item Fixed support nodes not being cleaned up if edges are removed.
+\item Improved edge selection detection for long smooth curves.
+\item Fixed dot radius bug.
+\item Updated max velocity of nodes to three times it\textquotesingle{}s original value.
+\item Made \char`\"{}stabilized\char`\"{} event fire every time the network stabilizes.
+\item Fixed drift in dragging nodes while zooming.
+\item Fixed recursively constructing of hierarchical layouts.
+\item Added border\+Width option for nodes.
+\item Implemented new Hierarchical view solver.
+\item Fixed an issue with selecting nodes when the web page is scrolled down.
+\item Added Gephi J\+S\+ON parser
+\item Added Neighbour Highlight example
+\item Added Import From Gephi example
+\item Enabled color parsing for nodes when supplied with rgb(xxx,xxx,xxx) value.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Added .get() return\+Type option to return as J\+S\+ON object, Array or Google Data\+Table.
+\end{DoxyItemize}
+
+\subsection*{2014-\/07-\/07, version 3.\+0.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented support for displaying a {\ttfamily title} for both items and groups.
+\item Fixed auto detected item type being preferred over the global item {\ttfamily type}.
+\item Throws an error when constructing without new keyword.
+\item Removed the \textquotesingle{}rangeoverflow\textquotesingle{} item type. Instead, one can use a regular range and change css styling of the item contents to\+: \begin{DoxyVerb}  .vis.timeline .item.range .content {
+    overflow: visible;
+  }
+\end{DoxyVerb}
+
+\item Fixed the height of background and foreground panels of groups.
+\item Fixed ranges in the Timeline sometimes overlapping when dragging the Timeline.
+\item Fixed {\ttfamily Data\+View} not working in Timeline.
+\end{DoxyItemize}
+
+\subsubsection*{Network (formerly named Graph)}
+
+
+\begin{DoxyItemize}
+\item Renamed {\ttfamily Graph} to {\ttfamily Network} to prevent confusion with the visualizations {\ttfamily Graph2d} and {\ttfamily Graph3d}.
+\begin{DoxyItemize}
+\item Renamed option {\ttfamily drag\+Graph} to {\ttfamily drag\+Network}.
+\end{DoxyItemize}
+\item Now throws an error when constructing without new keyword.
+\item Added pull request from Vukk, user can now define the edge width multiplier when selected.
+\item Fixed {\ttfamily graph.\+store\+Positions()}.
+\item Extended Selection A\+PI with {\ttfamily select\+Nodes} and {\ttfamily select\+Edges}, deprecating {\ttfamily set\+Selection}.
+\item Fixed multiline labels.
+\item Changed hierarchical physics solver and updated docs.
+\end{DoxyItemize}
+
+\subsubsection*{Graph2d}
+
+
+\begin{DoxyItemize}
+\item Added first iteration of the Graph2d.
+\end{DoxyItemize}
+
+\subsubsection*{Graph3d}
+
+
+\begin{DoxyItemize}
+\item Now throws an error when constructing without new keyword.
+\end{DoxyItemize}
+
+\subsection*{2014-\/06-\/19, version 2.\+0.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented function {\ttfamily destroy} to neatly cleanup a Timeline.
+\item Implemented support for dragging the timeline contents vertically.
+\item Implemented options {\ttfamily zoomable} and {\ttfamily moveable}.
+\item Changed default value of option {\ttfamily show\+Current\+Time} to true.
+\item Internal refactoring and simplification of the code.
+\item Fixed property {\ttfamily class\+Name} of groups not being applied to related contents and background elements, and not being updated once applied.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Reduced the timestep a little for smoother animations.
+\item Fixed data\+Manipulation.\+initially\+Visible functionality (thanks the\+Grue).
+\item Forced typecast of font\+Size to Number.
+\item Added editing of edges using the data manipulation toolkit.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Renamed option {\ttfamily convert} to {\ttfamily type}.
+\end{DoxyItemize}
+
+\subsection*{2014-\/06-\/06, version 1.\+1.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Select event now triggers repeatedly when selecting an already selected item.
+\item Renamed {\ttfamily Timeline.\+repaint()} to {\ttfamily Timeline.\+redraw()} to be consistent with the other visualisations of vis.\+js.
+\item Fixed {\ttfamily Timeline.\+clear()} not resetting a configured {\ttfamily options.\+start} and {\ttfamily options.\+end}.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Fixed error with zero nodes with hierarchical layout.
+\item Added focus\+On\+Node function.
+\item Added hover option.
+\item Added drag\+Nodes option. Renamed movebale to drag\+Graph option.
+\item Added hover events (hover\+Node, blur\+Node).
+\end{DoxyItemize}
+
+\subsubsection*{Graph3D}
+
+
+\begin{DoxyItemize}
+\item Ported Graph3D from Chap Links Library.
+\end{DoxyItemize}
+
+\subsection*{2014-\/05-\/28, version 1.\+0.\+2}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented option {\ttfamily min\+Height}, similar to option {\ttfamily max\+Height}.
+\item Implemented a method {\ttfamily clear(\mbox{[}what\mbox{]})}, to clear items, groups, and configuration of a Timeline instance.
+\item Added function {\ttfamily repaint()} to force a repaint of the Timeline.
+\item Some tweaks in snapping dragged items to nice dates.
+\item Made the instance of moment.\+js packaged with vis.\+js accessibly via {\ttfamily vis.\+moment}.
+\item A newly created item is initialized with {\ttfamily end} property when option {\ttfamily type} is {\ttfamily \char`\"{}range\char`\"{}} or {\ttfamily \char`\"{}rangeoverflow\char`\"{}}.
+\item Fixed a bug in replacing the Data\+Set of groups via {\ttfamily Timeline.\+set\+Groups(groups)}.
+\item Fixed a bug when rendering the Timeline inside a hidden container.
+\item Fixed axis scale being determined wrongly for a second Timeline in a single page.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Added zoomable and moveable options.
+\item Changes set\+Options to avoid resetting view.
+\item Interchanged canvas\+To\+D\+OM and D\+O\+Mto\+Canvas to correspond with the docs.
+\end{DoxyItemize}
+
+\subsection*{2014-\/05-\/09, version 1.\+0.\+1}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed width of items with type {\ttfamily rangeoverflow}.
+\item Fixed a bug wrongly rendering invisible items after updating them.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Added coordinate conversion from D\+OM to Canvas.
+\item Fixed bug where the graph stopped animation after settling in playing with physics.
+\item Fixed bug where hierarchical physics properties were not handled.
+\item Added events for change of view and zooming.
+\end{DoxyItemize}
+
+\subsection*{2014-\/05-\/02, version 1.\+0.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Large refactoring of the Timeline, simplifying the code.
+\item Great performance improvements.
+\item Improved layout of box-\/items inside groups.
+\item Items can now be dragged from one group to another.
+\item Implemented option {\ttfamily stack} to enable/disable stacking of items.
+\item Implemented function {\ttfamily fit}, which sets the Timeline window such that it fits all items.
+\item Option {\ttfamily editable} can now be used to enable/disable individual manipulation actions ({\ttfamily add}, {\ttfamily update\+Time}, {\ttfamily update\+Group}, {\ttfamily remove}).
+\item Function {\ttfamily set\+Window} now accepts an object with properties {\ttfamily start} and {\ttfamily end}.
+\item Fixed option {\ttfamily auto\+Resize} forcing a repaint of the Timeline with every check rather than when the Timeline is actually resized.
+\item Fixed {\ttfamily select} event fired repeatedly when clicking an empty place on the Timeline, deselecting selected items).
+\item Fixed initial visible window in case items exceed {\ttfamily zoom\+Max}. Thanks .
+\item Fixed an offset in newly created items when using groups.
+\item Fixed height of a group not reckoning with the height of the group label.
+\item Option {\ttfamily order} is now deprecated. This was needed for performance improvements.
+\item More examples added.
+\item Minor bug fixes.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Added recalculate hierarchical layout to update node event.
+\item Added arrow\+Scale\+Factor to scale the arrows on the edges.
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item A Data\+Set can now be constructed with initial data, like {\ttfamily new Data\+Set(data, options)}.
+\end{DoxyItemize}
+
+\subsection*{2014-\/04-\/18, version 0.\+7.\+4}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Fixed I\+E9 bug.
+\item Style fixes.
+\item Minor bug fixes.
+\end{DoxyItemize}
+
+\subsection*{2014-\/04-\/16, version 0.\+7.\+3}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Fixed color bug.
+\item Added pull requests from kannonboy and vierja\+: tooltip styling, label fill color.
+\end{DoxyItemize}
+
+\subsection*{2014-\/04-\/09, version 0.\+7.\+2}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Fixed edge select bug.
+\item Fixed zoom bug on empty initialization.
+\end{DoxyItemize}
+
+\subsection*{2014-\/03-\/27, version 0.\+7.\+1}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Fixed edge color bug.
+\item Fixed select event bug.
+\item Clarified docs, stressing importance of css inclusion for correct display of navigation an manipulation icons.
+\item Improved and expanded playing with physics (configure\+Physics option).
+\item Added highlights to navigation icons if the corresponding key is pressed.
+\item Added freeze\+For\+Stabilization option to improve stabilization with cached positions.
+\end{DoxyItemize}
+
+\subsection*{2014-\/03-\/07, version 0.\+7.\+0}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Changed navigation C\+SS. Icons are now always correctly positioned.
+\item Added stabilization\+Iterations option to graph.
+\item Added store\+Position() method to save the XY positions of nodes in the Data\+Set.
+\item Separated allowed\+To\+Move into allowed\+To\+MoveX and allowed\+To\+MoveY. This is required for initializing nodes from hierarchical layouts after store\+Position().
+\item Added color options for the edges.
+\end{DoxyItemize}
+
+\subsection*{2014-\/03-\/06, version 0.\+6.\+1}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Bugfix graphviz examples.
+\item Bugfix labels position for smooth curves.
+\item Tweaked graphviz example physics.
+\item Updated physics documentation to stress importance of configure\+Physics.
+\end{DoxyItemize}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Fixed a bug with options {\ttfamily margin.\+axis} and {\ttfamily margin.\+item} being ignored when setting them to zero.
+\item Some clarifications in the documentation.
+\end{DoxyItemize}
+
+\subsection*{2014-\/03-\/05, version 0.\+6.\+0}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Added Physics Configuration option. This makes tweaking the physics system to suit your needs easier.
+\item Click and double\+Click events.
+\item Initial zoom bugfix.
+\item Directions for Hierarchical layout.
+\item Refactoring and bugfixes.
+\end{DoxyItemize}
+
+\subsection*{2014-\/02-\/20, version 0.\+5.\+1}
+
+
+\begin{DoxyItemize}
+\item Fixed broken bower module.
+\end{DoxyItemize}
+
+\subsection*{2014-\/02-\/20, version 0.\+5.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Editable Items\+: drag items, add new items, update items, and remove items.
+\item Implemented options {\ttfamily selectable}, {\ttfamily editable}.
+\item Added events {\ttfamily timechange} and {\ttfamily timechanged} when dragging the custom time bar.
+\item Multiple items can be selected using ctrl+click or shift+click.
+\item Implemented functions {\ttfamily set\+Window(start, end)} and {\ttfamily get\+Window()}.
+\item Fixed scroll to zoom not working on IE in standards mode.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Editable nodes and edges\+: create, update, and remove them.
+\item Support for smooth, curved edges (on by default).
+\item Performance improvements.
+\item Fixed scroll to zoom not working on IE in standards mode.
+\item Added hierarchical layout option.
+\item Overhauled physics system, now using Barnes-\/\+Hut simulation by default. Great performance gains.
+\item Modified clustering system to give better results.
+\item Adaptive performance system to increase visual performance (60fps target).
+\end{DoxyItemize}
+
+\subsubsection*{Data\+Set}
+
+
+\begin{DoxyItemize}
+\item Renamed functions {\ttfamily subscribe} and {\ttfamily unsubscribe} to {\ttfamily on} and {\ttfamily off} respectively.
+\end{DoxyItemize}
+
+\subsection*{2014-\/01-\/31, version 0.\+4.\+0}
+
+\subsubsection*{Timeline}
+
+
+\begin{DoxyItemize}
+\item Implemented functions {\ttfamily on} and {\ttfamily off} to create event listeners for events {\ttfamily rangechange}, {\ttfamily rangechanged}, and {\ttfamily select}.
+\item Implemented function {\ttfamily select} to get and set the selected items.
+\item Items can be selected by clicking them, muti-\/select by holding them.
+\item Fixed non working {\ttfamily start} and {\ttfamily end} options.
+\end{DoxyItemize}
+
+\subsubsection*{Graph}
+
+
+\begin{DoxyItemize}
+\item Fixed longstanding bug in the force calculation, increasing simulation stability and fluidity.
+\item Reworked the calculation of the Graph, increasing performance for larger datasets (up to 10x!).
+\item Support for automatic clustering in Graph to handle large ($>$50000) datasets without losing performance.
+\item Added automatic initial zooming to Graph, to more easily view large amounts of data.
+\item Added local declustering to Graph, freezing the simulation of nodes outside of the cluster.
+\item Added support for key-\/bindings by including mouse\+Trap in Graph.
+\item Added navigation controls.
+\item Added keyboard navigation.
+\item Implemented functions {\ttfamily on} and {\ttfamily off} to create event listeners for event {\ttfamily select}.
+\end{DoxyItemize}
+
+\subsection*{2014-\/01-\/14, version 0.\+3.\+0}
+
+
+\begin{DoxyItemize}
+\item Moved the generated library to folder {\ttfamily ./dist}
+\item Css stylesheet must be loaded explicitly now.
+\item Implemented options {\ttfamily show\+Current\+Time} and {\ttfamily show\+Custom\+Time}. Thanks .
+\item Implemented touch support for Timeline.
+\item Fixed broken Timeline options {\ttfamily min} and {\ttfamily max}.
+\item Fixed not being able to load vis.\+js in node.\+js.
+\end{DoxyItemize}
+
+\subsection*{2013-\/09-\/20, version 0.\+2.\+0}
+
+
+\begin{DoxyItemize}
+\item Implemented full touch support for Graph.
+\item Fixed initial empty range in the Timeline in case of a single item.
+\item Fixed field {\ttfamily class\+Name} not working for items.
+\end{DoxyItemize}
+
+\subsection*{2013-\/06-\/20, version 0.\+1.\+0}
+
+
+\begin{DoxyItemize}
+\item Added support for Data\+Set to Graph. Graph now uses an id based set of nodes and edges instead of a row based array internally. Methods get\+Selection and set\+Selection of Graph now accept a list with ids instead of rows.
+\item Graph is now robust against edges pointing to non-\/existing nodes, which can occur easily while dynamically adding/removing nodes and edges.
+\item Implemented basic support for groups in the Timeline.
+\item Added documentation on Data\+Set and Data\+View.
+\item Fixed selection of nodes in a Graph when the containing web page is scrolled.
+\item Improved date conversion.
+\item Renamed Data\+Set option {\ttfamily field\+Types} to {\ttfamily convert}.
+\item Renamed function {\ttfamily vis.\+util.\+cast} to {\ttfamily vis.\+util.\+convert}.
+\end{DoxyItemize}
+
+\subsection*{2013-\/06-\/07, version 0.\+0.\+9}
+
+
+\begin{DoxyItemize}
+\item First working version of the Graph imported from the old library.
+\item Documentation added for both Timeline and Graph.
+\end{DoxyItemize}
+
+\subsection*{2013-\/05-\/03, version 0.\+0.\+8}
+
+
+\begin{DoxyItemize}
+\item Performance improvements\+: only visible items are rendered.
+\item Minor bug fixes and improvements.
+\end{DoxyItemize}
+
+\subsection*{2013-\/04-\/25, version 0.\+0.\+7}
+
+
+\begin{DoxyItemize}
+\item Sanitized the published packages on npm and bower.
+\end{DoxyItemize}
+
+\subsection*{2013-\/04-\/25, version 0.\+0.\+6}
+
+
+\begin{DoxyItemize}
+\item Css is now packaged in the javascript file, and automatically loaded.
+\item The library uses node style dependency management for modules now, used with Browserify.
+\end{DoxyItemize}
+
+\subsection*{2013-\/04-\/16, version 0.\+0.\+5}
+
+
+\begin{DoxyItemize}
+\item First working version of the Timeline.
+\item Website created. 
+\end{DoxyItemize}

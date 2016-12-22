@@ -1,0 +1,42 @@
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_followed_topic}{}\section{Meanco\+App.\+models.\+profile.\+Followed\+Topic Class Reference}
+\label{class_meanco_app_1_1models_1_1profile_1_1_followed_topic}\index{Meanco\+App.\+models.\+profile.\+Followed\+Topic@{Meanco\+App.\+models.\+profile.\+Followed\+Topic}}
+
+
+To find out users followed topics.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+profile.\+Followed\+Topic\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1profile_1_1_followed_topic}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_aab2050cd38394f2b70e2460bc1cfc037}{}\label{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_aab2050cd38394f2b70e2460bc1cfc037} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a99854909d6f35ed1b2045664b7ba5fb0}{}\label{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a99854909d6f35ed1b2045664b7ba5fb0} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a8e3f8e5009fdd8c119f399f099fa98b2}{}\label{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a8e3f8e5009fdd8c119f399f099fa98b2} 
+{\bfseries profile} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1profile_1_1_profile}{Profile}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}followed\+Topics\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a5baddfc8aff41ec3dab3d96d52875d71}{}\label{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a5baddfc8aff41ec3dab3d96d52875d71} 
+{\bfseries topic} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic}{Topic}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}followers\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a13912b8f5de1d6b87bca8c98b99f45fa}{}\label{class_meanco_app_1_1models_1_1profile_1_1_followed_topic_a13912b8f5de1d6b87bca8c98b99f45fa} 
+{\bfseries timestamp\+\_\+last} = Date\+Time\+Field(auto\+\_\+now=True)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+To find out users followed topics. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/profile.\+py\end{DoxyCompactItemize}

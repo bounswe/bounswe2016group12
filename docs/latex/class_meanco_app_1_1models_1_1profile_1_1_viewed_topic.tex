@@ -1,0 +1,45 @@
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic}{}\section{Meanco\+App.\+models.\+profile.\+Viewed\+Topic Class Reference}
+\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic}\index{Meanco\+App.\+models.\+profile.\+Viewed\+Topic@{Meanco\+App.\+models.\+profile.\+Viewed\+Topic}}
+
+
+To find out users viewed topics.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+profile.\+Viewed\+Topic\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_a1aa94a5df0d638d8eb022a9fc34f1b35}{}\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_a1aa94a5df0d638d8eb022a9fc34f1b35} 
+def {\bfseries visited} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_aca1ec9ee6f8a7a88520bc010da45a795}{}\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_aca1ec9ee6f8a7a88520bc010da45a795} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_a7ad8f79225209867391be09ef9ab2311}{}\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_a7ad8f79225209867391be09ef9ab2311} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_a85144be71c23fd1fe693e6624439f155}{}\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_a85144be71c23fd1fe693e6624439f155} 
+{\bfseries profile} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1profile_1_1_profile}{Profile}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}viewed\+Topics\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_afeaa487ebc6a4fc4af4ee0fc1d36a8ab}{}\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_afeaa487ebc6a4fc4af4ee0fc1d36a8ab} 
+{\bfseries topic} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic}{Topic}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}viewers\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_aabc219c72352af90aaa430733106a6f7}{}\label{class_meanco_app_1_1models_1_1profile_1_1_viewed_topic_aabc219c72352af90aaa430733106a6f7} 
+{\bfseries visited\+\_\+last} = Date\+Time\+Field(default=timezone.\+now())
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+To find out users viewed topics. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/profile.\+py\end{DoxyCompactItemize}

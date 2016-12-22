@@ -1,0 +1,63 @@
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment}{}\section{Meanco\+App.\+models.\+comment.\+Comment Class Reference}
+\label{class_meanco_app_1_1models_1_1comment_1_1_comment}\index{Meanco\+App.\+models.\+comment.\+Comment@{Meanco\+App.\+models.\+comment.\+Comment}}
+
+
+\hyperlink{class_meanco_app_1_1models_1_1comment_1_1_comment}{Comment} Model.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+comment.\+Comment\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1comment_1_1_comment}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_a9afc9f35fc4bff3144619e2ef3187a84}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_a9afc9f35fc4bff3144619e2ef3187a84} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_a8312514f1c230d74f35f8183e2da02a2}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_a8312514f1c230d74f35f8183e2da02a2} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_a6280b20af5afa2eb3f561f6cd6aa1058}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_a6280b20af5afa2eb3f561f6cd6aa1058} 
+def \hyperlink{class_meanco_app_1_1models_1_1comment_1_1_comment_a6280b20af5afa2eb3f561f6cd6aa1058}{current} (self)
+\begin{DoxyCompactList}\small\item\em Get latest version of users comment. \end{DoxyCompactList}\item 
+def \hyperlink{class_meanco_app_1_1models_1_1comment_1_1_comment_a9c6987c2a0309d97cb57aca01a84e689}{content} (self)
+\begin{DoxyCompactList}\small\item\em Get latest version of users comments content. \end{DoxyCompactList}\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_ad812d2464ca73488008aa63ed810117d}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_ad812d2464ca73488008aa63ed810117d} 
+def {\bfseries edit} (self, newcontent)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_a0e2cfb9e44609c44d5d39c4ebe8bd2e6}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_a0e2cfb9e44609c44d5d39c4ebe8bd2e6} 
+{\bfseries topic} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1topic_1_1_topic}{Topic}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}comments\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_aaa60581f405de883dcd72d82831b8fe6}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_aaa60581f405de883dcd72d82831b8fe6} 
+{\bfseries profile} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1profile_1_1_profile}{Profile}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}comments\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_ab2861351264fffbb4b193c1724941623}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_ab2861351264fffbb4b193c1724941623} 
+{\bfseries vote\+\_\+count} = Integer\+Field(default=0)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_meanco_app_1_1models_1_1comment_1_1_comment}{Comment} Model. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_meanco_app_1_1models_1_1comment_1_1_comment_a9c6987c2a0309d97cb57aca01a84e689}{}\label{class_meanco_app_1_1models_1_1comment_1_1_comment_a9c6987c2a0309d97cb57aca01a84e689} 
+\index{Meanco\+App\+::models\+::comment\+::\+Comment@{Meanco\+App\+::models\+::comment\+::\+Comment}!content@{content}}
+\index{content@{content}!Meanco\+App\+::models\+::comment\+::\+Comment@{Meanco\+App\+::models\+::comment\+::\+Comment}}
+\subsubsection{\texorpdfstring{content()}{content()}}
+{\footnotesize\ttfamily def Meanco\+App.\+models.\+comment.\+Comment.\+content (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Get latest version of users comments content. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/comment.\+py\end{DoxyCompactItemize}

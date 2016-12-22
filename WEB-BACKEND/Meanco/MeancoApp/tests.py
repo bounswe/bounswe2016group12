@@ -1,9 +1,15 @@
+"""@package Tests
+View documentation
+
+"""
 from django.test import TestCase
 from MeancoApp.models import *
 from MeancoApp.functions.search import *
-# Create your tests here.
+## Test cases.
+#
 class ModelTestCases(TestCase):
-
+    ## Test set up.
+    #
     def setUp(self):
         self.u = User.objects.create_user(username="TestUser",email="test@test.com",password="test")
         self.p = Profile.objects.create(user=self.u)
@@ -15,7 +21,7 @@ class ModelTestCases(TestCase):
         self.tag = Tag.objects.create(label="test",description="test",URL="test.com")
         self.ot =OfTopic.objects.create(tag=self.tag,topic=self.t1)
 
-        # Model Tests
+    ## Model Tests
     def testModel(self):
         self.assertEquals(self.u.id,User.objects.get(username="TestUser").id)
         self.assertEquals(self.p.id,Profile.objects.get(user_id=self.u.id).id)
@@ -27,7 +33,7 @@ class ModelTestCases(TestCase):
         self.assertEquals(self.tag.label,Tag.objects.get(URL__contains="test").label)
         self.assertEquals(self.ot.id,OfTopic.objects.get(tag_id=self.tag.id,topic_id=self.t1.id).id)
 
-        #Vote testing
+    ##Vote testing
     def testVote(self):
         com= Comment.objects.get(id=self.c.id)
         voter = Voter(comment_id=com.id,profile_id=self.p.id)
@@ -39,7 +45,7 @@ class ModelTestCases(TestCase):
         self.assertEquals(v_count - 1, Comment.objects.get(id=com.id).vote_count)
         voter.toggle("downvote")
         self.assertEquals(v_count, com.vote_count)
-        #topic tests
+    ##topic tests
     def testTopic(self):
         t_view_count=self.t1.view_count
         t_comment_count=self.t1.comment_count
@@ -48,7 +54,7 @@ class ModelTestCases(TestCase):
         self.assertEquals(t_view_count+1,self.t1.view_count)
         self.assertEquals(t_comment_count+1,self.t1.comment_count)
 
-        #search Test
+    ##search Test
     def testSearch(self):
         t= Topic(label="Fenerbahce")
         t.save()

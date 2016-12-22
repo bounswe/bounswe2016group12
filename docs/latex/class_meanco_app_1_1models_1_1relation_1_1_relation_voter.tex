@@ -1,0 +1,68 @@
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter}{}\section{Meanco\+App.\+models.\+relation.\+Relation\+Voter Class Reference}
+\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter}\index{Meanco\+App.\+models.\+relation.\+Relation\+Voter@{Meanco\+App.\+models.\+relation.\+Relation\+Voter}}
+
+
+\hyperlink{class_meanco_app_1_1models_1_1relation_1_1_relation}{Relation} Voter Model.  
+
+
+Inheritance diagram for Meanco\+App.\+models.\+relation.\+Relation\+Voter\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_meanco_app_1_1models_1_1relation_1_1_relation_voter}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_1_1_meta}{Meta}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a1a8b33965930d1a907be5d90b3a89452}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a1a8b33965930d1a907be5d90b3a89452} 
+def {\bfseries \+\_\+\+\_\+unicode\+\_\+\+\_\+} (self)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_aa3be70353e0112f544a56efa368702b3}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_aa3be70353e0112f544a56efa368702b3} 
+def {\bfseries \+\_\+\+\_\+str\+\_\+\+\_\+} (self)
+\item 
+def \hyperlink{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a5ebede60af8df31bbc92c1fe8008ab1c}{toggle} (self, direction)
+\begin{DoxyCompactList}\small\item\em voting function for relation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_af10865c4a64da5858e163453a3cf5b6d}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_af10865c4a64da5858e163453a3cf5b6d} 
+{\bfseries profile} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1profile_1_1_profile}{Profile}, on\+\_\+delete=C\+A\+S\+C\+A\+DE)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a1dbfd83760e499f61578235c1f7f6af9}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a1dbfd83760e499f61578235c1f7f6af9} 
+{\bfseries relation} = Foreign\+Key(\hyperlink{class_meanco_app_1_1models_1_1relation_1_1_relation}{Relation}, on\+\_\+delete=C\+A\+S\+C\+A\+DE, related\+\_\+name=\textquotesingle{}voters\textquotesingle{})
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_aa71d76c92f6d4e2a44410ccc2a2ce7da}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_aa71d76c92f6d4e2a44410ccc2a2ce7da} 
+{\bfseries active} = Boolean\+Field(default=False)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_ad049d01e61843b6c6fc529673c752371}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_ad049d01e61843b6c6fc529673c752371} 
+{\bfseries upvoted} = Boolean\+Field(default=False)
+\item 
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a708f7ce98bce8ca85c6609d902e279ed}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a708f7ce98bce8ca85c6609d902e279ed} 
+{\bfseries downvoted} = Boolean\+Field(default=False)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_meanco_app_1_1models_1_1relation_1_1_relation}{Relation} Voter Model. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a5ebede60af8df31bbc92c1fe8008ab1c}{}\label{class_meanco_app_1_1models_1_1relation_1_1_relation_voter_a5ebede60af8df31bbc92c1fe8008ab1c} 
+\index{Meanco\+App\+::models\+::relation\+::\+Relation\+Voter@{Meanco\+App\+::models\+::relation\+::\+Relation\+Voter}!toggle@{toggle}}
+\index{toggle@{toggle}!Meanco\+App\+::models\+::relation\+::\+Relation\+Voter@{Meanco\+App\+::models\+::relation\+::\+Relation\+Voter}}
+\subsubsection{\texorpdfstring{toggle()}{toggle()}}
+{\footnotesize\ttfamily def Meanco\+App.\+models.\+relation.\+Relation\+Voter.\+toggle (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{direction }\end{DoxyParamCaption})}
+
+
+
+voting function for relation. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Ahmet Ercan Tekden/\+Documents/bounswe2016group12/\+W\+E\+B-\/\+B\+A\+C\+K\+E\+N\+D/\+Meanco/\+Meanco\+App/models/relation.\+py\end{DoxyCompactItemize}

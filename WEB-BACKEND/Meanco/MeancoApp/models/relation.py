@@ -1,3 +1,7 @@
+"""@package Models
+View documentation
+
+"""
 from django.db.models import Model, IntegerField, DateTimeField, ForeignKey, CharField, BooleanField, NullBooleanField, CASCADE, SET_NULL
 from django.db.models.signals import post_init, pre_delete
 from django.contrib.auth.models import User
@@ -7,7 +11,7 @@ import datetime
 from .profile import Profile
 from .topic import Topic
 
-### relation.Relation
+## Relation Model
 
 class Relation(Model):
     topic_a = ForeignKey(Topic, on_delete=CASCADE, related_name='relations_a')
@@ -21,8 +25,7 @@ class Relation(Model):
     def __str__(self):
         return str(self.pk)
 
-### RelationVoter
-
+## Relation Voter Model
 class RelationVoter(Model):
     profile = ForeignKey(Profile, on_delete=CASCADE)
     relation = ForeignKey(Relation, on_delete=CASCADE, related_name='voters')
@@ -34,7 +37,7 @@ class RelationVoter(Model):
 
     def __str__(self):
         return str(self.pk)
-    # voting function for relation.
+    ## voting function for relation.
     def toggle(self,direction):
         relation=Relation.objects.get(id=self.relation_id)
         if self.active and self.upvoted and direction =='upvote' :
