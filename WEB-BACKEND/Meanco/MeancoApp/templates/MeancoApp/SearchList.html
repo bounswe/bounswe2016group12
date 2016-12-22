@@ -8,15 +8,10 @@
     }
     </style>
 
-    <!-- Display search results for topics and tags. Show number of comments and views for topics. Show number of topics for tags. -->
     <div class="col-md-12">
         <div class="row" style="background-color:lightseagreen">
             <div class="col-md-6">
-                {%  if action == "topic" %}
-                    <h4 style="color:whitesmoke">Hot topics</h4>
-                {% else %}
-                    <h4 style="color:whitesmoke">Hot tags</h4>
-                {% endif %}
+                <h4 style="color:whitesmoke"> Hot {{ action }}</h4>
             </div>
             <div class="col-md-2">
                 {% if action == "topic" %}
@@ -41,7 +36,6 @@
         {% for result in results %}
             <div class="row">
                 <div class="col-md-6">
-                    <!-- Show tags of topics. -->
                     {% if action == "topic" %}
                         <div class="col-md-3 tag-list">
                             <a href="/topic/{{ result.id }}" style="color:deeppink" id="nVoteId"><span style="font-size:1.3em">{{ result.label }}</span></a>
@@ -56,7 +50,6 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-                     <!-- Show information for tags.. -->
                     {% else %}
                         <h4>#{{ result.label }}</h4>
                         <p class="label-desc">{{ result.description }}</p>
@@ -72,7 +65,6 @@
                 <div class="col-md-2">
                     {% if action == "topic" %}
                         <h4> {{ result.view_count }} </h4>
-                     <!-- Show topics related to each tag. -->
                     {% else %}
                         <div class="row">
                             {% for of in oftopics %}
@@ -85,13 +77,21 @@
                         </div>
                     {% endif %}
                 </div>
-                <!-- Add follow topic functionality for logged in users. Heart is filled if the topic is followed. -->
                 {%  if user.is_authenticated and action == "topic" %}
                     <div class="col-md-2">
                     {% if result in followedTopics %}
                         <button type="submit" class="btn btn-link" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart"></span></button>
                     {% else %}
                         <button type="submit" class="btn btn-link" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                    {% endif %}
+                    </div>
+
+                {% else %}
+                    <div class="col-md-2">
+                    {% if result in followedTopics %}
+                        <button type="submit" class="btn btn-link disabled" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart"></span></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-link disabled" id="nVoteId" style="color:red" onclick="follow({{ result.id }})"><span id="{{ result.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
                     {% endif %}
                     </div>
                 {% endif %}

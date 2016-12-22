@@ -6,7 +6,6 @@
 
     <div class="col-md-4">
         <h1> {{ topic.label }}
-            <!-- Add follow topic button if the user is logged in. -->
             {%  if user.is_authenticated %}
                 {% if followed %}
                     <button type="submit" class="btn btn-lg btn-link" id="nVoteId"
@@ -21,10 +20,9 @@
                 {% endif %}
 
             {% else %}
-                <button type="submit" class="btn btn-lg btn-link disabled" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})" disabled><span id="{{ topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
+                <button type="submit" class="btn btn-lg btn-link disabled" id="nVoteId" style="color:red" onclick="follow({{ topic.id }})"><span id="{{ topic.id }}" class="glyphicon glyphicon-heart-empty"></span></button>
             {% endif %}
         </h1>
-        <!-- Show tags of topic. -->
         <ul style="list-style-type:none" class="tag-list">
             {% for of in oftopic %}
                 <li>
@@ -38,7 +36,7 @@
         </ul>
 
 
-            <!-- Add tag form. -->
+
             <form class="form-horizontal" id="addTagId" method="post">
                 <form class="form-horizontal">
                     <div class="form-group">
@@ -79,7 +77,7 @@
                     <p id="tagWarningId"></p>
                 {% else %}
                     <div>
-                        <button type="submit" id="tagSubmitId" class="btn btn-success disabled" disabled>Add Tag</button>
+                        <button type="submit" id="tagSubmitId" class="btn btn-success disabled">Add Tag</button>
                     </div>
                     <p id="tagWarningId"></p>
                 {% endif %}
@@ -89,14 +87,6 @@
         <script>
             sorted = false;
 
-            /**
-             * Pick a tag from the list, change related fields, and display tag information.
-             *
-             * @param id
-             * @param label     Tag label
-             * @param description   Tag description
-             * @param url   Tag URL
-             */
             function pickATag(id, label, description, url){
                 console.log("A tag is picked.");
                 $('#label').replaceWith("<input type=\"text\" class=\"form-control\" id=\"label\" name=\"newTagName\" onkeyup=\"showTags(this.id, this.value)\" value=\"" + label + "\">");
@@ -106,62 +96,52 @@
                 $('#livesearch-tag').replaceWith('<ul id="livesearch-tag"><ul>');
             }
 
-            /**
-             * Show live tag information as the tag-id field changes.
-             * A get request is sent to wikidata to search for a tag.
-             *
-             * @param id
-             * @param str   Search field input from the user.
-             */
             function showTags(id, str) {
 
                 if (str.length != 0) {
 
                     $('#tag-id').val(-1);
 
-                    // search=[search input from user]
                     $.ajax({
                         url: "https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+$('#label').val()+"&language=en&format=json",
                         type: "get",
                         cache: 'false',
-                        dataType: "jsonp",  // Response data type.
+                        dataType: "jsonp",
                         async: 'true',
 
-                        success: function(response) {   // Successful connection to and response from Wikidata.
+                        success: function(response) {
                             console.log(response);
 
-                            if(response.search.length == 0){    // No result for search parameter. Show warning and reset tag related fields.
+                            if(response.search.length == 0){
                                 console.log("Tag could not be found in wikidata.");
                                 $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag could not be found in wikidata.</p>");
                                 $("#label").replaceWith('<input type="text" class="form-control" rows="1" id="label" name="newTagName" onkeyup="showTags(this.id, this.value)">');
                                 $("#cDescription").replaceWith('<textarea class="form-control" id="cDescription" disabled></textarea>');
                                 $("#cURL").replaceWith('<input type="hidden" class="form-control" id="cURL">');
-                            }else{  // Result(s) returned for search parameter..
-                                // No warning to show the user.
+                            }else{
                                 $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
 
                                 result = '<ul class="result" id="livesearch-tag">';
                                 for (var i in response.search) {
-                                    if (response.search[i].description) {   // Show only the tags with description.
-                                        // Show tags if they are not disambiguation pages. Then only show if tag length is less than 30 and their description is shorter than 100 characters.
+                                    if (response.search[i].description) {
                                         if(!response.search[i].description.includes("disambiguation") && response.search[i].description.length <= 100 && response.search[i].label.length <= 30){
-                                            label = response.search[i].label;   // Tag label
-                                            description = response.search[i].description;   // Tag description
-                                            url = response.search[i].concepturi;    // Tag URL
+                                            label = response.search[i].label;
+                                            description = response.search[i].description;
+                                            url = response.search[i].concepturi;
                                             result += '<li id=' + i + ' onclick="pickATag(' + i + ',\'' + label + '\', \'' + description + '\', \'' + url + '\')">' + label + ' (' + description + ')</li>';
-                                        }else{  // Disambiguation page.
+                                        }else{
                                             console.log("There is a tag with disambiguous description.");
                                         }
-                                    }else{  // Tag with no description.
+                                    }else{
                                         console.log("There is a tag without description.");
                                     }
                                 }
                                 result += '</ul>';
-                                $('#livesearch-tag').replaceWith(result);   // Show the results of search.
+                                $('#livesearch-tag').replaceWith(result);
                             }
 
                         },
-                        error: function(response){  // No response from Wikidata.
+                        error: function(response){
                             console.log("Error!");
                             console.log(response);
                         }
@@ -169,15 +149,11 @@
                 }
             }
 
-            /**
-             * On tag submit, add a new tag to the topic via API and POST request.
-             *
-             */
             $(document).ready(function () {
                 $('#tagSubmitId').on('click', function(event){
                     event.preventDefault();
                     console.log("new tag is submitted.");  // sanity check
-                    var serializedData = {  // POST request data.
+                    var serializedData = {
                         topicId: {{ topic.id }},
                         label: $('#label').val(),
                         description: $('#cDescription').val(),
@@ -186,8 +162,8 @@
                     console.log("post data: " + serializedData);
                     console.log("form submitted!");  // sanity check
 
-                    $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");  // No warnings.
-                    if($("#label").val().length == 0 || $('#tag-id').val() == -1){  // Empty tag field is not accepted. Give warning.
+                    $("#tagWarningId").replaceWith("<p id=\"tagWarningId\"></p>");
+                    if($("#label").val().length == 0 || $('#tag-id').val() == -1){
                         console.log("Empty tag field!");
                         $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Please choose a tag to add.</p>");
                         return;
@@ -199,10 +175,10 @@
                         cache: 'false',
                         async: 'true',
 
-                        success: function(response) {   // Successful tag creation and addition to the topic.
+                        success: function(response) {
                             console.log("No error.");
                             console.log(response);
-                            if(response.tagId){ // Tag is created by the backend.
+                            if(response.tagId){
                                 console.log("Tag exists now.");
                                 location.reload();
                             }else if(response == "Already Tagged"){
@@ -213,18 +189,17 @@
                                 $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag cannot be created.</p>");
                             }
                         },
-                        error: function(response){  // Error during add tag.
+                        error: function(response){
                             console.log("Error: AddTag!");
-                            if(response == "Tag Linking Error:"){   // Tag could not be linked to the topic.
+                            if(response == "Tag Linking Error:"){
                                 console.log("Tag Linking Error:");
-                            }else if(response == "Tag creation error"){ // Tag could not be created.
+                            }else if(response == "Tag creation error"){
                                 console.log("Tag is already linked.");
-                            }else if(response == "Tag Linking error"){  // Tag could not be linked to the topic.
+                            }else if(response == "Tag Linking error"){
                                 console.log("Tag Linking error");
                             }else{
                                 console.log("Tag cannot be created.");
                             }
-                            // Give warning for tag creation error.
                             $("#tagWarningId").replaceWith("<p class=\"form-control\" id=\"tagWarningId\">Tag cannot be created.</p>");
                             console.log(response);
                         }
@@ -237,7 +212,6 @@
 
     </div>
 
-    <!-- Show comments and other comment information for the topic. -->
     <div class="col-md-8">
         <div class="row bg-danger">
             <div class="col-md-2" >
@@ -257,16 +231,13 @@
 
         {% for comment in comments %}
             <div class="row" id="cRow">
-                <!-- Display comment vote status. -->
                 <div class="col-md-2">
                     <h4> {{ comment.vote_count }} </h4>
                 </div>
-                <!-- Display comment content. -->
                 <div class="col-md-8">
                     <p id="content{{ comment.id }}"> {{ comment.content }}</p>
                     <p id="changeComm{{ comment.id }}"></p>
                     <p>{{ comment.current.timestamp }} {{ comment.profile.user.username }}</p>
-                    <!-- Edit comment if the user is authenticated and the comment belongs to the user. -->
                     {% if user.is_authenticated and comment.profile.id == user.profile.id %}
                         <p id="cEdit{{ comment.id }}">
                             <button type="submit" class="btn btn-link" style="color:forestgreen"
@@ -276,7 +247,6 @@
                         </p>
                     {% endif %}
                 </div>
-                <!-- Display voting options for the comments. -->
                 {% if user.is_authenticated %}
                     <button type="submit" class="btn btn-link" id="upvoteId"
                             style="color:pink" onclick="upvote(this.id, {{ comment.id }})">
@@ -292,13 +262,13 @@
                     </button>
                 {% else %}
                     <button type="submit" class="btn btn-link disabled" id="upvoteId" style="color:pink"
-                            onclick="upvote(this.id, {{ comment.id }})" disabled>
+                            onclick="upvote(this.id, {{ comment.id }})">
                         <span id="up{{ comment.id }}">
                             <img width="25px" height="25px" src="{% static "image/ic_upvote_empty.png" %}">
                         </span>
                     </button>
                     <button type="submit" class="btn btn-link disabled" id="downvoteId"
-                            onclick="downvote(this.id, {{ comment.id }})" disabled>
+                            onclick="downvote(this.id, {{ comment.id }})">
                         <span id="down{{ comment.id }}">
                             <img width="25px" height="25px" src="{% static "image/ic_downvote_empty.png" %}">
                         </span>
@@ -308,7 +278,6 @@
             <hr>
         {% endfor %}
 
-        <!-- Add comment to the topic. -->
             <form class="form-horizontal" style="position: fixed; bottom: 20px; width: 700px; float: right "
                   id="addCommentId" method="post">
                 <form class="form-horizontal">
@@ -332,7 +301,7 @@
                         </div>
                     {% else %}
                     <div>
-                        <button type="submit" id="cSubmitId" class="btn btn-success disabled" style="float: right" disabled>
+                        <button type="submit" id="cSubmitId" class="btn btn-success disabled" style="float: right">
                             Add Comment
                         </button>
                     </div>
@@ -345,36 +314,29 @@
     </div>
 
 <script>
-    /**
-     * On document load, determine the status of upvotes and downvotes for each comment.
-     * A request is sent to GetCommentVoters API to get the information on what is upvoted/downvoted by the current user.
-     */
     $(document).ready(function () {
         $('#cRow').each(function(){
             $.ajax({
                 url: "/API/GetCommentVoters",
                 type: "get",
-                data: "TopicId="+{{ topic.id }},    // GET request parameter is TopicId.
+                data: "TopicId="+{{ topic.id }},
                 cache: 'false',
-                dataType: "json",   // Response is JSON.
+                dataType: "json",
                 async: 'true',
 
-                success: function (response) {  // No error.
+                success: function (response) {
                     console.log(response);
-                    for(c in response){ // For each comment in response.
-                        commentId = response[c].fields.comment; // Get comment id for each comment.
-                        if(!response[c].fields.upvoted && !response[c].fields.downvoted){   // Comment is neither upvoted nor downvoted.
+                    for(c in response){
+                        commentId = response[c].fields.comment;
+                        if(!response[c].fields.upvoted && !response[c].fields.downvoted){
                             console.log("Comment is neither upvoted not downvoted.");
-                            // Change the HTML elements for upvote and downvote fields.
                             $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_upvote_empty.png" %}"></span>');
                             $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_downvote_empty.png" %}"></span>');
-                        }else if(response[c].fields.upvoted){   // Comment is upvoted.
+                        }else if(response[c].fields.upvoted){
                             console.log("Comment is upvoted.");
-                            // Change the HTML elements for upvote field of the comment.
                             $("#up"+commentId).replaceWith('<span id="up{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_upvote_filled.png" %}"></span>');
-                        }else if(response[c].fields.downvoted){ // Comment is downvoted.
+                        }else if(response[c].fields.downvoted){
                             console.log("Comment is downvoted.");
-                            // Change the HTML elements for downvote field of the comment.
                             $("#down"+commentId).replaceWith('<span id="down{{ comment.id }}"><img width="25px" height="25px" src="{% static "image/ic_downvote_filled.png" %}"></span>');
                         }else{
                             console.log("Something wrong with voting system.")
@@ -383,7 +345,7 @@
                     }
 
                 },
-                error: function (response) {    // Error
+                error: function (response) {
                     console.log(response);
                     console.log("Error during vote assessment.");
 
@@ -394,43 +356,38 @@
 
     });
 
-    /**
-     * A new comment is submitted to the topic.
-     * On click "add comment" button, send a request to backend via API.
-     */
     $(document).ready(function () {
         $('#cSubmitId').on('click', function (event) {
             event.preventDefault();
             console.log("form submission requested...");  // sanity check
-            serializedData = $("#addCommentId").serialize();    // addCommentId form fields are sent along with the POST request.
+            serializedData = $("#addCommentId").serialize();
             console.log("post data: " + serializedData);
             console.log("form submitted!");  // sanity check
-            if ($("#newCommentId").val().length == 0) { // Empty comment.
+            if ($("#newCommentId").val().length == 0) {
                 console.log("Empty comment!");
-                // Show a warning at an empty comment submission attempt.
                 $("#cWarningId").replaceWith("<p class=\"form-control\" id=\"commentWarningId\">Comment is empty.</p>");
                 return;
             }
 
             $.ajax({
                 url: "{% url 'addComment'%}",
-                type: "post",   // POST request.
+                type: "post",
                 data: serializedData,
                 cache: 'false',
-                dataType: "json",   // Response is JSON.
+                dataType: "json",
                 async: 'true',
 
                 success: function (response) {
                     console.log(response);
-                    if (response.commentId) {   // Request was successful.
+                    if (response.commentId) {
                         console.log("Comment exists now.");
                         location.reload();
-                    } else {    // Error.
+                    } else {
                         console.log("Comment cannot be created.");
                         $("#cWarningId").replaceWith("<p class=\"form-control\" id=\"topicWarningId\">Comment cannot be created.</p>");
                     }
                 },
-                error: function (response) {    // Error. There's a problem with commenting. Display warning for the user.
+                error: function (response) {
                     console.log(response);
                     console.log("Error during topic creation.");
                     console.log(response);
@@ -446,19 +403,11 @@
         });
     });
 
-    /**
-     *  Upvote comment function for logged in users.
-     *  A post request is sent to the related API for rating.
-     *
-     *  @param id           Id for this comment tag.
-     *  @param commentId    Comment Id on the backend.
-     *
-      */
     function upvote (id, commentId) {
         event.preventDefault();
         console.log("form submission requested...");  // sanity check
         console.log("CommentId: " + commentId);
-        var serializedData = {  // Data to be sent with the POST request.
+        var serializedData = {
             comment: commentId,
             direction: "upvote"
         };
@@ -472,16 +421,16 @@
             cache: 'false',
             async: 'true',
 
-            success: function (response) {  // Upvote is successful.
+            success: function (response) {
                 console.log(response);
                 if (response.responseText="Rated") {
                     console.log("Comment is upvoted now.");
-                    location.reload();  // Reload page after voting.
+                    location.reload();
                 } else {
                     console.log("Comment cannot be upvoted.");
                 }
             },
-            error: function (response) {    // Upvote is not successful.
+            error: function (response) {
                 console.log(response);
                 console.log("Error during upvote.");
                 console.log(response);
@@ -489,19 +438,11 @@
         });
     }
 
-    /**
-     *  Downvote comment function for logged in users.
-     *  A post request is sent to the related API for rating.
-     *
-     *  @param id           Id of the comment tag.
-     *  @param commentId    Comment Id on the backend.
-     *
-     */
     function downvote (id, commentId) {
         event.preventDefault();
         console.log("form submission requested...");  // sanity check
         console.log("CommentId: " + commentId);
-        var serializedData = {  // Data to be sent with the POST request.
+        var serializedData = {
             comment: commentId,
             direction: "downvote"
         };
@@ -510,21 +451,21 @@
 
         $.ajax({
             url: "{% url 'rate'%}",
-            type: "post",   // POST request
+            type: "post",
             data: serializedData,
             cache: 'false',
             async: 'true',
 
-            success: function (response) {  // Downvote is successful.
+            success: function (response) {
                 console.log(response);
                 if (response.responseText="Rated") {
                     console.log("Comment is downvoted now.");
-                    location.reload();  // Reload page after voting.
+                    location.reload();
                 } else {
                     console.log("Comment cannot be downvoted.");
                 }
             },
-            error: function (response) {    // An error occured during downvote.
+            error: function (response) {
                 console.log(response);
                 console.log("Error during downvote.");
                 console.log(response);
@@ -532,13 +473,6 @@
         });
     }
 
-    /**
-     * Bring up the edit comment interface for the user.
-     *
-     * @param id            Tag id for the comment.
-     * @param commentId     Comment Id on the backend.
-     * @param content       Original comment content before edit.
-     */
     function editComment(id, commentId, content){
 
         $('#content'+commentId).replaceWith('<textarea class="form-control" rows="5" id="content'+commentId+'" name="text">' + content + '</textarea>');
@@ -547,18 +481,12 @@
 
     }
 
-    /**
-     * Send a POST request to backend in order to edit a comment.
-     *
-     *
-     * @param commentId     Comment Id on the backend.
-     */
     function changeComment(commentId){
         console.log("Edit comment.");
         console.log(commentId);
         content = $('#content'+commentId).val();
         console.log(content);
-        var serializedData = {  // Parameters for the POST request to the backend.
+        var serializedData = {
             commentId: commentId,
             text: content
         };
@@ -569,16 +497,16 @@
             cache: 'false',
             async: 'true',
 
-            success: function (response) {  // Comment is successfully edited.
+            success: function (response) {
                 console.log(response);
                 if (response="Comment Edited") {
                     console.log("Comment is edited now.");
-                    location.reload();  // Reload the page.
+                    location.reload();
                 } else {
                     console.log("Comment cannot be edited.");
                 }
             },
-            error: function (response) {    // Comment could not be edited.
+            error: function (response) {
                 console.log(response);
                 console.log("Error during downvote.");
                 if(response == "Comment Edit Error"){
@@ -595,3 +523,79 @@
 </script>
 
 {% endblock %}
+
+{% comment %}
+
+{% extends 'MeancoApp/Home.html' %}
+{% block content %}
+    <font size="13" color="orange">{{ topic.label }}</font>
+</br>
+    <font size="5" color="#8a2be2">Relations:</font>
+     </br>
+    {% if user.is_authenticated %}
+        <a href="/topic/{{ topic.id }}">Edit relations.</a>
+    {% else %}
+        <a href="{% url 'login'%}?next={{request.path}}">Login to edit relations!</a>
+    {% endif %}
+    </br>
+
+    <!--Relations from this to others:-->
+    {% for relation in relationsFrom %}
+        {% if not relation.isBidirectional %}
+            <h3>{{ relation.label }}:</h3> {{ relation.topic_a.label }} -> {{ relation.topic_b.label }}
+        {% endif %}
+        {% if relation.isBidirectional %}
+            <h3>{{ relation.label }}:</h3> {{ relation.topic_a.label }} <-> {{ relation.topic_b.label }}
+        {% endif %}
+        </br>
+
+    {% endfor %}
+    <!--Relations to this from others.-->
+    {% for relation in relationsTo %}
+        {% if not relation.isBidirectional %}
+            <h3>{{ relation.label }}:</h3> {{ relation.topic_a.label }} <- {{ relation.topic_b.label }}
+        {% endif %}
+    {% endfor %}
+
+    </br>
+    <font size="5" color="#8a2be2">Comments:</font>
+    </br>
+    {% if user.is_authenticated %}
+        <h1>Add a comment:</h1>
+        <form action="/API/AddComment" method="post"> {% csrf_token %}
+            <input type="hidden" name="topicId" value="{{ topic.id }}"><br>
+            Comment: <input type="text" name="text"><br>
+            <button type="submit">Save</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login'%}?next={{request.path}}">Login to add a comment!</a>
+    {% endif %}
+    {% for comment in comments %}
+        <hr>
+        <div class="Comment">
+            <div class="date">
+                {{ comment.current.timestamp }}
+            </div>
+            <h2>{{ comment.profile.user.username }}</h2>
+            <p>{{ comment.content }}</p>
+        </div>
+    {% endfor %}
+
+    <font size="5" color="#8a2be2">Tags:</font>
+    </br>
+    {% if user.is_authenticated %}
+        <h1>Add tag:</h1>
+        <form action="/API/AddTag" method="post"> {% csrf_token %}
+            <input type="hidden" name="topicId" value="{{ topic.id }}"><br>
+            Tag: <input type="text" name="label"><br>
+            Context: <input type="text" name="context"><br>
+            <button type="submit">Save</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login'%}?next={{request.path}}">Login to edit tags!</a>
+    {% endif %}
+    {% for of in oftopic %}
+        <p>{{ of.tag.label }}</p>
+    {% endfor %}
+{% endblock %}
+{% endcomment %}
